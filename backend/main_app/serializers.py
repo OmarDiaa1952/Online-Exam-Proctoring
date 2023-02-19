@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Exam, Student, Examiner, Course, Enrollment, Question, Attempt, Choice
+from .models import *
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:

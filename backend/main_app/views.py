@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import ExaminerSerializer
-from .models import Examiner
+from .serializers import *
+from .models import *
 
 
 # Trying to create a new Examiner
