@@ -8,4 +8,3 @@ from .models import *
 class ExaminerView(generics.CreateAPIView):
     queryset = Examiner.objects.all()
     serializer_class = ExaminerSerializer
-

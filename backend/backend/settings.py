@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'main_app'
+    'main_app',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -117,17 +118,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+#STATICFILES_DIRS = [
+#    BASE_DIR / 'static'
+#]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = BASE_DIR / 'uploads'
-MEDIA_URL = '/user-media/'
+# MEDIA_ROOT = BASE_DIR / 'uploads'
+# MEDIA_URL = '/user-media/'
