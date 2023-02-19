@@ -1,6 +1,12 @@
+import Login from '../components/Login';
+
 function WelcomePage() {
     return (
-        <div>Welcome Page</div>
+        <div>
+            <h1>WEBSITE NAME</h1>
+            <p>WEBSITE DESCRIPTION</p>
+            <Login />
+        </div>
     );
 }
 
