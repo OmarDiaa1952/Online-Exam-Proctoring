@@ -4,7 +4,7 @@ from .serializers import *
 from .models import *
 
 
-# Trying to create a new Examiner
-class ExaminerView(generics.CreateAPIView):
-    queryset = Examiner.objects.all()
-    serializer_class = ExaminerSerializer
+# Trying to create a new Course
+class CourseView(generics.CreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
