@@ -1,12 +1,12 @@
 from django.db import models
 from django.urls import reverse
 
-class Student(models.Model):
+class Student(models.Model): 
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) # In case we want to use the slug in the URL, otherwise delete
     def __str__(self):
         return self.name
     def get_absolute_url(self):
@@ -17,7 +17,7 @@ class Examiner(models.Model):
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
     def get_absolute_url(self):
@@ -28,7 +28,7 @@ class Course(models.Model):
     description = models.TextField()
     examiner = models.ForeignKey(Examiner, on_delete=models.CASCADE)
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
     def get_absolute_url(self):
@@ -39,7 +39,7 @@ class Enrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.student.name + " " + self.course.name
     def get_absolute_url(self):
@@ -54,7 +54,7 @@ class Exam(models.Model):
     duration = models.DurationField()
     max_grade = models.IntegerField()
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
     def get_absolute_url(self):
@@ -65,7 +65,7 @@ class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     correct_answer = models.CharField(max_length=1)
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.question
     def get_absolute_url(self):
@@ -76,7 +76,7 @@ class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_number = models.CharField(max_length=1)
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.choice
     def get_absolute_url(self):
@@ -90,7 +90,7 @@ class Attempt(models.Model):
     grade = models.IntegerField()
     Answers = models.JSONField(null=True)
     slug = models.SlugField(default ="",blank=True,
-                            null=False, unique=True)
+                            null=False, unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.student.name + " " + self.exam.name
     def get_absolute_url(self):
