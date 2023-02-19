@@ -1,6 +1,11 @@
+import { Route, Routes } from "react-router-dom";
+import WelcomePage from "./pages/Welcome";
+
 function App() {
   return (
-  <div>Getting Started...</div>
+    <Routes>
+      <Route path="/" exact element={<WelcomePage />} />
+    </Routes>
   );
 }
 
