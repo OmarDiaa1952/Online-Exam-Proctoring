@@ -21,14 +21,19 @@ class CreateCourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ("name", "description", "examiner") #not sure of the examiner
 
-class EnrollmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Enrollment
-        fields = "__all__"
-
 class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
+        fields = "__all__"
+
+class CreateExamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ("name", "description", "course", "exam_start_date", "exam_end_date", "duration", "max_grade")
+
+class EnrollmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Enrollment
         fields = "__all__"
 
 class QuestionSerializer(serializers.ModelSerializer):
