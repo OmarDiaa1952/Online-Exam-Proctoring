@@ -19,7 +19,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class CreateCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ("name", "description", "examiner")
+        fields = ("name", "description", "examiner") #not sure of the examiner
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
