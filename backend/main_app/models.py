@@ -21,7 +21,7 @@ class Examiner(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    examiner = models.ForeignKey(Examiner, on_delete=models.SET_NULL , null=True, blank=True , related_name='courses')
+    examiner = models.ForeignKey(Examiner, on_delete=models.SET_NULL , related_name='courses')
     slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
@@ -38,6 +38,7 @@ class Student(models.Model):
     slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     enrolled_courses = models.ManyToManyField(Course, related_name='students')
     # personal photo field must be added
+    # account status field must be added
     def __str__(self):
         return self.name
     def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
@@ -57,6 +58,7 @@ class Student(models.Model):
 #         return reverse("enrollment", args = [self.slug])
 
 class Exam(models.Model):
+    # Exam Status field must be added
     name = models.CharField(max_length=100)
     description = models.TextField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='exams')
