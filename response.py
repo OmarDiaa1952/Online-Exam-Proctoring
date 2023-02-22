@@ -6,7 +6,7 @@
             "email": "watheq@gmail.com",
             "password": "123"
         },
-        {# in case object is not created correctly on registration
+        {# in case object is not created on registration
             # http 400 bad request
             "name": [
                 "This field may not be blank."
