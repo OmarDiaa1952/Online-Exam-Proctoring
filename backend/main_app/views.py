@@ -20,6 +20,29 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
+class JoinCourseView(APIView):
+    # this view is responsible for joining a course by a student
+    lookup_url_kwarg = "course_id"
+
+    def post(self, request, format=None):
+        course_id = request.data.get(self.lookup_url_kwarg)
+        if course_id is not None:
+            course = Course.objects.filter(id=course_id).first()
+            if course is not None:
+                course_owner_id = request.data.get("examiner_id") # or any other way to get course owner id
+                student_id = request.data.get("student_id") # or any other way to get student id
+                # Then the request must be added to the list of pending requests 
+                # of the course owner
+                return Response({'message':'Join Request is sent to the course owner'}, status=status.HTTP_200_OK)
+            return Response({
+                'status': 'Not Found',
+                'message': 'Course with id {} does not exist.'.format(course_id)
+            }, status=status.HTTP_404_NOT_FOUND)
+        return Response({
+            'status': 'Bad request',
+            'message': 'Course id was not provided.'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
 class CreateCourseView(APIView): 
     # this view is responsible for creating a new course by the examiner
     queryset = Course.objects.all()
