@@ -1,5 +1,4 @@
 import { useContext, useRef } from "react";
-import { Link } from "react-router-dom";
 
 import classes from "./Register.module.css";
 import UserContext from "../store/user-context";
@@ -115,9 +114,6 @@ function Register(props) {
           <button type="submit">Register</button>
         </div>
       </form>
-      <div>
-        <Link to="/">Already have an account?</Link>
-      </div>
     </div>
   );
 }

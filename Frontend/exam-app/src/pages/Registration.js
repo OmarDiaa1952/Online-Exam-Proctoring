@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Register from "../components/Register";
 
@@ -24,6 +24,9 @@ function RegistrationPage() {
   return (
     <div>
       <Register onRegister={registerHandler} />
+      <div>
+        <Link to="/">Already have an account?</Link>
+      </div>
     </div>
   );
 }
