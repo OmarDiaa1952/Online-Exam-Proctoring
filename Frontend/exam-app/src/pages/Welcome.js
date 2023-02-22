@@ -1,9 +1,15 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Login from "../components/Login";
 
 function WelcomePage() {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.onpopstate = (e) => {
+      navigate("/");
+    };
+  });
 
   function loginHandler(loginData) {
     fetch(
@@ -16,7 +22,6 @@ function WelcomePage() {
         },
       }
     ).then(() => {
-      console.log(loginData);
       navigate("/home");
     });
   }

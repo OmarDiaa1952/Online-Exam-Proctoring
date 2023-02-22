@@ -18,11 +18,12 @@ function Login(props) {
 
 
     const loginData = {
+      requestType: "login",
       userType: userTypeCtx.type,
       email: enteredEmail,
       password: enteredPassword,
     };
-    
+
     props.onLogin(loginData);
   }
   return (

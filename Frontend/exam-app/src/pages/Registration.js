@@ -16,7 +16,6 @@ function RegistrationPage() {
         },
       }
     ).then(() => {
-      console.log(registerData);
       history("/");
     });
   }

@@ -22,10 +22,11 @@ function Register(props) {
     const enteredStudentId = studentIdInputRef.current.value;
 
     let registrationData = {
+      requestType: "register",
+      userType: userTypeCtx.type,
       name: enteredName,
       email: enteredEmail,
       password: enteredPassword,
-      confirmPassword: enteredConfirmPassword,
     };
     if (userTypeCtx.type === "student") {
       registrationData = {
