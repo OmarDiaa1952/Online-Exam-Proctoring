@@ -5,13 +5,14 @@ from django.utils.text import slugify
 
 
 class Examiner(models.Model):
+    # pending requests field must be added
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
+    slug = models.SlugField(unique=True) # in case we want to use the slug in the URL
     def __str__(self):
         return self.name
-    def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
+    def save(self, *args, **kwargs):    # this is to create the slug automatically when the model is saved
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
     def get_absolute_url(self):
