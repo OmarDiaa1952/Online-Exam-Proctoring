@@ -7,19 +7,6 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 
 
-class ExaminerRegisterView(generics.CreateAPIView):
-    # this view is responsible for registering an examiner
-    queryset = Examiner.objects.all()
-    serializer_class = ExmainerRegisterSerializer
-
-    def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class StudentRegisterView(generics.CreateAPIView):
     # this view is responsible for registering a student
     # this will be edited to add student's photo
@@ -50,19 +37,27 @@ class StudentLoginView(APIView):
         return Response({'message':'Login Failed'}, status=status.HTTP_400_BAD_REQUEST)
         
 
-class CourseListView(generics.ListCreateAPIView): 
+class StudentCourseListView(generics.ListCreateAPIView):
+    # first page after login
     """
     Lists all courses in DB
     i don't know if this should return all courses or just courses related to specific examiner or student
     or should we have many functions for those different cases?
     """
-    queryset = Course.objects.all()
+    #queryset = Student.objects.filter(id=1).enrolled_courses.all()
     serializer_class = CourseSerializer
 
 class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     # here i want to return details of a specific requested course
+    # for student and examiner
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
+# class CourseSearchView(APIView):
+
+# class CourseEnrollmentView(generics.RetrieveUpdateDestroyAPIView):
+    # check if we should check first if student is already enrolled in this course
+    # if enrolled, return CourseDetailView
 
 class JoinCourseView(APIView):
     # this view is responsible for joining a course by a student
@@ -87,6 +82,45 @@ class JoinCourseView(APIView):
             'message': 'Course id was not provided.'
         }, status=status.HTTP_400_BAD_REQUEST)
 
+#class ExamDetailView(generics.RetrieveUpdateDestroyAPIView):
+    # differs according to exam's status
+
+#class StartExamView(APIView):
+
+#class ReviewExamView(APIView):
+
+#class EndExamView(APIView):
+
+#class dealing with adding photos after registration must be added
+
+
+
+################################################# Examiner Part #################################################
+
+
+
+
+class ExaminerRegisterView(generics.CreateAPIView):
+    # this view is responsible for registering an examiner
+    queryset = Examiner.objects.all()
+    serializer_class = ExmainerRegisterSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#ExaminerLoginView(APIView):
+
+class ExaminerCourseListView(generics.ListCreateAPIView):
+    # this view is responsible for listing all courses of a specific examiner
+
+    #queryset = Examiner.objects.filter(id=1).courses.all()
+    serializer_class = ExaminerSerializer
+
 class CreateCourseView(APIView): 
     # this view is responsible for creating a new course by the examiner
     queryset = Course.objects.all()
@@ -106,10 +140,8 @@ class CreateCourseView(APIView):
             'status': 'Bad request',
             'message': 'Course could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST) 
-    
-class ExamListView(generics.ListCreateAPIView):
-    queryset = Exam.objects.all()
-    serializer_class = ExamSerializer
+
+#class EditCourseView(generics.RetrieveUpdateDestroyAPIView):
 
 class CreateExamView(APIView):
     queryset = Exam.objects.all()
@@ -133,3 +165,9 @@ class CreateExamView(APIView):
             'status': 'Bad request',
             'message': 'Exam could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST)
+    
+#class EditExamView(generics.RetrieveUpdateDestroyAPIView):
+
+#class DeleteExamView(generics.RetrieveUpdateDestroyAPIView):
+
+# class dealing with logs must be added
