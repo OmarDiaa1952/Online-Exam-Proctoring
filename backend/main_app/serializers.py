@@ -5,11 +5,17 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Examiner
         fields = ("name", "email", "password")
+    def create(self, validated_data):
+        examiner = Examiner.objects.create_user(**validated_data)
+        return examiner
 
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ("name", "email", "password")
+    def create(self, validated_data):
+        student = Student.objects.create_user(**validated_data)
+        return student
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
