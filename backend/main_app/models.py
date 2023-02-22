@@ -37,6 +37,7 @@ class Student(models.Model):
     password = models.CharField(max_length=100)
     slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     enrolled_courses = models.ManyToManyField(Course, related_name='students')
+    # personal photo field must be added
     def __str__(self):
         return self.name
     def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
