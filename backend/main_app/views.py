@@ -4,6 +4,7 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.contrib.auth import authenticate
 
 
 class ExaminerRegisterView(generics.CreateAPIView):
@@ -21,6 +22,7 @@ class ExaminerRegisterView(generics.CreateAPIView):
 
 class StudentRegisterView(generics.CreateAPIView):
     # this view is responsible for registering a student
+    # this will be edited to add student's photo
     queryset = Student.objects.all()
     serializer_class = StudentRegisterSerializer
 
@@ -34,6 +36,19 @@ class StudentRegisterView(generics.CreateAPIView):
                 'status': 'Bad request',
                 'message': 'Student could not be created with received data.'
             }, status=status.HTTP_400_BAD_REQUEST)
+
+class StudentLoginView(APIView):
+    # this view is responsible for logging in a student
+
+    def post(self, request, format=None):
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            return Response({'message':'Login Successful'}, status=status.HTTP_200_OK)
+        return Response({'message':'Login Failed'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class CourseListView(generics.ListCreateAPIView): 
     """
