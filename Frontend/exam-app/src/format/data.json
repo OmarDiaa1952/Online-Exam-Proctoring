@@ -4,14 +4,19 @@
             "requestType": "register",
             "userType": "student",
             "name": "Ahmed Alaa",
-            "email": "email@gmail.com",
+            "email": "user@email.com",
             "password": "complexpassword123"
         },
         {
             "requestType": "login",
             "userType": "examiner",
-            "email": "email@gmail.com",
+            "email": "user@email.com",
             "password": "complexpassword123"
-        }
+        },
+        {
+            "requestType": "requestCourse",
+            "courseId": "CSE500",
+            "studentEmail": "user@email.com"
+          }
     ]
 }

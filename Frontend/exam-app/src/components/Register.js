@@ -10,7 +10,6 @@ function Register(props) {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
-  const studentIdInputRef = useRef();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -19,7 +18,6 @@ function Register(props) {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     const enteredConfirmPassword = confirmPasswordInputRef.current.value;
-    const enteredStudentId = studentIdInputRef.current.value;
 
     let registrationData = {
       requestType: "register",
@@ -28,12 +26,7 @@ function Register(props) {
       email: enteredEmail,
       password: enteredPassword,
     };
-    if (userTypeCtx.type === "student") {
-      registrationData = {
-        ...registrationData,
-        studentId: enteredStudentId,
-      };
-    }
+
     props.onRegister(registrationData);
   }
 
@@ -95,20 +88,7 @@ function Register(props) {
         </div>
         {userTypeCtx.type === "student" && (
           <div>
-            <div>
-              <label htmlFor="student-id">National ID</label>
-              <input
-                type="text"
-                required
-                id="student-id"
-                minLength="5"
-                maxLength="25"
-                ref={studentIdInputRef}
-              />
-            </div>
-            <div>
-              <button type="button">Camera</button>
-            </div>
+            <button type="button">Camera</button>
           </div>
         )}
         <div>
