@@ -6,6 +6,35 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
+class ExaminerRegisterView(generics.CreateAPIView):
+    # this view is responsible for registering an examiner
+    queryset = Examiner.objects.all()
+    serializer_class = ExmainerRegisterSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class StudentRegisterView(generics.CreateAPIView):
+    # this view is responsible for registering a student
+    queryset = Student.objects.all()
+    serializer_class = StudentRegisterSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({
+                'status': 'Bad request',
+                'message': 'Student could not be created with received data.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
 class CourseListView(generics.ListCreateAPIView): 
     """
     Lists all courses in DB
