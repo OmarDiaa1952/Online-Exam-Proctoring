@@ -1,0 +1,17 @@
+{
+    "requests": [
+        {
+            "requestType": "register",
+            "userType": "student",
+            "name": "Ahmed Alaa",
+            "email": "email@gmail.com",
+            "password": "complexpassword123"
+        },
+        {
+            "requestType": "login",
+            "userType": "examiner",
+            "email": "email@gmail.com",
+            "password": "complexpassword123"
+        }
+    ]
+}
