@@ -6,7 +6,7 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
         model = Examiner
         fields = ("name", "email", "password")
     def create(self, validated_data):
-        examiner = Examiner.objects.create_user(**validated_data)
+        examiner = Examiner.objects.create(**validated_data)
         return examiner
 
 class StudentRegisterSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         model = Student
         fields = ("name", "email", "password")
     def create(self, validated_data):
-        student = Student.objects.create_user(**validated_data)
+        student = Student.objects.create(**validated_data)
         return student
 
 class StudentSerializer(serializers.ModelSerializer):
