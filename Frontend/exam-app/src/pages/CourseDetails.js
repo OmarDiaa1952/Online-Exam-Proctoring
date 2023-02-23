@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import EnrollCourse from "../components/EnrollCourse";
+import UserContext from "../store/user-context";
 
 function CourseDetailsPage() {
+  const userCtx = useContext(UserContext);
   const history = useNavigate();
-  const email = "";
+  const email = userCtx.email;
   const DUMMY_DATA = {
     courseId: "CSC1001",
     courseName: "Introduction to Computer Science",
