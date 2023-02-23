@@ -34,6 +34,12 @@ class Examiner(User):
         super().save(*args, **kwargs)
         ExaminerProfile.objects.get_or_create(user=self)
 
+# a more professional wat to create a profile for an examiner
+# @receiver(post_save, sender=Examiner)
+# def create_examiner_profile(sender, instance, created, **kwargs):
+#     if created:
+#         ExaminerProfile.objects.create(user=instance)
+
 class ExaminerProfile(models.Model):
     # pending requests field must be added
     user = models.OneToOneField(Examiner, on_delete=models.CASCADE, related_name='examiner_profile')
@@ -78,6 +84,12 @@ class Student(User):
         self.role = self.base_role
         super().save(*args, **kwargs)
         StudentProfile.objects.get_or_create(user=self)
+
+# a more professional wat to create a profile for a student
+# @receiver(post_save, sender=Student)
+# def create_student_profile(sender, instance, created, **kwargs):
+#     if created:
+#         StudentProfile.objects.create(user=instance)
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
