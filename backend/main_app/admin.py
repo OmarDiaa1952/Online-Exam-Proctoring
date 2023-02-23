@@ -1,17 +1,15 @@
 from django.contrib import admin
 from .models import *
-# Register your models here.
 
-# register the models here
-class StudentAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'email', 'password', 'slug')
-    list_filter = ('name',)
+# class StudentAdmin(admin.ModelAdmin):
+#     prepopulated_fields = {'slug': ('name',)}
+#     list_display = ('name', 'email', 'password', 'slug')
+#     list_filter = ('name',)
 
-class ExaminerAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'email', 'password', 'slug')
-    list_filter = ('name',)
+# class ExaminerAdmin(admin.ModelAdmin):
+#     prepopulated_fields = {'slug': ('name',)}
+#     list_display = ('name', 'email', 'password', 'slug')
+#     list_filter = ('name',)
 
 class CourseAdmin(admin.ModelAdmin):    
     prepopulated_fields = {'slug': ('name',)}
@@ -24,9 +22,11 @@ class ExamAdmin(admin.ModelAdmin):
     list_filter = ('name',)
 
 
-
-admin.site.register(Student, StudentAdmin)
-admin.site.register(Examiner, ExaminerAdmin)
+admin.site.register(User)
+#admin.site.register(StudentProfile, StudentAdmin)
+#admin.site.register(ExaminerProfile, ExaminerAdmin)
+admin.site.register(ExaminerProfile)
+admin.site.register(StudentProfile)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Exam, ExamAdmin)
 admin.site.register(Question)
