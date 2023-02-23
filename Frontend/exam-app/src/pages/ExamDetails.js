@@ -1,7 +1,47 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+
+import ExamInfo from "../components/ExamInfo";
+import UserContext from "../store/user-context";
+
 function ExamDetailsPage() {
-    return (
-        <div>Exam Details Page</div>
-    );
+  const userCtx = useContext(UserContext);
+  const email = userCtx.email;
+  const DUMMY_DATA = {
+    startDate: "2021-05-01",
+    endDate: "2021-05-31",
+    examDuration: "2:00",
+    maxGrade: 100,
+    studentGrade: 0,
+  };
+  return (
+    <section>
+      <ExamInfo examData={DUMMY_DATA} />
+      <div>
+        <Link to="/exam">
+          <button type="button">Start Exam</button>
+        </Link>
+      </div>
+      <div>
+        <Link to="/review-exam">
+          <button type="button">Review Exam</button>
+        </Link>
+      </div>
+      <div>
+        <Link to="/course">
+          <button type="button">Back</button>
+        </Link>
+      </div>
+      <div>
+        <Link to="/home">
+          <button type="button">Home</button>
+        </Link>
+      </div>
+    </section>
+  );
 }
 
 export default ExamDetailsPage;
+// This page is composed of the start date, the end date, the exam
+// duration, the max grade with the student grade (if the exam end date has been reached),
+// the start exam button, the review exam button, a back button, and the home button
