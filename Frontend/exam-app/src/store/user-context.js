@@ -2,31 +2,27 @@ import { createContext, useState } from "react";
 
 const UserContext = createContext({
   type: "student",
+  email: "student@email.com",
   setUserType: (type) => {},
   setEmail: (email) => {},
 });
 
 export function UserContextProvider(props) {
-  const [user, setUser] = useState({
-    type: "student",
-    email: "student@email.com",
-  });
+  const [userType, setUserType] = useState("student");
+  const [email, setEmail] = useState("student@email.com");
 
   function setUserTypeHandler(type) {
-    setUser((prevUser) => {
-      return { ...prevUser, type: type };
-    });
+    setUserType(type);
   }
-  function setUserEmailHandler(email) {
-    setUser((prevUser) => {
-      return { ...prevUser, email: email };
-    });
+  function setEmailHandler(email) {
+    setEmail(email);
   }
 
   const context = {
-    type: user,
+    type: userType,
+    email: email,
     setUserType: setUserTypeHandler,
-    setEmail: setUserEmailHandler,
+    setEmail: setEmailHandler,
   };
 
   return (
