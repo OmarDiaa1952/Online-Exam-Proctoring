@@ -4,7 +4,7 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 
 
 class StudentRegisterView(generics.CreateAPIView):
@@ -19,10 +19,7 @@ class StudentRegisterView(generics.CreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response({
-                'status': 'Bad request',
-                'message': 'Student could not be created with received data.'
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class StudentLoginView(APIView):
     # this view is responsible for logging in a student
@@ -34,6 +31,7 @@ class StudentLoginView(APIView):
         user = authenticate(email=email, password=password)
         if user is not None:
             return Response({'message':'Login Successful'}, status=status.HTTP_200_OK)
+
         return Response({'message':'Login Failed'}, status=status.HTTP_400_BAD_REQUEST)
         
 
