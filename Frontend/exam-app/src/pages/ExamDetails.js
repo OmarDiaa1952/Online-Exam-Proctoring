@@ -42,6 +42,3 @@ function ExamDetailsPage() {
 }
 
 export default ExamDetailsPage;
-// This page is composed of the start date, the end date, the exam
-// duration, the max grade with the student grade (if the exam end date has been reached),
-// the start exam button, the review exam button, a back button, and the home button

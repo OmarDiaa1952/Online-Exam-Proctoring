@@ -1,4 +1,4 @@
-import classes from "./EnrollCourse.module.css";
+import classes from "./CourseInfo.module.css";
 
 function CourseInfo(props) {
   return (
