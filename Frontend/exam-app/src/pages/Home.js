@@ -16,8 +16,7 @@ function HomePage() {
     },
   ];
 
-  return (
-    
+  return ( 
     <div>
       <HomeNavigation coursesData={DUMMY_DATA} />
     </div>
