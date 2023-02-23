@@ -4,7 +4,7 @@ from .models import *
 class ExmainerRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Examiner
-        fields = ("name", "email", "password")
+        fields = ("email", "username", "password")
     def create(self, validated_data):
         examiner = Examiner.objects.create(**validated_data)
         return examiner
@@ -12,7 +12,7 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ("name", "email", "password")
+        fields = ("email", "username", "password")
     def create(self, validated_data):
         student = Student.objects.create(**validated_data)
         return student
