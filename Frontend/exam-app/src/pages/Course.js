@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import CourseInfo from "../components/CourseInfo";
-import ExamComponentsList from "../components/ExamComponentsList";
+import ExamsComponentsList from "../components/ExamsComponentsList";
 import UserContext from "../store/user-context";
 
 function CoursePage() {
@@ -31,7 +31,7 @@ function CoursePage() {
   return (
     <section>
       <CourseInfo courseData={DUMMY_DATA1} />
-      <ExamComponentsList components={DUMMY_DATA2} />
+      <ExamsComponentsList components={DUMMY_DATA2} />
       {userCtx.type === "examiner" && (
         <div>
           <div>

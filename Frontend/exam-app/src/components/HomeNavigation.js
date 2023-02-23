@@ -3,15 +3,14 @@ import { useContext } from "react";
 
 import classes from "./HomeNavigation.module.css";
 import UserContext from "../store/user-context";
-import MyCourses from "./MyCourses";
-import JoinCourses from "./JoinCourses";
+import GetCourses from "./GetCourses";
 
-function HomeNavigation() {
+function HomeNavigation(props) {
   const userCtx = useContext(UserContext);
   return (
     <div>
-      <MyCourses />
-      {userCtx.type === "student" && <JoinCourses />}
+      <GetCourses coursesData={props.coursesData} requestType="getMyCourses" />
+      {userCtx.type === "student" && <GetCourses coursesData={props.coursesData} requestType="getNewCourses" />}
       {userCtx.type === "examiner" && (
         <div>
           <button>
