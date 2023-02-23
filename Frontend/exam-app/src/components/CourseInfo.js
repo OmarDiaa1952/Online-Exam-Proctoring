@@ -1,9 +1,6 @@
 import classes from "./EnrollCourse.module.css";
 
-function EnrollCourse(props) {
-  function submitHandler() {
-    props.onRequestCourse(props.courseData.courseId);
-  }
+function CourseInfo(props) {
   return (
     <div>
       <div>
@@ -22,13 +19,8 @@ function EnrollCourse(props) {
         <span>Description: </span>
         <span>{props.courseData.courseDescription}</span>
       </div>
-      <div>
-        <button type="submit" onClick={submitHandler}>
-          Enroll
-        </button>
-      </div>
     </div>
   );
 }
 
-export default EnrollCourse;
+export default CourseInfo;

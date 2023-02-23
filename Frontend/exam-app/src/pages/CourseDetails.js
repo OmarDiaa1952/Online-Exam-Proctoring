@@ -1,12 +1,17 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import EnrollCourse from "../components/EnrollCourse";
+import CourseInfo from "../components/CourseInfo";
 import UserContext from "../store/user-context";
 
 function CourseDetailsPage() {
+  let courseRequested = false;
+  let requestType = "requestCourse";
+  if(courseRequested) {
+    requestType = "cancelRequestCourse";
+  }
+  else requestType = "requestCourse";
   const userCtx = useContext(UserContext);
-  const history = useNavigate();
   const email = userCtx.email;
   const DUMMY_DATA = {
     courseId: "CSC1001",
@@ -20,7 +25,7 @@ function CourseDetailsPage() {
       {
         method: "POST",
         body: JSON.stringify({
-          requestType: "requestCourse",
+          requestType: requestType,
           courseId: DUMMY_DATA.courseId,
           studentEmail: email,
         }),
@@ -29,17 +34,21 @@ function CourseDetailsPage() {
         },
       }
     ).then(() => {
-      history("/home");
+      console.log("Course requested");
     });
   }
   return (
     <section>
-      <EnrollCourse
+      <CourseInfo
         courseData={DUMMY_DATA}
-        onRequestCourse={requestCourseHandler}
       />
       <div>
-        <button type="button">Back</button>
+        <button type="submit" onClick={requestCourseHandler}>
+          {courseRequested ? "Cancel Request" : "Enroll"}
+        </button>
+      </div>
+      <div>
+        <Link to="/home"><button type="button">Back</button></Link>
       </div>
     </section>
   );
