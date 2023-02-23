@@ -11,6 +11,7 @@ class User(AbstractUser):
         STUDENT = 'STUDENT'
         EXAMINER = 'EXAMINER'
     
+    # should use is_active field for email confirmation
     role = models.CharField(max_length=10, choices=Role.choices)
 
 class ExaminerManager(models.Manager):
@@ -35,9 +36,7 @@ class Examiner(User):
 
 class ExaminerProfile(models.Model):
     # pending requests field must be added
-    # is_active field must be added for email confirmation
-    user = models.OneToOneField(Examiner, on_delete=models.CASCADE, related_name='examiner_profile') # not sure this should be related to User or Examiner
-    #name = models.CharField(max_length=100)
+    user = models.OneToOneField(Examiner, on_delete=models.CASCADE, related_name='examiner_profile')
     #slug = models.SlugField(unique=True) # in case we want to use the slug in the URL
     # def __str__(self):
     #     return self.name
@@ -81,7 +80,6 @@ class Student(User):
         StudentProfile.objects.get_or_create(user=self)
 
 class StudentProfile(models.Model):
-    #is_active field must be added for email confirmation 
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
     #slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     enrolled_courses = models.ManyToManyField(Course, related_name='students')
