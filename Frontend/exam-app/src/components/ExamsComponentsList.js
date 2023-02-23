@@ -1,7 +1,7 @@
-import classes from "./ExamComponentsList.module.css";
+import classes from "./ExamsComponentsList.module.css";
 import ExamComponent from "./ExamComponent";
 
-function ExamComponentsList(props) {
+function ExamsComponentsList(props) {
   return (
     <div>
         <h2>Course Exams:</h2>
@@ -20,4 +20,4 @@ function ExamComponentsList(props) {
   );
 }
 
-export default ExamComponentsList;
+export default ExamsComponentsList;
