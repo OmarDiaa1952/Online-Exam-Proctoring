@@ -9,6 +9,8 @@ import ExamPage from "./pages/Exam";
 import ExamDetailsPage from "./pages/ExamDetails";
 import EditExamPage from "./pages/EditExam";
 import LogFilePage from "./pages/LogFile";
+import ReviewExamPage from "./pages/ReviewExam";
+import PreviewExamPage from "./pages/PreviewExam";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
       <Route path="/exam" exact element={<ExamPage />} />
       <Route path="/exam-details" exact element={<ExamDetailsPage />} />
       <Route path="/edit-exam" exact element={<EditExamPage />} />
+      <Route path="/review-exam" exact element={<ReviewExamPage />} />
+      <Route path="/Preview-exam" exact element={<PreviewExamPage />} />
       <Route path="/log-file" exact element={<LogFilePage />} />
     </Routes>
   );
