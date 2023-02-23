@@ -7,12 +7,12 @@ import MyCourses from "./MyCourses";
 import JoinCourses from "./JoinCourses";
 
 function HomeNavigation() {
-  const userType = useContext(UserContext);
+  const userCtx = useContext(UserContext);
   return (
     <div>
       <MyCourses />
-      {userType.type === "student" && <JoinCourses />}
-      {userType.type === "examiner" && (
+      {userCtx.type === "student" && <JoinCourses />}
+      {userCtx.type === "examiner" && (
         <div>
           <button>
             <Link to="/modify-course">Add Course</Link>

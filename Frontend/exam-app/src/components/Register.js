@@ -4,7 +4,7 @@ import classes from "./Register.module.css";
 import UserContext from "../store/user-context";
 
 function Register(props) {
-  const userTypeCtx = useContext(UserContext);
+  const userCtx = useContext(UserContext);
 
   const nameInputRef = useRef();
   const emailInputRef = useRef();
@@ -21,7 +21,7 @@ function Register(props) {
 
     let registrationData = {
       requestType: "register",
-      userType: userTypeCtx.type,
+      userType: userCtx.type,
       name: enteredName,
       email: enteredEmail,
       password: enteredPassword,
@@ -41,7 +41,7 @@ function Register(props) {
             value="student"
             defaultChecked
             onClick={() => {
-              userTypeCtx.setUserType("student");
+              userCtx.setUserType("student");
             }}
           />
           <label htmlFor="student">Student</label>
@@ -53,7 +53,7 @@ function Register(props) {
             name="user-type"
             value="examiner"
             onClick={() => {
-              userTypeCtx.setUserType("examiner");
+              userCtx.setUserType("examiner");
             }}
           />
           <label htmlFor="examiner">Examiner</label>
@@ -86,7 +86,7 @@ function Register(props) {
             ref={confirmPasswordInputRef}
           />
         </div>
-        {userTypeCtx.type === "student" && (
+        {userCtx.type === "student" && (
           <div>
             <button type="button">Camera</button>
           </div>

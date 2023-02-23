@@ -5,7 +5,7 @@ import UserContext from "../store/user-context";
 
 
 function Login(props) {
-  const userTypeCtx = useContext(UserContext);
+  const userCtx = useContext(UserContext);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -19,7 +19,7 @@ function Login(props) {
 
     const loginData = {
       requestType: "login",
-      userType: userTypeCtx.type,
+      userType: userCtx.type,
       email: enteredEmail,
       password: enteredPassword,
     };
@@ -37,7 +37,7 @@ function Login(props) {
             value="student"
             defaultChecked
             onClick={() => {
-              userTypeCtx.setUserType("student");
+              userCtx.setUserType("student");
             }}
           />
           <label htmlFor="student">Student</label>
@@ -49,7 +49,7 @@ function Login(props) {
             name="user-type"
             value="examiner"
             onClick={() => {
-              userTypeCtx.setUserType("examiner");
+              userCtx.setUserType("examiner");
             }}
           />
           <label htmlFor="examiner">Examiner</label>
