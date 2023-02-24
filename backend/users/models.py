@@ -91,7 +91,7 @@ class Student(User):
 class StudentProfile(models.Model):
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
     #slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
-    enrolled_courses = models.ManyToManyField('main_app.Course', related_name='students', blank=True)
+    enrolled_courses = models.ManyToManyField('main_app.Course', related_name='students',through='main_app.EnrollmentDetail', blank=True)
     # personal photo field must be added
     # account status field must be added
     # def __str__(self):

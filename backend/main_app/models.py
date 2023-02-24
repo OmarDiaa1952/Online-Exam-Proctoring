@@ -16,15 +16,10 @@ class Course(models.Model):
     def get_absolute_url(self):
         return reverse("course", args = [self.slug])
 
-# class Enrollment(models.Model):
-#     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-#     enrollment_date = models.DateTimeField(auto_now=False, auto_now_add=False)
-#     slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
-#     def __str__(self):
-#         return self.student.name + " " + self.course.name
-#     def get_absolute_url(self):
-#         return reverse("enrollment", args = [self.slug])
+class EnrollmentDetail(models.Model):
+    student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrollment_date = models.DateTimeField(auto_now=False, auto_now_add=False)
 
 class Exam(models.Model):
     # Exam Status field must be added
