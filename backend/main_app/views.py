@@ -4,40 +4,6 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, login
-from rest_framework_simplejwt.views import TokenObtainPairView
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
-class StudentRegisterView(generics.CreateAPIView):
-    # this view is responsible for registering a student
-    # this will be edited to add student's photo
-    queryset = Student.objects.all()
-    serializer_class = StudentRegisterSerializer
-
-    def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
-            #return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class StudentLoginView(APIView):
-    # this view is responsible for logging in a student
-
-    def post(self, request, format=None):
-        email = request.data.get("email")
-        password = request.data.get("password")
-
-        user = authenticate(email=email, password=password)
-        if user is not None:
-            return Response({'message':'Login Successful'}, status=status.HTTP_200_OK)
-
-        return Response({'message':'Login Failed'}, status=status.HTTP_400_BAD_REQUEST)
-        
 
 class StudentCourseListView(generics.ListCreateAPIView):
     # first page after login
@@ -98,50 +64,6 @@ class JoinCourseView(APIView):
 
 
 ################################################# Examiner Part #################################################
-
-
-
-
-class ExaminerRegisterView(generics.CreateAPIView):
-    # this view is responsible for registering an examiner
-    queryset = Examiner.objects.all()
-    serializer_class = ExmainerRegisterSerializer
-
-    def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#ExaminerLoginView(APIView):
-
-class ExaminerCourseListView(generics.ListCreateAPIView):
-    # this view is responsible for listing all courses of a specific examiner
-
-    #queryset = Examiner.objects.filter(id=1).courses.all()
-    serializer_class = ExaminerSerializer
-
-class CreateCourseView(APIView): 
-    # this view is responsible for creating a new course by the examiner
-    queryset = Course.objects.all()
-    serializer_class = CreateCourseSerializer
-
-    def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            name = serializer.data.get('name')
-            description = serializer.data.get('description')
-            examiner = serializer.data.get('examiner') # not sure how we will get the examiner
-            course = Course(name=name, description=description, examiner=examiner)
-            # check if course already exists before creating
-            course.save()
-            return Response(CourseSerializer(course).data, status=status.HTTP_201_CREATED) # returning created course data
-        return Response({
-            'status': 'Bad request',
-            'message': 'Course could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST) 
 
 #class EditCourseView(generics.RetrieveUpdateDestroyAPIView):
 
