@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.views import TokenObtainPairView
+# from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -31,9 +32,9 @@ class StudentLoginView(APIView):
     def post(self, request, format=None):
         email = request.data.get("email")
         password = request.data.get("password")
-
         user = authenticate(email=email, password=password)
-        if user is not None:
+        if user:
+            login(request, user)
             return Response({'message':'Login Successful'}, status=status.HTTP_200_OK)
 
         return Response({'message':'Login Failed'}, status=status.HTTP_400_BAD_REQUEST)

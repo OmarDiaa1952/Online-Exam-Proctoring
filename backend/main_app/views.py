@@ -4,6 +4,7 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 class StudentCourseListView(generics.ListCreateAPIView):
     # first page after login
@@ -29,6 +30,7 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class JoinCourseView(APIView):
     # this view is responsible for joining a course by a student
+    permission_classes = (IsAuthenticated,)
     lookup_url_kwarg = "course_id"
 
     def post(self, request, format=None):
