@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 
 import classes from "./CourseComponent.module.css";
+import UserContext from "../store/user-context";
 
 function CourseComponent(props) {
-  const registered = false;
+  const userCtx = useContext(UserContext);
+  let registered = false;
+  if(userCtx.type === "examiner") registered = true;
   return (
     <li key={props.courseData.courseId}>
       <Link to={registered ? "/course" : "/course-details"}>

@@ -7,7 +7,7 @@ function GetCourses(props) {
     <section>
       <h2>Search Courses:</h2>
       <SearchCourses />
-      <h2>{props.requestType === "GetNewCourses" ? "Join new Courses:" : "My Courses"}</h2>
+      <h2>{props.requestType === "getNewCourses" ? "Join new Courses:" : "My Courses"}</h2>
       <CoursesComponentsList coursesData={props.coursesData} />
     </section>
   );
