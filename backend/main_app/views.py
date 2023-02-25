@@ -6,7 +6,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-class StudentCourseListView(generics.ListCreateAPIView):
+
+
+#################################### Student Views ####################################
+
+
+class StudentCourseListView(generics.ListAPIView):
     # first page after login
     """
     Lists all courses in DB
@@ -65,9 +70,26 @@ class CourseJoinView(APIView):
 
 
 
-################################################# Examiner Part #################################################
+#################################### Examiner Views ####################################
 
-#class CourseEditView(generics.RetrieveUpdateDestroyAPIView):
+
+
+class CourseCreateView(generics.CreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CreateCourseSerializer
+
+    def post(self, request, format=None):
+        examiner_id = request.user.pk
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save(
+                examiner_id=examiner_id
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class CourseEditView(generics.RetrieveUpdateDestroyAPIView):
 
 class ExamCreateView(APIView):
     queryset = Exam.objects.all()
