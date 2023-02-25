@@ -14,6 +14,7 @@ function ExamQuestions(props) {
                 questionGrade={question.questionGrade}
                 choices={question.choices}
                 onChoiceChange={props.onChoiceChange}
+                studentChoice={question.studentChoice}
             />
             ))}
         </div>

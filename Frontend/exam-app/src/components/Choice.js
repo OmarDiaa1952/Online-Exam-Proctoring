@@ -8,7 +8,7 @@ function Choice(props) {
                 name={props.questionId}
                 value={props.choiceId}
                 onChange={props.onChoiceChange}
-                defaultChecked={props.isCorrect}
+                defaultChecked={props.isChecked}
                 disabled
             />
             <label>{props.choiceText}</label>

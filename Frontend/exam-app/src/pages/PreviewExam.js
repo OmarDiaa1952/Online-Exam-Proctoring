@@ -234,7 +234,3 @@ function PreviewExamPage() {
 }
 
 export default PreviewExamPage;
-
-// Also, this
-// page contains all the exam questions with all their details: the text of the question, the
-// choices with the right choice selected, and the grade of the question 
