@@ -36,6 +36,10 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ("email", "username", "password")
+    
+    def validate_password(self, value: str) -> str:
+        return make_password(value)
+        
     def create(self, validated_data):
         student = Student.objects.create(**validated_data)
         return student
