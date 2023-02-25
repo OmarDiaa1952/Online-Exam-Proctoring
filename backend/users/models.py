@@ -9,7 +9,8 @@ class User(AbstractUser):
         STUDENT = 'STUDENT'
         EXAMINER = 'EXAMINER'
     
-    # should use is_active field for email confirmation
+    #is_active has to be changed to false till mail confirmation
+    is_active = models.BooleanField(default=True)
     role = models.CharField(max_length=10, choices=Role.choices)
 
 
@@ -38,7 +39,7 @@ class Examiner(User):
         super().save(*args, **kwargs)
         ExaminerProfile.objects.get_or_create(user=self)
 
-# a more professional wat to create a profile for an examiner
+# a more professional way to create a profile for an examiner
 # @receiver(post_save, sender=Examiner)
 # def create_examiner_profile(sender, instance, created, **kwargs):
 #     if created:
@@ -47,14 +48,6 @@ class Examiner(User):
 class ExaminerProfile(models.Model):
     # pending requests field must be added
     user = models.OneToOneField(Examiner, on_delete=models.CASCADE, related_name='examiner_profile')
-    #slug = models.SlugField(unique=True) # in case we want to use the slug in the URL
-    # def __str__(self):
-    #     return self.name
-    # def save(self, *args, **kwargs):    # this is to create the slug automatically when the model is saved
-    #     self.slug = slugify(self.name)
-    #     super().save(*args, **kwargs)
-    # def get_absolute_url(self):
-    #     return reverse("examiner", args = [self.slug])
 
 
 
@@ -82,7 +75,7 @@ class Student(User):
         super().save(*args, **kwargs)
         StudentProfile.objects.get_or_create(user=self)
 
-# a more professional wat to create a profile for a student
+# a more professional way to create a profile for a student
 # @receiver(post_save, sender=Student)
 # def create_student_profile(sender, instance, created, **kwargs):
 #     if created:
@@ -90,14 +83,6 @@ class Student(User):
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
-    #slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     enrolled_courses = models.ManyToManyField('main_app.Course', related_name='students',through='main_app.EnrollmentDetail', blank=True)
     # personal photo field must be added
-    # account status field must be added
-    # def __str__(self):
-    #     return self.name
-    # def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
-    #     self.slug = slugify(self.name)
-    #     super().save(*args, **kwargs)
-    # def get_absolute_url(self):
-    #     return reverse("student", args = [self.slug])
+    # account status field must be added #for adding photos
