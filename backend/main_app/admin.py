@@ -24,4 +24,4 @@ admin.site.register(Attempt)
 admin.site.register(Answer)
 admin.site.register(EnrollmentDetail)
 admin.site.register(EnrollmentRequest, EnrollmentRequestAdmin)
-admin.site.register(Answer)
+
