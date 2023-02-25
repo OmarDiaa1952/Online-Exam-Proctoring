@@ -31,12 +31,22 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = "__all__"
 
-class ChoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Choice
-        fields = "__all__"
+# class ChoiceSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Choice
+#         fields = "__all__"
 
 class AttemptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attempt
+        fields = "__all__"
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = "__all__"
+
+class EnrollmentRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnrollmentRequest
         fields = "__all__"
