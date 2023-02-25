@@ -41,8 +41,6 @@ class StudentRegisterView(generics.CreateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
 
-
-# still connot get data from the token
 class PhotoUploadView(APIView):
     # this view is responsible for uploading student's photo
     permission_classes = (IsAuthenticated,)
