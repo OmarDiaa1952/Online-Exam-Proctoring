@@ -118,4 +118,30 @@ class ExamCreateView(APIView):
 
 #class ExamDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
+# class EnrollmentRequestListView(generics.ListAPIView):
+#     # this view is responsible for listing all pending enrollment requests
+#     # for a specific course
+#     serializer_class = EnrollmentRequestSerializer
+#     lookup_url_kwarg = "course_id"
+
+#     def get_queryset(self):
+#         course_id = self.kwargs.get(self.lookup_url_kwarg)
+#         if course_id is not None:
+#             return EnrollmentRequest.objects.filter(course_id=course_id)
+#         return None
+    
+#     def accept_enrollment_request(self, request, format=None):
+#         # this view is responsible for accepting a specific enrollment request
+#         # for a specific course
+#         # this view is called from EnrollmentRequestDetailView
+#         # this view must add the student to the course's students list
+#         pass
+
+#     def reject_enrollment_request(self, request, format=None):
+#         # this view is responsible for rejecting a specific enrollment request
+#         # for a specific course
+#         # this view is called from EnrollmentRequestDetailView
+#         # this view must delete the enrollment request
+#         pass
+
 # class dealing with logs must be added
