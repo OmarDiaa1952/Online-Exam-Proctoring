@@ -9,10 +9,10 @@ import { CourseContextProvider } from "./store/course-context";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <CourseContextProvider>
-  <UserContextProvider>
+    <UserContextProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-  </UserContextProvider>
+    </UserContextProvider>
   </CourseContextProvider>
 );
