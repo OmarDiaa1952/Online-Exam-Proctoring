@@ -15,6 +15,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return token
 
+#################### Examiner Serializers ####################
+
 class ExmainerRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Examiner
@@ -32,6 +34,9 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
         examiner = Examiner.objects.create(**validated_data)
         return examiner
 
+
+#################### Student Serializers ####################
+
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
@@ -44,12 +49,12 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         student = Student.objects.create(**validated_data)
         return student
 
-class StudentSerializer(serializers.ModelSerializer):
+class PhotoUploadSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Student
-        fields = "__all__"
+        model = StudentProfile
+        fields = ("photo",)
 
-class ExaminerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Examiner
-        fields = "__all__"
+    def update(self, instance, validated_data):
+        instance.photo = validated_data.get("photo", instance.photo)
+        instance.save()
+        return instance
