@@ -3,9 +3,8 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.views import TokenObtainPairView
-# from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -46,18 +45,18 @@ class StudentRegisterView(generics.CreateAPIView):
 # still connot get data from the token
 class PhotoUploadView(APIView):
     # this view is responsible for uploading student's photo
+    permission_classes = (IsAuthenticated,)
     serializer_class = PhotoUploadSerializer
 
     def post(self, request, format=None):
-        print(request.headers)
-        student_id = request.headers.get("student_id")
-        
+        student_id = request.user.pk
         if student_id is not None:
             student = Student.objects.filter(id=student_id).first()
+            student_profile = StudentProfile.objects.filter(user_id=student_id).first()
             if student is not None:
                 serializer = self.serializer_class(data=request.data)
                 if serializer.is_valid():
-                    serializer.save()
+                    serializer.update(student_profile, serializer.validated_data)
                     return Response(status=status.HTTP_201_CREATED)
                 else:
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -10,7 +10,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         # Add custom claims
-        token['username'] = user.username
+        # token['username'] = user.username
         # ...
 
         return token
@@ -54,6 +54,7 @@ class PhotoUploadSerializer(serializers.ModelSerializer):
         model = StudentProfile
         fields = ("photo",)
 
+    # update existing profile
     def update(self, instance, validated_data):
         instance.photo = validated_data.get("photo", instance.photo)
         instance.save()
