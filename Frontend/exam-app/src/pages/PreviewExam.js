@@ -206,7 +206,7 @@ function PreviewExamPage() {
   return (
     <section>
       <ExamInfo examData={DUMMY_DATA1} />
-      <ExamQuestions questions={DUMMY_DATA2} />
+      <ExamQuestions questions={DUMMY_DATA2} editable={false} />
       <div>
         <div>
           <Link to="/log-file">

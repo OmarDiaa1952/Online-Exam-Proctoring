@@ -9,7 +9,7 @@ function Choice(props) {
                 value={props.choiceId}
                 onChange={props.onChoiceChange}
                 defaultChecked={props.isChecked}
-                disabled
+                disabled={!props.editable}
             />
             <label>{props.choiceText}</label>
         </div>

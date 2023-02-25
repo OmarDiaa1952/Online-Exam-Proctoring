@@ -27,6 +27,7 @@ function Question(props) {
       <div>
         {props.choices.map((choice) => (
           <Choice
+          editable={props.editable}
             key={choice.choiceId}
             questionId={props.questionId}
             choiceId={choice.choiceId}

@@ -93,7 +93,7 @@ function ReviewExamPage() {
   return (
     <section>
       <h1>Review Exam Page</h1>
-      <ExamQuestions questions={DUMMY_DATA} />
+      <ExamQuestions questions={DUMMY_DATA} editable={false} />
       <div>
         <div>
           <Link to="/exam-details">
@@ -111,7 +111,3 @@ function ReviewExamPage() {
 }
 
 export default ReviewExamPage;
-
-// This page contains all the questions sections with the answers of
-// the student selected and next to each question the grade acquired from the question (e.g.,
-// 0/2) with the correct answer displayed for each question,

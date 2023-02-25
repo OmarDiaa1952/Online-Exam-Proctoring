@@ -8,6 +8,7 @@ function ExamQuestions(props) {
         <div>
             {props.questions.map((question) => (
             <Question
+            editable={props.editable}
                 key={question.questionId}
                 questionId={question.questionId}
                 questionText={question.questionText}
