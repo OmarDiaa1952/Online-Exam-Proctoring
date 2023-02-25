@@ -25,6 +25,12 @@ class EnrollmentRequest(models.Model):
         self.request_date = datetime.now()
         super().save(*args, **kwargs)
 
+    def accept(self):
+        EnrollmentDetail.objects.create(student=self.student, course=self.course, enrollment_date=datetime.now())
+        self.delete()
+    def reject(self):
+        self.delete()
+
 
 class EnrollmentDetail(models.Model):
     student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
@@ -85,15 +91,20 @@ class Attempt(models.Model):
     submission_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     grade = models.IntegerField()
     # Answers = models.TextField()
-    # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
-    def __str__(self):
-        return self.student.name + " " + self.exam.name
+    # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL     
     def calculate_grade(self):
-        pass
+        marks = 0
+        # Query all the answers for this attempt
+        answers = Answer.objects.filter(attempt=self)
+        for answer in answers:
+            if answer.question.correct_answer == answer.choice:
+                marks += answer.question.marks
+        return marks
+    def save(self, *args, **kwargs):
+        self.grade = self.calculate_grade()
+        super().save(*args, **kwargs)
     
 class Answer(models.Model):
     attempt = models.ForeignKey(Attempt, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice = models.IntegerField()
-    def __str__(self):
-        return self.attempt.student.name + " " + self.attempt.exam.name + " " + self.question.question_text
