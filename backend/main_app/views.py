@@ -28,7 +28,7 @@ class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
     # check if we should check first if student is already enrolled in this course
     # if enrolled, return CourseDetailView
 
-class JoinCourseView(APIView):
+class CourseJoinView(APIView):
     # this view is responsible for joining a course by a student
     permission_classes = (IsAuthenticated,)
     lookup_url_kwarg = "course_id"
@@ -55,11 +55,11 @@ class JoinCourseView(APIView):
 #class ExamDetailView(generics.RetrieveUpdateDestroyAPIView):
     # differs according to exam's status
 
-#class StartExamView(APIView):
+#class ExamStartView(APIView):
 
-#class ReviewExamView(APIView):
+#class ExamReviewView(APIView):
 
-#class EndExamView(APIView):
+#class ExamEndView(APIView):
 
 #class dealing with adding photos after registration must be added
 
@@ -67,9 +67,9 @@ class JoinCourseView(APIView):
 
 ################################################# Examiner Part #################################################
 
-#class EditCourseView(generics.RetrieveUpdateDestroyAPIView):
+#class CourseEditView(generics.RetrieveUpdateDestroyAPIView):
 
-class CreateExamView(APIView):
+class ExamCreateView(APIView):
     queryset = Exam.objects.all()
     serializer_class = CreateExamSerializer
 
@@ -92,8 +92,8 @@ class CreateExamView(APIView):
             'message': 'Exam could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST)
     
-#class EditExamView(generics.RetrieveUpdateDestroyAPIView):
+#class ExamEditView(generics.RetrieveUpdateDestroyAPIView):
 
-#class DeleteExamView(generics.RetrieveUpdateDestroyAPIView):
+#class ExamDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
 # class dealing with logs must be added
