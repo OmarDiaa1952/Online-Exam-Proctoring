@@ -10,6 +10,7 @@ function CoursePage() {
   const userCtx = useContext(UserContext);
   const courseCtx = useContext(CourseContext);
   courseCtx.setNewCourseFlag(false);
+  courseCtx.setNewExamFlag(true);
   const DUMMY_DATA1 = {
     courseName: "CSC 309",
     courseId: "CSC309H1F",

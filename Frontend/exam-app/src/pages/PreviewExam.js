@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
 
 import ExamInfo from "../components/ExamInfo";
 import ExamQuestions from "../components/ExamQuestions";
+import CourseContext from "../store/course-context";
 
 function PreviewExamPage() {
+  const courseCtx = useContext(CourseContext);
+  courseCtx.setNewExamFlag(false);
+  
   const DUMMY_DATA1 = {
     startDate: "2021-05-01",
     endDate: "2021-05-31",
