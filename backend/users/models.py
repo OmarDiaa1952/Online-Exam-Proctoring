@@ -82,7 +82,15 @@ class Student(User):
 #         StudentProfile.objects.create(user=instance)
 
 class StudentProfile(models.Model):
+    # model containing all other fields related to the student
+
+    # determining upload path for profile picture
+    def upload_to(self, filename):
+        # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+        return 'profile_pics/user_{0}/{1}'.format(self.user.id, filename)
+
+    
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
     enrolled_courses = models.ManyToManyField('main_app.Course', related_name='students',through='main_app.EnrollmentDetail', blank=True)
-    # personal photo field must be added
+    image = models.ImageField(upload_to=upload_to, blank=True, null=True)
     # account status field must be added #for adding photos
