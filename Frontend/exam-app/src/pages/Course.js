@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import CourseInfo from "../components/CourseInfo";
 import ExamsComponentsList from "../components/ExamsComponentsList";
 import UserContext from "../store/user-context";
+import CourseContext from "../store/course-context";
 
 function CoursePage() {
   const userCtx = useContext(UserContext);
+  const courseCtx = useContext(CourseContext);
+  courseCtx.setNewCourseFlag(false);
   const DUMMY_DATA1 = {
     courseName: "CSC 309",
     courseId: "CSC309H1F",
