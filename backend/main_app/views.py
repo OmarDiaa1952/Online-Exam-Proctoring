@@ -5,7 +5,7 @@ from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.mixins import UpdateModelMixin
 
 
 #################################### Student Views ####################################
@@ -76,6 +76,7 @@ class CourseJoinView(APIView):
 
 class CourseCreateView(generics.CreateAPIView):
     # this view is responsible for creating a course
+    # need to be more clean
     # must return course_id to front end
     queryset = Course.objects.all()
     serializer_class = CreateCourseSerializer
@@ -91,29 +92,14 @@ class CourseCreateView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CourseEditView(generics.RetrieveUpdateDestroyAPIView):
+class CourseEditView(generics.UpdateAPIView):
     # this view is responsible for editing a course
     serializer_class = CourseEditSerializer
+    lookup_url_kwarg = "pk"
 
-    def post(self, request, format=None):
-        # should we check examiner_id before editing data or it is done in the front end?
-        course_id = request.data.get("course_id")
-        if course_id is not None:
-            course = Course.objects.filter(id=course_id).first()
-            if course is not None:
-                serializer = self.serializer_class(course, data=request.data)
-                if serializer.is_valid():
-                    serializer.update(course, serializer.validated_data)
-                    return Response(serializer.data, status=status.HTTP_200_OK)
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response({
-                'status': 'Not Found',
-                'message': 'Course with id {} does not exist.'.format(course_id)
-            }, status=status.HTTP_404_NOT_FOUND)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Course id was not provided.'
-        }, status=status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        pk = self.kwargs.get(self.lookup_url_kwarg)
+        return Course.objects.filter(id=pk)
 
 
 class ExamCreateView(APIView):
