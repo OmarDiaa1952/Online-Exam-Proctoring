@@ -48,15 +48,21 @@ class Exam(models.Model):
     duration = models.DurationField()
     max_grade = models.IntegerField()
 
+    def calculate_max_grade(self):
+        questions = Question.objects.filter(exam=self)
+        max_grade = 0
+        for question in questions:
+            max_grade += question.marks
+        return max_grade
+    
     # cannot make slug unique on adding two exams of the same name
 
     # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
-    # def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
-    #     slugname = self.name + str(self.id)
-    #     self.slug = slugify(slugname) #can't make it unique
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
+        self.max_grade = self.calculate_max_grade()
+        super().save(*args, **kwargs)
     # def get_absolute_url(self):
     #     return reverse("exam", args = [self.slug])
 
@@ -81,11 +87,11 @@ class Exam(models.Model):
 class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     question_text = models.TextField()
-    marks = models.IntegerField()
-    choice_1 = models.TextField()
-    choice_2 = models.TextField()
-    choice_3 = models.TextField()
-    choice_4 = models.TextField()
+    marks = models.IntegerField(default=1)
+    choice_1 = models.TextField(blank=True)
+    choice_2 = models.TextField(blank=True)
+    choice_3 = models.TextField(blank=True)
+    choice_4 = models.TextField(blank=True)
     correct_answer = models.IntegerField()
 
 
@@ -112,4 +118,4 @@ class Attempt(models.Model):
 class Answer(models.Model):
     attempt = models.ForeignKey(Attempt, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice = models.IntegerField()
+    choice = models.IntegerField(blank=True)
