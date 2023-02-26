@@ -79,16 +79,6 @@ class CourseCreateView(generics.CreateAPIView):
     # must return course_id to front end
     permission_classes = (IsAuthenticated,)
     serializer_class = CourseCreateSerializer
-    
-    # def post(self, request, format=None):
-    #     examiner_id = request.user.pk
-    #     serializer = self.serializer_class(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save(
-    #             examiner_id=examiner_id
-    #         )
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CourseEditView(generics.UpdateAPIView):
@@ -111,6 +101,7 @@ class ExamCreateView(generics.CreateAPIView):
         course = Course.objects.filter(id=course_id).first()
         serializer.save(course=course)
 
+
 class ExamEditView(generics.UpdateAPIView):
     # this view is responsible for editing a course
     serializer_class = ExamEditSerializer
@@ -120,6 +111,7 @@ class ExamEditView(generics.UpdateAPIView):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Exam.objects.filter(id=pk)
 
+
 class ExamDeleteView(generics.DestroyAPIView):
     # this view is responsible for deleting an exam
     lookup_url_kwarg = "pk"
@@ -128,32 +120,34 @@ class ExamDeleteView(generics.DestroyAPIView):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Exam.objects.filter(id=pk)
 
-# class QuestionCreateView(generics.CreateAPIView):
-#     # this view is responsible for creating a question
-#     permission_classes = (IsAuthenticated,)
-#     serializer_class = QuestionCreateSerializer
+class QuestionCreateView(generics.CreateAPIView):
+    # this view is responsible for creating a question
+    permission_classes = (IsAuthenticated,)
+    serializer_class = QuestionCreateSerializer
 
-#     def perform_create(self, serializer):
-#         exam_id = self.request.data.get('exam_id')
-#         exam = Exam.objects.filter(id=exam_id).first()
-#         serializer.save(exam=exam)
+    def perform_create(self, serializer):
+        exam_id = self.request.data.get('exam_id')
+        exam = Exam.objects.filter(id=exam_id).first()
+        serializer.save(exam=exam)
 
-# class QuestionEditView(generics.UpdateAPIView):
-#     # this view is responsible for editing a question
-#     serializer_class = QuestionEditSerializer
-#     lookup_url_kwarg = "pk"
+class QuestionEditView(generics.UpdateAPIView):
+    # this view is responsible for editing a question
+    serializer_class = QuestionEditSerializer
+    lookup_url_kwarg = "pk"
 
-#     def get_queryset(self):
-#         pk = self.kwargs.get(self.lookup_url_kwarg)
-#         return Question.objects.filter(id=pk)
+    def get_queryset(self):
+        pk = self.kwargs.get(self.lookup_url_kwarg)
+        return Question.objects.filter(id=pk)
 
-# class QuestionDeleteView(generics.DestroyAPIView):
-#     # this view is responsible for deleting a question
-#     lookup_url_kwarg = "pk"
+class QuestionDeleteView(generics.DestroyAPIView):
+    # this view is responsible for deleting a question
+    lookup_url_kwarg = "pk"
 
-#     def get_queryset(self):
-#         pk = self.kwargs.get(self.lookup_url_kwarg)
-#         return Question.objects.filter(id=pk)
+    def get_queryset(self):
+        pk = self.kwargs.get(self.lookup_url_kwarg)
+        return Question.objects.filter(id=pk)
+
+#class for deleting a course must be added
 
 # class EnrollmentRequestListView(generics.ListAPIView):
 #     # this view is responsible for listing all pending enrollment requests
