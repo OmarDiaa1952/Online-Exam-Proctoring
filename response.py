@@ -73,6 +73,66 @@
                 }
             ]
         },
+        { # examiner course detail response
+            # http 200 ok
+            "id": 1,
+            "name": "gpp",
+            "description": "grad proj v3",
+            "examiner_id": 2
+        },
+        { # examiner exam list response
+            # http 200 ok
+            [
+                {
+                    "id": 24,
+                    "name": "Exam 1",
+                    "description": "imp",
+                    "exam_start_date": "2023-02-26T16:21:36",
+                    "exam_end_date": "2023-02-26T16:21:37",
+                    "duration": "00:00:50",
+                    "max_grade": 10,
+                    "course_id": 1
+                },
+            ]
+        },
+        { # examiner exam detail response
+            # http 200 ok
+            "id": 24,
+            "name": "Exam 1",
+            "description": "imp",
+            "exam_start_date": "2023-02-26T16:21:36",
+            "exam_end_date": "2023-02-26T16:21:37",
+            "duration": "00:00:50",
+            "max_grade": 10,
+            "course_id": 1
+        },
+        { # examiner question list response
+            # http 200 ok
+            [
+                {
+                    "id": 3,
+                    "question_text": "how are you?",
+                    "marks": 1,
+                    "choice_1": "fine1",
+                    "choice_2": "fine2",
+                    "choice_3": "fine3",
+                    "choice_4": "fine4",
+                    "correct_answer": 1,
+                    "exam_id": 24
+                },
+                {
+                    "id": 4,
+                    "question_text": "how old are you?",
+                    "marks": 1,
+                    "choice_1": "10",
+                    "choice_2": "11",
+                    "choice_3": "12",
+                    "choice_4": "13",
+                    "correct_answer": 1,
+                    "exam_id": 24
+                }
+            ]
+        },
     ]
 }
 
@@ -146,6 +206,22 @@
             # DELETE request
         },
         { # expected request format for getting a list of courses for an examiner
+            # GET request
+        },
+        { # expected request format for getting a course detail for an examiner
+            # i expect course id to be sent in the url
+            # GET request
+        },
+        { # expected request format for getting a list of exams for a course by an examiner
+            # i expect course id to be sent in the url
+            # GET request
+        },
+        { # expected request format for getting an exam detail for an examiner
+            # i expect exam id to be sent in the url
+            # GET request
+        },
+        { # expected request format for getting a list of questions for an exam by an examiner
+            # i expect exam id to be sent in the url
             # GET request
         },
     ]
