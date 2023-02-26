@@ -56,6 +56,23 @@
         { # question delete response
             # http 204 no content with no body
         },
+        { # examiner course list response
+            # http 200 ok
+            [
+                {
+                    "id": 1,
+                    "name": "gpp",
+                    "description": "grad proj v3",
+                    "examiner_id": 2
+                },
+                {
+                    "id": 3,
+                    "name": "selected topics",
+                    "description": "boring courseV2",
+                    "examiner_id": 2
+                }
+            ]
+        },
     ]
 }
 
@@ -127,6 +144,9 @@
         { # expected request format for deleting a question
             # i expect question id to be sent in the url
             # DELETE request
+        },
+        { # expected request format for getting a list of courses for an examiner
+            # GET request
         },
     ]
 }

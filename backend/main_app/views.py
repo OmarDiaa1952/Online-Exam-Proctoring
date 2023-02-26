@@ -151,7 +151,14 @@ class QuestionDeleteView(generics.DestroyAPIView):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Question.objects.filter(id=pk)
 
-#class for listing courses must be added (examiner details)
+class ExaminerCourseListView(generics.ListAPIView):
+    # this view is responsible for listing all courses of a specific examiner
+    serializer_class = CourseSerializer
+
+    def get_queryset(self):
+        return Course.objects.filter(examiner=self.request.user)
+
+
 
 #class for listing exams must be added (course details)
 

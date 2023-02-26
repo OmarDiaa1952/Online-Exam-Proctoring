@@ -13,6 +13,7 @@ urlpatterns = [
     path("questioncreate", QuestionCreateView.as_view(), name="createquestion"),
     path("questionedit/<int:pk>", QuestionEditView.as_view(), name="editquestion"),
     path("questiondelete/<int:pk>", QuestionDeleteView.as_view(), name="deletequestion"),
+    path("examinercourselist", ExaminerCourseListView.as_view(), name="examinercourselist"),
     # path("courselist", StudentCourseListView.as_view(), name="course"),
     # path("coursedetail", CourseDetailView.as_view(), name="coursedetail"),
     # path("coursesearch", CourseSearchView.as_view(), name="coursesearch"),

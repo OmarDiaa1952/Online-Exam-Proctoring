@@ -22,6 +22,11 @@ class CourseEditSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ("id", "name", "description", "examiner_id")
+
 class ExamCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
