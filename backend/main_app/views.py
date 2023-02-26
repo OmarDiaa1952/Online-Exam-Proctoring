@@ -76,7 +76,6 @@ from rest_framework.mixins import UpdateModelMixin
 
 class CourseCreateView(generics.CreateAPIView):
     # this view is responsible for creating a course
-    # must return course_id to front end
     permission_classes = (IsAuthenticated,)
     serializer_class = CourseCreateSerializer
 
