@@ -75,6 +75,8 @@ class CourseJoinView(APIView):
 
 
 class CourseCreateView(generics.CreateAPIView):
+    # this view is responsible for creating a course
+    # must return course_id to front end
     queryset = Course.objects.all()
     serializer_class = CreateCourseSerializer
 
@@ -89,7 +91,30 @@ class CourseCreateView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class CourseEditView(generics.RetrieveUpdateDestroyAPIView):
+class CourseEditView(generics.RetrieveUpdateDestroyAPIView):
+    # this view is responsible for editing a course
+    serializer_class = CourseEditSerializer
+
+    def post(self, request, format=None):
+        # should we check examiner_id before editing data or it is done in the front end?
+        course_id = request.data.get("course_id")
+        if course_id is not None:
+            course = Course.objects.filter(id=course_id).first()
+            if course is not None:
+                serializer = self.serializer_class(course, data=request.data)
+                if serializer.is_valid():
+                    serializer.update(course, serializer.validated_data)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                'status': 'Not Found',
+                'message': 'Course with id {} does not exist.'.format(course_id)
+            }, status=status.HTTP_404_NOT_FOUND)
+        return Response({
+            'status': 'Bad request',
+            'message': 'Course id was not provided.'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ExamCreateView(APIView):
     queryset = Exam.objects.all()
