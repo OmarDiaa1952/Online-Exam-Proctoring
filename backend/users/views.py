@@ -12,6 +12,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 ########################### Examiner Views ###########################
 
 class ExaminerRegisterView(generics.CreateAPIView):
+    # code needs to be more clean
     # this view is responsible for registering an examiner
     queryset = Examiner.objects.all()
     serializer_class = ExmainerRegisterSerializer
@@ -29,6 +30,7 @@ class ExaminerRegisterView(generics.CreateAPIView):
 
 
 class StudentRegisterView(generics.CreateAPIView):
+    # code needs to be more clean
     # this view is responsible for registering a student
     queryset = Student.objects.all()
     serializer_class = StudentRegisterSerializer
@@ -42,6 +44,7 @@ class StudentRegisterView(generics.CreateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
 
 class PhotoUploadView(APIView):
+    # UPDATEAPI VIEW should be used here
     # this view is responsible for uploading student's photo
     permission_classes = (IsAuthenticated,)
     serializer_class = PhotoUploadSerializer
