@@ -24,44 +24,18 @@ class ExamCreateSerializer(serializers.ModelSerializer):
     
     # the accepted format for datetime is "YYYY-MM-DD HH:MM:SS"
     # the accepted format for duration is "HH:MM:SS"
-    # failed ro change it
 
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = "__all__"
-
-class ExamSerializer(serializers.ModelSerializer):
+class ExamEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
-        fields = "__all__"
+        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade")
 
-# class EnrollmentSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Enrollment
-#         fields = "__all__"
-
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Question
-        fields = "__all__"
-
-# class ChoiceSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Choice
-#         fields = "__all__"
-
-class AttemptSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Attempt
-        fields = "__all__"
-
-class AnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = "__all__"
-
-class EnrollmentRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EnrollmentRequest
-        fields = "__all__"
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.exam_start_date = validated_data.get('exam_start_date', instance.exam_start_date)
+        instance.exam_end_date = validated_data.get('exam_end_date', instance.exam_end_date)
+        instance.duration = validated_data.get('duration', instance.duration)
+        instance.max_grade = validated_data.get('max_grade', instance.max_grade)
+        instance.save()
+        return instance
