@@ -8,19 +8,20 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     examiner = models.ForeignKey('users.Examiner', on_delete=models.SET_NULL , null=True, related_name='courses')
-    slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
+    # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
-    def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-    def get_absolute_url(self):
-        return reverse("course", args = [self.slug])
+    # def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
+    #     self.slug = slugify(self.name)
+    #     super().save(*args, **kwargs)
+    # def get_absolute_url(self):
+    #     return reverse("course", args = [self.slug])
 
 class EnrollmentRequest(models.Model):
     student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     request_date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    
     def save(self, *args, **kwargs):
         self.request_date = datetime.now()
         super().save(*args, **kwargs)
@@ -50,8 +51,8 @@ class Exam(models.Model):
     # cannot make slug unique on adding two exams of the same name
 
     # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
     # def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
     #     slugname = self.name + str(self.id)
     #     self.slug = slugify(slugname) #can't make it unique

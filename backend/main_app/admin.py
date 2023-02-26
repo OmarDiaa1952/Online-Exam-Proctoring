@@ -3,8 +3,8 @@ from .models import *
 
 
 class CourseAdmin(admin.ModelAdmin):    
-    prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'description', 'examiner', 'slug')
+    #prepopulated_fields = {'slug': ('name',)}
+    list_display = ('name', 'description', 'examiner')
     list_filter = ('name',)
 
 class ExamAdmin(admin.ModelAdmin):
