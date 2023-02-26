@@ -46,14 +46,18 @@ class Exam(models.Model):
     exam_end_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     duration = models.DurationField()
     max_grade = models.IntegerField()
-    slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
-    def __str__(self):
-        return self.name
-    def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-    def get_absolute_url(self):
-        return reverse("exam", args = [self.slug])
+
+    # cannot make slug unique on adding two exams of the same name
+
+    # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
+    # def __str__(self):
+    #     return self.name
+    # def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
+    #     slugname = self.name + str(self.id)
+    #     self.slug = slugify(slugname) #can't make it unique
+    #     super().save(*args, **kwargs)
+    # def get_absolute_url(self):
+    #     return reverse("exam", args = [self.slug])
 
 
 ############### Old implementation of Question and Choice models ################

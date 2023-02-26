@@ -8,8 +8,8 @@ class CourseAdmin(admin.ModelAdmin):
     list_filter = ('name',)
 
 class ExamAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'description', 'course', 'exam_start_date', 'exam_end_date', 'duration', 'max_grade', 'slug')
+    #prepopulated_fields = {'slug': ('name',)}
+    list_display = ('name', 'description', 'course', 'exam_start_date', 'exam_end_date', 'duration', 'max_grade')
     list_filter = ('name',)
 
 class EnrollmentRequestAdmin(admin.ModelAdmin):

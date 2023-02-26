@@ -17,6 +17,14 @@ class CourseEditSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class ExamCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade")
+    
+    # the accepted format for datetime is "YYYY-MM-DD HH:MM:SS"
+    # the accepted format for duration is "HH:MM:SS"
+    # failed ro change it
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,11 +35,6 @@ class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
         fields = "__all__"
-
-class CreateExamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Exam
-        fields = ("name", "description", "course", "exam_start_date", "exam_end_date", "duration", "max_grade")
 
 # class EnrollmentSerializer(serializers.ModelSerializer):
 #     class Meta:

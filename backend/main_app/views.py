@@ -76,7 +76,7 @@ class CourseJoinView(APIView):
 
 class CourseCreateView(generics.CreateAPIView):
     # this view is responsible for creating a course
-    # need to be more clean
+    # this class needs to be more clean
     # must return course_id to front end
     queryset = Course.objects.all()
     serializer_class = CreateCourseSerializer
@@ -102,28 +102,16 @@ class CourseEditView(generics.UpdateAPIView):
         return Course.objects.filter(id=pk)
 
 
-class ExamCreateView(APIView):
-    queryset = Exam.objects.all()
-    serializer_class = CreateExamSerializer
+class ExamCreateView(generics.CreateAPIView):
+    # this view is responsible for creating an exam
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ExamCreateSerializer
 
-    def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            name = serializer.data.get('name')
-            description = serializer.data.get('description')
-            course = serializer.data.get('course')
-            exam_start_date = serializer.data.get('exam_start_date')
-            exam_end_date = serializer.data.get('exam_end_date')
-            duration = serializer.data.get('duration')
-            max_grade = serializer.data.get('max_grade')
-            exam = Exam(name=name, description=description, course=course, exam_start_date=exam_start_date, exam_end_date=exam_end_date, duration=duration, max_grade=max_grade)
-            # check if exam already exists before creating
-            exam.save()
-            return Response(ExamSerializer(exam).data, status=status.HTTP_201_CREATED) # returning created exam data
-        return Response({
-            'status': 'Bad request',
-            'message': 'Exam could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        course_id = self.request.data.get('course_id')
+        course = Course.objects.filter(id=course_id).first()
+        serializer.save(course=course)
+
     
 #class ExamEditView(generics.RetrieveUpdateDestroyAPIView):
 

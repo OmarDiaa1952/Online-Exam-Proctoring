@@ -1,3 +1,5 @@
+####################### responses #######################
+
 {
     "responses": [ 
         {# in case object is created correctly on registration
@@ -18,5 +20,21 @@
                 "This field may not be blank."
             ]
         },
+    ]
+}
+
+####################### expected requests #######################
+
+{
+    "requests": [
+    { # expected request format for creating an exam
+        "course_id":"1",
+        "name":"exam number 2",
+        "description":"demo exam",
+        "exam_start_date":"2020-05-05T12:12:01",
+        "exam_end_date":"2050-05-05T12:12:12",
+        "duration":"00:00:05",
+        "max_grade":20
+     }
     ]
 }
