@@ -1,7 +1,7 @@
 ####################### responses #######################
 
 {
-    "responses": [ 
+    "responses": [
         { # registration response
             # http 201 created
             "email": "alaa@mail.com",
@@ -13,12 +13,41 @@
             "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTE4MTIwNCwiaWF0IjoxNjc3NDA1MjA0LCJqdGkiOiI5NGM3NDhjZjZkNmM0ZDc1OTM0ZjdmZmI4YmNkNjYwZiIsInVzZXJfaWQiOjN9.RBq__QN7l2ohymWsPsd7IG9PwJq4ny0cmskzl62EjZ0",
             "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3NDM1MjA0LCJpYXQiOjE2Nzc0MDUyMDQsImp0aSI6IjUxMzk1MzdjM2U0MTQzZGM5NGQ4MDI1YmUxNDU3NGYzIiwidXNlcl9pZCI6M30.97tioxjPbxEHLlGHMzBabPtQYPeS-uVjkXRd02taIn4"
         },
+        { # course create response
+            # http 201 created
+            "name": "selected topics",
+            "description": "boring course",
+            "examiner_id": 2
+        },
         { # exam edit response
             # http 200 ok
         },
         { # exam delete response
             # http 204 no content with no body
-        }
+        },
+        { # question create response
+            # http 201 created
+            "question_text": "what is your age?",
+            "marks": 1,
+            "choice_1": "12",
+            "choice_2": "13",
+            "choice_3": "14",
+            "choice_4": "15",
+            "correct_answer": 1    
+        },
+        { # question edit response
+            # http 200 ok
+            "question_text": "what is your age?V2",
+            "marks": 1,
+            "choice_1": "12",
+            "choice_2": "13",
+            "choice_3": "14",
+            "choice_4": "15",
+            "correct_answer": 1
+        },
+        { # question delete response
+            # http 204 no content with no body
+        },
     ]
 }
 
@@ -26,6 +55,11 @@
 
 {
     "requests": [
+        { # expected request format for creating a course
+            # POST request
+            "name": "selected topics",
+            "description": "boring course",
+        },
         { # expected request format for creating an exam
             # POST request
             "course_id":"1",
@@ -49,6 +83,32 @@
         { # expected request format for deleting an exam
             # i expect exam id to be sent in the url
             # DELETE request
-        }
+        },
+        { # expected request format for creating a question
+            # POST request
+            "exam_id":"23",
+            "question_text": "what is your age?",
+            "marks": "1",
+            "choice_1": "12",
+            "choice_2": "13",
+            "choice_3": "14",
+            "choice_4": "15",
+            "correct_answer": "1"
+        },
+        { # expected request format for editing a question
+            # i expect question id to be sent in the url
+            # PUT request
+            "question_text": "what is your age?V2",
+            "marks": 1,
+            "choice_1": "12",
+            "choice_2": "13",
+            "choice_3": "14",
+            "choice_4": "15",
+            "correct_answer": "1"
+        },
+        { # expected request format for deleting a question
+            # i expect question id to be sent in the url
+            # DELETE request
+        },
     ]
 }
