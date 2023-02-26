@@ -80,7 +80,6 @@ class CourseCreateView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CourseCreateSerializer
 
-
 class CourseEditView(generics.UpdateAPIView):
     # this view is responsible for editing a course
     serializer_class = CourseEditSerializer
@@ -90,6 +89,13 @@ class CourseEditView(generics.UpdateAPIView):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Course.objects.filter(id=pk)
 
+class CourseDeleteView(generics.DestroyAPIView):
+    # this view is responsible for deleting a course
+    lookup_url_kwarg = "pk"
+
+    def get_queryset(self):
+        pk = self.kwargs.get(self.lookup_url_kwarg)
+        return Course.objects.filter(id=pk)
 
 class ExamCreateView(generics.CreateAPIView):
     # this view is responsible for creating an exam
@@ -101,7 +107,6 @@ class ExamCreateView(generics.CreateAPIView):
         course = Course.objects.filter(id=course_id).first()
         serializer.save(course=course)
 
-
 class ExamEditView(generics.UpdateAPIView):
     # this view is responsible for editing a course
     serializer_class = ExamEditSerializer
@@ -110,7 +115,6 @@ class ExamEditView(generics.UpdateAPIView):
     def get_queryset(self):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Exam.objects.filter(id=pk)
-
 
 class ExamDeleteView(generics.DestroyAPIView):
     # this view is responsible for deleting an exam
@@ -146,8 +150,6 @@ class QuestionDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Question.objects.filter(id=pk)
-
-#class for deleting a course must be added
 
 #class for listing courses must be added (examiner details)
 
