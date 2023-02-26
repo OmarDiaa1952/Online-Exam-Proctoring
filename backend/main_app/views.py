@@ -149,6 +149,12 @@ class QuestionDeleteView(generics.DestroyAPIView):
 
 #class for deleting a course must be added
 
+#class for listing courses must be added (examiner details)
+
+#class for listing exams must be added (course details)
+
+#class for listing questions must be added (exam details)
+
 # class EnrollmentRequestListView(generics.ListAPIView):
 #     # this view is responsible for listing all pending enrollment requests
 #     # for a specific course
