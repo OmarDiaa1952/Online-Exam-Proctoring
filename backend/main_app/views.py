@@ -158,11 +158,49 @@ class ExaminerCourseListView(generics.ListAPIView):
     def get_queryset(self):
         return Course.objects.filter(examiner=self.request.user)
 
+class ExaminerCourseDetailView(generics.RetrieveAPIView):
+    # this view is responsible for listing all details of a specific course except exams
+    serializer_class = CourseSerializer
+    lookup_url_kwarg = "course_id"
 
+    def get_queryset(self):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        if course_id is not None:
+            return Course.objects.filter(id=course_id)
+        return None
 
-#class for listing exams must be added (course details)
+class ExaminerExamListView(generics.ListAPIView):
+    # this view is responsible for listing all exams of a specific course
+    serializer_class = ExamSerializer
+    lookup_url_kwarg = "course_id"
 
-#class for listing questions must be added (exam details)
+    def get_queryset(self):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        if course_id is not None:
+            return Exam.objects.filter(course_id=course_id)
+        return None
+
+class ExaminerExamDetailView(generics.RetrieveAPIView):
+    # this view is responsible for listing all details of a specific exam except questions
+    serializer_class = ExamSerializer
+    lookup_url_kwarg = "exam_id"
+
+    def get_queryset(self):
+        exam_id = self.kwargs.get(self.lookup_url_kwarg)
+        if exam_id is not None:
+            return Exam.objects.filter(id=exam_id)
+        return None
+
+class ExaminerQuestionListView(generics.ListAPIView):
+    # this view is responsible for listing all questions of a specific exam
+    serializer_class = QuestionSerializer
+    lookup_url_kwarg = "exam_id"
+
+    def get_queryset(self):
+        exam_id = self.kwargs.get(self.lookup_url_kwarg)
+        if exam_id is not None:
+            return Question.objects.filter(exam_id=exam_id)
+        return None
 
 # class EnrollmentRequestListView(generics.ListAPIView):
 #     # this view is responsible for listing all pending enrollment requests

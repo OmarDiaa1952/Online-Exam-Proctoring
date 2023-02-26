@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import *
 
+
+########################## Course Serializers ##########################
+
 class CourseCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -27,6 +30,11 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ("id", "name", "description", "examiner_id")
 
+
+
+########################## Exam Serializers ##########################
+
+
 class ExamCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
@@ -50,6 +58,16 @@ class ExamEditSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     
+class ExamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ("id", "name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade", "course_id")
+
+
+
+########################## Question Serializers ##########################
+
+
 class QuestionCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
@@ -71,3 +89,7 @@ class QuestionEditSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ("id", "question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer", "exam_id")
