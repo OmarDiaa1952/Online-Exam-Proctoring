@@ -47,6 +47,7 @@
             "max_grade":"20"
         },
         { # expected request format for deleting an exam
+            # i expect exam id to be sent in the url
             # DELETE request
         }
     ]
