@@ -121,7 +121,14 @@ class ExamEditView(generics.UpdateAPIView):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Exam.objects.filter(id=pk)
 
-#class ExamDeleteView(generics.RetrieveUpdateDestroyAPIView):
+class ExamDeleteView(generics.DestroyAPIView):
+    # this view is responsible for deleting an exam
+    #serializer_class = ExamSerializer
+    lookup_url_kwarg = "pk"
+
+    def get_queryset(self):
+        pk = self.kwargs.get(self.lookup_url_kwarg)
+        return Exam.objects.filter(id=pk)
 
 # class EnrollmentRequestListView(generics.ListAPIView):
 #     # this view is responsible for listing all pending enrollment requests

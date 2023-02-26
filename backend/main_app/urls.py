@@ -8,6 +8,7 @@ urlpatterns = [
     path("courseedit/<int:pk>", CourseEditView.as_view(), name="editcourse"),
     path("examcreate", ExamCreateView.as_view(), name="createexam"),
     path("examedit/<int:pk>", ExamEditView.as_view(), name="editexam"),
+    path("examdelete/<int:pk>", ExamDeleteView.as_view(), name="deleteexam"),
     # path("courselist", StudentCourseListView.as_view(), name="course"),
     # path("coursedetail", CourseDetailView.as_view(), name="coursedetail"),
     # path("coursesearch", CourseSearchView.as_view(), name="coursesearch"),
@@ -17,5 +18,4 @@ urlpatterns = [
     # path("examstart", ExamStartView.as_view(), name="examstart"),
     # path("examreview", ExamReviewView.as_view(), name="examreview"),
     # path("examend", ExamEndView.as_view(), name="examend")
-    # path("examdelete", ExamDeleteView.as_view(), name="deleteexam"),
 ]

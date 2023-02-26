@@ -39,3 +39,8 @@ class ExamEditSerializer(serializers.ModelSerializer):
         instance.max_grade = validated_data.get('max_grade', instance.max_grade)
         instance.save()
         return instance
+    
+class ExamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exam
+        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade")
