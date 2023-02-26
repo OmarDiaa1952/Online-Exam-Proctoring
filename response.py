@@ -19,6 +19,14 @@
             "description": "boring course",
             "examiner_id": 2
         },
+        { # course edit response
+            # http 200 ok
+            "name": "selected topics",
+            "description": "boring courseV2",
+        },
+        { # course delete response
+            # http 204 no content with no body
+        },
         { # exam edit response
             # http 200 ok
         },
@@ -59,6 +67,16 @@
             # POST request
             "name": "selected topics",
             "description": "boring course",
+        },
+        { # expected request format for editing a course
+            # i expect course id to be sent in the url
+            # PUT request
+            "name": "selected topics",
+            "description": "boring courseV2",
+        },
+        { # expected request format for deleting a course
+            # i expect course id to be sent in the url
+            # DELETE request
         },
         { # expected request format for creating an exam
             # POST request
