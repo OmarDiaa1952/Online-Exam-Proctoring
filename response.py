@@ -148,6 +148,12 @@
                 }
             ]
         },
+        { # enrollment request accept response
+            # http 200 ok
+        },
+        { # enrollment request reject response
+            # http 204 no content with no body
+        },
     ]
 }
 
@@ -242,6 +248,14 @@
         { # expected request format for getting enrollment request list for a course
             # i expect course id to be sent in the url
             # GET request
+        },
+        { # expected request format for accepting an enrollment request
+            # i expect request_id to be sent in the url
+            # POST request # i think this should be editied to accept post requests
+        },
+        { # expected request format for rejecting an enrollment request
+            # i expect request_id to be sent in the url
+            # DELETE request
         }
     ]
 }
