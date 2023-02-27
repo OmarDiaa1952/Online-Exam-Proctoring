@@ -133,6 +133,21 @@
                 }
             ]
         },
+        { # enrollment request list response
+            # http 200 ok
+            [
+                {
+                    "course_id": 1,
+                    "student_id": 1,
+                    "request_date": "2023-02-27T05:36:04.727800"
+                },
+                {
+                    "course_id": 1,
+                    "student_id": 2,
+                    "request_date": "2023-02-27T05:39:08.504462"
+                }
+            ]
+        },
     ]
 }
 
@@ -224,5 +239,9 @@
             # i expect exam id to be sent in the url
             # GET request
         },
+        { # expected request format for getting enrollment request list for a course
+            # i expect course id to be sent in the url
+            # GET request
+        }
     ]
 }
