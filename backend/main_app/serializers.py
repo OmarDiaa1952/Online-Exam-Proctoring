@@ -36,6 +36,25 @@ class EnrollmentRequestSerializer(serializers.ModelSerializer):
         model = EnrollmentRequest
         fields = ("course_id", "student_id", "request_date")
 
+# class EnrollmentRequestAcceptSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = EnrollmentDetail
+#         fields = ("course_id", "student_id")
+
+# class EnrollmentRequestActionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = EnrollmentRequest
+#         fields = ("action","id")
+
+#     action = serializers.CharField(max_length=10)
+
+#     def update(self, instance, validated_data):
+#         if validated_data.get('action') == "accept":
+#             instance.accept()
+#         else:
+#             instance.reject()
+#         return instance
+
 ########################## Exam Serializers ##########################
 
 

@@ -26,17 +26,17 @@ class EnrollmentRequest(models.Model):
         self.request_date = datetime.now()
         super().save(*args, **kwargs)
 
-    def accept(self):
-        EnrollmentDetail.objects.create(student=self.student, course=self.course, enrollment_date=datetime.now())
-        self.delete()
-    def reject(self):
-        self.delete()
+    # def accept(self):
+    #     EnrollmentDetail.objects.create(student=self.student, course=self.course, enrollment_date=datetime.now())
+    #     self.delete()
+    # def reject(self):
+    #     self.delete()
 
 
 class EnrollmentDetail(models.Model):
     student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    enrollment_date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    enrollment_date = models.DateTimeField(auto_now=False, auto_now_add=False,default=datetime.now)
 
 class Exam(models.Model):
     # Exam Status field must be added

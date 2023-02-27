@@ -202,12 +202,53 @@ class ExaminerQuestionListView(generics.ListAPIView):
 
 class EnrollmentRequestListView(generics.ListAPIView):
     # this view is responsible for listing all enrollment requests of a specific course
+    # request_id also got to be sent
     serializer_class = EnrollmentRequestSerializer
     lookup_url_kwarg = "course_id"
+    
     def get_queryset(self):
         course_id = self.kwargs.get(self.lookup_url_kwarg)
         if course_id is not None:
             return EnrollmentRequest.objects.filter(course_id=course_id)
         return None
+
+class EnrollmentRequestAcceptView(APIView):
+    # this view is responsible for accepting an enrollment request and creating new enrollment deatail instance
+    # serializer_class = EnrollmentRequestAcceptSerializer
+    lookup_url_kwarg = "request_id"
+
+    def post(self, request, *args, **kwargs):
+        # firstly, we get student_id and course_id from enrollment request
+        request_id = self.kwargs.get(self.lookup_url_kwarg)
+        enrollment_request = EnrollmentRequest.objects.filter(id=request_id).first()
+        student_id = enrollment_request.student_id
+        course_id = enrollment_request.course_id
+        # then, we delete enrollment request
+        enrollment_request.delete()
+        # finally, we create new enrollment detail instance
+        enrollment_detail = EnrollmentDetail.objects.create(student_id=student_id, course_id=course_id)
+        enrollment_detail.save()
+        return Response(status=status.HTTP_200_OK)
+
+class EnrollmentRequestRejectView(generics.DestroyAPIView):
+    # this view is responsible for rejecting an enrollment request
+    lookup_url_kwarg = "request_id"
+
+    def get_queryset(self):
+        request_id = self.kwargs.get(self.lookup_url_kwarg)
+        if request_id is not None:
+            return EnrollmentRequest.objects.filter(id=request_id)
+        return None
+
+# class EnrollmentRequestActionView(generics.UpdateAPIView):
+#     # this view is responsible for accepting or rejecting an enrollment request
+#     serializer_class = EnrollmentRequestActionSerializer
+#     lookup_url_kwarg = "request_id"
+
+#     def get_queryset(self):
+#         request_id = self.kwargs.get(self.lookup_url_kwarg)
+#         if request_id is not None:
+#             return EnrollmentRequest.objects.filter(id=request_id)
+#         return None
 
 # class dealing with logs must be added
