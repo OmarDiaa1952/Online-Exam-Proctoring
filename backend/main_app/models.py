@@ -60,29 +60,11 @@ class Exam(models.Model):
     # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
-    def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
+    def save(self, *args, **kwargs):
         self.max_grade = self.calculate_max_grade()
         super().save(*args, **kwargs)
     # def get_absolute_url(self):
     #     return reverse("exam", args = [self.slug])
-
-
-############### Old implementation of Question and Choice models ################
-# class Question(models.Model):
-#     question_text = models.TextField()
-#     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-#     correct_answer = models.ForeignKey('Choice', on_delete=models.CASCADE, blank=True)
-#     def __str__(self):
-#         return self.question_text
-
-    
-# class Choice(models.Model):
-#     choice_text = models.TextField()
-#     parent_question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return self.choice_text
-
-############### New implementation of Question model ################
 
 class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
