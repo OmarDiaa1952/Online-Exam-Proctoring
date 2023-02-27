@@ -1,3 +1,6 @@
+############################### examiner ###############################
+
+
 ####################### responses #######################
 
 {
@@ -73,7 +76,7 @@
                 }
             ]
         },
-        { # examiner course detail response
+        { # course detail response
             # http 200 ok
             "id": 1,
             "name": "gpp",
@@ -95,7 +98,7 @@
                 },
             ]
         },
-        { # examiner exam detail response
+        { # exam detail response
             # http 200 ok
             "id": 24,
             "name": "Exam 1",
@@ -229,7 +232,7 @@
         { # expected request format for getting a list of courses for an examiner
             # GET request
         },
-        { # expected request format for getting a course detail for an examiner
+        { # expected request format for getting a course detail
             # i expect course id to be sent in the url
             # GET request
         },
@@ -237,7 +240,7 @@
             # i expect course id to be sent in the url
             # GET request
         },
-        { # expected request format for getting an exam detail for an examiner
+        { # expected request format for getting an exam detail
             # i expect exam id to be sent in the url
             # GET request
         },
@@ -257,5 +260,44 @@
             # i expect request_id to be sent in the url
             # DELETE request
         }
+    ]
+}
+
+
+
+##################################### student #####################################
+
+
+####################### expected responses #######################
+
+{
+    "responses": [
+        { # course list response
+            # http 200 ok
+            [
+                {
+                    "id": 1,
+                    "name": "gpp",
+                    "description": "grad proj v3",
+                    "examiner_id": 2
+                },
+                {
+                    "id": 3,
+                    "name": "selected topics",
+                    "description": "boring courseV2",
+                    "examiner_id": 2
+                }
+            ]
+        },
+    ]
+}
+
+####################### expected requests #######################
+
+{
+    "requests": [
+        { # expected request format for getting a list of courses for a student
+            # GET request
+        },
     ]
 }
