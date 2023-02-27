@@ -88,8 +88,15 @@ class StudentProfile(models.Model):
     def upload_to(self, filename):
         # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
         return 'profile_pics/user_{0}/{1}'.format(self.user.id, filename)
-
+    
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
     enrolled_courses = models.ManyToManyField('main_app.Course', related_name='students',through='main_app.EnrollmentDetail', blank=True)
     photo = models.ImageField(upload_to=upload_to, blank=True, null=True)
     # account status field must be added #for adding photos
+
+    # overriding save method to set id to user id
+    # so that we can use user id as primary key
+    def save(self, *args, **kwargs):
+        # set id to user id before saving
+        self.id = self.user.id
+        super().save()
