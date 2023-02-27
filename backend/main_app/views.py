@@ -5,7 +5,6 @@ from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.mixins import UpdateModelMixin
 
 
 #################################### Student Views ####################################
@@ -201,15 +200,14 @@ class ExaminerQuestionListView(generics.ListAPIView):
             return Question.objects.filter(exam_id=exam_id)
         return None
 
-class ExaminerCourseEnrollmentRequestsListView(generics.ListAPIView):
-    serializer_class = CourseEnrollmentRequestSerializer
+class EnrollmentRequestListView(generics.ListAPIView):
+    # this view is responsible for listing all enrollment requests of a specific course
+    serializer_class = EnrollmentRequestSerializer
     lookup_url_kwarg = "course_id"
     def get_queryset(self):
         course_id = self.kwargs.get(self.lookup_url_kwarg)
         if course_id is not None:
-            return EnrollmentRequest.objects.filter(course=course_id)
+            return EnrollmentRequest.objects.filter(course_id=course_id)
         return None
-    # Only for retrieving requests
-    # requests are not handeled yet
 
 # class dealing with logs must be added

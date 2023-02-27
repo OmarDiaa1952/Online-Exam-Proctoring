@@ -7,8 +7,6 @@ urlpatterns = [
     path("coursecreate", CourseCreateView.as_view(), name="createcourse"),
     path("courseedit/<int:pk>", CourseEditView.as_view(), name="editcourse"),
     path("coursedelete/<int:pk>", CourseDeleteView.as_view(), name="deletecourse"),
-    #need to be reviewed
-    path("courseenrollmentrequests/<int:course_id>", ExaminerCourseEnrollmentRequestsListView.as_view(), name="courseenrollmentrequests"),
     path("examcreate", ExamCreateView.as_view(), name="createexam"),
     path("examedit/<int:pk>", ExamEditView.as_view(), name="editexam"),
     path("examdelete/<int:pk>", ExamDeleteView.as_view(), name="deleteexam"),
@@ -20,6 +18,7 @@ urlpatterns = [
     path("examinerexamlist/<int:course_id>", ExaminerExamListView.as_view(), name="examinerexamlist"),
     path("examinerexamdetail/<int:exam_id>", ExaminerExamDetailView.as_view(), name="examinerexamdetail"),
     path("examinerquestionlist/<int:exam_id>", ExaminerQuestionListView.as_view(), name="examinerquestionlist"),
+    path("enrollmentrequestlist/<int:course_id>", EnrollmentRequestListView.as_view(), name="enrollmentrequestlist"),
     # path("courselist", StudentCourseListView.as_view(), name="course"),
     # path("coursedetail", CourseDetailView.as_view(), name="coursedetail"),
     # path("coursesearch", CourseSearchView.as_view(), name="coursesearch"),

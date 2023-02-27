@@ -31,7 +31,7 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "description", "examiner_id")
 
 
-class CourseEnrollmentRequestSerializer(serializers.ModelSerializer):
+class EnrollmentRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnrollmentRequest
         fields = ("course_id", "student_id", "request_date")
