@@ -7,24 +7,46 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 
+#################################### General Views ####################################
+
+class CourseDetailView(generics.RetrieveAPIView):
+    # this view is responsible for listing all details of a specific course except exams
+    serializer_class = CourseSerializer
+    lookup_url_kwarg = "course_id"
+
+    def get_queryset(self):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        if course_id is not None:
+            return Course.objects.filter(id=course_id)
+        return None
+
+class ExamDetailView(generics.RetrieveAPIView):
+    # this view is responsible for listing all details of a specific exam except questions
+    serializer_class = ExamSerializer
+    lookup_url_kwarg = "exam_id"
+
+    def get_queryset(self):
+        exam_id = self.kwargs.get(self.lookup_url_kwarg)
+        if exam_id is not None:
+            return Exam.objects.filter(id=exam_id)
+        return None
+
+
 #################################### Student Views ####################################
 
 
-# class StudentCourseListView(generics.ListAPIView):
-#     # first page after login
-#     """
-#     Lists all courses in DB
-#     i don't know if this should return all courses or just courses related to specific examiner or student
-#     or should we have many functions for those different cases?
-#     """
-#     #queryset = Student.objects.filter(id=1).enrolled_courses.all()
-#     serializer_class = CourseSerializer
+class StudentCourseListView(generics.ListAPIView):
+    # this view is responsible for listing all courses of a specific student
+    serializer_class = CourseSerializer
+    permission_classes = (IsAuthenticated,)
 
-# class CourseDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     # here i want to return details of a specific requested course
-#     # for student and examiner
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
+    def get_queryset(self):
+        student_id = self.request.user.pk
+        # profile_id = StudentProfile.objects.filter(user_id=student_id).values_list('id', flat=True)
+        if student_id is not None:
+            course_id = EnrollmentDetail.objects.filter(student_id=student_id).values_list('course', flat=True)
+            return Course.objects.filter(id__in=course_id)
+        return None
 
 # class CourseSearchView(APIView):
 
@@ -56,21 +78,14 @@ from rest_framework.permissions import IsAuthenticated
 #             'message': 'Course id was not provided.'
 #         }, status=status.HTTP_400_BAD_REQUEST)
 
-#class ExamDetailView(generics.RetrieveUpdateDestroyAPIView):
-    # differs according to exam's status
-
 #class ExamStartView(APIView):
 
 #class ExamReviewView(APIView):
 
 #class ExamEndView(APIView):
 
-#class dealing with adding photos after registration must be added
-
-
 
 #################################### Examiner Views ####################################
-
 
 
 class CourseCreateView(generics.CreateAPIView):
@@ -156,17 +171,6 @@ class ExaminerCourseListView(generics.ListAPIView):
     def get_queryset(self):
         return Course.objects.filter(examiner=self.request.user)
 
-class ExaminerCourseDetailView(generics.RetrieveAPIView):
-    # this view is responsible for listing all details of a specific course except exams
-    serializer_class = CourseSerializer
-    lookup_url_kwarg = "course_id"
-
-    def get_queryset(self):
-        course_id = self.kwargs.get(self.lookup_url_kwarg)
-        if course_id is not None:
-            return Course.objects.filter(id=course_id)
-        return None
-
 class ExaminerExamListView(generics.ListAPIView):
     # this view is responsible for listing all exams of a specific course
     serializer_class = ExamSerializer
@@ -176,17 +180,6 @@ class ExaminerExamListView(generics.ListAPIView):
         course_id = self.kwargs.get(self.lookup_url_kwarg)
         if course_id is not None:
             return Exam.objects.filter(course_id=course_id)
-        return None
-
-class ExaminerExamDetailView(generics.RetrieveAPIView):
-    # this view is responsible for listing all details of a specific exam except questions
-    serializer_class = ExamSerializer
-    lookup_url_kwarg = "exam_id"
-
-    def get_queryset(self):
-        exam_id = self.kwargs.get(self.lookup_url_kwarg)
-        if exam_id is not None:
-            return Exam.objects.filter(id=exam_id)
         return None
 
 class ExaminerQuestionListView(generics.ListAPIView):
@@ -214,7 +207,6 @@ class EnrollmentRequestListView(generics.ListAPIView):
 
 class EnrollmentRequestAcceptView(APIView):
     # this view is responsible for accepting an enrollment request and creating new enrollment deatail instance
-    # serializer_class = EnrollmentRequestAcceptSerializer
     lookup_url_kwarg = "request_id"
 
     def post(self, request, *args, **kwargs):
@@ -239,16 +231,5 @@ class EnrollmentRequestRejectView(generics.DestroyAPIView):
         if request_id is not None:
             return EnrollmentRequest.objects.filter(id=request_id)
         return None
-
-# class EnrollmentRequestActionView(generics.UpdateAPIView):
-#     # this view is responsible for accepting or rejecting an enrollment request
-#     serializer_class = EnrollmentRequestActionSerializer
-#     lookup_url_kwarg = "request_id"
-
-#     def get_queryset(self):
-#         request_id = self.kwargs.get(self.lookup_url_kwarg)
-#         if request_id is not None:
-#             return EnrollmentRequest.objects.filter(id=request_id)
-#         return None
 
 # class dealing with logs must be added
