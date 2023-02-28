@@ -331,6 +331,32 @@
             "student_id": 5,
             "request_date": "2023-02-28T14:36:51.439715"
         },
+        {   # Exam review response
+            # http 200 ok
+
+            "id": 1,
+            "exam_id": 1,
+            "student_id": 3,
+            "start_time": "2023-02-28T15:40:52",
+            "submission_time": "2023-02-28T15:40:54",
+            "grade": 10,
+            "answers": [
+                {
+                    "question": {
+                        "id": 1,
+                        "question_text": "1 +  1",
+                        "marks": 10,
+                        "choice_1": "1",
+                        "choice_2": "2",
+                        "choice_3": "3",
+                        "choice_4": "4",
+                        "correct_answer": 2,
+                        "exam_id": 1
+                    },
+                    "choice": 2
+                }
+            ]
+        },
     ]
 }
 

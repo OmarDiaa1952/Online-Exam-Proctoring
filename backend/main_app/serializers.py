@@ -116,3 +116,19 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ("id", "question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer", "exam_id")
+
+
+########################## Attempt Serializers ##########################
+
+
+class AnswerSerializer(serializers.ModelSerializer):
+    question = QuestionSerializer(read_only=True)
+    class Meta:
+        model = Answer
+        fields = ("question", "choice")
+        
+class AttemptSerializer(serializers.ModelSerializer):
+    answers = AnswerSerializer(many=True, read_only=True)    
+    class Meta:
+        model = Attempt
+        fields = ("id", "exam_id", "student_id", "start_time", "submission_time", "grade", "answers")

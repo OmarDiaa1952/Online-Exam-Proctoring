@@ -84,7 +84,17 @@ class CourseJoinView(generics.CreateAPIView):
         student_id = self.request.user.pk
         serializer.save(student_id=student_id, course_id=self.kwargs.get(self.lookup_url_kwarg))
 
-#class ExamReviewView(APIView):
+class ExamReviewView(generics.RetrieveAPIView):
+    # retrieves the attempt and answers of a student for a specific exam
+    serializer_class = AttemptSerializer
+    lookup_url_kwarg = "exam_id"
+    permission_classes = (IsAuthenticated,)
+    def get_queryset(self):
+        student_id = self.request.user.pk
+        exam_id = self.kwargs.get('exam_id')
+        if student_id is not None and exam_id is not None:
+            return Attempt.objects.filter(student_id=student_id, exam_id=exam_id)
+        return None
 
 #class ExamEndView(APIView):
 

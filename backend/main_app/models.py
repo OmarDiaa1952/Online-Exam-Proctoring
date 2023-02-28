@@ -95,6 +95,6 @@ class Attempt(models.Model):
         super().save(*args, **kwargs)
     
 class Answer(models.Model):
-    attempt = models.ForeignKey(Attempt, on_delete=models.CASCADE)
+    attempt = models.ForeignKey(Attempt, on_delete=models.CASCADE, related_name='answers')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice = models.IntegerField(blank=True)
