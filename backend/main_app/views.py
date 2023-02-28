@@ -30,6 +30,19 @@ class ExamDetailView(generics.RetrieveAPIView):
         if exam_id is not None:
             return Exam.objects.filter(id=exam_id)
         return None
+    
+class QuestionListView(generics.ListAPIView):
+    # this view is responsible for listing all questions of a specific exam
+    # called when examiner views exam details
+    # or when a student starts the exam
+    serializer_class = QuestionSerializer
+    lookup_url_kwarg = "exam_id"
+
+    def get_queryset(self):
+        exam_id = self.kwargs.get(self.lookup_url_kwarg)
+        if exam_id is not None:
+            return Question.objects.filter(exam_id=exam_id)
+        return None
 
 
 #################################### Student Views ####################################
@@ -61,35 +74,15 @@ class CourseSearchView(generics.ListAPIView):
             return Course.objects.filter(name__icontains=search_query)
         return None
 
-# class CourseEnrollmentView(generics.RetrieveUpdateDestroyAPIView):
-    # check if we should check first if student is already enrolled in this course
-    # if enrolled, return CourseDetailView
+class CourseJoinView(generics.CreateAPIView):
+    # this view is responsible for enrolling a student in a course
+    permission_classes = (IsAuthenticated,)
+    serializer_class = EnrollmentRequestSerializer
+    lookup_url_kwarg = "course_id"
 
-# class CourseJoinView(APIView):
-#     # this view is responsible for joining a course by a student
-#     permission_classes = (IsAuthenticated,)
-#     lookup_url_kwarg = "course_id"
-
-#     def post(self, request, format=None):
-#         course_id = request.data.get(self.lookup_url_kwarg)
-#         if course_id is not None:
-#             course = Course.objects.filter(id=course_id).first()
-#             if course is not None:
-#                 course_owner_id = request.data.get("examiner_id") # or any other way to get course owner id
-#                 student_id = request.data.get("student_id") # or any other way to get student id
-#                 # Then the request must be added to the list of pending requests 
-#                 # of the course owner
-#                 return Response({'message':'Join Request is sent to the course owner'}, status=status.HTTP_200_OK)
-#             return Response({
-#                 'status': 'Not Found',
-#                 'message': 'Course with id {} does not exist.'.format(course_id)
-#             }, status=status.HTTP_404_NOT_FOUND)
-#         return Response({
-#             'status': 'Bad request',
-#             'message': 'Course id was not provided.'
-#         }, status=status.HTTP_400_BAD_REQUEST)
-
-#class ExamStartView(APIView):
+    def perform_create(self, serializer):
+        student_id = self.request.user.pk
+        serializer.save(student_id=student_id, course_id=self.kwargs.get(self.lookup_url_kwarg))
 
 #class ExamReviewView(APIView):
 
@@ -191,17 +184,6 @@ class ExaminerExamListView(generics.ListAPIView):
         course_id = self.kwargs.get(self.lookup_url_kwarg)
         if course_id is not None:
             return Exam.objects.filter(course_id=course_id)
-        return None
-
-class ExaminerQuestionListView(generics.ListAPIView):
-    # this view is responsible for listing all questions of a specific exam
-    serializer_class = QuestionSerializer
-    lookup_url_kwarg = "exam_id"
-
-    def get_queryset(self):
-        exam_id = self.kwargs.get(self.lookup_url_kwarg)
-        if exam_id is not None:
-            return Question.objects.filter(exam_id=exam_id)
         return None
 
 class EnrollmentRequestListView(generics.ListAPIView):

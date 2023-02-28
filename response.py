@@ -76,7 +76,11 @@
                 }
             ]
         },
+<<<<<<< HEAD
         {  # course detail response
+=======
+        { # course detail response -- transfer to general response
+>>>>>>> 14cd9371bca0d0bcad72cdef53abeaf73f28136e
             # http 200 ok
             "id": 1,
             "name": "gpp",
@@ -98,7 +102,11 @@
                 },
             ]
         },
+<<<<<<< HEAD
         {  # exam detail response
+=======
+        { # exam detail response -- transfer to general response
+>>>>>>> 14cd9371bca0d0bcad72cdef53abeaf73f28136e
             # http 200 ok
             "id": 24,
             "name": "Exam 1",
@@ -109,7 +117,11 @@
             "max_grade": 10,
             "course_id": 1
         },
+<<<<<<< HEAD
         {  # examiner question list response
+=======
+        { # question list response -- transfer to general response
+>>>>>>> 14cd9371bca0d0bcad72cdef53abeaf73f28136e
             # http 200 ok
             [
                 {
@@ -232,7 +244,11 @@
         {  # expected request format for getting a list of courses for an examiner
             # GET request
         },
+<<<<<<< HEAD
         {  # expected request format for getting a course detail
+=======
+        { # expected request format for getting a course detail -- transfer to general requests
+>>>>>>> 14cd9371bca0d0bcad72cdef53abeaf73f28136e
             # i expect course id to be sent in the url
             # GET request
         },
@@ -240,11 +256,19 @@
             # i expect course id to be sent in the url
             # GET request
         },
+<<<<<<< HEAD
         {  # expected request format for getting an exam detail
             # i expect exam id to be sent in the url
             # GET request
         },
         {  # expected request format for getting a list of questions for an exam by an examiner
+=======
+        { # expected request format for getting an exam detail -- transfer to general requests
+            # i expect exam id to be sent in the url
+            # GET request
+        },
+        { # expected request format for getting a list of questions for an exam -- transfer to general requests
+>>>>>>> 14cd9371bca0d0bcad72cdef53abeaf73f28136e
             # i expect exam id to be sent in the url
             # GET request
         },
@@ -288,6 +312,7 @@
                 }
             ]
         },
+<<<<<<< HEAD
         {  # course search response
            # http 200 ok
             [
@@ -316,6 +341,13 @@
                     "examiner_id": 2
                 }
             ]
+=======
+        { # course join response
+            # http 201 created
+            "course_id": 1,
+            "student_id": 5,
+            "request_date": "2023-02-28T14:36:51.439715"
+>>>>>>> 14cd9371bca0d0bcad72cdef53abeaf73f28136e
         }
     ]
 }
@@ -326,6 +358,10 @@
     "requests": [
         {  # expected request format for getting a list of courses for a student
             # GET request
+        },
+        { # expected request for join course 
+            # i expect course id to be sent in the url
+            # POST request
         },
     ]
 }
