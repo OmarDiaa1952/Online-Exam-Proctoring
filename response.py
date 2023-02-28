@@ -76,7 +76,7 @@
                 }
             ]
         },
-        { # course detail response
+        { # course detail response -- transfer to general response
             # http 200 ok
             "id": 1,
             "name": "gpp",
@@ -98,7 +98,7 @@
                 },
             ]
         },
-        { # exam detail response
+        { # exam detail response -- transfer to general response
             # http 200 ok
             "id": 24,
             "name": "Exam 1",
@@ -109,7 +109,7 @@
             "max_grade": 10,
             "course_id": 1
         },
-        { # examiner question list response
+        { # question list response -- transfer to general response
             # http 200 ok
             [
                 {
@@ -232,7 +232,7 @@
         { # expected request format for getting a list of courses for an examiner
             # GET request
         },
-        { # expected request format for getting a course detail
+        { # expected request format for getting a course detail -- transfer to general requests
             # i expect course id to be sent in the url
             # GET request
         },
@@ -240,11 +240,11 @@
             # i expect course id to be sent in the url
             # GET request
         },
-        { # expected request format for getting an exam detail
+        { # expected request format for getting an exam detail -- transfer to general requests
             # i expect exam id to be sent in the url
             # GET request
         },
-        { # expected request format for getting a list of questions for an exam by an examiner
+        { # expected request format for getting a list of questions for an exam -- transfer to general requests
             # i expect exam id to be sent in the url
             # GET request
         },
