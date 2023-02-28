@@ -27,8 +27,8 @@ urlpatterns = [
     ################### Student URLs ###################
     
     path("studentcourselist", StudentCourseListView.as_view(), name="studentcourselist"),
+    path("coursesearch/<str:search_query>", CourseSearchView.as_view(), name="coursesearch"),
     # path("enrollmentrequestaction/<int:request_id>", EnrollmentRequestActionView.as_view(), name="enrollmentrequestaction"),
-    # path("coursesearch", CourseSearchView.as_view(), name="coursesearch"),
     # path("courseenrollment", CourseEnrollmentView.as_view(), name="courseenrollment"),
     # path("coursejoin", CourseJoinView.as_view(), name="coursejoin"),
     # path("examdetail", ExamDetailView.as_view(), name="examdetail"),

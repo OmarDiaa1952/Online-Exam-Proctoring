@@ -48,7 +48,18 @@ class StudentCourseListView(generics.ListAPIView):
             return Course.objects.filter(id__in=course_id)
         return None
 
-# class CourseSearchView(APIView):
+class CourseSearchView(generics.ListAPIView):
+    #this view is responsible for searching for a course by name or id
+    serializer_class = CourseSerializer
+    lookup_url_kwarg = "search_query"
+
+    def get_queryset(self):
+        search_query = self.kwargs.get(self.lookup_url_kwarg)
+        if search_query is not None:
+            if search_query.isdigit():
+                return Course.objects.filter(id=search_query)
+            return Course.objects.filter(name__icontains=search_query)
+        return None
 
 # class CourseEnrollmentView(generics.RetrieveUpdateDestroyAPIView):
     # check if we should check first if student is already enrolled in this course
