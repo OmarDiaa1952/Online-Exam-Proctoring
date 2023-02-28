@@ -40,6 +40,3 @@ function EditExamPage() {
 }
 
 export default EditExamPage;
-
-//  The page consists of two sections: the exam details section
-// and the questions section, and two buttons: the cancel button and the save button.
