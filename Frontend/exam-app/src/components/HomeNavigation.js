@@ -23,7 +23,7 @@ function HomeNavigation(props) {
       )}
       <div>
         <button>
-          <Link to="/">Logout</Link>
+          <Link to="/welcome">Logout</Link>
         </button>
       </div>
     </div>

@@ -33,7 +33,7 @@ function ExamDetailsPage() {
         </Link>
       </div>
       <div>
-        <Link to="/home">
+        <Link to="/">
           <button type="button">Home</button>
         </Link>
       </div>

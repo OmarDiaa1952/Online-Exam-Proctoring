@@ -7,7 +7,7 @@ function WelcomePage() {
   const navigate = useNavigate();
   useEffect(() => {
     window.onpopstate = (e) => {
-      navigate("/");
+      navigate("/welcome");
     };
   });
 
@@ -22,7 +22,7 @@ function WelcomePage() {
         },
       }
     ).then(() => {
-      navigate("/home");
+      navigate("/");
     });
   }
   return (

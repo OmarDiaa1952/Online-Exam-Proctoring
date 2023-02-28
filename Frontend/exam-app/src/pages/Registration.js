@@ -16,7 +16,7 @@ function RegistrationPage() {
         },
       }
     ).then(() => {
-      history("/");
+      history("/welcome");
     });
   }
 
@@ -24,7 +24,7 @@ function RegistrationPage() {
     <div>
       <Register onRegister={registerHandler} />
       <div>
-        <Link to="/">Already have an account?</Link>
+        <Link to="/welcome">Already have an account?</Link>
       </div>
     </div>
   );

@@ -48,7 +48,7 @@ function CourseDetailsPage() {
         </button>
       </div>
       <div>
-        <Link to="/home"><button type="button">Back</button></Link>
+        <Link to="/"><button type="button">Back</button></Link>
       </div>
     </section>
   );

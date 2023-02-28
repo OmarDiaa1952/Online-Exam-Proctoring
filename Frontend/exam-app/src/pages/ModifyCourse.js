@@ -68,7 +68,7 @@ function ModifyCoursePage() {
       <ModifyCourseDetails onSave={submitHandler} />
       <StudentAdmission studentsData={DUMMY_DATA} onAddStudent={addStudentHandler} />
       <div>
-        <Link to={courseCtx.newCourseFlag ? "/home" : "/course"}>
+        <Link to={courseCtx.newCourseFlag ? "/" : "/course"}>
           <button type="button">Back</button>
         </Link>
       </div>
