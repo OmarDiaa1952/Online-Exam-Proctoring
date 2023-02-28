@@ -19,7 +19,7 @@ urlpatterns = [
     path("examinercoursedetail/<int:course_id>", CourseDetailView.as_view(), name="examinercoursedetail"),
     path("examinerexamlist/<int:course_id>", ExaminerExamListView.as_view(), name="examinerexamlist"),
     path("examinerexamdetail/<int:exam_id>", ExamDetailView.as_view(), name="examinerexamdetail"),
-    path("examinerquestionlist/<int:exam_id>", ExaminerQuestionListView.as_view(), name="examinerquestionlist"),
+    path("examinerquestionlist/<int:exam_id>", QuestionListView.as_view(), name="examinerquestionlist"),
     path("enrollmentrequestlist/<int:course_id>", EnrollmentRequestListView.as_view(), name="enrollmentrequestlist"),
     path("enrollmentrequestaccept/<int:request_id>", EnrollmentRequestAcceptView.as_view(), name="enrollmentrequestaccept"),
     path("enrollmentrequestreject/<int:request_id>", EnrollmentRequestRejectView.as_view(), name="enrollmentrequestreject"),
@@ -27,9 +27,8 @@ urlpatterns = [
     ################### Student URLs ###################
     
     path("studentcourselist", StudentCourseListView.as_view(), name="studentcourselist"),
-    # path("enrollmentrequestaction/<int:request_id>", EnrollmentRequestActionView.as_view(), name="enrollmentrequestaction"),
     # path("coursesearch", CourseSearchView.as_view(), name="coursesearch"),
-    # path("courseenrollment", CourseEnrollmentView.as_view(), name="courseenrollment"),
+    path("coursejoin/<int:course_id>", CourseJoinView.as_view(), name="studentenroll"),
     # path("coursejoin", CourseJoinView.as_view(), name="coursejoin"),
     # path("examdetail", ExamDetailView.as_view(), name="examdetail"),
     # path("examstart", ExamStartView.as_view(), name="examstart"),
