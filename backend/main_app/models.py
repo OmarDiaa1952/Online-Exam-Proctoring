@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from datetime import datetime
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
@@ -74,7 +75,7 @@ class Question(models.Model):
     choice_2 = models.TextField(blank=True)
     choice_3 = models.TextField(blank=True)
     choice_4 = models.TextField(blank=True)
-    correct_answer = models.IntegerField()
+    correct_answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
 
 
 class Attempt(models.Model):
