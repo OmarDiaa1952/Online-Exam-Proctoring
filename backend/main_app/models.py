@@ -21,11 +21,7 @@ class Course(models.Model):
 class EnrollmentRequest(models.Model):
     student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    request_date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    
-    def save(self, *args, **kwargs):
-        self.request_date = datetime.now()
-        super().save(*args, **kwargs)
+    request_date = models.DateTimeField(auto_now=False, auto_now_add=False, default=datetime.now)
 
     # def accept(self):
     #     EnrollmentDetail.objects.create(student=self.student, course=self.course, enrollment_date=datetime.now())
