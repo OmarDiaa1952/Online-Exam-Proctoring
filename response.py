@@ -289,6 +289,12 @@
                 }
             ]
         },
+        { # course join response
+            # http 201 created
+            "course_id": 1,
+            "student_id": 5,
+            "request_date": "2023-02-28T14:36:51.439715"
+        }
     ]
 }
 
@@ -298,6 +304,10 @@
     "requests": [
         { # expected request format for getting a list of courses for a student
             # GET request
+        },
+        { # expected request for join course 
+            # i expect course id to be sent in the url
+            # POST request
         },
     ]
 }
