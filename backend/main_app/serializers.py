@@ -119,10 +119,13 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 ########################## Attempt Serializers ##########################
-
+class QuestionViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ("question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer")
 
 class AnswerSerializer(serializers.ModelSerializer):
-    question = QuestionSerializer(read_only=True)
+    question = QuestionViewSerializer(read_only=True)
     class Meta:
         model = Answer
         fields = ("question", "choice")
