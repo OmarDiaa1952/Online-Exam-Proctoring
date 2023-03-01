@@ -1,3 +1,107 @@
+############################## general ##############################
+
+####################### responses #######################
+
+{
+    "responses": [
+        {  # course detail response
+
+            # http 200 ok
+            "id": 1,
+            "name": "gpp",
+            "description": "grad proj v3",
+            "examiner_id": 2
+        },
+        {  # exam list response
+            # http 200 ok
+            [
+                {
+                    "id": 24,
+                    "name": "Exam 1",
+                    "description": "imp",
+                    "exam_start_date": "2023-02-26T16:21:36",
+                    "exam_end_date": "2023-02-26T16:21:37",
+                    "duration": "00:00:50",
+                    "max_grade": 10,
+                    "course_id": 1
+                },
+            ]
+        },
+        {  # exam detail response
+            # http 200 ok
+            "id": 24,
+            "name": "Exam 1",
+            "description": "imp",
+            "exam_start_date": "2023-02-26T16:21:36",
+            "exam_end_date": "2023-02-26T16:21:37",
+            "duration": "00:00:50",
+            "max_grade": 10,
+            "course_id": 1
+        },
+        {  # question list response
+            # http 200 ok
+            [
+                {
+                    "id": 3,
+                    "question_text": "how are you?",
+                    "marks": 1,
+                    "choice_1": "fine1",
+                    "choice_2": "fine2",
+                    "choice_3": "fine3",
+                    "choice_4": "fine4",
+                    "correct_answer": 1,
+                    "exam_id": 24
+                },
+                {
+                    "id": 4,
+                    "question_text": "how old are you?",
+                    "marks": 1,
+                    "choice_1": "10",
+                    "choice_2": "11",
+                    "choice_3": "12",
+                    "choice_4": "13",
+                    "correct_answer": 1,
+                    "exam_id": 24
+                }
+            ]
+        },
+    ]
+}
+
+####################### expected requests #######################
+
+{
+    "requests": [
+        {  # expected request format for getting a course detail -- transfer to general requests
+            # i expect course id to be sent in the url
+            # GET request
+        },
+        {  # expected request format for getting a list of exams for a course by -- transfer to general requests
+            # i expect course id to be sent in the url
+            # GET request
+        },
+
+        {  # expected request format for getting an exam detail
+            # i expect exam id to be sent in the url
+            # GET request
+        },
+        {  # expected request format for getting an exam detail -- transfer to general requests
+            # i expect exam id to be sent in the url
+            # GET request
+        },
+        {  # expected request format for getting a list of questions for an exam -- transfer to general requests
+
+            # i expect exam id to be sent in the url
+            # GET request
+        },
+    ]
+}
+
+
+
+
+
+
 ############################### examiner ###############################
 
 
@@ -9,12 +113,12 @@
             # http 201 created
             "email": "alaa@mail.com",
             "username": "alaa",
-            "password": "pbkdf2_sha256$390000$Oe7XaNXiKFqHEnwde0rwdq$2AFM5UconCwbLnmV7V/2gHUHIVMnXJf1Rz8oXOA/1I4="
+            "password": "pbkdf2_sha256$ ..."
         },
         {  # login response && refresh token response
             # http 200 ok
-            "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTE4MTIwNCwiaWF0IjoxNjc3NDA1MjA0LCJqdGkiOiI5NGM3NDhjZjZkNmM0ZDc1OTM0ZjdmZmI4YmNkNjYwZiIsInVzZXJfaWQiOjN9.RBq__QN7l2ohymWsPsd7IG9PwJq4ny0cmskzl62EjZ0",
-            "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3NDM1MjA0LCJpYXQiOjE2Nzc0MDUyMDQsImp0aSI6IjUxMzk1MzdjM2U0MTQzZGM5NGQ4MDI1YmUxNDU3NGYzIiwidXNlcl9pZCI6M30.97tioxjPbxEHLlGHMzBabPtQYPeS-uVjkXRd02taIn4"
+            "refresh": "eyJ0eXAiOiJKV1Q ...",
+            "access": "eyJ0eXAiOiJKV1Q ..."
         },
         {  # course create response
             # http 201 created
@@ -76,68 +180,6 @@
                 }
             ]
         },
-
-        {  # course detail response -- transfer to general response
-
-            # http 200 ok
-            "id": 1,
-            "name": "gpp",
-            "description": "grad proj v3",
-            "examiner_id": 2
-        },
-        {  # examiner exam list response
-            # http 200 ok
-            [
-                {
-                    "id": 24,
-                    "name": "Exam 1",
-                    "description": "imp",
-                    "exam_start_date": "2023-02-26T16:21:36",
-                    "exam_end_date": "2023-02-26T16:21:37",
-                    "duration": "00:00:50",
-                    "max_grade": 10,
-                    "course_id": 1
-                },
-            ]
-        },
-        {  # exam detail response -- transfer to general response
-            # http 200 ok
-            "id": 24,
-            "name": "Exam 1",
-            "description": "imp",
-            "exam_start_date": "2023-02-26T16:21:36",
-            "exam_end_date": "2023-02-26T16:21:37",
-            "duration": "00:00:50",
-            "max_grade": 10,
-            "course_id": 1
-        },
-        {  # question list response -- transfer to general response
-            # http 200 ok
-            [
-                {
-                    "id": 3,
-                    "question_text": "how are you?",
-                    "marks": 1,
-                    "choice_1": "fine1",
-                    "choice_2": "fine2",
-                    "choice_3": "fine3",
-                    "choice_4": "fine4",
-                    "correct_answer": 1,
-                    "exam_id": 24
-                },
-                {
-                    "id": 4,
-                    "question_text": "how old are you?",
-                    "marks": 1,
-                    "choice_1": "10",
-                    "choice_2": "11",
-                    "choice_3": "12",
-                    "choice_4": "13",
-                    "correct_answer": 1,
-                    "exam_id": 24
-                }
-            ]
-        },
         {  # enrollment request list response
             # http 200 ok
             [
@@ -153,11 +195,9 @@
                 }
             ]
         },
-        {  # enrollment request accept response
+        {  # enrollment request action response
             # http 200 ok
-        },
-        {  # enrollment request reject response
-            # http 204 no content with no body
+            "action": "accept" or "reject"
         },
     ]
 }
@@ -234,40 +274,15 @@
         {  # expected request format for getting a list of courses for an examiner
             # GET request
         },
-        {  # expected request format for getting a course detail -- transfer to general requests
-            # i expect course id to be sent in the url
-            # GET request
-        },
-        {  # expected request format for getting a list of exams for a course by an examiner
-            # i expect course id to be sent in the url
-            # GET request
-        },
-
-        {  # expected request format for getting an exam detail
-            # i expect exam id to be sent in the url
-            # GET request
-        },
-        {  # expected request format for getting an exam detail -- transfer to general requests
-            # i expect exam id to be sent in the url
-            # GET request
-        },
-        {  # expected request format for getting a list of questions for an exam -- transfer to general requests
-
-            # i expect exam id to be sent in the url
-            # GET request
-        },
         {  # expected request format for getting enrollment request list for a course
             # i expect course id to be sent in the url
             # GET request
         },
-        {  # expected request format for accepting an enrollment request
+        {  # expected request format for accepting or rejecting an enrollment request
             # i expect request_id to be sent in the url
-            # POST request # i think this should be editied to accept post requests
+            # PUT request
+            "action": "accept" or "reject"
         },
-        {  # expected request format for rejecting an enrollment request
-            # i expect request_id to be sent in the url
-            # DELETE request
-        }
     ]
 }
 

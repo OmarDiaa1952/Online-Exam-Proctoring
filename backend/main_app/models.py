@@ -23,11 +23,11 @@ class EnrollmentRequest(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     request_date = models.DateTimeField(auto_now=False, auto_now_add=False, default=datetime.now)
 
-    # def accept(self):
-    #     EnrollmentDetail.objects.create(student=self.student, course=self.course, enrollment_date=datetime.now())
-    #     self.delete()
-    # def reject(self):
-    #     self.delete()
+    def accept(self):
+        EnrollmentDetail.objects.create(student=self.student, course=self.course, enrollment_date=datetime.now())
+        self.delete()
+    def reject(self):
+        self.delete()
 
 
 class EnrollmentDetail(models.Model):

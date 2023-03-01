@@ -1,6 +1,19 @@
 from rest_framework import serializers
 from .models import *
 
+########################## Enrollment Serializers ##########################
+
+class EnrollmentRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnrollmentRequest
+        fields = ("course_id", "student_id", "request_date")
+
+class EnrollmentRequestActionSerializer(serializers.Serializer):
+    # field with only two possible values
+    action = serializers.ChoiceField(choices=["accept", "reject"])
+
+    class Meta:
+        fields = ("action",)
 
 ########################## Course Serializers ##########################
 
@@ -30,30 +43,6 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ("id", "name", "description", "examiner_id")
 
-
-class EnrollmentRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EnrollmentRequest
-        fields = ("course_id", "student_id", "request_date")
-
-# class EnrollmentRequestAcceptSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = EnrollmentDetail
-#         fields = ("course_id", "student_id")
-
-# class EnrollmentRequestActionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = EnrollmentRequest
-#         fields = ("action","id")
-
-#     action = serializers.CharField(max_length=10)
-
-#     def update(self, instance, validated_data):
-#         if validated_data.get('action') == "accept":
-#             instance.accept()
-#         else:
-#             instance.reject()
-#         return instance
 
 ########################## Exam Serializers ##########################
 
@@ -119,6 +108,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 ########################## Attempt Serializers ##########################
+
 class QuestionViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
