@@ -11,25 +11,11 @@ function WelcomePage() {
     };
   });
 
-  function loginHandler(loginData) {
-    fetch(
-      "https://react-getting-started-59f1b-default-rtdb.firebaseio.com/data.json",
-      {
-        method: "POST",
-        body: JSON.stringify(loginData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then(() => {
-      navigate("/");
-    });
-  }
   return (
     <div>
       <h1>WEBSITE NAME</h1>
       <p>WEBSITE DESCRIPTION</p>
-      <Login onLogin={loginHandler} />
+      <Login />
       <div>
         <button>
           <Link to="/register">Register</Link>

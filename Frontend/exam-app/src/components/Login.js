@@ -1,31 +1,12 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 
 import classes from "./Login.module.css";
 import UserContext from "../store/user-context";
 
 
-function Login(props) {
+function Login() {
   const userCtx = useContext(UserContext);
 
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-
-  function submitHandler(event) {
-    event.preventDefault();
-
-    const enteredEmail = emailInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-
-
-    const loginData = {
-      requestType: "login",
-      userType: userCtx.type,
-      email: enteredEmail,
-      password: enteredPassword,
-    };
-
-    props.onLogin(loginData);
-  }
   return (
     <div>
       <div>
@@ -55,10 +36,10 @@ function Login(props) {
           <label htmlFor="examiner">Examiner</label>
         </div>
       </div>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={userCtx.loginUser}>
         <div>
-          <label htmlFor="email">Email</label>
-          <input type="text" required id="email" ref={emailInputRef} />
+          <label htmlFor="username">Username</label>
+          <input type="text" required id="username" />
         </div>
         <div>
           <label htmlFor="password">Password</label>
@@ -66,7 +47,6 @@ function Login(props) {
             type="password"
             required
             id="password"
-            ref={passwordInputRef}
           />
         </div>
         <div>

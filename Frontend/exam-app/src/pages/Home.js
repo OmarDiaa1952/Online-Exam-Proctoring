@@ -1,6 +1,36 @@
+import { useEffect, useState, useContext } from "react";
+
 import HomeNavigation from "../components/HomeNavigation";
+import UserContext from "../store/user-context";
 
 function HomePage() {
+  let [courses, setCourses] = useState([]);
+  let { authTokens, logoutUser } = useContext(UserContext);
+
+  useEffect(() => {
+    getCourses();
+  }, []);
+
+  let getCourses = async () => {
+    let response = await fetch(
+      "http://localhost:8000/main_app/examinercourselist",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
+    let data = await response.json();
+
+    if (response.status === 200) {
+      setCourses(data);
+    } else if (response.statusText === "Unauthorized") {
+      logoutUser();
+    }
+  };
+
   const DUMMY_DATA = [
     {
       courseId: "c1",
@@ -16,9 +46,9 @@ function HomePage() {
     },
   ];
 
-  return ( 
+  return (
     <div>
-      <HomeNavigation coursesData={DUMMY_DATA} />
+      <HomeNavigation coursesData={courses} />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import UserContext from "../store/user-context";
 function Register(props) {
   const userCtx = useContext(UserContext);
 
-  const nameInputRef = useRef();
+  const usernameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
@@ -14,15 +14,13 @@ function Register(props) {
   function submitHandler(event) {
     event.preventDefault();
 
-    const enteredName = nameInputRef.current.value;
+    const enteredUsername = usernameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     const enteredConfirmPassword = confirmPasswordInputRef.current.value;
 
     let registrationData = {
-      requestType: "register",
-      userType: userCtx.type,
-      name: enteredName,
+      username: enteredUsername,
       email: enteredEmail,
       password: enteredPassword,
     };
@@ -62,7 +60,7 @@ function Register(props) {
       <form onSubmit={submitHandler}>
         <div>
           <label htmlFor="name">Name</label>
-          <input type="text" required id="name" ref={nameInputRef} />
+          <input type="text" required id="name" ref={usernameInputRef} />
         </div>
         <div>
           <label htmlFor="email">Email</label>

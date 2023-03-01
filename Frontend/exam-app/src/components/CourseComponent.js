@@ -11,8 +11,8 @@ function CourseComponent(props) {
   return (
     <li key={props.courseData.courseId}>
       <Link to={registered ? "/course" : "/course-details"}>
-        <div>{props.courseData.courseName}</div>
-        <div>ID: {props.courseData.courseId}</div>
+        <div>{props.courseData.name}</div>
+        <div>ID: {props.courseData.id}</div>
       </Link>
     </li>
   );

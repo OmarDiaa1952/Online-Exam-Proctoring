@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import WelcomePage from "./pages/Welcome";
 import RegistrationPage from "./pages/Registration";
 import HomePage from "./pages/Home";
-import ModifyCoursePage from "./pages/ModifyCourse"
+import ModifyCoursePage from "./pages/ModifyCourse";
 import CoursePage from "./pages/Course";
 import CourseDetailsPage from "./pages/CourseDetails";
 import ExamPage from "./pages/Exam";
@@ -12,14 +12,16 @@ import EditExamPage from "./pages/EditExam";
 import LogFilePage from "./pages/LogFile";
 import ReviewExamPage from "./pages/ReviewExam";
 import PreviewExamPage from "./pages/PreviewExam";
-import PrivateRoute from './utils/PrivateRoute'
+import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
   return (
     <Routes>
       <Route path="/welcome" exact element={<WelcomePage />} />
       <Route path="/register" exact element={<RegistrationPage />} />
-      <PrivateRoute path="/" exact element={<HomePage />} />
+      <Route exact path="/" element={<PrivateRoute />}>
+        <Route exact path="/" element={<HomePage />} />
+      </Route>
       <Route path="/modify-course" exact element={<ModifyCoursePage />} />
       <Route path="/course" exact element={<CoursePage />} />
       <Route path="/course-details" exact element={<CourseDetailsPage />} />

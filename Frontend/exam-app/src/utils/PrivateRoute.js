@@ -1,11 +1,11 @@
-import { Route, Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useContext } from "react";
 
 import UserContext from "../store/user-context";
 
-function PrivateRoute({ props, ...rest }) {
+const PrivateRoute = () => {
   let { user } = useContext(UserContext);
-  return <Route {...rest}>{!user ? <Navigate to="/welcome" /> : props}</Route>;
-}
+  return !user ? <Navigate to="/welcome" /> : <Outlet />;
+};
 
 export default PrivateRoute;

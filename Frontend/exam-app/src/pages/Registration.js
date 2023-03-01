@@ -1,21 +1,27 @@
 import { useNavigate, Link } from "react-router-dom";
+import { useContext } from "react";
 
 import Register from "../components/Register";
+import UserContext from "../store/user-context";
 
 function RegistrationPage() {
+  const userCtx = useContext(UserContext);
+  console.log("Registration successful!");
   const history = useNavigate();
 
   function registerHandler(registerData) {
-    fetch(
-      "https://react-getting-started-59f1b-default-rtdb.firebaseio.com/data.json",
-      {
-        method: "POST",
-        body: JSON.stringify(registerData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then(() => {
+    const req =
+      userCtx.type === "student" ? "studentregister" : "examinerregister";
+
+    console.log("Registration successful!");
+    fetch("http://localhost:8000/users/" + req, {
+      method: "POST",
+      body: JSON.stringify(registerData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => {
+      console.log(JSON.stringify(registerData));
       history("/welcome");
     });
   }
