@@ -222,7 +222,7 @@ class EnrollmentRequestActionView(APIView):
         if serializer.is_valid():
             if action == 'accept':
                 enrollment_request.accept()
-                return Response(status=status.HTTP_200_OK)
+                return Response(serializer.data,status=status.HTTP_200_OK)
             elif action == 'reject':
                 enrollment_request.reject()
                 return Response(serializer.data,status=status.HTTP_200_OK)
