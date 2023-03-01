@@ -113,12 +113,12 @@
             # http 201 created
             "email": "alaa@mail.com",
             "username": "alaa",
-            "password": "pbkdf2_sha256$390000$Oe7XaNXiKFqHEnwde0rwdq$2AFM5UconCwbLnmV7V/2gHUHIVMnXJf1Rz8oXOA/1I4="
+            "password": "pbkdf2_sha256$ ..."
         },
         {  # login response && refresh token response
             # http 200 ok
-            "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NTE4MTIwNCwiaWF0IjoxNjc3NDA1MjA0LCJqdGkiOiI5NGM3NDhjZjZkNmM0ZDc1OTM0ZjdmZmI4YmNkNjYwZiIsInVzZXJfaWQiOjN9.RBq__QN7l2ohymWsPsd7IG9PwJq4ny0cmskzl62EjZ0",
-            "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc3NDM1MjA0LCJpYXQiOjE2Nzc0MDUyMDQsImp0aSI6IjUxMzk1MzdjM2U0MTQzZGM5NGQ4MDI1YmUxNDU3NGYzIiwidXNlcl9pZCI6M30.97tioxjPbxEHLlGHMzBabPtQYPeS-uVjkXRd02taIn4"
+            "refresh": "eyJ0eXAiOiJKV1Q ...",
+            "access": "eyJ0eXAiOiJKV1Q ..."
         },
         {  # course create response
             # http 201 created
@@ -195,11 +195,9 @@
                 }
             ]
         },
-        {  # enrollment request accept response
+        {  # enrollment request action response
             # http 200 ok
-        },
-        {  # enrollment request reject response
-            # http 204 no content with no body
+            "action": "accept" or "reject"
         },
     ]
 }
@@ -280,14 +278,11 @@
             # i expect course id to be sent in the url
             # GET request
         },
-        {  # expected request format for accepting an enrollment request
+        {  # expected request format for accepting or rejecting an enrollment request
             # i expect request_id to be sent in the url
-            # POST request # i think this should be editied to accept post requests
+            # PUT request
+            "action": "accept" or "reject"
         },
-        {  # expected request format for rejecting an enrollment request
-            # i expect request_id to be sent in the url
-            # DELETE request
-        }
     ]
 }
 
