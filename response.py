@@ -357,6 +357,10 @@
                 }
             ]
         },
+        {   # End Exam response
+            # http 200 ok            
+        },
+
     ]
 }
 
@@ -370,6 +374,26 @@
         {  # expected request for join course
             # i expect course id to be sent in the url
             # POST request
+        },
+        {  # expected request for search course
+            # i expect course name or id to be sent in the url
+            # GET request
+        },
+        {  # expected request for review exam
+            # i expect exam id to be sent in the url
+            # GET request
+        },
+        {  # expected request for end exam
+            #post request
+            "exam_id": 1,
+            "start_time": "2023-02-28T15:40:52",
+            "submission_time": "2023-02-28T15:40:54",
+            "answers": [
+                {
+                    "question_id": 1,
+                    "choice": 2
+                }
+            ]
         },
     ]
 }
