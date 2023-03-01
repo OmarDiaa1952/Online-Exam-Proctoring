@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework.parsers import JSONParser
 
 #################################### General Views ####################################
 
@@ -96,7 +97,27 @@ class ExamReviewView(generics.RetrieveAPIView):
             return Attempt.objects.filter(student_id=student_id, exam_id=exam_id)
         return None
 
-#class ExamEndView(APIView):
+class ExamEndView(APIView):
+    parser_classes = [JSONParser]
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, format=None):
+        try:
+            student_id = self.request.user.pk
+            exam_id = request.data['exam_id']
+            start_time = request.data['start_time']
+            submission_time = request.data['submission_time']
+            answers = request.data['answers']
+            attempt = Attempt.objects.create(student_id=student_id, exam_id=exam_id, start_time=start_time, submission_time=submission_time)
+            attempt_id = attempt.id
+            for answer in answers:
+                Answer.objects.create(attempt_id=attempt_id, question_id=answer['question_id'], choice=answer['choice'])
+            attempt.calculate_grade()
+            if attempt is not None:
+                return Response(request.data ,status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 #################################### Examiner Views ####################################

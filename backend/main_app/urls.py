@@ -34,5 +34,5 @@ urlpatterns = [
     # path("examdetail", ExamDetailView.as_view(), name="examdetail"),
     # path("examstart", ExamStartView.as_view(), name="examstart"),
     path("examreview/<int:exam_id>", ExamReviewView.as_view(), name="examreview"),
-    # path("examend", ExamEndView.as_view(), name="examend")
+    path("examend", ExamEndView.as_view(), name="examend")
 ]
