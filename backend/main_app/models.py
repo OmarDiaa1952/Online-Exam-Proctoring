@@ -79,7 +79,7 @@ class Attempt(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     submission_time = models.DateTimeField(auto_now=False, auto_now_add=False)
-    grade = models.IntegerField()
+    grade = models.IntegerField(default=0)
     # Answers = models.TextField()
     # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL     
     def calculate_grade(self):
@@ -89,10 +89,7 @@ class Attempt(models.Model):
         for answer in answers:
             if answer.question.correct_answer == answer.choice:
                 marks += answer.question.marks
-        return marks
-    def save(self, *args, **kwargs):
-        self.grade = self.calculate_grade()
-        super().save(*args, **kwargs)
+        self.grade = marks
     
 class Answer(models.Model):
     attempt = models.ForeignKey(Attempt, on_delete=models.CASCADE, related_name='answers')
