@@ -107,6 +107,10 @@ class ExamReviewView(generics.RetrieveAPIView):
             return Attempt.objects.filter(student_id=student_id, exam_id=exam_id)
         return None
 
+# This class is very ugly, I know. I will refactor it later
+
+
+
 class ExamEndView(APIView):
     parser_classes = [JSONParser]
     permission_classes = (IsAuthenticated,)
