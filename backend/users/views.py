@@ -26,29 +26,13 @@ class StudentRegisterView(generics.CreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentRegisterSerializer   
 
-class PhotoUploadView(APIView):
-    # UPDATEAPI VIEW should be used here
+class PhotoUploadView(generics.UpdateAPIView):
     # this view is responsible for uploading student's photo
     permission_classes = (IsAuthenticated,)
     serializer_class = PhotoUploadSerializer
 
-    def post(self, request, format=None):
-        student_id = request.user.pk
+    def get_object(self):
+        student_id = self.request.user.pk
         if student_id is not None:
-            student = Student.objects.filter(id=student_id).first()
-            student_profile = StudentProfile.objects.filter(user_id=student_id).first()
-            if student is not None:
-                serializer = self.serializer_class(data=request.data)
-                if serializer.is_valid():
-                    serializer.update(student_profile, serializer.validated_data)
-                    return Response(status=status.HTTP_201_CREATED)
-                else:
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response({
-                'status': 'Not Found',
-                'message': 'Student with id {} does not exist.'.format(student_id)
-            }, status=status.HTTP_404_NOT_FOUND)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Student id was not provided.'
-        }, status=status.HTTP_400_BAD_REQUEST)
+            return StudentProfile.objects.filter(user_id=student_id).first()
+        return None

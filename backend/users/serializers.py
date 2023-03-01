@@ -36,7 +36,6 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
         examiner = Examiner.objects.create(**validated_data)
         return examiner
 
-
 #################### Student Serializers ####################
 
 class StudentRegisterSerializer(serializers.ModelSerializer):
