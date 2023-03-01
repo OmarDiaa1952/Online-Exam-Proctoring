@@ -207,31 +207,53 @@ class EnrollmentRequestListView(generics.ListAPIView):
             return EnrollmentRequest.objects.filter(course_id=course_id)
         return None
 
-class EnrollmentRequestAcceptView(APIView):
-    # this view is responsible for accepting an enrollment request and creating new enrollment deatail instance
+class EnrollmentRequestActionView(APIView):
+    # this view is responsible for accepting or rejecting an enrollment request
     lookup_url_kwarg = "request_id"
+    serializer_class = EnrollmentRequestActionSerializer
 
-    def post(self, request, *args, **kwargs):
-        # firstly, we get student_id and course_id from enrollment request
+    def put(self, request, *args, **kwargs):
         request_id = self.kwargs.get(self.lookup_url_kwarg)
+        action = request.data.get('action')
+        serializer = self.serializer_class(data=request.data)
         enrollment_request = EnrollmentRequest.objects.filter(id=request_id).first()
-        student_id = enrollment_request.student_id
-        course_id = enrollment_request.course_id
-        # then, we delete enrollment request
-        enrollment_request.delete()
-        # finally, we create new enrollment detail instance
-        enrollment_detail = EnrollmentDetail.objects.create(student_id=student_id, course_id=course_id)
-        enrollment_detail.save()
-        return Response(status=status.HTTP_200_OK)
+        if enrollment_request is None:
+            return Response("request_id {0} is not correct".format(request_id),status=status.HTTP_404_NOT_FOUND)
+        if serializer.is_valid():
+            if action == 'accept':
+                enrollment_request.accept()
+                return Response(status=status.HTTP_200_OK)
+            elif action == 'reject':
+                enrollment_request.reject()
+                return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        
 
-class EnrollmentRequestRejectView(generics.DestroyAPIView):
-    # this view is responsible for rejecting an enrollment request
-    lookup_url_kwarg = "request_id"
+# class EnrollmentRequestAcceptView(APIView):
+#     # this view is responsible for accepting an enrollment request and creating new enrollment deatail instance
+#     lookup_url_kwarg = "request_id"
 
-    def get_queryset(self):
-        request_id = self.kwargs.get(self.lookup_url_kwarg)
-        if request_id is not None:
-            return EnrollmentRequest.objects.filter(id=request_id)
-        return None
+#     def post(self, request, *args, **kwargs):
+#         # firstly, we get student_id and course_id from enrollment request
+#         request_id = self.kwargs.get(self.lookup_url_kwarg)
+#         enrollment_request = EnrollmentRequest.objects.filter(id=request_id).first()
+#         student_id = enrollment_request.student_id
+#         course_id = enrollment_request.course_id
+#         # then, we delete enrollment request
+#         enrollment_request.delete()
+#         # finally, we create new enrollment detail instance
+#         enrollment_detail = EnrollmentDetail.objects.create(student_id=student_id, course_id=course_id)
+#         enrollment_detail.save()
+#         return Response(status=status.HTTP_200_OK)
+
+# class EnrollmentRequestRejectView(generics.DestroyAPIView):
+#     # this view is responsible for rejecting an enrollment request
+#     lookup_url_kwarg = "request_id"
+
+#     def get_queryset(self):
+#         request_id = self.kwargs.get(self.lookup_url_kwarg)
+#         if request_id is not None:
+#             return EnrollmentRequest.objects.filter(id=request_id)
+#         return None
 
 # class dealing with logs must be added

@@ -25,14 +25,15 @@ urlpatterns = [
     path("questiondelete/<int:pk>", QuestionDeleteView.as_view(), name="deletequestion"),
     path("examinercourselist", ExaminerCourseListView.as_view(), name="examinercourselist"),
     path("enrollmentrequestlist/<int:course_id>", EnrollmentRequestListView.as_view(), name="enrollmentrequestlist"),
-    path("enrollmentrequestaccept/<int:request_id>", EnrollmentRequestAcceptView.as_view(), name="enrollmentrequestaccept"),
-    path("enrollmentrequestreject/<int:request_id>", EnrollmentRequestRejectView.as_view(), name="enrollmentrequestreject"),
+    path("enrollmentrequestaction/<int:request_id>", EnrollmentRequestActionView.as_view(), name="enrollmentrequestaction"),
+    # path("enrollmentrequestaccept/<int:request_id>", EnrollmentRequestAcceptView.as_view(), name="enrollmentrequestaccept"),
+    # path("enrollmentrequestreject/<int:request_id>", EnrollmentRequestRejectView.as_view(), name="enrollmentrequestreject"),
     
     ################### Student URLs ###################
     
     path("studentcourselist", StudentCourseListView.as_view(), name="studentcourselist"),
     path("coursesearch/<str:search_query>", CourseSearchView.as_view(), name="coursesearch"),
-    path("coursejoin", CourseJoinView.as_view(), name="coursejoin"),
+    path("coursejoin/<int:course_id>", CourseJoinView.as_view(), name="coursejoin"),
     path("examreview/<int:exam_id>", ExamReviewView.as_view(), name="examreview"),
     # path("examend", ExamEndView.as_view(), name="examend")
 ]

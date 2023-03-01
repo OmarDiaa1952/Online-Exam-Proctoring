@@ -1,6 +1,19 @@
 from rest_framework import serializers
 from .models import *
 
+########################## Enrollment Serializers ##########################
+
+class EnrollmentRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnrollmentRequest
+        fields = ("course_id", "student_id", "request_date")
+
+class EnrollmentRequestActionSerializer(serializers.Serializer):
+    # field with only two possible values
+    action = serializers.ChoiceField(choices=["accept", "reject"])
+
+    class Meta:
+        fields = ("action",)
 
 ########################## Course Serializers ##########################
 
@@ -30,11 +43,6 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ("id", "name", "description", "examiner_id")
 
-
-class EnrollmentRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EnrollmentRequest
-        fields = ("course_id", "student_id", "request_date")
 
 ########################## Exam Serializers ##########################
 
