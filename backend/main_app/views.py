@@ -44,6 +44,16 @@ class QuestionListView(generics.ListAPIView):
             return Question.objects.filter(exam_id=exam_id)
         return None
 
+class ExamListView(generics.ListAPIView):
+    # this view is responsible for listing all exams of a specific course
+    serializer_class = ExamSerializer
+    lookup_url_kwarg = "course_id"
+
+    def get_queryset(self):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        if course_id is not None:
+            return Exam.objects.filter(course_id=course_id)
+        return None
 
 #################################### Student Views ####################################
 
@@ -184,17 +194,6 @@ class ExaminerCourseListView(generics.ListAPIView):
 
     def get_queryset(self):
         return Course.objects.filter(examiner=self.request.user)
-
-class ExaminerExamListView(generics.ListAPIView):
-    # this view is responsible for listing all exams of a specific course
-    serializer_class = ExamSerializer
-    lookup_url_kwarg = "course_id"
-
-    def get_queryset(self):
-        course_id = self.kwargs.get(self.lookup_url_kwarg)
-        if course_id is not None:
-            return Exam.objects.filter(course_id=course_id)
-        return None
 
 class EnrollmentRequestListView(generics.ListAPIView):
     # this view is responsible for listing all enrollment requests of a specific course
