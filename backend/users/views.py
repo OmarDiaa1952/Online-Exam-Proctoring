@@ -31,6 +31,7 @@ class PhotoUploadView(generics.UpdateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PhotoUploadSerializer
 
+    # gotta use get_object() instead of get_queryset() so lookup_field becomes unrequired
     def get_object(self):
         student_id = self.request.user.pk
         if student_id is not None:
