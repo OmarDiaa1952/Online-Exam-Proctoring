@@ -6,42 +6,25 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
+
+########################### General Views ###########################
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 ########################### Examiner Views ###########################
 
 class ExaminerRegisterView(generics.CreateAPIView):
-    # code needs to be more clean
     # this view is responsible for registering an examiner
     queryset = Examiner.objects.all()
     serializer_class = ExmainerRegisterSerializer
-
-    def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-
 ########################### Student Views ###########################
 
-
 class StudentRegisterView(generics.CreateAPIView):
-    # code needs to be more clean
     # this view is responsible for registering a student
     queryset = Student.objects.all()
-    serializer_class = StudentRegisterSerializer
-
-    def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
+    serializer_class = StudentRegisterSerializer   
 
 class PhotoUploadView(APIView):
     # UPDATEAPI VIEW should be used here

@@ -3,8 +3,11 @@ from .models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import make_password
 
+#################### General Serializers ####################
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    # username_field = User.EMAIL_FIELD #  should edit to enable username or email login
+    
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
@@ -12,7 +15,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         # token['username'] = user.username
         # ...
-
         return token
 
 #################### Examiner Serializers ####################
