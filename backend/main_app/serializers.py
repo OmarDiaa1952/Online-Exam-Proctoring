@@ -122,7 +122,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class QuestionViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ("question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer")
+        fields = ("id", "question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer")
 
 class AnswerSerializer(serializers.ModelSerializer):
     question = QuestionViewSerializer(read_only=True)
@@ -135,3 +135,27 @@ class AttemptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attempt
         fields = ("id", "exam_id", "student_id", "start_time", "submission_time", "grade", "answers")
+
+
+
+
+
+# class AnswerCreateSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Answer
+#         fields = ("question_id", "choice")
+
+# class AttemptCreateSerializer(serializers.ModelSerializer):
+#     answers = AnswerCreateSerializer(many=True)
+#     class Meta:
+#         model = Attempt
+#         fields = ("exam_id", "student_id", "start_time", "submission_time", "answers")
+
+#     def save(self, *args, **kwargs):
+#         pk = self.context['request'].user.pk
+#         self.validated_data['student_id'] = pk
+#         for answer in self.validated_data['answers']:
+#             a = Answer(question_id=answer['question_id'], choice=answer['choice'])
+
+#         super().save(*args, **kwargs)
+
