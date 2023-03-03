@@ -22,7 +22,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class ExmainerRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Examiner
-        fields = ("email", "username", "password")
+        fields = ("email", "username", "password", "first_name", "last_name")
 
     def validate_password(self, value: str) -> str:
         """
@@ -41,7 +41,7 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ("email", "username", "password")
+        fields = ("email", "username", "password", "first_name", "last_name")
     
     def validate_password(self, value: str) -> str:
         return make_password(value)

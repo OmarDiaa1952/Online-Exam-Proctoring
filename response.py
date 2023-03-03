@@ -4,6 +4,19 @@
 
 {
     "responses": [
+        {  # registration response
+            # http 201 created
+            "email": "khalil@mail.com",
+            "username": "khalil",
+            "password": "pbkdf2_sha256$ ...",
+            "first_name": "mahmoud",
+            "last_name": "khalil"
+        },
+        {  # login response && refresh token response
+            # http 200 ok
+            "refresh": "eyJ0eXAiOiJKV1Q ...",
+            "access": "eyJ0eXAiOiJKV1Q ..."
+        },
         {  # course detail response
 
             # http 200 ok
@@ -76,6 +89,14 @@
 
 {
     "requests": [
+        {  # expected request format for registration
+            # POST request 
+            "email": "khalil@mail.com",
+            "username": "khalil",
+            "password": "123",
+            "first_name": "mahmoud",
+            "last_name": "khalil"
+        },
         {  # expected request format for getting a course detail -- transfer to general requests
             # i expect course id to be sent in the url
             # GET request
@@ -84,7 +105,6 @@
             # i expect course id to be sent in the url
             # GET request
         },
-
         {  # expected request format for getting an exam detail
             # i expect exam id to be sent in the url
             # GET request
@@ -104,8 +124,6 @@
 
 
 
-
-
 ############################### examiner ###############################
 
 
@@ -113,17 +131,6 @@
 
 {
     "responses": [
-        {  # registration response
-            # http 201 created
-            "email": "alaa@mail.com",
-            "username": "alaa",
-            "password": "pbkdf2_sha256$ ..."
-        },
-        {  # login response && refresh token response
-            # http 200 ok
-            "refresh": "eyJ0eXAiOiJKV1Q ...",
-            "access": "eyJ0eXAiOiJKV1Q ..."
-        },
         {  # course create response
             # http 201 created
             "name": "selected topics",
