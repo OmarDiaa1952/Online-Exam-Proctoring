@@ -6,7 +6,7 @@ from .views import *
 urlpatterns = [
 
     ################### General URLs ###################
-
+    
     path("coursedetail/<int:course_id>", CourseDetailView.as_view(), name="coursedetail"),
     path("examlist/<int:course_id>", ExamListView.as_view(), name="examlist"),
     path("examdetail/<int:exam_id>", ExamDetailView.as_view(), name="examdetail"),
@@ -26,8 +26,6 @@ urlpatterns = [
     path("examinercourselist", ExaminerCourseListView.as_view(), name="examinercourselist"),
     path("enrollmentrequestlist/<int:course_id>", EnrollmentRequestListView.as_view(), name="enrollmentrequestlist"),
     path("enrollmentrequestaction/<int:request_id>", EnrollmentRequestActionView.as_view(), name="enrollmentrequestaction"),
-    # path("enrollmentrequestaccept/<int:request_id>", EnrollmentRequestAcceptView.as_view(), name="enrollmentrequestaccept"),
-    # path("enrollmentrequestreject/<int:request_id>", EnrollmentRequestRejectView.as_view(), name="enrollmentrequestreject"),
     
     ################### Student URLs ###################
     
