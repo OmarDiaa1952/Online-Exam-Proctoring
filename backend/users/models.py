@@ -49,6 +49,11 @@ class ExaminerProfile(models.Model):
     # pending requests field must be added
     user = models.OneToOneField(Examiner, on_delete=models.CASCADE, related_name='examiner_profile')
 
+    def save(self, *args, **kwargs):
+        # set id to user id before saving
+        self.id = self.user.id
+        super().save()
+
 
 
 ##################### Student Models #####################
