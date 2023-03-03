@@ -38,6 +38,32 @@ class CourseEditSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class CourseDetailSerializer(serializers.ModelSerializer):
+    
+    is_requested = serializers.SerializerMethodField()
+    is_enrolled = serializers.SerializerMethodField()
+
+    def get_is_requested(self, obj):
+        pk = self.context['request'].user.pk
+        return EnrollmentRequest.objects.filter(course_id=obj.id, student_id=pk).exists()
+    
+    def get_is_enrolled(self, obj):
+        pk = self.context['request'].user.pk
+        return EnrollmentDetail.objects.filter(course_id=obj.id, student_id=pk).exists()
+    
+    class Meta:
+        model = Course
+        fields = ("id", "name", "description", "examiner_id", "is_requested", "is_enrolled")
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        user_role = self.context['request'].user.role
+        print(user_role)
+        if user_role == "EXAMINER":
+            data.pop("is_requested")
+            data.pop("is_enrolled")
+        return data
+
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
