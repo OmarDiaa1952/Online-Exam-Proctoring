@@ -13,7 +13,12 @@ function HomeNavigation(props) {
   return (
     <div>
       <GetCourses coursesData={props.coursesData} requestType="getMyCourses" />
-      {userCtx.type === "student" && <GetCourses coursesData={props.coursesData} requestType="getNewCourses" />}
+      {userCtx.type === "student" && (
+        <GetCourses
+          coursesData={props.coursesData}
+          requestType="getNewCourses"
+        />
+      )}
       {userCtx.type === "examiner" && (
         <div>
           <button>
@@ -22,9 +27,7 @@ function HomeNavigation(props) {
         </div>
       )}
       <div>
-        <button>
-          <Link to="/welcome">Logout</Link>
-        </button>
+        <button onClick={() => userCtx.logoutUser()}>Logout</button>
       </div>
     </div>
   );

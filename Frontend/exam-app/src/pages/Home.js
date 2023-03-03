@@ -6,6 +6,7 @@ import UserContext from "../store/user-context";
 function HomePage() {
   let [courses, setCourses] = useState([]);
   let { authTokens, logoutUser } = useContext(UserContext);
+  const userCtx = useContext(UserContext);
 
   useEffect(() => {
     getCourses();
@@ -13,7 +14,7 @@ function HomePage() {
 
   let getCourses = async () => {
     let response = await fetch(
-      "http://localhost:8000/main_app/examinercourselist",
+      "http://localhost:8000/main_app/"+ userCtx.type +"courselist",
       {
         method: "GET",
         headers: {
