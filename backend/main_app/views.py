@@ -5,10 +5,28 @@ from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import filters
 
 from rest_framework.parsers import JSONParser
 
 #################################### General Views ####################################
+
+class CourseListView(generics.ListAPIView):
+    search_fields = ['id','name']
+    filter_backends = (filters.SearchFilter,)
+    serializer_class = CourseSerializer
+    
+    def get_queryset(self):
+        user_id = self.request.user.pk
+        user_role = self.request.user.role
+        if self.request.data['search_all'] == 'true':
+            return Course.objects.all()
+        if user_role == "STUDENT":
+            # this has to be just one query but this is
+            # a turnaround as student model is in another app
+            course_id = EnrollmentDetail.objects.filter(student_id=user_id).values_list('course', flat=True)
+            return Course.objects.filter(id__in=course_id)
+        return Course.objects.filter(examiner_id=user_id)
 
 class CourseDetailView(generics.RetrieveAPIView):
     # this view is responsible for listing all details of a specific course except exams
@@ -19,6 +37,36 @@ class CourseDetailView(generics.RetrieveAPIView):
         course_id = self.kwargs.get(self.lookup_url_kwarg)
         if course_id is not None:
             return Course.objects.filter(id=course_id)
+        return None
+
+# class CourseSearchView(generics.ListAPIView):
+#     search_fields = ['id','name']
+#     filter_backends = (filters.SearchFilter,)
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
+
+# class CourseSearchView(generics.ListAPIView):
+#     # this view is responsible for searching for a course by name or id
+#     serializer_class = CourseSerializer
+#     lookup_url_kwarg = "search_query"
+
+#     def get_queryset(self):
+#         search_query = self.kwargs.get(self.lookup_url_kwarg)
+#         if search_query is not None:
+#             if search_query.isdigit():
+#                 return Course.objects.filter(id=search_query)
+#             return Course.objects.filter(name__icontains=search_query)
+#         return None
+
+class ExamListView(generics.ListAPIView):
+    # this view is responsible for listing all exams of a specific course
+    serializer_class = ExamSerializer
+    lookup_url_kwarg = "course_id"
+
+    def get_queryset(self):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        if course_id is not None:
+            return Exam.objects.filter(course_id=course_id)
         return None
 
 class ExamDetailView(generics.RetrieveAPIView):
@@ -45,44 +93,7 @@ class QuestionListView(generics.ListAPIView):
             return Question.objects.filter(exam_id=exam_id)
         return None
 
-class ExamListView(generics.ListAPIView):
-    # this view is responsible for listing all exams of a specific course
-    serializer_class = ExamSerializer
-    lookup_url_kwarg = "course_id"
-
-    def get_queryset(self):
-        course_id = self.kwargs.get(self.lookup_url_kwarg)
-        if course_id is not None:
-            return Exam.objects.filter(course_id=course_id)
-        return None
-
 #################################### Student Views ####################################
-
-
-class StudentCourseListView(generics.ListAPIView):
-    # this view is responsible for listing all courses of a specific student
-    serializer_class = CourseSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        student_id = self.request.user.pk
-        if student_id is not None:
-            course_id = EnrollmentDetail.objects.filter(student_id=student_id).values_list('course', flat=True)
-            return Course.objects.filter(id__in=course_id)
-        return None
-
-class CourseSearchView(generics.ListAPIView):
-    # this view is responsible for searching for a course by name or id
-    serializer_class = CourseSerializer
-    lookup_url_kwarg = "search_query"
-
-    def get_queryset(self):
-        search_query = self.kwargs.get(self.lookup_url_kwarg)
-        if search_query is not None:
-            if search_query.isdigit():
-                return Course.objects.filter(id=search_query)
-            return Course.objects.filter(name__icontains=search_query)
-        return None
 
 class CourseJoinView(generics.CreateAPIView):
     # this view is responsible for enrolling a student in a course
@@ -107,9 +118,6 @@ class ExamReviewView(generics.RetrieveAPIView):
         return None
 
 # This class is very ugly, I know. I will refactor it later
-
-
-
 class ExamEndView(APIView):
     parser_classes = [JSONParser]
     permission_classes = (IsAuthenticated,)
@@ -132,9 +140,7 @@ class ExamEndView(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
 #################################### Examiner Views ####################################
-
 
 class CourseCreateView(generics.CreateAPIView):
     # this view is responsible for creating a course
@@ -211,13 +217,6 @@ class QuestionDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Question.objects.filter(id=pk)
-
-class ExaminerCourseListView(generics.ListAPIView):
-    # this view is responsible for listing all courses of a specific examiner
-    serializer_class = CourseSerializer
-
-    def get_queryset(self):
-        return Course.objects.filter(examiner=self.request.user)
 
 class EnrollmentRequestListView(generics.ListAPIView):
     # this view is responsible for listing all enrollment requests of a specific course

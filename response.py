@@ -17,6 +17,19 @@
             "refresh": "eyJ0eXAiOiJKV1Q ...",
             "access": "eyJ0eXAiOiJKV1Q ..."
         },
+        {  # course list response
+            # http 200 ok
+            [
+                {
+                    "id": 1,
+                    "name": "web"
+                },
+                {
+                    "id": 2,
+                    "name": "js"
+                }
+            ]       
+        },
         {  # course detail response
 
             # http 200 ok
@@ -97,6 +110,37 @@
             "first_name": "mahmoud",
             "last_name": "khalil"
         },
+        {  # expected request format for getting course list
+            # GET request
+            # and search_all = true or any other value
+
+            # here we have four cases to consider:
+
+            #first: 
+            # if search_all = true
+            # and ?search= is sent in the url
+            # then search with filtering will take place
+            # in all courses in db
+            # using id and name fields
+
+            #second:
+            # if search_all = true
+            # and ?search= is not sent in the url
+            # then all courses in the db will be returned
+
+            #third:
+            # if search_all = false [or any other value]
+            # and ?search= is sent in the url
+            # then the response will be filtered by the search value
+            # in courses in db for a specific user
+
+            #fourth:
+            # if search_all = false [or any other value]
+            # and ?search= is not sent in the url
+            # then all courses in the db 
+            # for a specific user will be returned
+
+        },
         {  # expected request format for getting a course detail -- transfer to general requests
             # i expect course id to be sent in the url
             # GET request
@@ -173,19 +217,6 @@
         },
         {  # question delete response
             # http 204 no content with no body
-        },
-        {  # examiner course list response
-            # http 200 ok
-            [
-                {
-                    "id": 1,
-                    "name": "gpp",
-                },
-                {
-                    "id": 3,
-                    "name": "selected topics",
-                }
-            ]
         },
         {  # enrollment request list response
             # http 200 ok
@@ -278,9 +309,6 @@
             # i expect question id to be sent in the url
             # DELETE request
         },
-        {  # expected request format for getting a list of courses for an examiner
-            # GET request
-        },
         {  # expected request format for getting enrollment request list for a course
             # i expect course id to be sent in the url
             # GET request
@@ -301,48 +329,6 @@
 
 {
     "responses": [
-        {  # course list response
-            # http 200 ok
-            [
-                {
-                    "id": 1,
-                    "name": "gpp",
-                },
-                {
-                    "id": 3,
-                    "name": "selected topics",
-                }
-            ]
-        },
-        {  # course search response
-           # http 200 ok
-            [
-                {
-                    "id": 4,
-                    "name": "big data",
-                    "description": "big data course",
-                    "examiner_id": 2
-                },
-                {
-                    "id": 5,
-                    "name": "data analysis",
-                    "description": "hhh",
-                    "examiner_id": 2
-                },
-                {
-                    "id": 6,
-                    "name": "data science",
-                    "description": "ds",
-                    "examiner_id": 2
-                },
-                {
-                    "id": 7,
-                    "name": "DATABASE",
-                    "description": "db",
-                    "examiner_id": 2
-                }
-            ]
-        },
         {  # course join response
             # http 201 created
             "course_id": 1,
@@ -386,16 +372,9 @@
 
 {
     "requests": [
-        {  # expected request format for getting a list of courses for a student
-            # GET request
-        },
         {  # expected request for join course
             # i expect course id to be sent in the url
             # POST request
-        },
-        {  # expected request for search course
-            # i expect course name or id to be sent in the url
-            # GET request
         },
         {  # expected request for review exam
             # i expect exam id to be sent in the url
