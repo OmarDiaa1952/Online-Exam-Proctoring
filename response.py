@@ -10,7 +10,11 @@
             "id": 1,
             "name": "gpp",
             "description": "grad proj v3",
-            "examiner_id": 2
+            "examiner_id": 2,
+            "is_requested": 'true',
+            "is_enrolled": 'false'
+            # the last two field are only sent in case
+            # of a student requesting the course detail
         },
         {  # exam list response
             # http 200 ok
