@@ -100,7 +100,12 @@ DATABASES = {
         'PASSWORD': 'admin',
         'HOST': '127.0.0.1',
         'PORT': '5432'
-    }
+    } # sudo -u postgres psql
+      # \c <dbname>
+      # \dt --lists all tables
+      # \d -- describes a table
+      # \q -- quit
+
 }
 
 
