@@ -23,7 +23,7 @@
             "id": 1,
             "name": "gpp",
             "description": "grad proj v3",
-            "examiner_id": 2,
+            "examiner": "watheq alkharashi",
             "is_requested": 'true',
             "is_enrolled": 'false'
             # the last two field are only sent in case
@@ -180,14 +180,10 @@
                 {
                     "id": 1,
                     "name": "gpp",
-                    "description": "grad proj v3",
-                    "examiner_id": 2
                 },
                 {
                     "id": 3,
                     "name": "selected topics",
-                    "description": "boring courseV2",
-                    "examiner_id": 2
                 }
             ]
         },
@@ -311,14 +307,10 @@
                 {
                     "id": 1,
                     "name": "gpp",
-                    "description": "grad proj v3",
-                    "examiner_id": 2
                 },
                 {
                     "id": 3,
                     "name": "selected topics",
-                    "description": "boring courseV2",
-                    "examiner_id": 2
                 }
             ]
         },

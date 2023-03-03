@@ -42,6 +42,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     
     is_requested = serializers.SerializerMethodField()
     is_enrolled = serializers.SerializerMethodField()
+    examiner = serializers.SerializerMethodField()
 
     def get_is_requested(self, obj):
         pk = self.context['request'].user.pk
@@ -51,14 +52,17 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         pk = self.context['request'].user.pk
         return EnrollmentDetail.objects.filter(course_id=obj.id, student_id=pk).exists()
     
+    def get_examiner(self, obj):
+        # get examiner first_name and last_name from course table using select related
+        return obj.examiner.first_name + " " + obj.examiner.last_name
+
     class Meta:
         model = Course
-        fields = ("id", "name", "description", "examiner_id", "is_requested", "is_enrolled")
+        fields = ("id", "name", "description", "examiner", "is_requested", "is_enrolled")
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         user_role = self.context['request'].user.role
-        print(user_role)
         if user_role == "EXAMINER":
             data.pop("is_requested")
             data.pop("is_enrolled")
@@ -67,7 +71,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ("id", "name", "description", "examiner_id")
+        fields = ("id", "name")
 
 
 ########################## Exam Serializers ##########################
