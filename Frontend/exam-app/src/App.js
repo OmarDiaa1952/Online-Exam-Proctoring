@@ -13,6 +13,7 @@ import LogFilePage from "./pages/LogFile";
 import ReviewExamPage from "./pages/ReviewExam";
 import PreviewExamPage from "./pages/PreviewExam";
 import PrivateRoute from "./utils/PrivateRoute";
+import Camera from "./utils/Camera";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
       <Route path="/review-exam" exact element={<ReviewExamPage />} />
       <Route path="/Preview-exam" exact element={<PreviewExamPage />} />
       <Route path="/log-file" exact element={<LogFilePage />} />
+      <Route path="/camera" exact element={<Camera />} />
     </Routes>
   );
 }
