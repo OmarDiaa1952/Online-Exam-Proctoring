@@ -16,14 +16,26 @@ function RegistrationPage() {
     console.log("Registration successful!");
     fetch("http://localhost:8000/users/" + req, {
       method: "POST",
-      body: JSON.stringify(registerData),
+      body: JSON.stringify(registerData.mainData),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(() => {
-      console.log(JSON.stringify(registerData));
-      history("/welcome");
-    });
+    })
+      .then(() => {
+        if (req === "studentregister") {
+          fetch("http://localhost:8000/users/photoupload", {
+            method: "PUT",
+            body: JSON.stringify(registerData.imageDataURL),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        }
+      })
+      .then(() => {
+        console.log(JSON.stringify(registerData));
+        history("/welcome");
+      });
   }
 
   return (
