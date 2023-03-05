@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import CourseInfo from "../components/CourseInfo";
 import ExamsComponentsList from "../components/ExamsComponentsList";
@@ -31,11 +31,59 @@ function CoursePage() {
       title: "Exam 3",
     },
   ];
+  const location = useLocation();
+  const courseId = location.state;
+  let [courseDetails, setCourseDetails] = useState([]);
+  let [examsList, setExamsList] = useState([]);
+  useEffect(() => {
+    getCourseDetails();
+    getExamsList();
+  }, []);
+
+  let getCourseDetails = async () => {
+    let response = await fetch(
+      "http://localhost:8000/main_app/coursedetail/" + courseId,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(userCtx.authTokens.access),
+        },
+      }
+    );
+    let data = await response.json();
+
+    if (response.status === 200) {
+      setCourseDetails(data);
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
+  let getExamsList = async () => {
+    let response = await fetch(
+      "http://localhost:8000/main_app/examlist/" + courseId,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(userCtx.authTokens.access),
+        },
+      }
+    );
+    let data = await response.json();
+
+    if (response.status === 200) {
+      setCourseDetails(data);
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
 
   return (
     <section>
-      <CourseInfo courseData={DUMMY_DATA1} />
-      <ExamsComponentsList components={DUMMY_DATA2} />
+      <CourseInfo courseData={courseDetails} />
+      <ExamsComponentsList components={examsList} />
       {userCtx.type === "examiner" && (
         <div>
           <div>
@@ -44,7 +92,7 @@ function CoursePage() {
             </Link>
           </div>
           <div>
-            <Link to="/modify-course">
+            <Link to="/modify-course" state={courseId}>
               <button type="button">Edit</button>
             </Link>
           </div>
