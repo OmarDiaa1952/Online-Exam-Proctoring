@@ -8,11 +8,9 @@ function StudentAdmission(props) {
   const removeHandler = () => {
     console.log("Remove");
   };
-  const approveHandler = () => {
-    console.log("Approve");
-  };
-  const declineHandler = () => {
-    console.log("Decline");
+  const requestHandler = (request_id, requestType) => {
+    console.log(requestType);
+    props.onJoinRequest(request_id, requestType);
   };
   const approveAllHandler = () => {
     console.log("Approve All");
@@ -48,7 +46,7 @@ function StudentAdmission(props) {
       </div>
       <div>
         <h2>Enrolled Students:</h2>
-        <ol>
+        {/* <ol>
           {props.studentsData.enrolledStudents.map((student) => (
             <li key={student.studentEmail}>
               <span>{student.studentEmail}</span>
@@ -57,7 +55,7 @@ function StudentAdmission(props) {
               </span>
             </li>
           ))}
-        </ol>
+        </ol> */}
       </div>
       <div>
         <div>
@@ -66,14 +64,22 @@ function StudentAdmission(props) {
             <button onClick={approveAllHandler}>Approve All</button>
           </div>
           <ol>
-            {props.studentsData.pendingStudents.map((student) => (
-              <li key={student.studentEmail}>
-                <span>{student.studentEmail}</span>
+            {props.studentsData.map((student) => (
+              <li key={student.student_id}>
+                <span>{student.student_id}</span>
                 <span>
-                  <button onClick={approveHandler}>Approve</button>
+                  <button
+                    onClick={() => requestHandler(student.request_id, "accept")}
+                  >
+                    Approve
+                  </button>
                 </span>
                 <span>
-                  <button onClick={declineHandler}>Decline</button>
+                  <button
+                    onClick={() => requestHandler(student.request_id, "reject")}
+                  >
+                    Decline
+                  </button>
                 </span>
               </li>
             ))}

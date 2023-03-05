@@ -1,44 +1,20 @@
-import { useContext, useRef } from "react";
-
 import classes from "./ModifyCourseDetails.module.css";
-import UserContext from "../store/user-context";
-import CourseContext from "../store/course-context";
 
 function ModifyCourseDetails(props) {
-  const userCtx = useContext(UserContext);
-  const courseCtx = useContext(CourseContext);
-
-  const nameInputRef = useRef();
-  const descriptionInputRef = useRef();
-  const enrollmentOptionInputRef = useRef();
-
-  function submitHandler(event) {
-    event.preventDefault();
-
-    const enteredName = nameInputRef.current.value;
-    const enteredDescription = descriptionInputRef.current.value;
-    const enteredEnrollmentOption = enrollmentOptionInputRef.current.value;
-
-    let courseData = {
-      requestType: courseCtx.newCourseFlag ? "addCourse"  : "modifyCourse",
-      examinerName: userCtx.email,
-      courseName: enteredName,
-      description: enteredDescription,
-      enrollmentOption: enteredEnrollmentOption,
-    };
-
-    props.onSave(courseData);
-  }
 
   return (
-    <form onSubmit={submitHandler} >
+    <form onSubmit={props.onSave} >
       <div>
-        <label htmlFor="courseName">Course Name</label>
-        <input type="text" id="courseName" />
+        <label htmlFor="name">Course Name</label>
+        <input type="text" id="name" defaultValue={props.courseDetails.name} />
+      </div>
+      <div>
+        <label htmlFor="id">Course Id</label>
+        <input type="text" id="id" value={props.courseDetails.id} readonly="true" />
       </div>
       <div>
         <label htmlFor="description">Description</label>
-        <textarea id="description" rows="5" />
+        <textarea id="description" rows="5" defaultValue={props.courseDetails.description} />
       </div>
       <div>
         <div>

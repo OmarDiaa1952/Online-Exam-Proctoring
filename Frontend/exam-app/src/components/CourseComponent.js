@@ -8,12 +8,12 @@ function CourseComponent(props) {
   const userCtx = useContext(UserContext);
   let registered = false;
   if(userCtx.type === "examiner") registered = true;
-  const myData = {
-    courseId: props.courseData.id,
-  }
+  // const myData = {
+  //   courseId: props.courseData.id,
+  // }
   return (
     <li key={props.courseData.courseId}>
-      <Link to={registered ? "/course" : "/course-details"} state={myData} >
+      <Link to={registered ? "/course" : "/course-details"} state={props.courseData.id} >
         <div>{props.courseData.name}</div>
         <div>ID: {props.courseData.id}</div>
       </Link>
