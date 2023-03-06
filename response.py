@@ -364,6 +364,10 @@
         {   # End Exam response
             # http 200 ok            
         },
+        { # photo retrieve response
+            # http 200 ok
+            "photo": "the image"
+        }
 
     ]
 }
@@ -391,6 +395,9 @@
                     "choice": 2
                 }
             ]
+        },
+        {  # expected request for photo retrieve
+            # GET request
         },
     ]
 }
