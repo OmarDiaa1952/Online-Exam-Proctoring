@@ -50,7 +50,7 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         student = Student.objects.create(**validated_data)
         return student
 
-class PhotoUploadSerializer(serializers.ModelSerializer):
+class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentProfile
         fields = ("photo",)

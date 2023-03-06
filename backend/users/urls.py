@@ -8,4 +8,5 @@ urlpatterns = [
     path("examinerregister", ExaminerRegisterView.as_view(), name="ExaminerRegister"),
     path("studentregister", StudentRegisterView.as_view(), name="StudentRegister"),
     path("photoupload", PhotoUploadView.as_view(), name="PhotoUpload"),
+    path("photoretrieve", PhotoRetrieve.as_view(), name="PhotoRetrieve"),
 ]

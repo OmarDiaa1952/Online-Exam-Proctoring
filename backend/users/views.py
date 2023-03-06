@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework import generics, status
 from .serializers import *
 from .models import *
@@ -29,7 +30,7 @@ class StudentRegisterView(generics.CreateAPIView):
 class PhotoUploadView(generics.UpdateAPIView):
     # this view is responsible for uploading student's photo
     permission_classes = (IsAuthenticated,)
-    serializer_class = PhotoUploadSerializer
+    serializer_class = PhotoSerializer
 
     # gotta use get_object() instead of get_queryset() so lookup_field becomes unrequired
     def get_object(self):
@@ -37,3 +38,25 @@ class PhotoUploadView(generics.UpdateAPIView):
         if student_id is not None:
             return StudentProfile.objects.filter(user_id=student_id).first()
         return None
+    
+# class PhotoRetrieve(generics.RetrieveAPIView):
+#     # this view is responsible for retrieving student's photo
+#     permission_classes = (IsAuthenticated,)
+#     serializer_class = PhotoSerializer
+
+#     def get_object(self):
+#         student_id = self.request.user.pk
+#         if student_id is not None:
+#             return StudentProfile.objects.filter(user_id=student_id).first()
+#         return None
+
+class PhotoRetrieve(APIView):
+    # this view is responsible for retrieving student's photo
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        student_id = self.request.user.pk
+        if student_id is not None:
+            photo = StudentProfile.objects.get(user_id=student_id).photo
+            return HttpResponse(photo, content_type="image/png", status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
