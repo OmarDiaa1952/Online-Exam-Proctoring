@@ -7,6 +7,8 @@ function HomePage() {
   let [courses, setCourses] = useState([]);
   let { authTokens, logoutUser } = useContext(UserContext);
   const userCtx = useContext(UserContext);
+  userCtx.setCourseId(null);
+  userCtx.setExamId(null);
 
   useEffect(() => {
     getCourses();
@@ -31,21 +33,6 @@ function HomePage() {
       logoutUser();
     }
   };
-
-  const DUMMY_DATA = [
-    {
-      courseId: "c1",
-      courseName: "Course 1",
-    },
-    {
-      courseId: "c2",
-      courseName: "Course 2",
-    },
-    {
-      courseId: "c3",
-      courseName: "Course 3",
-    },
-  ];
 
   return (
     <div>

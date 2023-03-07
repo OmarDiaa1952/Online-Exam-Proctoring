@@ -1,0 +1,19 @@
+users:
+studentregister
+examinerregister
+api/token/refresh/
+api/token/
+photoupload
+
+main_app:
+examinercourselist
+studentcourselist
+coursedetail
+coursejoin
+courseedit
+coursecreate
+coursedelete
+enrollmentrequestlist
+
+required to add:
+joinnewcourses

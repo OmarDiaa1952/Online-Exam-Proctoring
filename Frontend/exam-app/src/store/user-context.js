@@ -6,7 +6,7 @@ const UserContext = createContext();
 
 export default UserContext;
 
-export function UserContextProvider({children}) {
+export function UserContextProvider({ children }) {
   let [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
@@ -18,10 +18,30 @@ export function UserContextProvider({children}) {
       : null
   );
   let [loading, setLoading] = useState(true);
-  const [userType, setUserType] = useState("student");
+  const [userType, setUserType] = useState(() =>
+    localStorage.getItem("userType")
+      ? localStorage.getItem("userType")
+      : "student"
+  );
+  const [courseId, setCourseId] = useState(() =>
+    localStorage.getItem("courseId") ? localStorage.getItem("courseId") : null
+  );
+  const [examId, setExamId] = useState(() =>
+    localStorage.getItem("examId") ? localStorage.getItem("examId") : null
+  );
 
   function setUserTypeHandler(type) {
     setUserType(type);
+  }
+
+  function setCourseIdHandler(id) {
+    setCourseId(id);
+    localStorage.setItem("courseId", id);
+  }
+
+  function setExamIdHandler(id) {
+    setExamId(id);
+    localStorage.setItem("examId", id);
   }
 
   const history = useNavigate();
@@ -42,7 +62,12 @@ export function UserContextProvider({children}) {
     if (response.status === 200) {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
+      setCourseId(null);
+      setExamId(null);
       localStorage.setItem("authTokens", JSON.stringify(data));
+      localStorage.setItem("userType", userType);
+      localStorage.setItem("courseId", null);
+      localStorage.setItem("examId", null);
       history("/");
     } else {
       alert("Something went wrong!");
@@ -53,18 +78,24 @@ export function UserContextProvider({children}) {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
+    localStorage.removeItem("userType");
+    localStorage.removeItem("courseId");
+    localStorage.removeItem("examId");
     history("/welcome");
   };
 
   let updateToken = async () => {
     console.log("Updating token");
-    let response = await fetch("http://localhost:8000/users/api/token/refresh/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refresh: authTokens?.refresh }),
-    });
+    let response = await fetch(
+      "http://localhost:8000/users/api/token/refresh/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refresh: authTokens?.refresh }),
+      }
+    );
 
     let data = await response.json();
 
@@ -84,9 +115,14 @@ export function UserContextProvider({children}) {
     user: user,
     authTokens: authTokens,
     type: userType,
+    courseId: courseId,
+    examId: examId,
     loginUser: loginUser,
     logoutUser: logoutUser,
     setUserType: setUserTypeHandler,
+    setAuthTokens: setAuthTokens,
+    setCourseId: setCourseIdHandler,
+    setExamId: setExamIdHandler,
   };
 
   useEffect(() => {

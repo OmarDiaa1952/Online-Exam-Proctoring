@@ -1,4 +1,4 @@
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
 import ModifyCourseDetails from "../components/ModifyCourseDetails";
@@ -14,9 +14,8 @@ function ModifyCoursePage() {
   let [enrollmentRequests, setEnrollmentRequests] = useState([]);
 
   let crsId = "";
-  const location = useLocation();
   if (!courseCtx.newCourseFlag) {
-    var courseId = location.state;
+    var courseId = userCtx.courseId;
     crsId = "/" + courseId;
   }
 

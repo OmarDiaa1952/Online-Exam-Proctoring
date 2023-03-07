@@ -1,6 +1,10 @@
 import ExamQuestions from "../components/ExamQuestions";
+import { useContext } from "react";
+
+import UserContext from "../store/user-context";
 
 function ExamPage() {
+  const userCtx = useContext(UserContext);
   const DUMMY_DATA = [
     {
       questionId: "1",

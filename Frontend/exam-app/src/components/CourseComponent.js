@@ -8,15 +8,12 @@ function CourseComponent(props) {
   const userCtx = useContext(UserContext);
   let registered = false;
   if(userCtx.type === "examiner") registered = true;
-  // const myData = {
-  //   courseId: props.courseData.id,
-  // }
   return (
-    <li key={props.courseData.courseId}>
-      <Link to={registered ? "/course" : "/course-details"} state={props.courseData.id} >
+    <li key={props.courseData.id}>
+      <button onClick={()=>{userCtx.setCourseId(props.courseData.id)}}><Link to={registered ? "/course" : "/course-details"}>
         <div>{props.courseData.name}</div>
         <div>ID: {props.courseData.id}</div>
-      </Link>
+      </Link></button>
     </li>
   );
 }

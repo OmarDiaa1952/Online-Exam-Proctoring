@@ -5,13 +5,18 @@ import classes from "./ExamComponent.module.css";
 import UserContext from "../store/user-context";
 
 function ExamComponent(props) {
-    const userCtx = useContext(UserContext);
+  console.log(props);
+  const userCtx = useContext(UserContext);
   return (
     <div>
-      <div>
-        <Link to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}>{props.title}</Link>
+      <button onClick={()=>userCtx.setExamId(props.id)}>
+        <Link
+          to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}
+        >
+          {props.name}
+        </Link>
         {userCtx.type === "examiner" && <button type="button">Delete</button>}
-      </div>
+      </button>
     </div>
   );
 }
