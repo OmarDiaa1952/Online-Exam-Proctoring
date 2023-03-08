@@ -3,13 +3,10 @@ import { useContext } from "react";
 
 import classes from "./HomeNavigation.module.css";
 import UserContext from "../store/user-context";
-import CourseContext from "../store/course-context";
 import GetCourses from "./GetCourses";
 
 function HomeNavigation(props) {
   const userCtx = useContext(UserContext);
-  const courseCtx = useContext(CourseContext);
-  courseCtx.setNewCourseFlag(true);
   return (
     <div>
       <GetCourses coursesData={props.coursesData} requestType="getMyCourses" />

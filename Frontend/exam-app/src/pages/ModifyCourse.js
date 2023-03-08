@@ -3,18 +3,16 @@ import { useContext, useEffect, useState } from "react";
 
 import ModifyCourseDetails from "../components/ModifyCourseDetails";
 import StudentAdmission from "../components/StudentAdmission";
-import CourseContext from "../store/course-context";
 import UserContext from "../store/user-context";
 
 function ModifyCoursePage() {
   const history = useNavigate();
-  const courseCtx = useContext(CourseContext);
   const userCtx = useContext(UserContext);
   let [courseDetails, setCourseDetails] = useState([]);
   let [enrollmentRequests, setEnrollmentRequests] = useState([]);
 
   let crsId = "";
-  if (!courseCtx.newCourseFlag) {
+  if (userCtx.courseId) {
     var courseId = userCtx.courseId;
     crsId = "/" + courseId;
   }
@@ -25,7 +23,7 @@ function ModifyCoursePage() {
   }, []);
 
   let getCourseDetails = async () => {
-    if (!courseCtx.newCourseFlag) {
+    if (userCtx.courseId) {
       let response = await fetch(
         "http://localhost:8000/main_app/coursedetail" + crsId,
         {
@@ -50,7 +48,7 @@ function ModifyCoursePage() {
     e.preventDefault();
     let req = "courseedit";
     let reqMethod = "PUT";
-    if (courseCtx.newCourseFlag) {
+    if (!userCtx.courseId) {
       req = "coursecreate";
       reqMethod = "POST";
     }
@@ -68,9 +66,9 @@ function ModifyCoursePage() {
         }),
       }
     );
-    if (response.status === 201 && courseCtx.newCourseFlag) {
+    if (response.status === 201 && !userCtx.courseId) {
       history("/course");
-    } else if (response.status === 200 && !courseCtx.newCourseFlag) {
+    } else if (response.status === 200 && userCtx.courseId) {
       history("/");
     } else {
       alert("Something went wrong!");
@@ -78,7 +76,7 @@ function ModifyCoursePage() {
   };
 
   let getEnrollmentRequests = async () => {
-    let response = await fetch(
+    if(userCtx.courseId) {let response = await fetch(
       "http://localhost:8000/main_app/enrollmentrequestlist" + crsId,
       {
         method: "GET",
@@ -94,7 +92,7 @@ function ModifyCoursePage() {
       setEnrollmentRequests(data);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
-    }
+    }}
   };
 
   let requestHandler = async (request_id, requestType) => {
@@ -149,7 +147,7 @@ function ModifyCoursePage() {
         onJoinRequest={requestHandler}
       />
       <div>
-        <Link to={courseCtx.newCourseFlag ? "/" : "/course"} state={courseId}>
+        <Link to={userCtx.courseId ? "/course" : "/"}>
           <button type="button">Back</button>
         </Link>
       </div>
