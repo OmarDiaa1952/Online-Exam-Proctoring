@@ -6,7 +6,7 @@ function CoursesComponentsList(props) {
     <div>
       <ul>
         {props.coursesData.map((courseData) => (
-          <CourseComponent courseData={courseData} />
+          <CourseComponent courseData={courseData} key={courseData.id} />
         ))}
       </ul>
     </div>
