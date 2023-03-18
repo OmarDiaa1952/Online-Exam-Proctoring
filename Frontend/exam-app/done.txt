@@ -14,6 +14,12 @@ courseedit
 coursecreate
 coursedelete
 enrollmentrequestlist
+examedit
+examcreate
+examdetail
+examlist
+examdelete
+questioncreate
 
 required to add:
 joinnewcourses
