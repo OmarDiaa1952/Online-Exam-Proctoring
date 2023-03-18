@@ -6,12 +6,12 @@ function Choice(props) {
             <input
                 type="radio"
                 name={props.questionId}
-                value={props.choiceId}
-                onChange={props.onChoiceChange}
+                value={props.choice}
+                // onChange={props.onChoiceChange}
                 defaultChecked={props.isChecked}
                 disabled={!props.editable}
             />
-            <label>{props.choiceText}</label>
+            <label>{props.choice}</label>
         </div>
     );
 }
