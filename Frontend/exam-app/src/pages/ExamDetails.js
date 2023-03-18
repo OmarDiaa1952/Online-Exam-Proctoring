@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ExamInfo from "../components/ExamInfo";
@@ -6,17 +6,36 @@ import UserContext from "../store/user-context";
 
 function ExamDetailsPage() {
   const userCtx = useContext(UserContext);
-  const email = userCtx.email;
-  const DUMMY_DATA = {
-    startDate: "2021-05-01",
-    endDate: "2021-05-31",
-    examDuration: "2:00",
-    maxGrade: 100,
-    studentGrade: 0,
+  const examId = userCtx.examId;
+  let [examDetails, setExamDetails] = useState([]);
+
+  useEffect(() => {
+    getExamDetails();
+  }, []);
+
+  let getExamDetails = async () => {
+    if (examId) {
+      let response = await fetch(
+        "http://localhost:8000/main_app/examdetail/" + examId,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(userCtx.authTokens.access),
+          },
+        }
+      );
+      let data = await response.json();
+      if (response.status === 200) {
+        setExamDetails(data);
+      } else if (response.statusText === "Unauthorized") {
+        userCtx.logoutUser();
+      }
+    }
   };
   return (
     <section>
-      <ExamInfo examData={DUMMY_DATA} />
+      <ExamInfo examData={examDetails} />
       <div>
         <Link to="/exam">
           <button type="button">Start Exam</button>
