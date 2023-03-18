@@ -1,25 +1,22 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import CourseInfo from "../components/CourseInfo";
 import ExamsComponentsList from "../components/ExamsComponentsList";
 import UserContext from "../store/user-context";
-import CourseContext from "../store/course-context";
 
 function CoursePage() {
   const userCtx = useContext(UserContext);
-  const courseCtx = useContext(CourseContext);
-  courseCtx.setNewCourseFlag(false);
-  courseCtx.setNewExamFlag(true);
   userCtx.setExamId(null);
   const courseId = userCtx.courseId;
+  const history = useNavigate();
 
   let [courseDetails, setCourseDetails] = useState([]);
   let [examsList, setExamsList] = useState([]);
   useEffect(() => {
     getCourseDetails();
     getExamsList();
-  }, []);
+  }, [examsList]);
 
   let getCourseDetails = async () => {
     let response = await fetch(
@@ -60,10 +57,28 @@ function CoursePage() {
     }
   };
 
+  let deleteExamHandler = async (id) => {
+    let response = await fetch(
+      "http://localhost:8000/main_app/examdelete/" + id,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(userCtx.authTokens.access),
+        },
+      }
+    );
+    if (response.status === 204) {
+      history("/course");
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
   return (
     <section>
       <CourseInfo courseData={courseDetails} />
-      <ExamsComponentsList components={examsList} />
+      <ExamsComponentsList components={examsList} onDelete={deleteExamHandler} />
       {userCtx.type === "examiner" && (
         <div>
           <div>
