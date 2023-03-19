@@ -25,7 +25,7 @@ const QuestionEdit = forwardRef((props, ref) => {
       {
         id: props.qNumber,
         question_text: questionTextRef.current.value,
-        marks: questionGrade,
+        marks: Number(questionGrade),
         choice_1: choice1Text,
         choice_2: choice2Text,
         choice_3: choice3Text,
@@ -40,7 +40,7 @@ const QuestionEdit = forwardRef((props, ref) => {
       {
         id: props.qNumber,
         question_text: questionText,
-        marks: questionGradeRef.current.value,
+        marks: Number(questionGradeRef.current.value),
         choice_1: choice1Text,
         choice_2: choice2Text,
         choice_3: choice3Text,
@@ -55,7 +55,7 @@ const QuestionEdit = forwardRef((props, ref) => {
       {
         id: props.qNumber,
         question_text: questionText,
-        marks: questionGrade,
+        marks: Number(questionGrade),
         choice_1: choiceText,
         choice_2: choice2Text,
         choice_3: choice3Text,
@@ -70,7 +70,7 @@ const QuestionEdit = forwardRef((props, ref) => {
       {
         id: props.qNumber,
         question_text: questionText,
-        marks: questionGrade,
+        marks: Number(questionGrade),
         choice_1: choice1Text,
         choice_2: choiceText,
         choice_3: choice3Text,
@@ -85,7 +85,7 @@ const QuestionEdit = forwardRef((props, ref) => {
       {
         id: props.qNumber,
         question_text: questionText,
-        marks: questionGrade,
+        marks: Number(questionGrade),
         choice_1: choice1Text,
         choice_2: choice2Text,
         choice_3: choiceText,
@@ -100,7 +100,7 @@ const QuestionEdit = forwardRef((props, ref) => {
       {
         id: props.qNumber,
         question_text: questionText,
-        marks: questionGrade,
+        marks: Number(questionGrade),
         choice_1: choice1Text,
         choice_2: choice2Text,
         choice_3: choice3Text,
@@ -115,7 +115,7 @@ const QuestionEdit = forwardRef((props, ref) => {
       {
         id: props.qNumber,
         question_text: questionText,
-        marks: questionGrade,
+        marks: Number(questionGrade),
         choice_1: choice1Text,
         choice_2: choice2Text,
         choice_3: choice3Text,

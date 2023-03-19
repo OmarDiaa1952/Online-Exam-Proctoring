@@ -88,7 +88,7 @@ function EditExamPage() {
     }
   };
 
-  let questionChangeHandler = async (question) => {
+  let questionChangeHandler = async (question, newQuestionFlag) => {
     if(examId) {
       let oldQuestion = examQuestions.find(q => q.id === question.id);
       let editedQuestion = {
@@ -106,11 +106,11 @@ function EditExamPage() {
     }
     console.log("questionChangeHandler");
     console.log(question);
-    const sub_url = examId
+    const sub_url = (examId && !newQuestionFlag)
       ? "questionedit/" + question.id
       : "questioncreate";
     let response = await fetch("http://localhost:8000/main_app/" + sub_url, {
-      method: examId ? "PUT" : "POST",
+      method: (examId && !newQuestionFlag) ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + String(userCtx.authTokens.access),
@@ -130,7 +130,11 @@ function EditExamPage() {
     questions.forEach((question) => {
       console.log(question.id);
       if (editedQuestionsIds.some((id) => question.id === id)) {
-        questionChangeHandler(question);
+        let newQuestionFlag = true;
+        if(examQuestions.some(q => q.id === question.id)) {
+          newQuestionFlag = false;
+        }
+        questionChangeHandler(question, newQuestionFlag);
       }
     });
   };

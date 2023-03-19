@@ -30,11 +30,11 @@ function ExamQuestionsEdit(props) {
   const setOldQuestions = () => {
     console.log("setOldQuestions");
     console.log(props.questions);
-    props.questions.forEach((question) => {
+    props.questions.forEach((question, index) => {
       setQuestions((oldData) => [
         ...oldData,
         <QuestionEdit
-          key={tempKey}
+          key={index}
           qNumber={question.id}
           questionText={question.question_text}
           questionGrade={question.marks}
@@ -61,7 +61,7 @@ function ExamQuestionsEdit(props) {
         if (props.questions[i].id + 0 > initialKey)
           initialKey = props.questions[i].id;
       }
-      setTempKey(initialKey);
+      setTempKey(initialKey + 1);
     }
   };
   useEffect(() => {
@@ -147,6 +147,7 @@ function ExamQuestionsEdit(props) {
       />,
     ]);
     setTempKey(tempKey + 1);
+    console.log(tempKey);
   };
 
   return (
