@@ -90,38 +90,32 @@ function EditExamPage() {
 
   let questionChangeHandler = async (question) => {
     if(examId) {
-      let oldQuestion = examQuestions.find(q => q.questionId === question.questionId);
+      let oldQuestion = examQuestions.find(q => q.id === question.id);
       let editedQuestion = {
-        questionId: question.questionId,
-        questionText: question.questionText ? question.questionText : oldQuestion.questionText,
-        questionGrade: question.questionGrade ? question.questionGrade : oldQuestion.questionGrade,
-        choice1: question.choice1 ? question.choice1 : oldQuestion.choice1,
-        choice2: question.choice2 ? question.choice2 : oldQuestion.choice2,
-        choice3: question.choice3 ? question.choice3 : oldQuestion.choice3,
-        choice4: question.choice4 ? question.choice4 : oldQuestion.choice4,
-        correctChoice: question.correctChoice ? question.correctChoice : oldQuestion.correctChoice,
+        exam_id: examId,
+        id: question.id,
+        question_text: question.question_text ? question.question_text : oldQuestion.question_text,
+        marks: question.marks ? question.marks : oldQuestion.marks,
+        choice_1: question.choice_1 ? question.choice_1 : oldQuestion.choice_1,
+        choice_2: question.choice_2 ? question.choice_2 : oldQuestion.choice_2,
+        choice_3: question.choice_3 ? question.choice_3 : oldQuestion.choice_3,
+        choice_4: question.choice_4 ? question.choice_4 : oldQuestion.choice_4,
+        correct_answer: question.correct_answer ? question.correct_answer + "" : oldQuestion.correct_answer + "",
       }
       question = editedQuestion;
     }
     console.log("questionChangeHandler");
     console.log(question);
-    const sub_url = examId ? "questionedit/" + question.questionId : "questioncreate";
+    const sub_url = examId
+      ? "questionedit/" + question.id
+      : "questioncreate";
     let response = await fetch("http://localhost:8000/main_app/" + sub_url, {
       method: examId ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + String(userCtx.authTokens.access),
       },
-      body: JSON.stringify({
-        exam_id: examId,
-        question_text: question.questionText,
-        marks: question.questionGrade,
-        choice_1: question.choice1,
-        choice_2: question.choice2,
-        choice_3: question.choice3,
-        choice_4: question.choice4,
-        correct_answer: question.correctChoice,
-      }),
+      body: JSON.stringify(question),
     });
     if (response.status === 200 || response.status === 201) {
       history("/preview-exam");
@@ -134,7 +128,8 @@ function EditExamPage() {
     console.log("questionsChangeHandler");
     console.log(questions);
     questions.forEach((question) => {
-      if (editedQuestionsIds.some((id) => question.questionId === id)) {
+      console.log(question.id);
+      if (editedQuestionsIds.some((id) => question.id === id)) {
         questionChangeHandler(question);
       }
     });
@@ -146,13 +141,15 @@ function EditExamPage() {
       <div>
         <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />
       </div>
-      {examQuestions.length > 0 && <div>
-        <ExamQuestionsEdit
-          questions={examQuestions}
-          editable={true}
-          onSave={questionsChangeHandler}
-        />
-      </div>}
+      {examQuestions.length > 0 && (
+        <div>
+          <ExamQuestionsEdit
+            questions={examQuestions}
+            editable={true}
+            onSave={questionsChangeHandler}
+          />
+        </div>
+      )}
       <div>
         <div>
           <Link to={userCtx.examId ? "/preview-exam" : "/course"}>

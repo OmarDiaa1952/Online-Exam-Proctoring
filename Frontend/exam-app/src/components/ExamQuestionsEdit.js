@@ -9,30 +9,28 @@ function ExamQuestionsEdit(props) {
   const questionRef = useRef();
   const userCtx = useContext(UserContext);
 
+  const DUMMY_QUESTION = {
+    id: -1,
+    question_text: "",
+    marks: 0,
+    choice_1: "",
+    choice_2: "",
+    choice_3: "",
+    choice_4: "",
+    correct_answer: "1",
+  };
+
   const [tempKey, setTempKey] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [questionsData, setQuestionsData] = useState([]);
   const [editedQuestionsIds, setEditedQuestionsIds] = useState([]);
-  const [currentUpdatedQuestionId, setCurrentUpdatedQuestionId] =
-    useState(null);
+  const [currentUpdatedQuestion, setCurrentUpdatedQuestion] = useState(DUMMY_QUESTION);
   const [questions, setQuestions] = useState([]);
 
   const setOldQuestions = () => {
+    console.log("setOldQuestions");
+    console.log(props.questions);
     props.questions.forEach((question) => {
-      console.log(question.id);
-      setQuestionsData(() => {
-        let oldQuestions = [];
-        oldQuestions.push({
-          questionId: question.id,
-          questionText: question.question_text,
-          questionGrade: question.marks,
-          correctChoice: question.correct_answer,
-          choice1: question.choice_1,
-          choice2: question.choice_2,
-          choice3: question.choice_3,
-          choice4: question.choice_4,
-        });
-        return oldQuestions;
-      });
       setQuestions((oldData) => [
         ...oldData,
         <QuestionEdit
@@ -69,46 +67,63 @@ function ExamQuestionsEdit(props) {
   useEffect(() => {
     initializeQuestions();
   }, []);
+
   useEffect(() => {}, [questions]);
+
   useEffect(() => {
+    // console.log(currentIndex);
+    if (currentIndex < props.questions.length) {
+      // console.log(props.questions[currentIndex]);
+      setQuestionsData((oldData) => [...oldData, props.questions[currentIndex]]);
+      setCurrentIndex(currentIndex + 1);
+    }
+    console.log(questionsData);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    console.log("useEffect");
     if (
-      !editedQuestionsIds.some((id) => id === currentUpdatedQuestionId) &&
-      currentUpdatedQuestionId !== null
+      !editedQuestionsIds.some(
+        (id) => id === currentUpdatedQuestion.id
+      ) &&
+      currentUpdatedQuestion.id !== -1
     ) {
       setEditedQuestionsIds((oldQuestionsIds) => {
         let tempIds = oldQuestionsIds;
-        tempIds.push(currentUpdatedQuestionId);
+        tempIds.push(currentUpdatedQuestion.id);
         return tempIds;
       });
     }
-  }, [currentUpdatedQuestionId]);
-
-  function editQHandler(questionData, questionNumber) {
-    setCurrentUpdatedQuestionId(questionNumber);
-    console.log(questionsData);
+    // console.log(questionsData);
     setQuestionsData((oldData) =>
       oldData.map((question) => {
-        console.log(question.questionId);
-        if (question.questionId === questionNumber) {
-          return questionData;
+        // console.log(currentUpdatedQuestion);
+        if (question.id === currentUpdatedQuestion.id) {
+          return currentUpdatedQuestion;
         }
         return question;
       })
     );
+  }, [currentUpdatedQuestion]);
+
+  function editQHandler(questionData) {
+    console.log("editQHandler");
+    console.log(questionData);
+    setCurrentUpdatedQuestion(questionData);
   }
 
   const addQuestionHandler = () => {
     setQuestionsData((oldData) => {
       let tempQuestions = oldData;
       tempQuestions.push({
-        questionId: tempKey,
-        questionText: "",
-        questionGrade: 0,
-        correctChoice: "1",
-        choice1: "",
-        choice2: "",
-        choice3: "",
-        choice4: "",
+        id: tempKey,
+        question_text: "",
+        marks: 0,
+        correct_answer: "1",
+        choice_1: "",
+        choice_2: "",
+        choice_3: "",
+        choice_4: "",
       });
       return tempQuestions;
     });
@@ -143,7 +158,7 @@ function ExamQuestionsEdit(props) {
             e.preventDefault();
             console.log(editedQuestionsIds);
             setEditedQuestionsIds(() => []);
-            setCurrentUpdatedQuestionId(null);
+            setCurrentUpdatedQuestion(DUMMY_QUESTION);
             console.log(questionsData);
             props.onSave(questionsData, editedQuestionsIds);
           }}

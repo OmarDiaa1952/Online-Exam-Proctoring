@@ -23,112 +23,105 @@ const QuestionEdit = forwardRef((props, ref) => {
     setQuestionText(questionTextRef.current.value);
     props.onChangeData(
       {
-        questionId: props.qNumber,
-        questionText: questionTextRef.current.value,
-        questionGrade: questionGrade,
-        choice1: choice1Text,
-        choice2: choice2Text,
-        choice3: choice3Text,
-        choice4: choice4Text,
-        correctChoice: correctChoice,
-      },
-      props.qNumber
+        id: props.qNumber,
+        question_text: questionTextRef.current.value,
+        marks: questionGrade,
+        choice_1: choice1Text,
+        choice_2: choice2Text,
+        choice_3: choice3Text,
+        choice_4: choice4Text,
+        correct_answer: correctChoice,
+      }
     );
   };
   const questionGradeChangeHandler = () => {
     setQuestionGrade(questionGradeRef.current.value);
     props.onChangeData(
       {
-        questionId: props.qNumber,
-        questionText: questionText,
-        questionGrade: questionGradeRef.current.value,
-        choice1: choice1Text,
-        choice2: choice2Text,
-        choice3: choice3Text,
-        choice4: choice4Text,
-        correctChoice: correctChoice,
-      },
-      props.qNumber
+        id: props.qNumber,
+        question_text: questionText,
+        marks: questionGradeRef.current.value,
+        choice_1: choice1Text,
+        choice_2: choice2Text,
+        choice_3: choice3Text,
+        choice_4: choice4Text,
+        correct_answer: correctChoice,
+      }
     );
   };
   const choice1TextChangeHandler = (choiceText) => {
     setChoice1Text(choiceText);
     props.onChangeData(
       {
-        questionId: props.qNumber,
-        questionText: questionText,
-        questionGrade: questionGrade,
-        choice1: choiceText,
-        choice2: choice2Text,
-        choice3: choice3Text,
-        choice4: choice4Text,
-        correctChoice: correctChoice,
-      },
-      props.qNumber
+        id: props.qNumber,
+        question_text: questionText,
+        marks: questionGrade,
+        choice_1: choiceText,
+        choice_2: choice2Text,
+        choice_3: choice3Text,
+        choice_4: choice4Text,
+        correct_answer: correctChoice,
+      }
     );
   };
   const choice2TextChangeHandler = (choiceText) => {
     setChoice2Text(choiceText);
     props.onChangeData(
       {
-        questionId: props.qNumber,
-        questionText: questionText,
-        questionGrade: questionGrade,
-        choice1: choice1Text,
-        choice2: choiceText,
-        choice3: choice3Text,
-        choice4: choice4Text,
-        correctChoice: correctChoice,
-      },
-      props.qNumber
+        id: props.qNumber,
+        question_text: questionText,
+        marks: questionGrade,
+        choice_1: choice1Text,
+        choice_2: choiceText,
+        choice_3: choice3Text,
+        choice_4: choice4Text,
+        correct_answer: correctChoice,
+      }
     );
   };
   const choice3TextChangeHandler = (choiceText) => {
     setChoice3Text(choiceText);
     props.onChangeData(
       {
-        questionId: props.qNumber,
-        questionText: questionText,
-        questionGrade: questionGrade,
-        choice1: choice1Text,
-        choice2: choice2Text,
-        choice3: choiceText,
-        choice4: choice4Text,
-        correctChoice: correctChoice,
-      },
-      props.qNumber
+        id: props.qNumber,
+        question_text: questionText,
+        marks: questionGrade,
+        choice_1: choice1Text,
+        choice_2: choice2Text,
+        choice_3: choiceText,
+        choice_4: choice4Text,
+        correct_answer: correctChoice,
+      }
     );
   };
   const choice4TextChangeHandler = (choiceText) => {
     setChoice4Text(choiceText);
     props.onChangeData(
       {
-        questionId: props.qNumber,
-        questionText: questionText,
-        questionGrade: questionGrade,
-        choice1: choice1Text,
-        choice2: choice2Text,
-        choice3: choice3Text,
-        choice4: choiceText,
-        correctChoice: correctChoice,
-      },
-      props.qNumber
+        id: props.qNumber,
+        question_text: questionText,
+        marks: questionGrade,
+        choice_1: choice1Text,
+        choice_2: choice2Text,
+        choice_3: choice3Text,
+        choice_4: choiceText,
+        correct_answer: correctChoice,
+      }
     );
   };
   const choiceChangeHandler = (choiceId) => {
     setCorrectChoice(choiceId);
     props.onChangeData(
       {
-        questionId: props.qNumber,
-        questionText: questionText,
-        questionGrade: questionGrade,
-        choice1: choice1Text,
-        choice2: choice2Text,
-        choice3: choice3Text,
-        choice4: choice4Text,
-        correctChoice: choiceId,
-      },
-      props.qNumber
+        id: props.qNumber,
+        question_text: questionText,
+        marks: questionGrade,
+        choice_1: choice1Text,
+        choice_2: choice2Text,
+        choice_3: choice3Text,
+        choice_4: choice4Text,
+        correct_answer: choiceId,
+      }
     );
   };
 
@@ -160,7 +153,7 @@ const QuestionEdit = forwardRef((props, ref) => {
             key={choice.choiceId}
             choiceId={choice.choiceId}
             choiceText={choice.choiceText}
-            questionId={props.questionId}
+            id={props.id}
             onChoiceChange={props.onChoiceChange}
           />
         ))} */}
