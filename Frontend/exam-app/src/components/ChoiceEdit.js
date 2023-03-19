@@ -22,7 +22,7 @@ const ChoiceEdit = forwardRef((props, ref) => {
           value={props.choiceText}
           onClick={() => props.onChoiceChange(props.choiceId)}
         />
-        <label>{props.choiceText}</label>
+        {/* <label>{props.choiceText}</label> */}
       </div>
       <div>
         <textarea
