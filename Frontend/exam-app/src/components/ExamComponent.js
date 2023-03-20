@@ -5,7 +5,6 @@ import classes from "./ExamComponent.module.css";
 import UserContext from "../store/user-context";
 
 function ExamComponent(props) {
-  console.log(props);
   const userCtx = useContext(UserContext);
   return (
     <div>
@@ -15,7 +14,7 @@ function ExamComponent(props) {
         >
           {props.name}
         </Link>
-        {userCtx.type === "examiner" && <button type="button">Delete</button>}
+        {userCtx.type === "examiner" && <button type="button" onClick={()=>props.onDelete(props.id)}>Delete</button>}
       </button>
     </div>
   );

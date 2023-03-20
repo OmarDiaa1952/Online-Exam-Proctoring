@@ -6,9 +6,9 @@ function GetCourses(props) {
   return (
     <section>
       <h2>Search Courses:</h2>
-      <SearchCourses />
+      <SearchCourses onChange={props.onChangeSearchText} />
       <h2>{props.requestType === "getNewCourses" ? "Join new Courses:" : "My Courses"}</h2>
-      <CoursesComponentsList coursesData={props.coursesData} />
+      <CoursesComponentsList coursesData={props.searchResult.length > 0 ? props.searchResult : props.coursesData} />
     </section>
   );
 }

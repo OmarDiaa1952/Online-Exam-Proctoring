@@ -9,11 +9,18 @@ function HomeNavigation(props) {
   const userCtx = useContext(UserContext);
   return (
     <div>
-      <GetCourses coursesData={props.coursesData} requestType="getMyCourses" />
+      <GetCourses
+        coursesData={props.coursesData}
+        requestType="getMyCourses"
+        onChangeSearchText={props.onChangeSearchText}
+        searchResult={props.searchResult}
+      />
       {userCtx.type === "student" && (
         <GetCourses
+          onChangeSearchText={props.onChangeSearchText}
           coursesData={props.coursesData}
           requestType="getNewCourses"
+          searchResult={props.searchResult}
         />
       )}
       {userCtx.type === "examiner" && (

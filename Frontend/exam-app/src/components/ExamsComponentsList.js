@@ -11,7 +11,14 @@ function ExamsComponentsList(props) {
             <ExamComponent
               key={component.id}
               id={component.id}
-              title={component.title}
+              course_id={component.course_id}
+              description={component.description}
+              duration={component.duration}
+              exam_end_date={component.exam_end_date}
+              exam_start_date={component.exam_start_date}
+              max_grade={component.max_grade}
+              name={component.name}
+              onDelete={props.onDelete}
             />
           );
         })}
