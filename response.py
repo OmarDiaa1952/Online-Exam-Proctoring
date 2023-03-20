@@ -110,35 +110,36 @@
             "first_name": "mahmoud",
             "last_name": "khalil"
         },
-        {  # expected request format for getting course list
-            # GET request
-            # and search_all = true or any other value
+        {   """expected request format for getting course list
+            GET request
+            this is example of the request
+            http://localhost:8000/main_app/courselist?search=dev&all=1
 
-            # here we have four cases to consider:
+            here we have four cases to consider:
 
-            #first: 
-            # if search_all = true
-            # and ?search= is sent in the url
-            # then search with filtering will take place
-            # in all courses in db
-            # using id and name fields
+            first: 
+            if all = 1 (or any other value)
+            and ?search= is sent in the url
+            then search with filtering will take place
+            in all courses in db
+            using id and name fields
 
-            #second:
-            # if search_all = true
-            # and ?search= is not sent in the url
-            # then all courses in the db will be returned
+            second:
+            if all = 1 (or any other value)
+            and ?search= is not sent in the url
+            then all courses in the db will be returned
 
-            #third:
-            # if search_all = false [or any other value]
-            # and ?search= is sent in the url
-            # then the response will be filtered by the search value
-            # in courses in db for a specific user
+            third:
+            if all is not sent in the url
+            and ?search= is sent in the url
+            then the response will be filtered by the search value
+            in courses in db for a specific user
 
-            #fourth:
-            # if search_all = false [or any other value]
-            # and ?search= is not sent in the url
-            # then all courses in the db 
-            # for a specific user will be returned
+            fourth:
+            if all is not sent in the url
+            and ?search= is not sent in the url
+            then all courses in the db 
+            for a specific user will be returned """
 
         },
         {  # expected request format for getting a course detail -- transfer to general requests
