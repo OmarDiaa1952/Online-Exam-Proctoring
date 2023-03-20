@@ -19,8 +19,12 @@ class CourseListView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.request.user.pk
         user_role = self.request.user.role
-        if self.request.data['search_all'] == 'true':
-            return Course.objects.all()
+        query = self.request.query_params.get('q')
+        # if query is None:
+        #     print(query)
+        #     return Course.objects.filter(examiner_id=user_id)
+        # if self.request.data['search_all'] == 'true':
+        #     return Course.objects.all()
         if user_role == "STUDENT":
             # this has to be just one query but this is
             # a turnaround as student model is in another app
