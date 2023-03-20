@@ -1,32 +1,11 @@
 import classes from "./ExamInfo.module.css";
 
 function ExamInfo(props) {
-  let gradeDiv = null;
-  if ('studentGrade' in props.examData) {
-    gradeDiv = (
-      <div>
-        <span>Grade: </span>
-        <span>
-          {props.examData.student_grade} / {props.examData.max_grade}
-        </span>
-      </div>
-    );
-  }
-  else {
-    gradeDiv = (
-      <div>
-        <span>Max Grade: </span>
-        <span>
-          {props.examData.max_grade}
-        </span>
-      </div>
-    );
-  }
   return (
     <section>
       <h2>Exam Info</h2>
       <div>
-      <div>
+        <div>
           <span>Exam Name: </span>
           <span>{props.examData.name}</span>
         </div>
@@ -46,7 +25,10 @@ function ExamInfo(props) {
           <span>Duration: </span>
           <span>{props.examData.duration}</span>
         </div>
-        {gradeDiv}
+        <div>
+        <span>Max Grade: </span>
+        <span>{props.examData.max_grade}</span>
+      </div>
       </div>
     </section>
   );

@@ -6,7 +6,7 @@ import UserContext from "../store/user-context";
 
 function CourseComponent(props) {
   const userCtx = useContext(UserContext);
-  let registered = false;
+  let registered = true;
   if(userCtx.type === "examiner") registered = true;
   return (
     <li key={props.courseData.id}>
