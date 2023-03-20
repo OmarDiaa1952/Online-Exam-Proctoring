@@ -35,7 +35,7 @@ function Question(props) {
             questionId={props.questionId}
             choice={props.choice1}
             isChecked={props.choice ? props.choice === 1 : props.correctAnswer === 1}
-            // onChoiceChange={props.onChoiceChange}
+            onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
             // }
@@ -48,7 +48,7 @@ function Question(props) {
             questionId={props.questionId}
             choice={props.choice2}
             isChecked={props.choice ? props.choice === 2 : props.correctAnswer === 2}
-            // onChoiceChange={props.onChoiceChange}
+            onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
             // }
@@ -61,7 +61,7 @@ function Question(props) {
             questionId={props.questionId}
             choice={props.choice3}
             isChecked={props.choice ? props.choice === 3 : props.correctAnswer === 3}
-            // onChoiceChange={props.onChoiceChange}
+            onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
             // }
@@ -74,7 +74,7 @@ function Question(props) {
             questionId={props.questionId}
             choice={props.choice4}
             isChecked={props.choice ? props.choice === 4 : props.correctAnswer === 4}
-            // onChoiceChange={props.onChoiceChange}
+            onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
             // }

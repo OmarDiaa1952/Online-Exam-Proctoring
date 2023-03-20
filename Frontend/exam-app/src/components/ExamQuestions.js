@@ -19,7 +19,7 @@ function ExamQuestions(props) {
             choice3={question.choice3}
             choice4={question.choice4}
             choice={question.choice ? question.choice : null}
-            // onChoiceChange={props.onChoiceChange}
+            onChoiceChange={props.onChangeAnswer}
             // studentChoice={question.studentChoice}
           />
         ))}
