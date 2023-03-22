@@ -142,11 +142,11 @@
             for a specific user will be returned """
 
         },
-        {  # expected request format for getting a course detail -- transfer to general requests
+        {  # expected request format for getting a course detail 
             # i expect course id to be sent in the url
             # GET request
         },
-        {  # expected request format for getting a list of exams for a course by -- transfer to general requests
+        {  # expected request format for getting a list of exams for a course
             # i expect course id to be sent in the url
             # GET request
         },
@@ -154,11 +154,11 @@
             # i expect exam id to be sent in the url
             # GET request
         },
-        {  # expected request format for getting an exam detail -- transfer to general requests
+        {  # expected request format for getting an exam detail
             # i expect exam id to be sent in the url
             # GET request
         },
-        {  # expected request format for getting a list of questions for an exam -- transfer to general requests
+        {  # expected request format for getting a list of questions for an exam 
 
             # i expect exam id to be sent in the url
             # GET request
