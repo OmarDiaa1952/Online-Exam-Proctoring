@@ -41,25 +41,6 @@ class CourseDetailView(generics.RetrieveAPIView):
             return Course.objects.filter(id=course_id)
         return None
 
-# class CourseSearchView(generics.ListAPIView):
-#     search_fields = ['id','name']
-#     filter_backends = (filters.SearchFilter,)
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
-
-# class CourseSearchView(generics.ListAPIView):
-#     # this view is responsible for searching for a course by name or id
-#     serializer_class = CourseSerializer
-#     lookup_url_kwarg = "search_query"
-
-#     def get_queryset(self):
-#         search_query = self.kwargs.get(self.lookup_url_kwarg)
-#         if search_query is not None:
-#             if search_query.isdigit():
-#                 return Course.objects.filter(id=search_query)
-#             return Course.objects.filter(name__icontains=search_query)
-#         return None
-
 class ExamListView(generics.ListAPIView):
     # this view is responsible for listing all exams of a specific course
     serializer_class = ExamSerializer
