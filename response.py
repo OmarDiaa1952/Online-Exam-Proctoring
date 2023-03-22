@@ -223,11 +223,13 @@
             # http 200 ok
             [
                 {
+                    "id":1,
                     "course_id": 1,
                     "student_id": 1,
                     "request_date": "2023-02-27T05:36:04.727800"
                 },
                 {
+                    "id":2,
                     "course_id": 1,
                     "student_id": 2,
                     "request_date": "2023-02-27T05:39:08.504462"
