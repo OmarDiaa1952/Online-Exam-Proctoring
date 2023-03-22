@@ -80,7 +80,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class ExamCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
-        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade")
+        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration")
     
     # the accepted format for datetime is "YYYY-MM-DD HH:MM:SS"
     # the accepted format for duration is "HH:MM:SS"
