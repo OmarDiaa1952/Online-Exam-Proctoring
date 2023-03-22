@@ -6,7 +6,7 @@ from .models import *
 class EnrollmentRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnrollmentRequest
-        fields = ("course_id", "student_id", "request_date")
+        fields = ("id","course_id", "student_id", "request_date")
 
 class EnrollmentRequestActionSerializer(serializers.Serializer):
     # field with only two possible values
