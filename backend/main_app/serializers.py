@@ -96,7 +96,6 @@ class ExamEditSerializer(serializers.ModelSerializer):
         instance.exam_start_date = validated_data.get('exam_start_date', instance.exam_start_date)
         instance.exam_end_date = validated_data.get('exam_end_date', instance.exam_end_date)
         instance.duration = validated_data.get('duration', instance.duration)
-        instance.max_grade = validated_data.get('max_grade', instance.max_grade)
         instance.save()
         return instance
     
