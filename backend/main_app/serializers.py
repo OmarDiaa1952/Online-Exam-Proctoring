@@ -88,7 +88,7 @@ class ExamCreateSerializer(serializers.ModelSerializer):
 class ExamEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
-        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade")
+        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration")
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
