@@ -270,7 +270,6 @@
             "exam_start_date": "2020-05-05T12:12:01",
             "exam_end_date": "2050-05-05T12:12:12",
             "duration": "00:00:05",
-            "max_grade": "20"
         },
         {  # expected request format for editing an exam
             # i expect exam id to be sent in the url
@@ -280,7 +279,6 @@
             "exam_start_date": "2020-05-05T12:12:01",
             "exam_end_date": "2050-05-05T12:12:12",
             "duration": "00:00:05",
-            "max_grade": "20"
         },
         {  # expected request format for deleting an exam
             # i expect exam id to be sent in the url
