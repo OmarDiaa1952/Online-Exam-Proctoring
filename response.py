@@ -178,9 +178,7 @@
     "responses": [
         {  # course create response
             # http 201 created
-            "name": "selected topics",
-            "description": "boring course",
-            "examiner_id": 2
+            "id": 1,
         },
         {  # course edit response
             # http 200 ok
@@ -190,6 +188,10 @@
         {  # course delete response
             # http 204 no content with no body
         },
+        {  # exam create response
+            # http 201 created
+            "id": 1,
+        },
         {  # exam edit response
             # http 200 ok
         },
@@ -198,13 +200,7 @@
         },
         {  # question create response
             # http 201 created
-            "question_text": "what is your age?",
-            "marks": 1,
-            "choice_1": "12",
-            "choice_2": "13",
-            "choice_3": "14",
-            "choice_4": "15",
-            "correct_answer": 1
+            "id": 1,
         },
         {  # question edit response
             # http 200 ok

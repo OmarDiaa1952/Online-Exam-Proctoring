@@ -152,11 +152,6 @@ class ExamCreateView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ExamCreateSerializer
 
-    def perform_create(self, serializer):
-        course_id = self.request.data.get('course_id')
-        course = Course.objects.filter(id=course_id).first()
-        serializer.save(course=course)
-
 class ExamEditView(generics.UpdateAPIView):
     # this view is responsible for editing a course
     serializer_class = ExamEditSerializer

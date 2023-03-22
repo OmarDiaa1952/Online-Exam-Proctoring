@@ -27,6 +27,10 @@ class CourseCreateSerializer(serializers.ModelSerializer):
         self.validated_data['examiner_id'] = pk
         super().save(*args, **kwargs)
 
+    def to_representation(self, instance):
+        data = {"id": instance.id}
+        return data
+
 class CourseEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -80,10 +84,21 @@ class CourseSerializer(serializers.ModelSerializer):
 class ExamCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
-        fields = ("name", "description", "exam_start_date", "exam_end_date", "duration")
-    
+        fields = ("id", "name", "description", "exam_start_date", "exam_end_date", "duration")
     # the accepted format for datetime is "YYYY-MM-DD HH:MM:SS"
     # the accepted format for duration is "HH:MM:SS"
+
+    def create(self, validated_data):
+        course_id = self.context['request'].data.get('course_id')
+        course = Course.objects.filter(id=course_id).first()
+        validated_data['course'] = course
+        instance = super().create(validated_data)
+        return instance
+    
+    def to_representation(self, instance):
+        data = {"id": instance.id}
+        return data
+
 
 class ExamEditSerializer(serializers.ModelSerializer):
     class Meta:
@@ -113,6 +128,10 @@ class QuestionCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ("question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer")
+
+    def to_representation(self, instance):
+        data = {"id": instance.id}
+        return data
 
 class QuestionEditSerializer(serializers.ModelSerializer):
     class Meta:
