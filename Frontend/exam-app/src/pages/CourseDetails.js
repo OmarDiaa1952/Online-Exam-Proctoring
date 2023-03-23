@@ -5,7 +5,6 @@ import CourseInfo from "../components/CourseInfo";
 import UserContext from "../store/user-context";
 
 function CourseDetailsPage() {
-  let courseRequested = false;
   const userCtx = useContext(UserContext);
   let [courseDetails, setCourseDetails] = useState([]);
   const courseId = userCtx.courseId;
@@ -52,7 +51,6 @@ function CourseDetailsPage() {
     );
     let data = await response.json();
     if (response.status === 201) {
-      courseRequested = true;
       history("/");
     } else {
       alert("Something went wrong!");
@@ -64,7 +62,7 @@ function CourseDetailsPage() {
       <CourseInfo courseData={courseDetails} />
       <div>
         <button type="submit" onClick={requestCourseHandler}>
-          {courseRequested ? "Cancel Request" : "Enroll"}
+          {courseDetails.is_requested ? "Cancel Request" : "Enroll"}
         </button>
       </div>
       <div>
