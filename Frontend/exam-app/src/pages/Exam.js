@@ -46,15 +46,26 @@ function ExamPage() {
 
   let finishHandler = async (e) => {
     e.preventDefault();
-    let response = await fetch("http://localhost:8000/main_app/", {
+    let response = await fetch("http://localhost:8000/main_app/examend", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + String(userCtx.authTokens.access),
       },
-      body: JSON.stringify(userAnswers),
+      body: JSON.stringify(
+        {
+          exam_id: 1,
+            start_time: "2023-02-28T15:40:52",
+            submission_time: "2023-02-28T15:40:54",
+            answers: [
+                {
+                    "question_id": 1,
+                    "choice": 2
+                }
+            ]
+        }),
     });
-    if (response.status === 201) {
+    if (response.status === 200) {
       history("/course");
     } else {
       alert("Something went wrong!");
@@ -72,8 +83,8 @@ function ExamPage() {
       } else {
         let newUserAnswers = [...prevUserAnswers];
         newUserAnswers[userAnswerIndex] = {
-          questionId: questionId,
-          answer: answer,
+          question_id: questionId,
+          choice: answer,
         };
         return newUserAnswers;
       }

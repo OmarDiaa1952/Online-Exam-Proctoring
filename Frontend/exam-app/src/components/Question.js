@@ -3,10 +3,10 @@ import Choice from "./Choice";
 
 function Question(props) {
   let correctChoiceText = "";
-  if(props.correctAnswer === "1") correctChoiceText = props.choice1;
-  else if(props.correctAnswer === "2") correctChoiceText = props.choice2;
-  else if(props.correctAnswer === "3") correctChoiceText = props.choice3;
-  else if(props.correctAnswer === "4") correctChoiceText = props.choice4;
+  if (props.correctAnswer === "1") correctChoiceText = props.choice1;
+  else if (props.correctAnswer === "2") correctChoiceText = props.choice2;
+  else if (props.correctAnswer === "3") correctChoiceText = props.choice3;
+  else if (props.correctAnswer === "4") correctChoiceText = props.choice4;
   return (
     <li>
       <div>
@@ -31,11 +31,14 @@ function Question(props) {
       <div>
         {
           <Choice
+            id="1"
             editable={props.editable}
             key={props.questionId + "1"}
             questionId={props.questionId}
             choice={props.choice1}
-            isChecked={props.choice ? props.choice === 1 : props.correctAnswer === 1}
+            isChecked={
+              props.choice ? props.choice === 1 : props.correctAnswer === 1
+            }
             onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
@@ -44,11 +47,14 @@ function Question(props) {
         }
         {
           <Choice
+            id="2"
             editable={props.editable}
             key={props.questionId + "2"}
             questionId={props.questionId}
             choice={props.choice2}
-            isChecked={props.choice ? props.choice === 2 : props.correctAnswer === 2}
+            isChecked={
+              props.choice ? props.choice === 2 : props.correctAnswer === 2
+            }
             onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
@@ -57,11 +63,14 @@ function Question(props) {
         }
         {
           <Choice
+            id="3"
             editable={props.editable}
             key={props.questionId + "3"}
             questionId={props.questionId}
             choice={props.choice3}
-            isChecked={props.choice ? props.choice === 3 : props.correctAnswer === 3}
+            isChecked={
+              props.choice ? props.choice === 3 : props.correctAnswer === 3
+            }
             onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
@@ -70,11 +79,14 @@ function Question(props) {
         }
         {
           <Choice
+            id="4"
             editable={props.editable}
             key={props.questionId + "4"}
             questionId={props.questionId}
             choice={props.choice4}
-            isChecked={props.choice ? props.choice === 4 : props.correctAnswer === 4}
+            isChecked={
+              props.choice ? props.choice === 4 : props.correctAnswer === 4
+            }
             onChoiceChange={props.onChoiceChange}
             // isChecked={
             //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
@@ -83,11 +95,7 @@ function Question(props) {
         }
       </div>
       <div>
-        {props.choice && (
-          <span>
-            The correct answer: {correctChoiceText}
-          </span>
-        )}
+        {props.choice && <span>The correct answer: {correctChoiceText}</span>}
       </div>
     </li>
   );
