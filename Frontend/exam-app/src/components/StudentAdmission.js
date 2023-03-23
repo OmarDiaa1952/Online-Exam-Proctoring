@@ -69,14 +69,14 @@ function StudentAdmission(props) {
                 <span>{student.student_id}</span>
                 <span>
                   <button
-                    onClick={() => requestHandler(student.request_id, "accept")}
+                    onClick={() => requestHandler(student.id, "accept")}
                   >
                     Approve
                   </button>
                 </span>
                 <span>
                   <button
-                    onClick={() => requestHandler(student.request_id, "reject")}
+                    onClick={() => requestHandler(student.id, "reject")}
                   >
                     Decline
                   </button>

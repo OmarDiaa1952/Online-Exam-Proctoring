@@ -1,6 +1,7 @@
 import classes from "./CourseInfo.module.css";
 
 function CourseInfo(props) {
+  console.log(props.courseData);
   return (
     <div>
       <div>
@@ -13,7 +14,7 @@ function CourseInfo(props) {
       </div>
       <div>
         <span>Examiner: </span>
-        <span>{props.courseData.examiner_name}</span>
+        <span>{props.courseData.examiner}</span>
       </div>
       <div>
         <span>Description: </span>

@@ -5,28 +5,29 @@ import UserContext from "../store/user-context";
 
 function HomePage() {
   let [courses, setCourses] = useState([]);
-  let [searchedCourses, setSearchedCourses] = useState([]);
+  let [foundCourses, setFoundCourses] = useState([]);
   let { authTokens, logoutUser } = useContext(UserContext);
   const userCtx = useContext(UserContext);
   userCtx.setCourseId(null);
   userCtx.setExamId(null);
 
   useEffect(() => {
-    getCourses();
+    console.log("HomePage useEffect");
+    getCourses("");
+    if(userCtx.type === "student") inspectCourses("");
   }, []);
 
-  let getCourses = async () => {
-    let response = await fetch(
-      "http://localhost:8000/main_app/" + userCtx.type + "courselist",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(authTokens.access),
-        },
-      }
-    );
+  let getCourses = async (text) => {
+    let response = await fetch("http://localhost:8000/main_app/courselist?search=" + text, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + String(authTokens.access),
+      },
+    });
     let data = await response.json();
+    console.log("response");
+    console.log(data);
 
     if (response.status === 200) {
       setCourses(data);
@@ -35,8 +36,8 @@ function HomePage() {
     }
   };
 
-  let changeSearchTextHandler = async (text) => {
-    let response = await fetch("http://localhost:8000/coursesearch/" + text, {
+  let inspectCourses = async (text) => {
+    let response = await fetch("http://localhost:8000/main_app/courselist?search=" + text + "&all=1", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +47,7 @@ function HomePage() {
     let data = await response.json();
 
     if (response.status === 200) {
-      setSearchedCourses(data);
+      setFoundCourses(data);
     } else if (response.statusText === "Unauthorized") {
       logoutUser();
     }
@@ -55,9 +56,12 @@ function HomePage() {
   return (
     <div>
       <HomeNavigation
-        coursesData={courses}
-        onChangeSearchText={changeSearchTextHandler}
-        searchResult={searchedCourses}
+        // enrollmentStatus={enrollmentStatus}
+        allCourses={foundCourses}
+        myCourses={courses}
+        // findEnrollmentStatus={findEnrollmentStatus}
+        onChangeSearchText={getCourses}
+        onSearchNewCourses={inspectCourses}
       />
     </div>
   );

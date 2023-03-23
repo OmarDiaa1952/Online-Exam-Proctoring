@@ -8,7 +8,7 @@ function Question(props) {
   else if(props.correctAnswer === "3") correctChoiceText = props.choice3;
   else if(props.correctAnswer === "4") correctChoiceText = props.choice4;
   return (
-    <div>
+    <li>
       <div>
         <span>
           Grade:{" "}
@@ -25,6 +25,7 @@ function Question(props) {
         </span>
       </div>
       <div>
+        <span>{props.questionNumber}. </span>
         <span>{props.questionText}</span>
       </div>
       <div>
@@ -88,7 +89,7 @@ function Question(props) {
           </span>
         )}
       </div>
-    </div>
+    </li>
   );
 }
 

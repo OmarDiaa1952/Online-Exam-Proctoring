@@ -7,20 +7,24 @@ import GetCourses from "./GetCourses";
 
 function HomeNavigation(props) {
   const userCtx = useContext(UserContext);
+  console.log("myCourses: ");
+  console.log(props.myCourses);
+  console.log("allCourses: ");
+  console.log(props.allCourses);
   return (
     <div>
       <GetCourses
-        coursesData={props.coursesData}
+        coursesData={props.myCourses}
         requestType="getMyCourses"
         onChangeSearchText={props.onChangeSearchText}
-        searchResult={props.searchResult}
       />
       {userCtx.type === "student" && (
         <GetCourses
-          onChangeSearchText={props.onChangeSearchText}
-          coursesData={props.coursesData}
+          // enrollmentStatus={props.enrollmentStatus}
+          // findEnrollmentStatus={props.findEnrollmentStatus}
+          onChangeSearchText={props.onSearchNewCourses}
+          coursesData={props.allCourses}
           requestType="getNewCourses"
-          searchResult={props.searchResult}
         />
       )}
       {userCtx.type === "examiner" && (

@@ -6,7 +6,12 @@ function CoursesComponentsList(props) {
     <div>
       <ul>
         {props.coursesData.map((courseData) => (
-          <CourseComponent courseData={courseData} key={courseData.id} />
+          <CourseComponent
+            courseData={courseData}
+            key={courseData.id}
+            // findEnrollmentStatus={props.findEnrollmentStatus}
+            // enrollmentStatus={props.enrollmentStatus}
+          />
         ))}
       </ul>
     </div>

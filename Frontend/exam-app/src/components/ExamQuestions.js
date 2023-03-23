@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import classes from "./ExamQuestions.module.css";
 import Question from "./Question";
 
@@ -5,9 +7,11 @@ function ExamQuestions(props) {
   return (
     <section>
       <h2>Questions:</h2>
-      <div>
-        {props.questions.map((question) => (
+      <ol>
+        {props.questions.map((question, index) => {
+          return (
           <Question
+            questionNumber={index + 1}
             editable={props.editable}
             key={question.questionId}
             questionId={question.questionId}
@@ -22,8 +26,8 @@ function ExamQuestions(props) {
             onChoiceChange={props.onChangeAnswer}
             // studentChoice={question.studentChoice}
           />
-        ))}
-      </div>
+        )})}
+      </ol>
     </section>
   );
 }

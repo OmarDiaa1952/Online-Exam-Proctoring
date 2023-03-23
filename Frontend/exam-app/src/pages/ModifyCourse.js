@@ -66,7 +66,10 @@ function ModifyCoursePage() {
         }),
       }
     );
+    let data = await response.json();
+    console.log(data);
     if (response.status === 201 && !userCtx.courseId) {
+      userCtx.setCourseId(data.id);
       history("/course");
     } else if (response.status === 200 && userCtx.courseId) {
       history("/");
@@ -87,6 +90,7 @@ function ModifyCoursePage() {
       }
     );
     let data = await response.json();
+    console.log(data);
 
     if (response.status === 200) {
       setEnrollmentRequests(data);
@@ -95,9 +99,9 @@ function ModifyCoursePage() {
     }}
   };
 
-  let requestHandler = async (request_id, requestType) => {
+  let requestHandler = async (requestId, requestType) => {
     let response = await fetch(
-      "http://localhost:8000/main_app/enrollmentrequestaction/" + request_id,
+      "http://localhost:8000/main_app/enrollmentrequestaction/" + requestId,
       {
         method: "PUT",
         headers: {
@@ -112,7 +116,12 @@ function ModifyCoursePage() {
     let data = await response.json();
 
     if (response.status === 200) {
-      setEnrollmentRequests(data);
+      setEnrollmentRequests((prevState) => {
+        let updatedRequests = prevState.filter((request) => {
+          return request.id !== requestId;
+        });
+        return updatedRequests;
+      });
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }

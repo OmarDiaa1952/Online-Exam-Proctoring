@@ -50,15 +50,25 @@ function PreviewExamPage() {
         }
       );
       let data = await response.json();
+      console.log(data);
       if (response.status === 200) {
-        setExamQuestions(data);
+        setExamQuestions(
+          data.map((question) => ({
+            questionId: question.id,
+            questionText: question.question_text,
+            questionGrade: question.marks,
+            correctAnswer: question.correct_answer,
+            choice1: question.choice_1,
+            choice2: question.choice_2,
+            choice3: question.choice_3,
+            choice4: question.choice_4,
+          }))
+        );
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
     }
   };
-  
-
 
   return (
     <section>
@@ -91,195 +101,3 @@ function PreviewExamPage() {
 }
 
 export default PreviewExamPage;
-
-const DUMMY_DATA2 = [
-  {
-    questionId: "1",
-    questionText: "What is the capital of France?",
-    choices: [
-      {
-        choiceId: "1",
-        choiceText: "Paris",
-        isCorrect: true,
-      },
-      {
-        choiceId: "2",
-        choiceText: "London",
-        isCorrect: false,
-      },
-      {
-        choiceId: "3",
-        choiceText: "Berlin",
-        isCorrect: false,
-      },
-      {
-        choiceId: "4",
-        choiceText: "Rome",
-        isCorrect: false,
-      },
-    ],
-    questionGrade: 10,
-  },
-  {
-    questionId: "2",
-    questionText: "What is the capital of Germany?",
-    choices: [
-      {
-        choiceId: "1",
-        choiceText: "Paris",
-        isCorrect: false,
-      },
-      {
-        choiceId: "2",
-        choiceText: "London",
-        isCorrect: false,
-      },
-      {
-        choiceId: "3",
-        choiceText: "Berlin",
-        isCorrect: true,
-      },
-      {
-        choiceId: "4",
-        choiceText: "Rome",
-        isCorrect: false,
-      },
-    ],
-    questionGrade: 10,
-  },
-  {
-    questionId: "3",
-    questionText: "What is the capital of Italy?",
-    choices: [
-      {
-        choiceId: "1",
-        choiceText: "Paris",
-        isCorrect: false,
-      },
-      {
-        choiceId: "2",
-        choiceText: "London",
-        isCorrect: false,
-      },
-      {
-        choiceId: "3",
-        choiceText: "Berlin",
-        isCorrect: false,
-      },
-      {
-        choiceId: "4",
-        choiceText: "Rome",
-        isCorrect: true,
-      },
-    ],
-    questionGrade: 10,
-  },
-  {
-    questionId: "4",
-    questionText: "What is the capital of England?",
-    choices: [
-      {
-        choiceId: "1",
-        choiceText: "Paris",
-        isCorrect: false,
-      },
-      {
-        choiceId: "2",
-        choiceText: "London",
-        isCorrect: true,
-      },
-      {
-        choiceId: "3",
-        choiceText: "Berlin",
-        isCorrect: false,
-      },
-      {
-        choiceId: "4",
-        choiceText: "Rome",
-        isCorrect: false,
-      },
-    ],
-    questionGrade: 10,
-  },
-  {
-    questionId: "5",
-    questionText: "What is the capital of Spain?",
-    choices: [
-      {
-        choiceId: "1",
-        choiceText: "Paris",
-        isCorrect: false,
-      },
-      {
-        choiceId: "2",
-        choiceText: "London",
-        isCorrect: false,
-      },
-      {
-        choiceId: "3",
-        choiceText: "Berlin",
-        isCorrect: false,
-      },
-      {
-        choiceId: "4",
-        choiceText: "Madrid",
-        isCorrect: true,
-      },
-    ],
-    questionGrade: 10,
-  },
-  {
-    questionId: "6",
-    questionText: "What is the capital of Greece?",
-    choices: [
-      {
-        choiceId: "1",
-        choiceText: "Paris",
-        isCorrect: false,
-      },
-      {
-        choiceId: "2",
-        choiceText: "London",
-        isCorrect: false,
-      },
-      {
-        choiceId: "3",
-        choiceText: "Berlin",
-        isCorrect: false,
-      },
-      {
-        choiceId: "4",
-        choiceText: "Athens",
-        isCorrect: true,
-      },
-    ],
-    questionGrade: 10,
-  },
-  {
-    questionId: "7",
-    questionText: "What is the capital of Turkey?",
-    choices: [
-      {
-        choiceId: "1",
-        choiceText: "Paris",
-        isCorrect: false,
-      },
-      {
-        choiceId: "2",
-        choiceText: "London",
-        isCorrect: false,
-      },
-      {
-        choiceId: "3",
-        choiceText: "Berlin",
-        isCorrect: false,
-      },
-      {
-        choiceId: "4",
-        choiceText: "Ankara",
-        isCorrect: true,
-      },
-    ],
-    questionGrade: 10,
-  },
-];

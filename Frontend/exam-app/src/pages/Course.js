@@ -16,7 +16,8 @@ function CoursePage() {
   useEffect(() => {
     getCourseDetails();
     getExamsList();
-  }, [examsList]);
+  }, []);
+  useEffect(() => {}, [examsList]);
 
   let getCourseDetails = async () => {
     let response = await fetch(
@@ -69,7 +70,9 @@ function CoursePage() {
       }
     );
     if (response.status === 204) {
-      history("/course");
+      setExamsList((prevExamsList) =>
+        prevExamsList.filter((exam) => exam.id !== id)
+      );
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -78,7 +81,10 @@ function CoursePage() {
   return (
     <section>
       <CourseInfo courseData={courseDetails} />
-      <ExamsComponentsList components={examsList} onDelete={deleteExamHandler} />
+      <ExamsComponentsList
+        components={examsList}
+        onDelete={deleteExamHandler}
+      />
       {userCtx.type === "examiner" && (
         <div>
           <div>
