@@ -24,8 +24,10 @@ function ExamQuestionsEdit(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questionsData, setQuestionsData] = useState([]);
   const [editedQuestionsIds, setEditedQuestionsIds] = useState([]);
-  const [currentUpdatedQuestion, setCurrentUpdatedQuestion] = useState(DUMMY_QUESTION);
+  const [currentUpdatedQuestion, setCurrentUpdatedQuestion] =
+    useState(DUMMY_QUESTION);
   const [questions, setQuestions] = useState([]);
+  const [maxGrade, setMaxGrade] = useState(0);
 
   const setOldQuestions = () => {
     console.log("setOldQuestions");
@@ -74,7 +76,10 @@ function ExamQuestionsEdit(props) {
     // console.log(currentIndex);
     if (currentIndex < props.questions.length) {
       // console.log(props.questions[currentIndex]);
-      setQuestionsData((oldData) => [...oldData, props.questions[currentIndex]]);
+      setQuestionsData((oldData) => [
+        ...oldData,
+        props.questions[currentIndex],
+      ]);
       setCurrentIndex(currentIndex + 1);
     }
     console.log(questionsData);
@@ -83,9 +88,7 @@ function ExamQuestionsEdit(props) {
   useEffect(() => {
     console.log("useEffect");
     if (
-      !editedQuestionsIds.some(
-        (id) => id === currentUpdatedQuestion.id
-      ) &&
+      !editedQuestionsIds.some((id) => id === currentUpdatedQuestion.id) &&
       currentUpdatedQuestion.id !== -1
     ) {
       setEditedQuestionsIds((oldQuestionsIds) => {
@@ -105,6 +108,10 @@ function ExamQuestionsEdit(props) {
       })
     );
   }, [currentUpdatedQuestion]);
+  useEffect(() => {
+    setMaxGrade(questionsData.reduce((acc, question) => acc + question.marks, 0));
+    console.log(maxGrade);
+  }, [questionsData]);
 
   function editQHandler(questionData) {
     console.log("editQHandler");
@@ -152,6 +159,15 @@ function ExamQuestionsEdit(props) {
 
   return (
     <section>
+      <div>
+        <label htmlFor="max_grade">Max Grade</label>
+        <input
+          type="number"
+          id="max_grade"
+          value={maxGrade}
+          readOnly
+        />
+      </div>
       <h2>Questions:</h2>
       <div>
         <form

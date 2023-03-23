@@ -9,12 +9,15 @@ function EditExamPage() {
   const userCtx = useContext(UserContext);
   const courseId = userCtx.courseId;
   const examId = userCtx.examId;
-  const history = useNavigate();
   let [examDetails, setExamDetails] = useState([]);
   let [examQuestions, setExamQuestions] = useState([]);
-  let [delay, setDelay] = useState(false);
+  let [delayEamDetails, setDelayExamDetails] = useState(false);
+  let [delayExamQuestions, setDelayExamQuestions] = useState(false);
 
-  useEffect(() => {}, [examQuestions]);
+  useEffect(() => {}, [examQuestions, examDetails]);
+  useEffect(() => {
+    getExamDetails();
+  }, [examId]);
 
   useEffect(() => {
     getExamDetails();
@@ -36,6 +39,7 @@ function EditExamPage() {
       let data = await response.json();
       if (response.status === 200) {
         setExamDetails(data);
+        setDelayExamDetails(true);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
@@ -58,10 +62,13 @@ function EditExamPage() {
       if (response.status === 200) {
         setExamQuestions(data);
         await timeout(1000);
-        setDelay(true);
+        setDelayExamQuestions(true);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
+    }
+    else {
+      setDelayExamQuestions(true);
     }
   };
 
@@ -78,14 +85,16 @@ function EditExamPage() {
         name: e.target.name.value,
         description: e.target.description.value,
         course_id: courseId,
-        exam_start_date: "2020-05-05T12:12:01",
-        exam_end_date: "2050-05-05T12:12:12",
-        duration: "00:00:05",
-        max_grade: e.target.max_grade.value,
+        exam_start_date: e.target.exam_start_date.value + "T" + e.target.exam_start_time.value + ":00",
+        exam_end_date: e.target.exam_end_date.value + "T" + e.target.exam_end_time.value + ":00",
+        duration: e.target.duration.value + ":00",
       }),
     });
+    let data = await response.json();
     if (response.status === 200 || response.status === 201) {
-      history("/preview-exam");
+      userCtx.setExamId(data.id);
+      setDelayExamDetails(false);
+      // history("/preview-exam");
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -111,8 +120,6 @@ function EditExamPage() {
       };
       question = editedQuestion;
     }
-    console.log("questionChangeHandler");
-    console.log(question);
     const sub_url =
       examId && !newQuestionFlag
         ? "questionedit/" + question.id
@@ -126,17 +133,14 @@ function EditExamPage() {
       body: JSON.stringify(question),
     });
     if (response.status === 200 || response.status === 201) {
-      history("/preview-exam");
+      // history("/preview-exam");
     } else if (response.statusText === "Unauthorized") {
       alert("Something went wrong!");
     }
   };
 
   let questionsChangeHandler = (questions, editedQuestionsIds) => {
-    console.log("questionsChangeHandler");
-    console.log(questions);
     questions.forEach((question) => {
-      console.log(question.id);
       if (editedQuestionsIds.some((id) => question.id === id)) {
         let newQuestionFlag = true;
         if (examQuestions.some((q) => q.id === question.id)) {
@@ -154,9 +158,10 @@ function EditExamPage() {
     <section>
       <h1>Edit Exam</h1>
       <div>
-        <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />
+        {(delayEamDetails || !examId) &&
+          <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />}
       </div>
-      {(examQuestions.length > 0 || delay) && (
+      {(examQuestions.length > 0 || delayExamQuestions) && (
         <div>
           <ExamQuestionsEdit
             questions={examQuestions}
@@ -169,6 +174,11 @@ function EditExamPage() {
         <div>
           <Link to={examId ? "/preview-exam" : "/course"}>
             <button type="button">Cancel</button>
+          </Link>
+        </div>
+        <div>
+          <Link to="/preview-exam">
+            <button type="button">Preview Exam</button>
           </Link>
         </div>
       </div>
