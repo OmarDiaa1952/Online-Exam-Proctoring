@@ -12,7 +12,6 @@ function HomePage() {
   userCtx.setExamId(null);
 
   useEffect(() => {
-    console.log("HomePage useEffect");
     getCourses("");
     if(userCtx.type === "student") inspectCourses("");
   }, []);
@@ -26,8 +25,6 @@ function HomePage() {
       },
     });
     let data = await response.json();
-    console.log("response");
-    console.log(data);
 
     if (response.status === 200) {
       setCourses(data);

@@ -7,10 +7,6 @@ import GetCourses from "./GetCourses";
 
 function HomeNavigation(props) {
   const userCtx = useContext(UserContext);
-  console.log("myCourses: ");
-  console.log(props.myCourses);
-  console.log("allCourses: ");
-  console.log(props.allCourses);
   return (
     <div>
       <GetCourses

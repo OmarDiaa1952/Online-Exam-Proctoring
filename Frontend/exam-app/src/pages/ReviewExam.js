@@ -29,6 +29,7 @@ function ReviewExamPage() {
         }
       );
       let data = await response.json();
+      console.log(data);
       if (response.status === 200) {
         setExamDetails({
           id: data.id,
