@@ -93,12 +93,14 @@ class ExamReviewView(generics.RetrieveAPIView):
     serializer_class = AttemptSerializer
     lookup_url_kwarg = "exam_id"
     permission_classes = (IsAuthenticated,)
-    def get_queryset(self):
-        student_id = self.request.user.pk
+    def retrieve(self, request, *args, **kwargs):
+        student_id = self.request.user.id
         exam_id = self.kwargs.get('exam_id')
         if student_id is not None and exam_id is not None:
-            return Attempt.objects.filter(student_id=student_id, exam_id=exam_id)
-        return None
+            the_attempt = Attempt.objects.filter(student_id=student_id, exam_id=exam_id).first()
+            serializer = self.get_serializer(the_attempt)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'error': 'Missing student_id or exam_id parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
 # This class is very ugly, I know. I will refactor it later
 class ExamEndView(APIView):
