@@ -38,6 +38,7 @@ function EditExamPage() {
       );
       let data = await response.json();
       if (response.status === 200) {
+        console.log(data);
         setExamDetails(data);
         setDelayExamDetails(true);
       } else if (response.statusText === "Unauthorized") {
@@ -61,13 +62,13 @@ function EditExamPage() {
       let data = await response.json();
       if (response.status === 200) {
         setExamQuestions(data);
+        console.log(data);
         await timeout(1000);
         setDelayExamQuestions(true);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
-    }
-    else {
+    } else {
       setDelayExamQuestions(true);
     }
   };
@@ -85,8 +86,16 @@ function EditExamPage() {
         name: e.target.name.value,
         description: e.target.description.value,
         course_id: courseId,
-        exam_start_date: e.target.exam_start_date.value + "T" + e.target.exam_start_time.value + ":00",
-        exam_end_date: e.target.exam_end_date.value + "T" + e.target.exam_end_time.value + ":00",
+        exam_start_date:
+          e.target.exam_start_date.value +
+          "T" +
+          e.target.exam_start_time.value +
+          ":00",
+        exam_end_date:
+          e.target.exam_end_date.value +
+          "T" +
+          e.target.exam_end_time.value +
+          ":00",
         duration: e.target.duration.value + ":00",
       }),
     });
@@ -139,9 +148,31 @@ function EditExamPage() {
     }
   };
 
+  let deleteQuestionHandler = async (id) => {
+    if (examQuestions.some((q) => q.id === id)) {
+      let response = await fetch(
+        "http://localhost:8000/main_app/questiondelete/" + id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(userCtx.authTokens.access),
+          },
+        }
+      );
+      if (response.status === 204) {
+        setExamQuestions(examQuestions.filter((q) => q.id !== id));
+      } else if (response.statusText === "Unauthorized") {
+        userCtx.logoutUser();
+      }
+    }
+  };
+
   let questionsChangeHandler = (questions, editedQuestionsIds) => {
     questions.forEach((question) => {
-      if (editedQuestionsIds.some((id) => question.id === id)) {
+      if (question.is_deleted) {
+        deleteQuestionHandler(question.id);
+      } else if (editedQuestionsIds.some((id) => question.id === id)) {
         let newQuestionFlag = true;
         if (examQuestions.some((q) => q.id === question.id)) {
           newQuestionFlag = false;
@@ -150,6 +181,7 @@ function EditExamPage() {
       }
     });
   };
+
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
@@ -158,8 +190,9 @@ function EditExamPage() {
     <section>
       <h1>Edit Exam</h1>
       <div>
-        {(delayEamDetails || !examId) &&
-          <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />}
+        {(delayEamDetails || !examId) && (
+          <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />
+        )}
       </div>
       {(examQuestions.length > 0 || delayExamQuestions) && (
         <div>
@@ -167,6 +200,7 @@ function EditExamPage() {
             questions={examQuestions}
             editable={true}
             onSave={questionsChangeHandler}
+            onDeleteQuestion={deleteQuestionHandler}
           />
         </div>
       )}

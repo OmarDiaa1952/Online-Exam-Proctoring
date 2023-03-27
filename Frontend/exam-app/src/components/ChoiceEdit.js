@@ -18,9 +18,10 @@ const ChoiceEdit = forwardRef((props, ref) => {
       <div>
         <input
           type="radio"
-          name={props.questionText}
+          name={props.questionText ? props.questionText : props.questionId}
           value={props.choiceText}
           onClick={() => props.onChoiceChange(props.choiceId)}
+          defaultChecked={props.checked}
         />
         {/* <label>{props.choiceText}</label> */}
       </div>
