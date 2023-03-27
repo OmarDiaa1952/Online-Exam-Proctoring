@@ -80,6 +80,9 @@ class Student(User):
         super().save(*args, **kwargs)
         StudentProfile.objects.get_or_create(user=self)
 
+    def __str__(self) -> str:
+        return f'{self.username} - {self.pk}'
+
 # a more professional way to create a profile for a student
 # @receiver(post_save, sender=Student)
 # def create_student_profile(sender, instance, created, **kwargs):
