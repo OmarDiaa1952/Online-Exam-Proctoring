@@ -75,6 +75,8 @@ class Question(models.Model):
     choice_4 = models.TextField(blank=True)
     correct_answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
 
+    def __str__(self):
+        return self.question_text
 
 @receiver(post_save, sender=Question)
 def update_exam_max_grade_on_save(sender, instance, created, **kwargs):

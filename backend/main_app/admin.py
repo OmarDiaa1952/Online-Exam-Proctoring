@@ -21,9 +21,13 @@ class AttemptAdmin(admin.ModelAdmin):
     list_display = ('student', 'exam', 'grade')
     list_filter = ('student', 'exam')
 
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('question_text', 'exam')
+    list_filter = ('question_text', 'exam')
+
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Exam, ExamAdmin)
-admin.site.register(Question)
+admin.site.register(Question, QuestionAdmin)
 admin.site.register(Attempt, AttemptAdmin)
 admin.site.register(Answer)
 admin.site.register(EnrollmentDetail)
