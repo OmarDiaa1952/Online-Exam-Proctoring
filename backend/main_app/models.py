@@ -102,8 +102,17 @@ class Attempt(models.Model):
             if answer.question.correct_answer == answer.choice:
                 marks += answer.question.marks
         self.grade = marks
+
+    def __str__(self):
+        return f'{self.student_id} - {self.exam_id}'
     
 class Answer(models.Model):
     attempt = models.ForeignKey(Attempt, on_delete=models.CASCADE, related_name='answers')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice = models.IntegerField(blank=True)
+
+@receiver(post_save, sender=Answer)
+def update_attempt_grade_on_save(sender, instance, created, **kwargs):
+    if created:
+        instance.attempt.calculate_grade()
+        instance.attempt.save()
