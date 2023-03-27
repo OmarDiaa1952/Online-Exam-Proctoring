@@ -4,8 +4,6 @@ backend/backend/_pycache_/*
 #migrations & sqlite3 db
 backend/*/migrations/*
 backend/db.sqlite3
-#reqs
-backend/requirements.txt
 #media
 backend/media/*
 #Docker
@@ -13,4 +11,3 @@ backend/Dockerfile
 #environment variables
 *.env
 backend/backend/settings.py
-.gitignore
