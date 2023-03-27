@@ -38,7 +38,7 @@ function EditExamPage() {
       );
       let data = await response.json();
       if (response.status === 200) {
-        console.log(data);
+        // console.log(data);
         setExamDetails(data);
         setDelayExamDetails(true);
       } else if (response.statusText === "Unauthorized") {
@@ -62,7 +62,7 @@ function EditExamPage() {
       let data = await response.json();
       if (response.status === 200) {
         setExamQuestions(data);
-        console.log(data);
+        // console.log(data);
         await timeout(1000);
         setDelayExamQuestions(true);
       } else if (response.statusText === "Unauthorized") {

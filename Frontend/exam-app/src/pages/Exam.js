@@ -66,12 +66,12 @@ function ExamPage() {
 
   let finishHandler = async (e) => {
     e.preventDefault();
-    console.log(userAnswers);
+    // console.log(userAnswers);
     const answers = userAnswers.map((answer) => ({
       question_id: answer.questionId,
       choice: answer.answer,
     }));
-    console.log(answers);
+    // console.log(answers);
     const submissionTime = dateConverter(new Date().toLocaleString());
     let response = await fetch("http://localhost:8000/main_app/examend", {
       method: "POST",
@@ -95,7 +95,7 @@ function ExamPage() {
   };
 
   let changeAnswerHandler = (questionId, answer) => {
-    console.log(questionId, answer);
+    // console.log(questionId, answer);
     setUserAnswers((prevUserAnswers) => {
       let userAnswerIndex = prevUserAnswers.findIndex(
         (userAnswer) => userAnswer.questionId === questionId

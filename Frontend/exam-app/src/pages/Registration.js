@@ -6,14 +6,12 @@ import UserContext from "../store/user-context";
 
 function RegistrationPage() {
   const userCtx = useContext(UserContext);
-  console.log("Registration successful!");
   const history = useNavigate();
 
   function registerHandler(registerData) {
     const req =
       userCtx.type === "student" ? "studentregister" : "examinerregister";
 
-    console.log("Registration successful!");
     fetch("http://localhost:8000/users/" + req, {
       method: "POST",
       body: JSON.stringify(registerData.mainData),
@@ -33,7 +31,6 @@ function RegistrationPage() {
         }
       })
       .then(() => {
-        console.log(JSON.stringify(registerData));
         history("/welcome");
       });
   }

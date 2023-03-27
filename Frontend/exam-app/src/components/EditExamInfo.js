@@ -4,18 +4,6 @@ import classes from "./EditExamInfo.module.css";
 import UserContext from "../store/user-context";
 
 function EditExamInfo(props) {
-  // const [loaded, setLoaded] = useState(false);
-  // const [firstLoad, setFirstLoad] = useState(true);
-  // useEffect(() => {
-  //   if (!firstLoad) {
-  //     console.log("loaded");
-  //     setLoaded(true);
-  //     setFirstLoad(false);
-  //   }
-  // }, [props.examData.name]);
-
-  console.log(props);
-
   let examInfo = {
     examData: {
       name: "",
