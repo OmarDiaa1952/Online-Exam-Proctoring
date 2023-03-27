@@ -17,10 +17,14 @@ class EnrollmentRequestAdmin(admin.ModelAdmin):
     list_filter = ('student', 'course')
     readonly_fields = ('request_date',)
 
+class AttemptAdmin(admin.ModelAdmin):
+    list_display = ('student', 'exam', 'grade')
+    list_filter = ('student', 'exam')
+
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Exam, ExamAdmin)
 admin.site.register(Question)
-admin.site.register(Attempt)
+admin.site.register(Attempt, AttemptAdmin)
 admin.site.register(Answer)
 admin.site.register(EnrollmentDetail)
 admin.site.register(EnrollmentRequest, EnrollmentRequestAdmin)
