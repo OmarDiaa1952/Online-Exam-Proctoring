@@ -1,0 +1,38 @@
+/*
+    global styles
+    generate generic styles for the entire application
+*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: monospace ;
+    font-size: 16px;
+    color: #333;
+    background-color: #f5f5f5;
+    /* add resposive margin */
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+/* Button styles 
+    make the button edges round
+    borders get thicker when the mouse hovers over the button
+    the color ia darker than the background color
+    the color is lighter when the mouse hovers over the button
+*/
+button {
+    border: 1px solid #444;
+    border-radius: 12px;
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 4px 0;
+}
+
+button:hover {
+    border: 2px solid #666;
+    background-color: #555;
+}
