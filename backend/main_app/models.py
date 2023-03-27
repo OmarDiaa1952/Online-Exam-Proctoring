@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 from datetime import datetime
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
@@ -43,23 +45,23 @@ class Exam(models.Model):
     exam_start_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     exam_end_date = models.DateTimeField(auto_now=False, auto_now_add=False)
     duration = models.DurationField()
-    max_grade = models.IntegerField()
+    max_grade = models.IntegerField(default=0)
 
-    def calculate_max_grade(self):
+    def update_max_grade(self):
         questions = Question.objects.filter(exam=self)
-        max_grade = 0
+        grades = 0
         for question in questions:
-            max_grade += question.marks
-        return max_grade
+            grades += question.marks
+        self.max_grade = grades
     
     # cannot make slug unique on adding two exams of the same name
 
     # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
-    def save(self, *args, **kwargs):
-        self.max_grade = self.calculate_max_grade()
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.max_grade = self.calculate_max_grade()
+    #     super().save(*args, **kwargs)
     # def get_absolute_url(self):
     #     return reverse("exam", args = [self.slug])
 
@@ -73,6 +75,16 @@ class Question(models.Model):
     choice_4 = models.TextField(blank=True)
     correct_answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
 
+
+@receiver(post_save, sender=Question)
+def update_exam_max_grade_on_save(sender, instance, created, **kwargs):
+    if created:
+        instance.exam.update_max_grade()
+        instance.exam.save()
+@receiver(post_delete, sender=Question)
+def update_exam_max_grade_on_delete(sender, instance, **kwargs):
+    instance.exam.update_max_grade()
+    instance.exam.save()
 
 class Attempt(models.Model):
     student = models.ForeignKey('users.Student', on_delete=models.CASCADE)
