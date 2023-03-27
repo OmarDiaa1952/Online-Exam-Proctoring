@@ -12,3 +12,5 @@ backend/media/*
 backend/Dockerfile
 #environment variables
 *.env
+backend/backend/settings.py
+.gitignore
