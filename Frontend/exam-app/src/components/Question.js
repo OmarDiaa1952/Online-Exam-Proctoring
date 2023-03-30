@@ -2,11 +2,11 @@ import classes from "./Question.module.css";
 import Choice from "./Choice";
 
 function Question(props) {
-  let correctChoiceText = "";
-  if (props.correctAnswer === "1") correctChoiceText = props.choice1;
-  else if (props.correctAnswer === "2") correctChoiceText = props.choice2;
-  else if (props.correctAnswer === "3") correctChoiceText = props.choice3;
-  else if (props.correctAnswer === "4") correctChoiceText = props.choice4;
+  let correctChoiceText = 1;
+  if (props.correctAnswer === 1) correctChoiceText = props.choice1;
+  else if (props.correctAnswer === 2) correctChoiceText = props.choice2;
+  else if (props.correctAnswer === 3) correctChoiceText = props.choice3;
+  else if (props.correctAnswer === 4) correctChoiceText = props.choice4;
   return (
     <li>
       <div>
