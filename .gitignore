@@ -11,3 +11,5 @@ backend/Dockerfile
 #environment variables
 *.env
 backend/backend/settings.py
+#more
+required_to_edit.txt
