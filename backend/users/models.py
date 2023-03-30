@@ -2,9 +2,12 @@ from django.db import models
 from django.apps import apps
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
+from django.core.exceptions import ValidationError
 from django.dispatch import receiver
+from django.http import JsonResponse
 
 class User(AbstractUser):
+    #email = models.EmailField(unique=True)
     class Role(models.TextChoices):
         STUDENT = 'STUDENT'
         EXAMINER = 'EXAMINER'
@@ -26,7 +29,7 @@ class ExaminerManager(models.Manager):
 class Examiner(User):
     class Meta:
         proxy = True
-    
+
     base_role = User.Role.EXAMINER
     objects = ExaminerManager()
 
@@ -36,8 +39,18 @@ class Examiner(User):
     
     def save(self, *args, **kwargs):
         self.role = self.base_role
+        try: 
+            self.validate_unique()
+        except ValidationError as e:
+            return JsonResponse(e.message_dict)
         super().save(*args, **kwargs)
         ExaminerProfile.objects.get_or_create(user=self)
+
+    def validate_unique(self, exclude=None):
+        super().validate_unique(exclude=exclude)
+        if Examiner.objects.filter(email=self.email).exists():
+            raise ValidationError({'email': ['Another examiner with this email already exists.']})
+
 
 # a more professional way to create a profile for an examiner
 # @receiver(post_save, sender=Examiner)
@@ -77,8 +90,17 @@ class Student(User):
     
     def save(self, *args, **kwargs):
         self.role = self.base_role
+        try: 
+            self.validate_unique()
+        except ValidationError as e:
+            return JsonResponse(e.message_dict)
         super().save(*args, **kwargs)
         StudentProfile.objects.get_or_create(user=self)
+
+    def validate_unique(self, exclude=None):
+        super().validate_unique(exclude=exclude)
+        if Student.objects.filter(email=self.email).exists():
+            raise ValidationError({'email': ['Another student with this email already exists.']})
 
     def __str__(self) -> str:
         return f'{self.username} - {self.pk}'

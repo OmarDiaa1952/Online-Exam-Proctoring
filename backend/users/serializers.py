@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import make_password
-
+from json import loads
 #################### General Serializers ####################
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -32,8 +32,17 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
         """
         return make_password(value)
 
+    # def create(self, validated_data):
+    #     examiner = Examiner.objects.create(**validated_data)
+    #     error_response = examiner.save()
+    #     if error_response is not None:
+    #         return error_response
+    #     return examiner
     def create(self, validated_data):
-        examiner = Examiner.objects.create(**validated_data)
+        examiner = Examiner(**validated_data)
+        error_response = examiner.save(force_insert=True)
+        if isinstance(error_response, JsonResponse):
+            raise serializers.ValidationError(loads(error_response.content))
         return examiner
 
 #################### Student Serializers ####################
@@ -47,7 +56,10 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         return make_password(value)
         
     def create(self, validated_data):
-        student = Student.objects.create(**validated_data)
+        student = Student(**validated_data)
+        error_response = student.save(force_insert=True)
+        if isinstance(error_response, JsonResponse):
+            raise serializers.ValidationError(loads(error_response.content))
         return student
 
 class PhotoSerializer(serializers.ModelSerializer):
