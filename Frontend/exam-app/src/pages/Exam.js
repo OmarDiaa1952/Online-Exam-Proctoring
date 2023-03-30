@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 
 import UserContext from "../store/user-context";
 import { useNavigate } from "react-router-dom";
+import WebcamCapture from "../utils/WebcamCapture";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
@@ -28,10 +29,6 @@ function ExamPage() {
     let convertedDate = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second;
     return convertedDate;
   }
-
-  useEffect(() => {
-    getExamQuestions();
-  }, []);
 
   let getExamQuestions = async () => {
     let current_date = dateConverter(new Date().toLocaleString());
@@ -112,6 +109,7 @@ function ExamPage() {
       }
     });
   };
+
   return (
     <section>
       <h2>Exam:</h2>
@@ -127,6 +125,7 @@ function ExamPage() {
       <div>
         <button onClick={finishHandler}>Finish</button>
       </div>
+      <WebcamCapture />
     </section>
   );
 }
