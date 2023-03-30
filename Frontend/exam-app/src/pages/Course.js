@@ -7,13 +7,12 @@ import UserContext from "../store/user-context";
 
 function CoursePage() {
   const userCtx = useContext(UserContext);
-  userCtx.setExamId(null);
   const courseId = userCtx.courseId;
-  const history = useNavigate();
 
   let [courseDetails, setCourseDetails] = useState([]);
   let [examsList, setExamsList] = useState([]);
   useEffect(() => {
+    userCtx.setExamId(null);
     getCourseDetails();
     getExamsList();
   }, []);
