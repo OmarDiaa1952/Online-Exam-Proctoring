@@ -216,6 +216,16 @@
         {  # question delete response
             # http 204 no content with no body
         },
+        {  # enrolled student list response
+            # http 200 ok
+            [
+                {
+                    "student_name": "moath hamda",
+                    "student_email": "moza@mail.com",
+                    "enrollment_date": "2023-04-07T12:47:22"
+                }
+            ]
+        },
         {  # enrollment request list response
             # http 200 ok
             [
@@ -308,6 +318,10 @@
         {  # expected request format for deleting a question
             # i expect question id to be sent in the url
             # DELETE request
+        },
+        {  # expected request format for getting enrolled student list for a course
+            # i expect course id to be sent in the url
+            # GET request
         },
         {  # expected request format for getting enrollment request list for a course
             # i expect course id to be sent in the url
