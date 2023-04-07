@@ -7,8 +7,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
 
-from rest_framework.parsers import JSONParser
-
 #################################### General Views ####################################
 
 class CourseListView(generics.ListAPIView):
@@ -104,7 +102,6 @@ class ExamReviewView(generics.RetrieveAPIView):
 
 # This class is very ugly, I know. I will refactor it later
 class ExamEndView(APIView):
-    parser_classes = [JSONParser]
     permission_classes = (IsAuthenticated,)
     def post(self, request, format=None):
         try:

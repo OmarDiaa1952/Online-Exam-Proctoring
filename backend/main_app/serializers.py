@@ -20,7 +20,7 @@ class EnrollmentRequestActionSerializer(serializers.Serializer):
 class CourseCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ("name", "description", "examiner_id")
+        fields = ("name", "description", "status", "examiner_id")
 
     def save(self, *args, **kwargs):
         pk = self.context['request'].user.pk
@@ -34,7 +34,7 @@ class CourseCreateSerializer(serializers.ModelSerializer):
 class CourseEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ("name", "description")
+        fields = ("name", "description", "status")
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
@@ -62,7 +62,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ("id", "name", "description", "examiner", "is_requested", "is_enrolled")
+        fields = ("id", "name", "description", "status", "examiner", "is_requested", "is_enrolled")
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

@@ -1,24 +1,21 @@
 from django.apps import apps
 from django.db import models
-from django.urls import reverse
-from django.utils.text import slugify
 from datetime import datetime
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 class Course(models.Model):
+    STATUS_CHOICES = (
+        ('open', 'open'),
+        ('closed', 'closed'),
+    )
     name = models.CharField(max_length=100)
     description = models.TextField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='open')
     examiner = models.ForeignKey('users.Examiner', on_delete=models.SET_NULL , null=True, related_name='courses')
-    # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
-    # def save(self, *args, **kwargs):    #This is to create the slug automatically when the model is saved
-    #     self.slug = slugify(self.name)
-    #     super().save(*args, **kwargs)
-    # def get_absolute_url(self):
-    #     return reverse("course", args = [self.slug])
 
 class EnrollmentRequest(models.Model):
     student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
@@ -30,7 +27,6 @@ class EnrollmentRequest(models.Model):
         self.delete()
     def reject(self):
         self.delete()
-
 
 class EnrollmentDetail(models.Model):
     student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
@@ -53,17 +49,9 @@ class Exam(models.Model):
         for question in questions:
             grades += question.marks
         self.max_grade = grades
-    
-    # cannot make slug unique on adding two exams of the same name
 
-    # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL
     def __str__(self):
         return self.name
-    # def save(self, *args, **kwargs):
-    #     self.max_grade = self.calculate_max_grade()
-    #     super().save(*args, **kwargs)
-    # def get_absolute_url(self):
-    #     return reverse("exam", args = [self.slug])
 
 class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
@@ -93,9 +81,7 @@ class Attempt(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     submission_time = models.DateTimeField(auto_now=False, auto_now_add=False)
-    grade = models.IntegerField(default=0)
-    # Answers = models.TextField()
-    # slug = models.SlugField(unique=True) #In case we want to use the slug in the URL     
+    grade = models.IntegerField(default=0)   
     def calculate_grade(self):
         marks = 0
         # Query all the answers for this attempt
