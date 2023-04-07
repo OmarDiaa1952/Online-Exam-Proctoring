@@ -14,6 +14,8 @@ function Register(props) {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
+  const firstNameInputRef = useRef();
+  const lastNameInputRef = useRef();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -22,12 +24,16 @@ function Register(props) {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     const enteredConfirmPassword = confirmPasswordInputRef.current.value;
+    const enteredFirstName = firstNameInputRef.current.value;
+    const enteredLastName = lastNameInputRef.current.value;
 
     let registrationData = {
       mainData: {
         username: enteredUsername,
         email: enteredEmail,
         password: enteredPassword,
+        first_name: enteredFirstName,
+        last_Name: enteredLastName,
       },
       imageDataURL: { photo: imageDataURL },
     };
@@ -78,7 +84,7 @@ function Register(props) {
       </div>
       <form onSubmit={submitHandler}>
         <div>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Username</label>
           <input type="text" required id="name" ref={usernameInputRef} />
         </div>
         <div>
@@ -101,6 +107,24 @@ function Register(props) {
             required
             id="confirm-password"
             ref={confirmPasswordInputRef}
+          />
+        </div>
+        <div>
+          <label htmlFor="first-name">First Name</label>
+          <input
+            type="text"
+            required
+            id="first-name"
+            ref={firstNameInputRef}
+          />
+        </div>
+        <div>
+          <label htmlFor="last-name">Last Name</label>
+          <input
+            type="text"
+            required
+            id="last-name"
+            ref={lastNameInputRef}
           />
         </div>
         {userCtx.type === "student" && (
