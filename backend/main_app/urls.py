@@ -26,6 +26,7 @@ urlpatterns = [
     path("questioncreate", QuestionCreateView.as_view(), name="createquestion"),
     path("questionedit/<int:pk>", QuestionEditView.as_view(), name="editquestion"),
     path("questiondelete/<int:pk>", QuestionDeleteView.as_view(), name="deletequestion"),
+    path("enrolledstudentlist/<int:course_id>", EnrolledStudentListView.as_view(), name="enrolledstudentlist"),
     path("enrollmentrequestlist/<int:course_id>", EnrollmentRequestListView.as_view(), name="enrollmentrequestlist"),
     path("enrollmentrequestaction/<int:request_id>", EnrollmentRequestActionView.as_view(), name="enrollmentrequestaction"),
     
