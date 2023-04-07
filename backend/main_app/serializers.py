@@ -3,6 +3,15 @@ from .models import *
 
 ########################## Enrollment Serializers ##########################
 
+class EnrollmentDetailSerializer(serializers.ModelSerializer):
+    # used by EnrolledStudentListView
+    student_name = serializers.CharField(source='student.user.get_full_name') 
+    # i rememer concatinating first and full name manually before somewhere else, i need to change that
+    student_email = serializers.CharField(source='student.user.email')
+    class Meta:
+        model = EnrollmentDetail
+        fields = ("student_name", "student_email", "enrollment_date")
+
 class EnrollmentRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnrollmentRequest

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics, status
 from .serializers import *
 from .models import *
@@ -194,6 +193,17 @@ class QuestionDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return Question.objects.filter(id=pk)
+
+class EnrolledStudentListView(generics.ListAPIView):
+    # this view is responsible for listing all enrolled students of a specific course
+    serializer_class = EnrollmentDetailSerializer
+    lookup_url_kwarg = "course_id"
+    
+    def get_queryset(self):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        if course_id is not None:
+            return EnrollmentDetail.objects.filter(course_id=course_id)
+        return None
 
 class EnrollmentRequestListView(generics.ListAPIView):
     # this view is responsible for listing all enrollment requests of a specific course
