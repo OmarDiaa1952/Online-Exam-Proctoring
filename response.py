@@ -37,6 +37,7 @@
             "name": "gpp",
             "description": "grad proj v3",
             "examiner": "watheq alkharashi",
+            "status": "open",
             "is_requested": 'true',
             "is_enrolled": 'false'
             # the last two field are only sent in case
@@ -247,12 +248,14 @@
             # POST request
             "name": "selected topics",
             "description": "boring course",
+            "status": "closed",
         },
         {  # expected request format for editing a course
             # i expect course id to be sent in the url
             # PUT request
             "name": "selected topics",
             "description": "boring courseV2",
+            "status": "closed",
         },
         {  # expected request format for deleting a course
             # i expect course id to be sent in the url
