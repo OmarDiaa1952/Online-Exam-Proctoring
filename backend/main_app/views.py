@@ -238,4 +238,17 @@ class EnrollmentRequestActionView(APIView):
                 return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         
+class EnrollmentCreateView(generics.CreateAPIView):
+    # this view is responsible for creating an enrollment
+    # by the examiner inserting the student's email
+    permission_classes = (IsAuthenticated,)
+    serializer_class = EnrollmentCreateSerializer
+    lookup_url_kwarg = "course_id"
+
+    def perform_create(self, serializer):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        student_email = self.request.data.get('student_email')
+        student_id = get_id_from_email(student_email)
+        serializer.save(course_id=course_id, student_id=student_id)
+
 # class dealing with logs must be added

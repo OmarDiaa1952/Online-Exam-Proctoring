@@ -24,6 +24,11 @@ class EnrollmentRequestActionSerializer(serializers.Serializer):
     class Meta:
         fields = ("action",)
 
+class EnrollmentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnrollmentDetail
+        fields = ("course_id", "student_id")
+
 ########################## Course Serializers ##########################
 
 class CourseCreateSerializer(serializers.ModelSerializer):

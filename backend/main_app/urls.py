@@ -29,6 +29,7 @@ urlpatterns = [
     path("enrolledstudentlist/<int:course_id>", EnrolledStudentListView.as_view(), name="enrolledstudentlist"),
     path("enrollmentrequestlist/<int:course_id>", EnrollmentRequestListView.as_view(), name="enrollmentrequestlist"),
     path("enrollmentrequestaction/<int:request_id>", EnrollmentRequestActionView.as_view(), name="enrollmentrequestaction"),
+    path("enrollmentcreate/<int:course_id>", EnrollmentCreateView.as_view(), name="createenrollment"),
     
     ################### Student URLs ###################
     

@@ -5,6 +5,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
+def get_id_from_email(email):
+    return apps.get_model('users', 'User').objects.get(email=email).pk
+
 class Course(models.Model):
     STATUS_CHOICES = (
         ('open', 'open'),
