@@ -11,7 +11,7 @@ class EnrollmentDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = EnrollmentDetail
-        fields = ("student_name", "student_email", "enrollment_date")
+        fields = ("id", "student_name", "student_email", "enrollment_date")
 
 class EnrollmentRequestSerializer(serializers.ModelSerializer):
     student_name = serializers.CharField(source='student.user.get_full_name')

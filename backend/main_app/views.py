@@ -250,4 +250,13 @@ class EnrollmentCreateView(generics.CreateAPIView):
         student_id = get_id_from_email(student_email)
         serializer.save(course_id=course_id, student_id=student_id)
 
+class EnrollmentDeleteView(generics.DestroyAPIView):
+    # this view is responsible for deleting an enrollment
+    # (removing a student from a course)
+    lookup_url_kwarg = "pk"
+
+    def get_queryset(self):
+        pk = self.kwargs.get(self.lookup_url_kwarg)
+        return EnrollmentDetail.objects.filter(id=pk)
+
 # class dealing with logs must be added
