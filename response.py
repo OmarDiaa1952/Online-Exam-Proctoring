@@ -231,14 +231,14 @@
             [
                 {
                     "id":1,
-                    "course_id": 1,
-                    "student_id": 1,
+                    "student_name": "moath hamda",
+                    "student_email": "moza@mail.com",
                     "request_date": "2023-02-27T05:36:04.727800"
                 },
                 {
                     "id":2,
-                    "course_id": 1,
-                    "student_id": 2,
+                    "student_name": "moath hamda",
+                    "student_email": "moza@mail.com",
                     "request_date": "2023-02-27T05:39:08.504462"
                 }
             ]
