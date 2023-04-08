@@ -207,7 +207,6 @@ class EnrolledStudentListView(generics.ListAPIView):
 
 class EnrollmentRequestListView(generics.ListAPIView):
     # this view is responsible for listing all enrollment requests of a specific course
-    # request_id also got to be sent
     serializer_class = EnrollmentRequestSerializer
     lookup_url_kwarg = "course_id"
     

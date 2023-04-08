@@ -8,14 +8,18 @@ class EnrollmentDetailSerializer(serializers.ModelSerializer):
     student_name = serializers.CharField(source='student.user.get_full_name') 
     # i rememer concatinating first and full name manually before somewhere else, i need to change that
     student_email = serializers.CharField(source='student.user.email')
+    
     class Meta:
         model = EnrollmentDetail
         fields = ("student_name", "student_email", "enrollment_date")
 
 class EnrollmentRequestSerializer(serializers.ModelSerializer):
+    student_name = serializers.CharField(source='student.user.get_full_name')
+    student_email = serializers.CharField(source='student.user.email')
+    
     class Meta:
         model = EnrollmentRequest
-        fields = ("id","course_id", "student_id", "request_date")
+        fields = ("id", "student_name", "student_email", "request_date")
 
 class EnrollmentRequestActionSerializer(serializers.Serializer):
     # field with only two possible values
