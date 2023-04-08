@@ -247,6 +247,11 @@
             # http 200 ok
             "action": "accept" or "reject"
         },
+        {  # enrollment create response
+            # http 201 created
+            "course_id": 6,
+            "student_id": 2
+        },
     ]
 }
 
@@ -331,6 +336,12 @@
             # i expect request_id to be sent in the url
             # PUT request
             "action": "accept" or "reject"
+        },
+        {  # expected request format for enrolling a student in a course 
+           # by the examiner inserting student's email
+            # i expect course id to be sent in the url
+            # POST request
+            "student_email": "moza@mail.com",
         },
     ]
 }
