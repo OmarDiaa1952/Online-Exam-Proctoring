@@ -3,6 +3,7 @@ from .models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import make_password
 from json import loads
+
 #################### General Serializers ####################
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -16,6 +17,11 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # token['username'] = user.username
         # ...
         return token
+
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "email", "username", "first_name", "last_name")
 
 #################### Examiner Serializers ####################
 
@@ -31,13 +37,7 @@ class ExmainerRegisterSerializer(serializers.ModelSerializer):
         :return: a hashed version of the password
         """
         return make_password(value)
-
-    # def create(self, validated_data):
-    #     examiner = Examiner.objects.create(**validated_data)
-    #     error_response = examiner.save()
-    #     if error_response is not None:
-    #         return error_response
-    #     return examiner
+    
     def create(self, validated_data):
         examiner = Examiner(**validated_data)
         error_response = examiner.save(force_insert=True)

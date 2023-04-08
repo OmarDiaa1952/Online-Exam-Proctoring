@@ -13,6 +13,17 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+class UserDataView(generics.RetrieveAPIView):
+    # this view is responsible for retrieving user's data
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserDataSerializer
+
+    def get_object(self):
+        user_id = self.request.user.pk
+        if user_id is not None:
+            return User.objects.get(id=user_id)
+        return None
+
 ########################### Examiner Views ###########################
 
 class ExaminerRegisterView(generics.CreateAPIView):
@@ -38,17 +49,6 @@ class PhotoUploadView(generics.UpdateAPIView):
         if student_id is not None:
             return StudentProfile.objects.filter(user_id=student_id).first()
         return None
-    
-# class PhotoRetrieve(generics.RetrieveAPIView):
-#     # this view is responsible for retrieving student's photo
-#     permission_classes = (IsAuthenticated,)
-#     serializer_class = PhotoSerializer
-
-#     def get_object(self):
-#         student_id = self.request.user.pk
-#         if student_id is not None:
-#             return StudentProfile.objects.filter(user_id=student_id).first()
-#         return None
 
 class PhotoRetrieve(APIView):
     # this view is responsible for retrieving student's photo
