@@ -252,6 +252,9 @@
             "course_id": 6,
             "student_id": 2
         },
+        {  # enrollment delete response
+            # http 204 no content with no body
+        },
     ]
 }
 
@@ -342,6 +345,10 @@
             # i expect course id to be sent in the url
             # POST request
             "student_email": "moza@mail.com",
+        },
+        {  # expected request format for deleting an enrollment
+            # i expect enrollment id to be sent in the url
+            # DELETE request
         },
     ]
 }
