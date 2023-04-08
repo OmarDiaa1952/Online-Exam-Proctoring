@@ -4,6 +4,14 @@
 
 {
     "responses": [
+        {  # getting user profile data response
+            # http 200 ok
+            "id": 4,
+            "email": "mwatheq@mail.com",
+            "username": "mwatheq",
+            "first_name": "mohamed",
+            "last_name": "watheq",
+        },
         {  # registration response
             # http 201 created
             "email": "khalil@mail.com",
@@ -103,6 +111,9 @@
 
 {
     "requests": [
+        {  # expected request format for getting user profile data
+            # GET request
+        },
         {  # expected request format for registration
             # POST request 
             "email": "khalil@mail.com",
@@ -220,6 +231,7 @@
             # http 200 ok
             [
                 {
+                    "id": 1,
                     "student_name": "moath hamda",
                     "student_email": "moza@mail.com",
                     "enrollment_date": "2023-04-07T12:47:22"
