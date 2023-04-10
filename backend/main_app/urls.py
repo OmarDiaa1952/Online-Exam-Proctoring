@@ -9,8 +9,6 @@ urlpatterns = [
     
     path("courselist", CourseListView.as_view(), name="courselist"),
     path("coursedetail/<int:course_id>", CourseDetailView.as_view(), name="coursedetail"),
-    # path("coursesearch", CourseSearchView.as_view(), name="coursesearch"),
-    # path("coursesearch/<str:search_query>", CourseSearchView.as_view(), name="coursesearch"),
     path("examlist/<int:course_id>", ExamListView.as_view(), name="examlist"),
     path("examdetail/<int:exam_id>", ExamDetailView.as_view(), name="examdetail"),
     path("questionlist/<int:exam_id>", QuestionListView.as_view(), name="questionlist"),
@@ -36,5 +34,6 @@ urlpatterns = [
     
     path("coursejoin/<int:course_id>", CourseJoinView.as_view(), name="coursejoin"),
     path("examreview/<int:exam_id>", ExamReviewView.as_view(), name="examreview"),
+    path("examstart/<int:exam_id>", ExamStartView.as_view(), name="examstart"),
     path("examend", ExamEndView.as_view(), name="examend")
 ]

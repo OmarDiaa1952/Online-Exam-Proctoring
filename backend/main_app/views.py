@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 #################################### General Views ####################################
 
@@ -98,6 +100,35 @@ class ExamReviewView(generics.RetrieveAPIView):
             serializer = self.get_serializer(the_attempt)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'error': 'Missing student_id or exam_id parameters'}, status=status.HTTP_400_BAD_REQUEST)
+
+class ExamStartView(APIView):
+    """
+    this view is responsible for creating a WebSocket 
+    connection between a student and the server
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, **kwargs):
+        # get exam_id from the kwargs
+        exam_id = kwargs.get('exam_id')
+
+        # Check if the exam exists
+        try:
+            exam = Exam.objects.get(id=exam_id)
+        except Exam.DoesNotExist:
+            return Response({'error': 'Invalid exam ID.'}, status=400)
+
+        # Create the WebSocket connection
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.send)(
+            f'exam_{exam_id}_{request.user.id}',
+            {
+                'type': 'start_exam',
+            }
+        )
+
+        # Return a response
+        return Response({'message': 'WebSocket connection started.'})
 
 # This class is very ugly, I know. I will refactor it later
 class ExamEndView(APIView):
