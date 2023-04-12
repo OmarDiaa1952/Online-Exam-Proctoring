@@ -27,8 +27,6 @@ function CourseDetailsPage() {
     );
     let data = await response.json();
 
-    console.log(data);
-
     if (response.status === 200) {
       if(userCtx.type === "examiner" || data.is_enrolled) history("/course");
       setCourseDetails(data);

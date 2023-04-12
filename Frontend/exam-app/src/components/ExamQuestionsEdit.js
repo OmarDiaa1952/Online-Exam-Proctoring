@@ -18,6 +18,7 @@ function ExamQuestionsEdit(props) {
     choice_3: "",
     choice_4: "",
     correct_answer: "1",
+    is_deleted: false,
   };
 
   const [tempKey, setTempKey] = useState(0);
@@ -28,10 +29,9 @@ function ExamQuestionsEdit(props) {
     useState(DUMMY_QUESTION);
   const [questions, setQuestions] = useState([]);
   const [maxGrade, setMaxGrade] = useState(0);
+  const [deleteFlag, setDeleteFlag] = useState(false);
 
   const setOldQuestions = () => {
-    console.log("setOldQuestions");
-    console.log(props.questions);
     props.questions.forEach((question, index) => {
       setQuestions((oldData) => [
         ...oldData,
@@ -41,13 +41,14 @@ function ExamQuestionsEdit(props) {
           questionText={question.question_text}
           questionGrade={question.marks}
           correctChoice={question.correct_answer}
+          newQuestionFlag={false}
           onChoiceChange={(choiceId) => {}}
           choice1={question.choice_1}
           choice2={question.choice_2}
           choice3={question.choice_3}
           choice4={question.choice_4}
           onChangeData={editQHandler}
-          onSave={props.onSave}
+          onDelete={deleteQHandler}
           ref={questionRef}
         />,
       ]);
@@ -73,20 +74,16 @@ function ExamQuestionsEdit(props) {
   useEffect(() => {}, [questions]);
 
   useEffect(() => {
-    // console.log(currentIndex);
     if (currentIndex < props.questions.length) {
-      // console.log(props.questions[currentIndex]);
       setQuestionsData((oldData) => [
         ...oldData,
         props.questions[currentIndex],
       ]);
       setCurrentIndex(currentIndex + 1);
     }
-    console.log(questionsData);
   }, [currentIndex]);
 
   useEffect(() => {
-    console.log("useEffect");
     if (
       !editedQuestionsIds.some((id) => id === currentUpdatedQuestion.id) &&
       currentUpdatedQuestion.id !== -1
@@ -97,10 +94,8 @@ function ExamQuestionsEdit(props) {
         return tempIds;
       });
     }
-    // console.log(questionsData);
     setQuestionsData((oldData) =>
       oldData.map((question) => {
-        // console.log(currentUpdatedQuestion);
         if (question.id === currentUpdatedQuestion.id) {
           return currentUpdatedQuestion;
         }
@@ -110,13 +105,27 @@ function ExamQuestionsEdit(props) {
   }, [currentUpdatedQuestion]);
   useEffect(() => {
     setMaxGrade(questionsData.reduce((acc, question) => acc + question.marks, 0));
-    console.log(maxGrade);
   }, [questionsData]);
 
+  useEffect(() => {}, [deleteFlag]);
+
   function editQHandler(questionData) {
-    console.log("editQHandler");
-    console.log(questionData);
     setCurrentUpdatedQuestion(questionData);
+  }
+
+  function deleteQHandler(questionId) {
+    setQuestionsData((oldData) =>
+      oldData.map((question) => {
+        if (question.id === questionId) {
+          question.is_deleted = true;
+        }
+        return question;
+      })
+    );
+    setQuestions((oldData) =>
+      oldData.filter((question) => question.props.qNumber !== questionId)
+    );
+    setDeleteFlag(!deleteFlag);
   }
 
   const addQuestionHandler = () => {
@@ -131,6 +140,7 @@ function ExamQuestionsEdit(props) {
         choice_2: "",
         choice_3: "",
         choice_4: "",
+        is_deleted: false,
       });
       return tempQuestions;
     });
@@ -143,18 +153,18 @@ function ExamQuestionsEdit(props) {
         questionText=""
         questionGrade={0}
         correctChoice={1}
+        newQuestionFlag={true}
         onChoiceChange={(choiceId) => {}}
         choice1=""
         choice2=""
         choice3=""
         choice4=""
         onChangeData={editQHandler}
-        onSave={props.onSave}
+        onDelete={deleteQHandler}
         ref={questionRef}
       />,
     ]);
     setTempKey(tempKey + 1);
-    console.log(tempKey);
   };
 
   return (

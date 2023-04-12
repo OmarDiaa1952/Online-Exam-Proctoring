@@ -8,14 +8,18 @@ function ExamComponent(props) {
   const userCtx = useContext(UserContext);
   return (
     <div>
-      <button onClick={()=>userCtx.setExamId(props.id)}>
+      <button onClick={() => userCtx.setExamId(props.id)}>
         <Link
           to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}
         >
           {props.name}
         </Link>
-        {userCtx.type === "examiner" && <button type="button" onClick={()=>props.onDelete(props.id)}>Delete</button>}
       </button>
+      {userCtx.type === "examiner" && (
+        <button type="button" onClick={() => props.onDelete(props.id)}>
+          Delete
+        </button>
+      )}
     </div>
   );
 }

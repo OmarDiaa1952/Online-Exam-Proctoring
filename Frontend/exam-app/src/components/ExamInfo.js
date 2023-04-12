@@ -25,10 +25,13 @@ function ExamInfo(props) {
           <span>Duration: </span>
           <span>{props.examData.duration}</span>
         </div>
-        <div>
-        <span>Max Grade: </span>
-        <span>{props.examData.max_grade}</span>
-      </div>
+        {props.maxGrade ? <div>
+          <span>Max Grade: </span>
+          <span>{props.maxGrade}</span>
+        </div> : <div>
+          <span>Max Grade: </span>
+          <span>{props.examData.max_grade}</span>
+        </div>}
       </div>
     </section>
   );

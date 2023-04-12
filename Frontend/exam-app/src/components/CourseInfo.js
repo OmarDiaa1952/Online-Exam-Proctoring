@@ -1,7 +1,6 @@
 import classes from "./CourseInfo.module.css";
 
 function CourseInfo(props) {
-  console.log(props.courseData);
   return (
     <div>
       <div>

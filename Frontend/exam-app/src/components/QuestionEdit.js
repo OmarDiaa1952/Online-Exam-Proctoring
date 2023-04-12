@@ -125,6 +125,10 @@ const QuestionEdit = forwardRef((props, ref) => {
     );
   };
 
+  const deleteQuestionHandler = () => {
+    props.onDelete(props.qNumber);
+  }
+
   return (
     <li key={props.questionText}>
       <div>
@@ -164,6 +168,8 @@ const QuestionEdit = forwardRef((props, ref) => {
           // choiceId={"choice1"}
           choiceText={props.choice1}
           questionText={props.questionText}
+          questionId={props.qNumber}
+          checked={props.newQuestionFlag ? false : props.correctChoice === 1}
           onChoiceChange={choiceChangeHandler}
           onChange={choice1TextChangeHandler}
         />
@@ -174,6 +180,8 @@ const QuestionEdit = forwardRef((props, ref) => {
           // choiceId={"choice2"}
           choiceText={props.choice2}
           questionText={props.questionText}
+          questionId={props.qNumber}
+          checked={props.newQuestionFlag ? false : props.correctChoice === 2}
           onChoiceChange={choiceChangeHandler}
           onChange={choice2TextChangeHandler}
         />
@@ -184,6 +192,8 @@ const QuestionEdit = forwardRef((props, ref) => {
           // choiceId={"choice3"}
           choiceText={props.choice3}
           questionText={props.questionText}
+          questionId={props.qNumber}
+          checked={props.newQuestionFlag ? false : props.correctChoice === 3}
           onChoiceChange={choiceChangeHandler}
           onChange={choice3TextChangeHandler}
         />
@@ -194,6 +204,8 @@ const QuestionEdit = forwardRef((props, ref) => {
           // choiceId={"choice4"}
           choiceText={props.choice4}
           questionText={props.questionText}
+          questionId={props.qNumber}
+          checked={props.newQuestionFlag ? false : props.correctChoice === 4}
           onChoiceChange={choiceChangeHandler}
           onChange={choice4TextChangeHandler}
         />
@@ -204,7 +216,7 @@ const QuestionEdit = forwardRef((props, ref) => {
         </button>
       </div>
       <div>
-        <button type="button" onClick={props.onDeleteQuestion}>
+        <button type="button" onClick={deleteQuestionHandler}>
           Delete Question
         </button>
       </div>

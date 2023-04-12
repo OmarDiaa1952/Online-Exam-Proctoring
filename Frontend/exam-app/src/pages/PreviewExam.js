@@ -8,6 +8,7 @@ import UserContext from "../store/user-context";
 function PreviewExamPage() {
   const userCtx = useContext(UserContext);
   const examId = userCtx.examId;
+  const [maxGrade, setMaxGrade] = useState(0);
   let [examDetails, setExamDetails] = useState([]);
   let [examQuestions, setExamQuestions] = useState([]);
 
@@ -15,6 +16,10 @@ function PreviewExamPage() {
     getExamDetails();
     getExamQuestions();
   }, []);
+
+  useEffect(() => {
+    setMaxGrade(examQuestions.reduce((acc, question) => acc + question.questionGrade, 0));
+  }, [examQuestions]);
 
   let getExamDetails = async () => {
     if (examId) {
@@ -29,7 +34,6 @@ function PreviewExamPage() {
         }
       );
       let data = await response.json();
-      console.log(data);
       if (response.status === 200) {
         setExamDetails(data);
       } else if (response.statusText === "Unauthorized") {
@@ -50,7 +54,6 @@ function PreviewExamPage() {
         }
       );
       let data = await response.json();
-      console.log(data);
       if (response.status === 200) {
         setExamQuestions(
           data.map((question) => ({
@@ -72,7 +75,7 @@ function PreviewExamPage() {
 
   return (
     <section>
-      <ExamInfo examData={examDetails} />
+      <ExamInfo examData={examDetails} maxGrade={maxGrade} />
       <ExamQuestions questions={examQuestions} editable={false} />
       <div>
         <div>

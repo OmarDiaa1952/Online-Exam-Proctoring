@@ -7,7 +7,7 @@ function Choice(props) {
                 type="radio"
                 name={props.questionId}
                 value={props.choice}
-                onChange={() => props.onChoiceChange(props.questionId, props.choice)}
+                onChange={() => props.onChoiceChange(props.questionId, props.id)}
                 defaultChecked={props.isChecked}
                 disabled={!props.editable}
             />

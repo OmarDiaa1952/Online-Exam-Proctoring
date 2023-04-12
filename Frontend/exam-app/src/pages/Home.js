@@ -6,28 +6,28 @@ import UserContext from "../store/user-context";
 function HomePage() {
   let [courses, setCourses] = useState([]);
   let [foundCourses, setFoundCourses] = useState([]);
-  let { authTokens, logoutUser } = useContext(UserContext);
-  const userCtx = useContext(UserContext);
-  userCtx.setCourseId(null);
-  userCtx.setExamId(null);
+  let { authTokens, logoutUser, type, setCourseId, setExamId } =
+    useContext(UserContext);
 
   useEffect(() => {
-    console.log("HomePage useEffect");
     getCourses("");
-    if(userCtx.type === "student") inspectCourses("");
+    setCourseId(null);
+    setExamId(null);
+    if (type === "student") inspectCourses("");
   }, []);
 
   let getCourses = async (text) => {
-    let response = await fetch("http://localhost:8000/main_app/courselist?search=" + text, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(authTokens.access),
-      },
-    });
+    let response = await fetch(
+      "http://localhost:8000/main_app/courselist?search=" + text,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
     let data = await response.json();
-    console.log("response");
-    console.log(data);
 
     if (response.status === 200) {
       setCourses(data);
@@ -37,13 +37,16 @@ function HomePage() {
   };
 
   let inspectCourses = async (text) => {
-    let response = await fetch("http://localhost:8000/main_app/courselist?search=" + text + "&all=1", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(authTokens.access),
-      },
-    });
+    let response = await fetch(
+      "http://localhost:8000/main_app/courselist?search=" + text + "&all=1",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
     let data = await response.json();
 
     if (response.status === 200) {
