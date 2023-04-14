@@ -13,3 +13,4 @@ backend/Dockerfile
 backend/backend/settings.py
 #more
 required_to_edit.txt
+ws_test.py
