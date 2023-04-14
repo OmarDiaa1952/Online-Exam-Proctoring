@@ -108,7 +108,15 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
         'HOST': os.environ.get('DATABASE_HOST'),
         'PORT': os.environ.get('DATABASE_PORT'),
-    }
+    },
+# test db is sqlite
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #     'Test':{
+    #         'NAME': os.path.join(BASE_DIR, 'test_db.sqlite3'),
+    #     }
+    # }
 }
 
 # remote db
