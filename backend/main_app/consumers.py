@@ -1,9 +1,15 @@
+from datetime import timedelta
 from json import loads, dumps
 from channels.generic.websocket import AsyncWebsocketConsumer
 from .models import Exam
+from asgiref.sync import sync_to_async
+import asyncio
+from channels.db import database_sync_to_async
 
 class ExamConsumer(AsyncWebsocketConsumer):
     async def connect(self):
+        print("WebSocket connection established for exam")
+
         # Get the exam ID and student ID from the WebSocket URL
         self.exam_id = self.scope['url_route']['kwargs']['exam_id']
         self.student_id = self.scope['url_route']['kwargs']['student_id']
@@ -15,10 +21,16 @@ class ExamConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         # Start the exam timer
-        exam = Exam.objects.get(id=self.exam_id)
-        self.remaining_time = exam.duration * 60
-        self.timer_task = self.channel_layer.periodic_task(1, self.update_timer)
+        
+        exam = await database_sync_to_async(Exam.objects.get)(id=self.exam_id)
 
+        self.remaining_time = exam.duration * 60
+        self.timer_task = asyncio.ensure_future(self.update_timer())
+
+    # testing the db_sync_to_async
+    def get_all_exams(self):
+        return Exam.objects.all()
+        
     async def receive(self, text_data):
         # Handle incoming WebSocket messages
         message = loads(text_data)
@@ -29,13 +41,16 @@ class ExamConsumer(AsyncWebsocketConsumer):
             photo_data = message.get('photo_data')
             # then i gotta decide what to do with the photo
 
+        elif message_type == 'start_exam':
+            print("exam started")
+
     async def update_timer(self):
         # Update the remaining time and send updates to the client-side
-        if self.remaining_time > 0:
-            self.remaining_time -= 1
+        if int(self.remaining_time.total_seconds()) > 0:
+            self.remaining_time -= timedelta(seconds=1)
             await self.send(dumps({
                 'type': 'timer',
-                'remaining_time': self.remaining_time
+                'remaining_time': str(self.remaining_time)
             }))
         else:
             # End the exam session
