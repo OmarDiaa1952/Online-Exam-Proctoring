@@ -37,55 +37,64 @@ function EditExamInfo(props) {
               defaultValue={examInfo.examData.description ? examInfo.examData.description : ""}
             />
           </div>
-          <div>
-            <span>
-              <label htmlFor="exam_start_date">Start Date</label>
-              <input
-                type="date"
-                id="exam_start_date"
-                defaultValue={examInfo.examData.exam_start_date ? examInfo.examData.exam_start_date.substring(
-                  0,
-                  10
-                ) : ""}
-              />
-            </span>
-            <span>
-              <label htmlFor="exam_start_time">Start Time</label>
-              <input
-                type="time"
-                id="exam_start_time"
-                defaultValue={examInfo.examData.exam_start_date ? examInfo.examData.exam_start_date.substring(
-                  11,
-                  16
-                ) : ""}
-              />
-            </span>
-          </div>
-          <div>
-            <span>
-              <label htmlFor="exam_end_date">End Date</label>
-              <input
-                type="date"
-                id="exam_end_date"
-                defaultValue={examInfo.examData.exam_end_date ? examInfo.examData.exam_end_date.substring(0, 10) : ""}
-              />
-            </span>
-            <span>
-              <label htmlFor="exam_end_time">End Time</label>
-              <input
-                type="time"
-                id="exam_end_time"
-                defaultValue={examInfo.examData.exam_end_date? examInfo.examData.exam_end_date.substring(11, 16) : ""}
-              />
-            </span>
-          </div>
-          <div>
-            <label htmlFor="duration">Duration</label>
-            <input
-              type="time"
-              id="duration"
-              defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(0, 5) : ""}
-            />
+          <div className="card bg-light">
+            <div className="card-body">
+              <div className="row mb-3">
+                <span className="col">
+                  <label htmlFor="exam_start_date" className="col">Start Date</label>
+                  <input
+                    className="col"
+                    type="date"
+                    id="exam_start_date"
+                    defaultValue={examInfo.examData.exam_start_date ? examInfo.examData.exam_start_date.substring(
+                      0,
+                      10
+                    ) : ""}
+                  />
+                </span>
+                <span className="col">
+                  <label htmlFor="exam_start_time" className="col">Start Time</label>
+                  <input
+                    className="col"
+                    type="time"
+                    id="exam_start_time"
+                    defaultValue={examInfo.examData.exam_start_date ? examInfo.examData.exam_start_date.substring(
+                      11,
+                      16
+                    ) : ""}
+                  />
+                </span>
+              </div>
+              <div className="row mb-3">
+                <span className="col">
+                  <label htmlFor="exam_end_date" className="col">End Date</label>
+                  <input
+                    className="col"
+                    type="date"
+                    id="exam_end_date"
+                    defaultValue={examInfo.examData.exam_end_date ? examInfo.examData.exam_end_date.substring(0, 10) : ""}
+                  />
+                </span>
+                <span className="col">
+                  <label htmlFor="exam_end_time" className="col">End Time</label>
+                  <input
+                    className="col"
+                    type="time"
+                    id="exam_end_time"
+                    defaultValue={examInfo.examData.exam_end_date ? examInfo.examData.exam_end_date.substring(11, 16) : ""}
+                  />
+                </span>
+              </div>
+              <div className="row mb-3">
+                <label htmlFor="duration" className="col-2">Duration</label>
+                <input
+                  className="col-2"
+                  type="time"
+                  id="duration"
+                  defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(0, 5) : ""}
+                />
+              </div>
+            </div>
           </div>
           <div>
             <button>Save</button>

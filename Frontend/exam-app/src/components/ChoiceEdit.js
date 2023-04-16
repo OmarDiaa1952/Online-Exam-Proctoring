@@ -14,8 +14,8 @@ const ChoiceEdit = forwardRef((props, ref) => {
   }
 
   return (
-    <div>
-      <div>
+    <div className="row">
+      <div className="col-1">
         <input
           type="radio"
           name={props.questionText ? props.questionText : props.questionId}
@@ -25,7 +25,7 @@ const ChoiceEdit = forwardRef((props, ref) => {
         />
         {/* <label>{props.choiceText}</label> */}
       </div>
-      <div>
+      <div className="col">
         <textarea
           id={props.choiceId}
           rows="5"
@@ -35,7 +35,7 @@ const ChoiceEdit = forwardRef((props, ref) => {
           onChange={choiceTextChangeHandler}
         />
       </div>
-      <div>
+      <div className="col">
         <button type="button" onClick={deleteHandler}>
           Delete
         </button>
