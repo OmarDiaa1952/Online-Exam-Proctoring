@@ -9,6 +9,7 @@ function RegistrationPage() {
   const history = useNavigate();
 
   let registerHandler = async (registerData) => {
+    console.log(registerData);
     const req =
       userCtx.type === "student" ? "studentregister" : "examinerregister";
     let response = await fetch("http://localhost:8000/users/" + req, {
@@ -18,6 +19,7 @@ function RegistrationPage() {
         "Content-Type": "application/json",
       },
     });
+    let data = await response.json();
     if (response.status === 201) {
       if (req === "studentregister") {
         fetch("http://localhost:8000/users/photoupload", {
@@ -29,8 +31,13 @@ function RegistrationPage() {
         });
       }
       history("/welcome");
-    } else{
-      alert("Something went wrong!");
+    } else if(data.email !== undefined) {
+      let message = "Another " + userCtx.type + " with this email already exists.";
+      alert(message);
+    } else if(data.username !== undefined) {
+      alert("A user with that username already exists.");
+    } else {
+      alert("Registration failed.");
     }
   };
 

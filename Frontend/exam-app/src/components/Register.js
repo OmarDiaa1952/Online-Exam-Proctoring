@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import classes from "./Register.module.css";
@@ -6,6 +6,15 @@ import UserContext from "../store/user-context";
 // import { Link } from "react-router-dom";
 
 function Register(props) {
+  const [userType, setUserType] = useState(() =>
+    localStorage.getItem("userType")
+      ? localStorage.getItem("userType")
+      : "student"
+  );
+  useEffect(() => {
+    userCtx.type === "student" ? userCtx.setUserType("student") : userCtx.setUserType("examiner");
+  }, []);
+  
   const userCtx = useContext(UserContext);
   const location = useLocation();
   const imageDataURL = location.state;
@@ -62,7 +71,7 @@ function Register(props) {
             id="student"
             name="user-type"
             value="student"
-            defaultChecked
+            defaultChecked={userType === "student"}
             onClick={() => {
               userCtx.setUserType("student");
             }}
@@ -75,6 +84,7 @@ function Register(props) {
             id="examiner"
             name="user-type"
             value="examiner"
+            defaultChecked={userType === "examiner"}
             onClick={() => {
               userCtx.setUserType("examiner");
             }}
