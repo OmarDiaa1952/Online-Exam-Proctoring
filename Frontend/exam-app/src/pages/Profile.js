@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import UserInfo from "../components/UserInfo";
 import UserContext from "../store/user-context";
@@ -37,6 +38,11 @@ function ProfilePage() {
     <div>
       <h1>Profile</h1>
       <UserInfo userData={userData} />
+      <div>
+        <Link to="/">
+          <button type="button">Home</button>
+        </Link>
+      </div>
     </div>
   );
 }
