@@ -15,7 +15,7 @@ function ExamReviewDetails(props) {
         </div>
         <div>
         <span>Grade: </span>
-        <span>{props.examData.grade}</span>
+        <span>{props.examData.grade} / {props.examData.maxGrade}</span>
       </div>
       </div>
     </section>

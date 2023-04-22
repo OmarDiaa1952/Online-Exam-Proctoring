@@ -16,6 +16,10 @@ function ReviewExamPage() {
     Review();
   }, []);
 
+  useEffect(() => {
+    getMaxGrade();
+  }, [examQuestions]);
+
   let Review = async () => {
     if (examId) {
       let response = await fetch(
@@ -29,7 +33,6 @@ function ReviewExamPage() {
         }
       );
       let data = await response.json();
-      console.log(data);
       if (response.status === 200) {
         setExamDetails({
           id: data.id,
@@ -55,6 +58,17 @@ function ReviewExamPage() {
         userCtx.logoutUser();
       }
     }
+  };
+  
+  let getMaxGrade = () => {
+    let maxGrade = 0;
+    examQuestions.forEach((question) => {
+      maxGrade += question.questionGrade;
+    });
+    setExamDetails((prevState) => ({
+      ...prevState,
+      maxGrade: maxGrade,
+    }));
   };
 
   return (
