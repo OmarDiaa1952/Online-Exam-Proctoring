@@ -61,6 +61,17 @@ function EditExamPage() {
       );
       let data = await response.json();
       if (response.status === 200) {
+        data = data.map((question) => {
+          return {
+            ...question,
+            choices: [
+              { id: 1, text: question.choice_1 },
+              { id: 2, text: question.choice_2 },
+              { id: 3, text: question.choice_3 },
+              { id: 4, text: question.choice_4 },
+            ],
+          };
+        });
         setExamQuestions(data);
         // console.log(data);
         await timeout(1000);
@@ -119,10 +130,19 @@ function EditExamPage() {
           ? question.question_text
           : oldQuestion.question_text,
         marks: question.marks ? question.marks : oldQuestion.marks,
-        choice_1: question.choice_1 ? question.choice_1 : oldQuestion.choice_1,
-        choice_2: question.choice_2 ? question.choice_2 : oldQuestion.choice_2,
-        choice_3: question.choice_3 ? question.choice_3 : oldQuestion.choice_3,
-        choice_4: question.choice_4 ? question.choice_4 : oldQuestion.choice_4,
+        choice_1: question.choices
+          ? question.choices.find((choice) => choice.id === 1).text
+          : oldQuestion.choices.find((choice) => choice.id === 1).text,
+        choice_2: question.choices
+          ? question.choices.find((choice) => choice.id === 2).text
+          : oldQuestion.choices.find((choice) => choice.id === 2).text,
+        choice_3: question.choices
+          ? question.choices.find((choice) => choice.id === 3).text
+          : oldQuestion.choices.find((choice) => choice.id === 3).text,
+        choice_4: question.choices
+          ? question.choices.find((choice) => choice.id === 4).text
+          : oldQuestion.choices.find((choice) => choice.id === 4).text,
+        // choices: question.choices ? question.choices : oldQuestion.choices,
         correct_answer: question.correct_answer
           ? question.correct_answer + ""
           : oldQuestion.correct_answer + "",

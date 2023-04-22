@@ -1,8 +1,4 @@
-import {
-  useState,
-  useRef,
-  forwardRef,
-} from "react";
+import { useState, useRef, forwardRef } from "react";
 
 import classes from "./QuestionEdit.module.css";
 import ChoiceEdit from "./ChoiceEdit";
@@ -13,121 +9,62 @@ const QuestionEdit = forwardRef((props, ref) => {
 
   const [questionText, setQuestionText] = useState("");
   const [questionGrade, setQuestionGrade] = useState(0);
-  const [choice1Text, setChoice1Text] = useState("");
-  const [choice2Text, setChoice2Text] = useState("");
-  const [choice3Text, setChoice3Text] = useState("");
-  const [choice4Text, setChoice4Text] = useState("");
-  const [correctChoice, setCorrectChoice] = useState("1");
+  const [choicesList, setChoicesList] = useState(props.choices);
+  const [correctChoice, setCorrectChoice] = useState(props.correctChoice);
 
   const questionTextChangeHandler = () => {
     setQuestionText(questionTextRef.current.value);
-    props.onChangeData(
-      {
-        id: props.qNumber,
-        question_text: questionTextRef.current.value,
-        marks: Number(questionGrade),
-        choice_1: choice1Text,
-        choice_2: choice2Text,
-        choice_3: choice3Text,
-        choice_4: choice4Text,
-        correct_answer: correctChoice,
-      }
-    );
+    props.onChangeData({
+      id: props.qNumber,
+      question_text: questionTextRef.current.value,
+      marks: Number(questionGrade),
+      choices: choicesList,
+      correct_answer: correctChoice,
+    });
   };
   const questionGradeChangeHandler = () => {
     setQuestionGrade(questionGradeRef.current.value);
-    props.onChangeData(
-      {
-        id: props.qNumber,
-        question_text: questionText,
-        marks: Number(questionGradeRef.current.value),
-        choice_1: choice1Text,
-        choice_2: choice2Text,
-        choice_3: choice3Text,
-        choice_4: choice4Text,
-        correct_answer: correctChoice,
-      }
-    );
-  };
-  const choice1TextChangeHandler = (choiceText) => {
-    setChoice1Text(choiceText);
-    props.onChangeData(
-      {
-        id: props.qNumber,
-        question_text: questionText,
-        marks: Number(questionGrade),
-        choice_1: choiceText,
-        choice_2: choice2Text,
-        choice_3: choice3Text,
-        choice_4: choice4Text,
-        correct_answer: correctChoice,
-      }
-    );
-  };
-  const choice2TextChangeHandler = (choiceText) => {
-    setChoice2Text(choiceText);
-    props.onChangeData(
-      {
-        id: props.qNumber,
-        question_text: questionText,
-        marks: Number(questionGrade),
-        choice_1: choice1Text,
-        choice_2: choiceText,
-        choice_3: choice3Text,
-        choice_4: choice4Text,
-        correct_answer: correctChoice,
-      }
-    );
-  };
-  const choice3TextChangeHandler = (choiceText) => {
-    setChoice3Text(choiceText);
-    props.onChangeData(
-      {
-        id: props.qNumber,
-        question_text: questionText,
-        marks: Number(questionGrade),
-        choice_1: choice1Text,
-        choice_2: choice2Text,
-        choice_3: choiceText,
-        choice_4: choice4Text,
-        correct_answer: correctChoice,
-      }
-    );
-  };
-  const choice4TextChangeHandler = (choiceText) => {
-    setChoice4Text(choiceText);
-    props.onChangeData(
-      {
-        id: props.qNumber,
-        question_text: questionText,
-        marks: Number(questionGrade),
-        choice_1: choice1Text,
-        choice_2: choice2Text,
-        choice_3: choice3Text,
-        choice_4: choiceText,
-        correct_answer: correctChoice,
-      }
-    );
+    props.onChangeData({
+      id: props.qNumber,
+      question_text: questionText,
+      marks: Number(questionGradeRef.current.value),
+      choices: choicesList,
+      correct_answer: correctChoice,
+    });
   };
   const choiceChangeHandler = (choiceId) => {
     setCorrectChoice(choiceId);
-    props.onChangeData(
-      {
-        id: props.qNumber,
-        question_text: questionText,
-        marks: Number(questionGrade),
-        choice_1: choice1Text,
-        choice_2: choice2Text,
-        choice_3: choice3Text,
-        choice_4: choice4Text,
-        correct_answer: choiceId,
+    props.onChangeData({
+      id: props.qNumber,
+      question_text: questionText,
+      marks: Number(questionGrade),
+      choices: choicesList,
+      correct_answer: choiceId,
+    });
+  };
+
+  const choicesTextChangeHandler = (choiceId, choiceText) => {
+    let updatedChoices = choicesList.map((prevChoice) => {
+      if (prevChoice.id === choiceId) {
+        return { id: choiceId, text: choiceText };
+      } else {
+        return prevChoice;
       }
-    );
+    });
+    console.log(updatedChoices);
+    setChoicesList(updatedChoices);
+    props.onChangeData({
+      id: props.qNumber,
+      question_text: questionText,
+      marks: Number(questionGrade),
+      choices: updatedChoices,
+      correct_answer: correctChoice,
+    });
   };
 
   const deleteQuestionHandler = () => {
     props.onDelete(props.qNumber);
-  }
+  };
 
   return (
     <div className="card bg-light mb-5">
@@ -136,7 +73,6 @@ const QuestionEdit = forwardRef((props, ref) => {
           <div className="col-6">
             <textarea
               id={"q" + props.qNumber + "questionText"}
-              // id={"questionText"}
               rows="5"
               placeholder="Question text"
               defaultValue={props.questionText}
@@ -144,11 +80,15 @@ const QuestionEdit = forwardRef((props, ref) => {
               onChange={questionTextChangeHandler}
             />
           </div>
-          <label htmlFor={"q" + props.qNumber + "questionGrade"} className="col">Grade:</label>
+          <label
+            htmlFor={"q" + props.qNumber + "questionGrade"}
+            className="col"
+          >
+            Grade:
+          </label>
           <div className="col">
             <input
               id={"q" + props.qNumber + "questionGrade"}
-              // id={"questionGrade"}
               type="number"
               defaultValue={props.questionGrade}
               ref={questionGradeRef}
@@ -157,63 +97,22 @@ const QuestionEdit = forwardRef((props, ref) => {
           </div>
         </div>
         <div>
-          {/* {props.choices.map((choice) => (
+          {props.choices.map((choice) => (
             <ChoiceEdit
-              key={choice.choiceId}
-              choiceId={choice.choiceId}
-              choiceText={choice.choiceText}
-              id={props.id}
-              onChoiceChange={props.onChoiceChange}
+              key={"q" + props.qNumber + "choice" + choice.id}
+              choiceId={choice.id}
+              choiceText={choice.text}
+              questionText={props.questionText}
+              questionId={props.qNumber}
+              checked={
+                props.newQuestionFlag
+                  ? false
+                  : props.correctChoice === choice.id
+              }
+              onChoiceChange={choiceChangeHandler}
+              onChange={choicesTextChangeHandler}
             />
-          ))} */}
-          <ChoiceEdit
-            key={"q" + props.qNumber + "choice1"}
-            choiceId={"1"}
-            // key={"choice1"}
-            // choiceId={"choice1"}
-            choiceText={props.choice1}
-            questionText={props.questionText}
-            questionId={props.qNumber}
-            checked={props.newQuestionFlag ? false : props.correctChoice === 1}
-            onChoiceChange={choiceChangeHandler}
-            onChange={choice1TextChangeHandler}
-          />
-          <ChoiceEdit
-            key={"q" + props.qNumber + "choice2"}
-            choiceId={"2"}
-            // key={"choice2"}
-            // choiceId={"choice2"}
-            choiceText={props.choice2}
-            questionText={props.questionText}
-            questionId={props.qNumber}
-            checked={props.newQuestionFlag ? false : props.correctChoice === 2}
-            onChoiceChange={choiceChangeHandler}
-            onChange={choice2TextChangeHandler}
-          />
-          <ChoiceEdit
-            key={"q" + props.qNumber + "choice3"}
-            choiceId={"3"}
-            // key={"choice3"}
-            // choiceId={"choice3"}
-            choiceText={props.choice3}
-            questionText={props.questionText}
-            questionId={props.qNumber}
-            checked={props.newQuestionFlag ? false : props.correctChoice === 3}
-            onChoiceChange={choiceChangeHandler}
-            onChange={choice3TextChangeHandler}
-          />
-          <ChoiceEdit
-            key={"q" + props.qNumber + "choice4"}
-            choiceId={"4"}
-            // key={"choice4"}
-            // choiceId={"choice4"}
-            choiceText={props.choice4}
-            questionText={props.questionText}
-            questionId={props.qNumber}
-            checked={props.newQuestionFlag ? false : props.correctChoice === 4}
-            onChoiceChange={choiceChangeHandler}
-            onChange={choice4TextChangeHandler}
-          />
+          ))}
         </div>
         <div>
           <button type="button" onClick={props.onAddChoice}>

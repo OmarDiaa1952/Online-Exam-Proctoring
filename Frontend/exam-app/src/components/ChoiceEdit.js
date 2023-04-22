@@ -4,9 +4,10 @@ import classes from "./ChoiceEdit.module.css";
 
 const ChoiceEdit = forwardRef((props, ref) => {
   const choiceTextRef = useRef();
+  // console.log(props);
 
   const choiceTextChangeHandler = () => {
-    props.onChange(choiceTextRef.current.value);
+    props.onChange(props.choiceId, choiceTextRef.current.value);
   };
 
   function deleteHandler() {

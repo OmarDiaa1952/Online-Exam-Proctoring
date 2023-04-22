@@ -13,11 +13,8 @@ function ExamQuestionsEdit(props) {
     id: -1,
     question_text: "",
     marks: 0,
-    choice_1: "",
-    choice_2: "",
-    choice_3: "",
-    choice_4: "",
-    correct_answer: "1",
+    choices: [],
+    correct_answer: 1,
     is_deleted: false,
   };
 
@@ -43,10 +40,7 @@ function ExamQuestionsEdit(props) {
           correctChoice={question.correct_answer}
           newQuestionFlag={false}
           onChoiceChange={(choiceId) => {}}
-          choice1={question.choice_1}
-          choice2={question.choice_2}
-          choice3={question.choice_3}
-          choice4={question.choice_4}
+          choices={question.choices}
           onChangeData={editQHandler}
           onDelete={deleteQHandler}
           ref={questionRef}
@@ -135,11 +129,8 @@ function ExamQuestionsEdit(props) {
         id: tempKey,
         question_text: "",
         marks: 0,
-        correct_answer: "1",
-        choice_1: "",
-        choice_2: "",
-        choice_3: "",
-        choice_4: "",
+        correct_answer: 1,
+        choices: [{ id: 1, text: "" }, { id: 2, text: "" }, { id: 3, text: "" }, { id: 4, text: "" }],
         is_deleted: false,
       });
       return tempQuestions;
@@ -155,10 +146,7 @@ function ExamQuestionsEdit(props) {
         correctChoice={1}
         newQuestionFlag={true}
         onChoiceChange={(choiceId) => {}}
-        choice1=""
-        choice2=""
-        choice3=""
-        choice4=""
+        choices={[{ id: 1, text: "" }, { id: 2, text: "" }, { id: 3, text: "" }, { id: 4, text: "" }]}
         onChangeData={editQHandler}
         onDelete={deleteQHandler}
         ref={questionRef}
@@ -183,10 +171,10 @@ function ExamQuestionsEdit(props) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(editedQuestionsIds);
+            // console.log(editedQuestionsIds);
             setEditedQuestionsIds(() => []);
             setCurrentUpdatedQuestion(DUMMY_QUESTION);
-            console.log(questionsData);
+            // console.log(questionsData);
             props.onSave(questionsData, editedQuestionsIds);
           }}
         >
