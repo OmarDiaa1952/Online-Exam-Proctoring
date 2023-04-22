@@ -10,22 +10,27 @@ function ModifyCoursePage() {
   const userCtx = useContext(UserContext);
   let [courseDetails, setCourseDetails] = useState([]);
   let [enrollmentRequests, setEnrollmentRequests] = useState([]);
-
-  let crsId = "";
-  if (userCtx.courseId) {
-    var courseId = userCtx.courseId;
-    crsId = "/" + courseId;
-  }
+  let [enrolledStudents, setEnrolledStudents] = useState([]);
+  let [updateEnrolledStudents, setUpdateEnrolledStudents] = useState(false);
+  let [delayCourseDetails, setDelayCourseDetails] = useState(false);
 
   useEffect(() => {
     getCourseDetails();
     getEnrollmentRequests();
   }, []);
 
+  useEffect(() => {
+    getEnrolledStudents();
+  }, [updateEnrolledStudents]);
+
+  useEffect(() => {
+    console.log(courseDetails);
+  }, [delayCourseDetails]);
+
   let getCourseDetails = async () => {
     if (userCtx.courseId) {
       let response = await fetch(
-        "http://localhost:8000/main_app/coursedetail" + crsId,
+        "http://localhost:8000/main_app/coursedetail/" + userCtx.courseId,
         {
           method: "GET",
           headers: {
@@ -35,37 +40,43 @@ function ModifyCoursePage() {
         }
       );
       let data = await response.json();
+      console.log(data);
 
       if (response.status === 200) {
         setCourseDetails(data);
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
+        setDelayCourseDetails(true);
+      } else {
+        await timeout(1000);
+        setDelayCourseDetails(true);
       }
     }
   };
 
   let modifyCourseHandler = async (e) => {
     e.preventDefault();
-    let req = "courseedit";
-    let reqMethod = "PUT";
-    if (!userCtx.courseId) {
-      req = "coursecreate";
-      reqMethod = "POST";
+    let req = "coursecreate";
+    let reqMethod = "POST";
+    let status = "closed";
+    if (e.target.open.checked) {
+      status = "open";
     }
-    let response = await fetch(
-      "http://localhost:8000/main_app/" + req + crsId,
-      {
-        method: reqMethod,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
-        body: JSON.stringify({
-          name: e.target.name.value,
-          description: e.target.description.value,
-        }),
-      }
-    );
+    console.log(status);
+    if (userCtx.courseId !== null) {
+      req = "courseedit/" + userCtx.courseId;
+      reqMethod = "PUT";
+    }
+    let response = await fetch("http://localhost:8000/main_app/" + req, {
+      method: reqMethod,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + String(userCtx.authTokens.access),
+      },
+      body: JSON.stringify({
+        name: e.target.name.value,
+        description: e.target.description.value,
+        status: status,
+      }),
+    });
     let data = await response.json();
     console.log(data);
     if (response.status === 201 && !userCtx.courseId) {
@@ -79,8 +90,32 @@ function ModifyCoursePage() {
   };
 
   let getEnrollmentRequests = async () => {
-    if(userCtx.courseId) {let response = await fetch(
-      "http://localhost:8000/main_app/enrollmentrequestlist" + crsId,
+    if (userCtx.courseId) {
+      let response = await fetch(
+        "http://localhost:8000/main_app/enrollmentrequestlist/" +
+          userCtx.courseId,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(userCtx.authTokens.access),
+          },
+        }
+      );
+      let data = await response.json();
+      console.log(data);
+
+      if (response.status === 200) {
+        setEnrollmentRequests(data);
+      } else if (response.statusText === "Unauthorized") {
+        userCtx.logoutUser();
+      }
+    }
+  };
+
+  let getEnrolledStudents = async () => {
+    let response = await fetch(
+      "http://localhost:8000/main_app/enrolledstudentlist/" + userCtx.courseId,
       {
         method: "GET",
         headers: {
@@ -90,13 +125,11 @@ function ModifyCoursePage() {
       }
     );
     let data = await response.json();
-    console.log(data);
-
     if (response.status === 200) {
-      setEnrollmentRequests(data);
+      setEnrolledStudents(data);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
-    }}
+    }
   };
 
   let requestHandler = async (requestId, requestType) => {
@@ -122,6 +155,47 @@ function ModifyCoursePage() {
         });
         return updatedRequests;
       });
+      setUpdateEnrolledStudents((prevState) => !prevState);
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
+  let addStudentByEmail = async (studentEmail) => {
+    let response = await fetch(
+      "http://localhost:8000/main_app/enrollmentcreate/" + userCtx.courseId,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(userCtx.authTokens.access),
+        },
+        body: JSON.stringify({
+          student_email: studentEmail,
+        }),
+      }
+    );
+    let data = await response.json();
+    if (response.status === 201) {
+      setUpdateEnrolledStudents((prevState) => !prevState);
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
+  let removeStudentHandler = async (id) => {
+    let response = await fetch(
+      "http://localhost:8000/main_app/enrollmentdelete/" + id,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(userCtx.authTokens.access),
+        },
+      }
+    );
+    if (response.status === 204) {
+      setUpdateEnrolledStudents((prevState) => !prevState);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -129,7 +203,7 @@ function ModifyCoursePage() {
 
   let deleteCourseHandler = async () => {
     let response = await fetch(
-      "http://localhost:8000/main_app/coursedelete/" + courseId,
+      "http://localhost:8000/main_app/coursedelete/" + userCtx.courseId,
       {
         method: "DELETE",
         headers: {
@@ -145,15 +219,24 @@ function ModifyCoursePage() {
     }
   };
 
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
+
   return (
     <section>
-      <ModifyCourseDetails
-        onSave={modifyCourseHandler}
-        courseDetails={courseDetails}
-      />
+      {(delayCourseDetails || userCtx.courseId === null) && (
+        <ModifyCourseDetails
+          onSave={modifyCourseHandler}
+          courseDetails={courseDetails}
+        />
+      )}
       <StudentAdmission
-        studentsData={enrollmentRequests}
+        enrollmentRequests={enrollmentRequests}
+        enrolledStudents={enrolledStudents}
         onJoinRequest={requestHandler}
+        onAddStudent={addStudentByEmail}
+        onRemoveStudent={removeStudentHandler}
       />
       <div>
         <Link to={userCtx.courseId ? "/course" : "/"}>

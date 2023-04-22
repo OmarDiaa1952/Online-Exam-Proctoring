@@ -58,11 +58,11 @@ function CourseDetailsPage() {
   return (
     <section>
       <CourseInfo courseData={courseDetails} />
-      <div>
+      {courseDetails.status === "open" && <div>
         <button type="submit" onClick={requestCourseHandler}>
           {courseDetails.is_requested ? "Cancel Request" : "Enroll"}
         </button>
-      </div>
+      </div>}
       <div>
         <Link to="/">
           <button type="button">Back</button>

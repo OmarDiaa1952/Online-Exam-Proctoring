@@ -5,8 +5,8 @@ import classes from "./StudentAdmission.module.css";
 function StudentAdmission(props) {
   const studentEmailInputRef = useRef();
 
-  const removeHandler = () => {
-    console.log("Remove");
+  const removeHandler = (id) => {
+    props.onRemoveStudent(id);
   };
   const requestHandler = (request_id, requestType) => {
     console.log(requestType);
@@ -15,21 +15,16 @@ function StudentAdmission(props) {
   const approveAllHandler = () => {
     console.log("Approve All");
   };
-  const addStudentHandler = (event) => {
-    event.preventDefault();
-    const enteredStudentEmail = studentEmailInputRef.current.value;
-    let studentData = {
-      requestType: "addStudent",
-      studentEmail: enteredStudentEmail,
-    };
-    props.onAddStudent(studentData);
+  const addStudentHandler = (e) => {
+    e.preventDefault();
+    props.onAddStudent(studentEmailInputRef.current.value);
   };
 
   return (
     <div>
       <div>
         <h2>Add Student:</h2>
-        <form onAdd={addStudentHandler}>
+        <form onSubmit={addStudentHandler}>
           <span>
             <label htmlFor="student-email">Email: </label>
             <input
@@ -46,16 +41,17 @@ function StudentAdmission(props) {
       </div>
       <div>
         <h2>Enrolled Students:</h2>
-        {/* <ol>
-          {props.studentsData.enrolledStudents.map((student) => (
-            <li key={student.studentEmail}>
-              <span>{student.studentEmail}</span>
+        <ol>
+          {props.enrolledStudents.map((student) => (
+            <li key={student.id}>
+              <span>{student.student_name}</span>
+              <span>{student.student_email}</span>
               <span>
-                <button onClick={removeHandler}>Remove</button>
+                <button onClick={()=>{removeHandler(student.id)}}>Remove</button>
               </span>
             </li>
           ))}
-        </ol> */}
+        </ol>
       </div>
       <div>
         <div>
@@ -64,9 +60,10 @@ function StudentAdmission(props) {
             <button onClick={approveAllHandler}>Approve All</button>
           </div>
           <ol>
-            {props.studentsData.map((student) => (
+            {props.enrollmentRequests.map((student) => (
               <li key={student.student_id}>
-                <span>{student.student_id}</span>
+                <span>{student.student_name}</span>
+                <span>{student.student_email}</span>
                 <span>
                   <button
                     onClick={() => requestHandler(student.id, "accept")}
