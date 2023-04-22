@@ -30,9 +30,11 @@ function HomeNavigation(props) {
       )}
       {userCtx.type === "examiner" && (
         <div>
-          <button>
-            <Link to="/modify-course">Add Course</Link>
-          </button>
+          <Link to="/modify-course">
+            <button>
+              Add Course
+            </button>
+          </Link>
         </div>
       )}
       <div>

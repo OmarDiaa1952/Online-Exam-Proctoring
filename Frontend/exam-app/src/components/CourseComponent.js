@@ -16,17 +16,20 @@ function CourseComponent(props) {
   // }, []);
 
   return (
-    <li key={props.courseData.id}>
-      <button
-        onClick={() => {
-          userCtx.setCourseId(props.courseData.id);
-        }}
-      >
+    <li key={props.courseData.id} className="card bg-light mb-3">
+      <div className="card-body">
+        <h4>{props.courseData.name}</h4>
+        <h6>ID: {props.courseData.id}</h6>
         <Link to="/course-details">
-          <div>{props.courseData.name}</div>
-          <div>ID: {props.courseData.id}</div>
+          <button
+            onClick={() => {
+              userCtx.setCourseId(props.courseData.id);
+            }}
+          >
+            <div>View Details</div>
+          </button>
         </Link>
-      </button>
+      </div>
     </li>
   );
 }
