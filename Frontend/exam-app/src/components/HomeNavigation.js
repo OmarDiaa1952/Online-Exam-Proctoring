@@ -9,6 +9,11 @@ function HomeNavigation(props) {
   const userCtx = useContext(UserContext);
   return (
     <div>
+      <div>
+        <button>
+          <Link to="/profile">Profile</Link>
+        </button>
+      </div>
       <GetCourses
         coursesData={props.myCourses}
         requestType="getMyCourses"

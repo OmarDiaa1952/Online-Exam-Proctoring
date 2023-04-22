@@ -32,6 +32,7 @@ export function UserContextProvider({ children }) {
 
   function setUserTypeHandler(type) {
     setUserType(type);
+    localStorage.setItem("userType", type);
   }
 
   function setCourseIdHandler(id) {

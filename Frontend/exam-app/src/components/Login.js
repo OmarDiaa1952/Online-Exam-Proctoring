@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import classes from "./Login.module.css";
 import UserContext from "../store/user-context";
@@ -6,6 +6,9 @@ import UserContext from "../store/user-context";
 
 function Login() {
   const userCtx = useContext(UserContext);
+  useEffect(() => {
+    userCtx.type === "student" ? userCtx.setUserType("student") : userCtx.setUserType("examiner");
+  }, []);
 
   return (
     <div>
@@ -16,7 +19,7 @@ function Login() {
             id="student"
             name="user-type"
             value="student"
-            defaultChecked
+            defaultChecked={userCtx.type === "student"}
             onClick={() => {
               userCtx.setUserType("student");
             }}
@@ -29,6 +32,7 @@ function Login() {
             id="examiner"
             name="user-type"
             value="examiner"
+            defaultChecked={userCtx.type === "examiner"}
             onClick={() => {
               userCtx.setUserType("examiner");
             }}
