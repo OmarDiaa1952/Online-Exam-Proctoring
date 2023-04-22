@@ -121,6 +121,7 @@ function EditExamPage() {
   };
 
   let questionChangeHandler = async (question, newQuestionFlag) => {
+    console.log(question);
     if (examId) {
       let oldQuestion = examQuestions.find((q) => q.id === question.id);
       let editedQuestion = {
@@ -130,16 +131,16 @@ function EditExamPage() {
           ? question.question_text
           : oldQuestion.question_text,
         marks: question.marks ? question.marks : oldQuestion.marks,
-        choice_1: question.choices
+        choice_1: question.choices.find((choice) => choice.id === 1).text
           ? question.choices.find((choice) => choice.id === 1).text
           : oldQuestion.choices.find((choice) => choice.id === 1).text,
-        choice_2: question.choices
+        choice_2: question.choices.find((choice) => choice.id === 2).text
           ? question.choices.find((choice) => choice.id === 2).text
           : oldQuestion.choices.find((choice) => choice.id === 2).text,
-        choice_3: question.choices
+        choice_3: question.choices.find((choice) => choice.id === 3).text
           ? question.choices.find((choice) => choice.id === 3).text
           : oldQuestion.choices.find((choice) => choice.id === 3).text,
-        choice_4: question.choices
+        choice_4: question.choices.find((choice) => choice.id === 4).text
           ? question.choices.find((choice) => choice.id === 4).text
           : oldQuestion.choices.find((choice) => choice.id === 4).text,
         // choices: question.choices ? question.choices : oldQuestion.choices,
