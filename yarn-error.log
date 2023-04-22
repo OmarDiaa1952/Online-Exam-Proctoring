@@ -1,0 +1,39 @@
+Arguments: 
+  G:\nodejs\node.exe C:\Users\Ahmed Alaa\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add use-window-focus
+
+PATH: 
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;G:\matlab\bin;C:\Program Files\Git\cmd;G:\Raspberrypi\putty\;G:\nodejs\;G:\nodejs;G:\Python\newPython\Scripts\;G:\Python\newPython\;G:\Python\Scripts\;G:\Python\;C:\Users\Ahmed Alaa\AppData\Local\Microsoft\WindowsApps;C:\Users\Ahmed Alaa\AppData\Local\Programs\Microsoft VS Code\bin;G:\Modelsim\modelsim_ase\win32aloem;G:\VS_CODE\Microsoft VS Code\bin;G:\VS_CODE\MinGW\bin;C:\Users\Ahmed Alaa\AppData\Local\GitHubDesktop\bin;G:\Python\pyCharm\PyCharm Community Edition 2022.1.3\bin;;C:\Users\Ahmed Alaa\AppData\Roaming\npm;G:\bigData\mongo_shell\
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  19.0.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: getaddrinfo ENOENT registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:107:26)
+
+npm manifest: 
+  {
+    "dependencies": {
+      "html2canvas": "^1.4.1",
+      "jwt-decode": "^3.1.2",
+      "react-hook-form": "^7.43.5",
+      "react-screen-capture": "^1.0.1",
+      "use-react-screenshot": "^3.0.0"
+    },
+    "devDependencies": {
+      "react": "^16.13.1",
+      "react-dom": "^16.13.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

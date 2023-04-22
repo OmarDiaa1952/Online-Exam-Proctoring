@@ -1,6 +1,15 @@
 {
   "dependencies": {
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "jwt-decode": "^3.1.2",
-    "react-hook-form": "^7.43.5"
+    "react-hook-form": "^7.43.5",
+    "react-screen-capture": "^1.0.1",
+    "use-react-screenshot": "^3.0.0",
+    "use-window-focus": "^1.4.2"
+  },
+  "devDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^16.13.1"
   }
 }
