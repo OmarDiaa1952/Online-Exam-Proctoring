@@ -14,6 +14,7 @@ import ReviewExamPage from "./pages/ReviewExam";
 import PreviewExamPage from "./pages/PreviewExam";
 import PrivateRoute from "./utils/PrivateRoute";
 import Camera from "./utils/Camera";
+import ProfilePage from "./pages/Profile";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route exact path="/" element={<PrivateRoute />}>
         <Route exact path="/" element={<HomePage />} />
       </Route>
+      <Route path="/profile" exact element={<ProfilePage />} />
       <Route path="/modify-course" exact element={<ModifyCoursePage />} />
       <Route path="/course" exact element={<CoursePage />} />
       <Route path="/course-details" exact element={<CourseDetailsPage />} />
