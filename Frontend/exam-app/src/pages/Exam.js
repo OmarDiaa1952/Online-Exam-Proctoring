@@ -4,6 +4,10 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "../store/user-context";
 import { useNavigate } from "react-router-dom";
 import WebcamCapture from "../utils/WebcamCapture";
+import TabSwitch from "../utils/TabSwitch";
+import FullScreen from "../utils/FullScreen";
+import UseWindowDimensions from "../utils/UseWindowDimensions";
+import FocusWindow from "../utils/FocusWindow";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
@@ -12,6 +16,9 @@ function ExamPage() {
   const [userAnswers, setUserAnswers] = useState([]);
   const [startTime, setStartTime] = useState("");
   const history = useNavigate();
+  useEffect(() => {
+    getExamQuestions();
+  }, []);
 
   function dateConverter(date) {
     let year = date.split("/")[2].split(",")[0];
@@ -26,7 +33,8 @@ function ExamPage() {
     minute = minute.length === 1 ? "0" + minute : minute;
     let second = date.split(" ")[1].split(":")[2];
     second = second.length === 1 ? "0" + second : second;
-    let convertedDate = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second;
+    let convertedDate =
+      year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second;
     return convertedDate;
   }
 
@@ -76,13 +84,12 @@ function ExamPage() {
         "Content-Type": "application/json",
         Authorization: "Bearer " + String(userCtx.authTokens.access),
       },
-      body: JSON.stringify(
-        {
-          exam_id: userCtx.examId,
-          start_time: startTime,
-          submission_time: submissionTime,
-          answers: answers
-        }),
+      body: JSON.stringify({
+        exam_id: userCtx.examId,
+        start_time: startTime,
+        submission_time: submissionTime,
+        answers: answers,
+      }),
     });
     if (response.status === 200) {
       history("/course");
@@ -112,6 +119,11 @@ function ExamPage() {
 
   return (
     <section>
+      <FocusWindow />
+      <FullScreen />
+      <TabSwitch />
+      <UseWindowDimensions />
+      {/* <FullScreen /> */}
       <h2>Exam:</h2>
       <div>
         <span>Remaining Time: </span>
