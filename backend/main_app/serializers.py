@@ -14,12 +14,21 @@ class EnrollmentDetailSerializer(serializers.ModelSerializer):
         fields = ("id", "student_name", "student_email", "enrollment_date")
 
 class EnrollmentRequestSerializer(serializers.ModelSerializer):
-    student_name = serializers.CharField(source='student.user.get_full_name')
-    student_email = serializers.CharField(source='student.user.email')
+    student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
+    student_email = serializers.CharField(source='student.user.email', read_only=True)
+    request_date = serializers.DateTimeField(read_only=True)
     
     class Meta:
         model = EnrollmentRequest
         fields = ("id", "student_name", "student_email", "request_date")
+
+    # for the course join view
+    def create(self, validated_data):
+        student_id = self.context['request'].user.pk
+        # course_id is passed as a parameter in the url
+        course_id = self.context['view'].kwargs['course_id']
+        enrollment_request = EnrollmentRequest.objects.create(student_id=student_id, course_id=course_id)
+        return enrollment_request
 
 class EnrollmentRequestActionSerializer(serializers.Serializer):
     # field with only two possible values
@@ -95,7 +104,6 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ("id", "name")
-
 
 ########################## Exam Serializers ##########################
 

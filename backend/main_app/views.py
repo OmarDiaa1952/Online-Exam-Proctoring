@@ -78,14 +78,21 @@ class QuestionListView(generics.ListAPIView):
 #################################### Student Views ####################################
 
 class CourseJoinView(generics.CreateAPIView):
-    # this view is responsible for enrolling a student in a course
-    permission_classes = (IsAuthenticated,)
+    # this view is responsible for adding a student to a course
     serializer_class = EnrollmentRequestSerializer
+    permission_classes = (IsAuthenticated,)
     lookup_url_kwarg = "course_id"
 
-    def perform_create(self, serializer):
-        student_id = self.request.user.pk
-        serializer.save(student_id=student_id, course_id=self.kwargs.get(self.lookup_url_kwarg))
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(
+            data=request.data,
+            context={
+                'request': request,
+                'view': self,
+            })
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'success': 'request created'}, status=status.HTTP_201_CREATED)
 
 class ExamReviewView(generics.RetrieveAPIView):
     # retrieves the attempt and answers of a student for a specific exam
