@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import ExamQuestions from "../components/ExamQuestions";
 import UserContext from "../store/user-context";
 import ExamReviewDetails from "../components/ExamReviewDetails";
+import { get } from "../utils/Fetch";
 
 function ReviewExamPage() {
   const userCtx = useContext(UserContext);
@@ -22,16 +23,7 @@ function ReviewExamPage() {
 
   let Review = async () => {
     if (examId) {
-      let response = await fetch(
-        "http://localhost:8000/main_app/examreview/" + examId,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + String(userCtx.authTokens.access),
-          },
-        }
-      );
+      let response = await get("http://localhost:8000/main_app/examreview/" + examId, userCtx.authTokens.access)
       let data = await response.json();
       if (response.status === 200) {
         setExamDetails({

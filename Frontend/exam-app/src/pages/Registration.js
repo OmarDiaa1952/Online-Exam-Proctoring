@@ -3,6 +3,7 @@ import { useContext } from "react";
 
 import Register from "../components/Register";
 import UserContext from "../store/user-context";
+import { post, put } from "../utils/Fetch";
 
 function RegistrationPage() {
   const userCtx = useContext(UserContext);
@@ -12,23 +13,11 @@ function RegistrationPage() {
     console.log(registerData);
     const req =
       userCtx.type === "student" ? "studentregister" : "examinerregister";
-    let response = await fetch("http://localhost:8000/users/" + req, {
-      method: "POST",
-      body: JSON.stringify(registerData.mainData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let response = await post("http://localhost:8000/users/" + req, registerData.mainData);
     let data = await response.json();
     if (response.status === 201) {
       if (req === "studentregister") {
-        fetch("http://localhost:8000/users/photoupload", {
-          method: "PUT",
-          body: JSON.stringify(registerData.imageDataURL),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        put("http://localhost:8000/users/photoupload", registerData.imageDataURL);
       }
       history("/welcome");
     } else if(data.email !== undefined) {

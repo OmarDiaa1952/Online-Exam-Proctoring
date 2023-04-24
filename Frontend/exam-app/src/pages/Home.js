@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 
 import HomeNavigation from "../components/HomeNavigation";
 import UserContext from "../store/user-context";
+import { get } from "../utils/Fetch";
 
 function HomePage() {
   let [courses, setCourses] = useState([]);
@@ -17,18 +18,8 @@ function HomePage() {
   }, []);
 
   let getCourses = async (text) => {
-    let response = await fetch(
-      "http://localhost:8000/main_app/courselist?search=" + text,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(authTokens.access),
-        },
-      }
-    );
+    let response = await get("http://localhost:8000/main_app/courselist?search=" + text, authTokens.access);
     let data = await response.json();
-
     if (response.status === 200) {
       setCourses(data);
     } else if (response.statusText === "Unauthorized") {
@@ -37,18 +28,8 @@ function HomePage() {
   };
 
   let inspectCourses = async (text) => {
-    let response = await fetch(
-      "http://localhost:8000/main_app/courselist?search=" + text + "&all=1",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(authTokens.access),
-        },
-      }
-    );
+    let response = await get("http://localhost:8000/main_app/courselist?search=" + text + "&all=1", authTokens.access);
     let data = await response.json();
-
     if (response.status === 200) {
       setFoundCourses(data);
     } else if (response.statusText === "Unauthorized") {
@@ -59,10 +40,8 @@ function HomePage() {
   return (
     <div>
       <HomeNavigation
-        // enrollmentStatus={enrollmentStatus}
         allCourses={foundCourses}
         myCourses={courses}
-        // findEnrollmentStatus={findEnrollmentStatus}
         onChangeSearchText={getCourses}
         onSearchNewCourses={inspectCourses}
       />

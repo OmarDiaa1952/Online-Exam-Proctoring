@@ -8,6 +8,7 @@ import TabSwitch from "../utils/TabSwitch";
 import FullScreen from "../utils/FullScreen";
 import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
+import { get, post } from "../utils/Fetch";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
@@ -40,15 +41,9 @@ function ExamPage() {
 
   let getExamQuestions = async () => {
     let current_date = dateConverter(new Date().toLocaleString());
-    let response = await fetch(
+    let response = await get(
       "http://localhost:8000/main_app/questionlist/" + examId,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
-      }
+      userCtx.authTokens.access
     );
     let data = await response.json();
     if (response.status === 200) {
@@ -78,19 +73,16 @@ function ExamPage() {
     }));
     // console.log(answers);
     const submissionTime = dateConverter(new Date().toLocaleString());
-    let response = await fetch("http://localhost:8000/main_app/examend", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(userCtx.authTokens.access),
-      },
-      body: JSON.stringify({
+    let response = await post(
+      "http://localhost:8000/main_app/examend",
+      {
         exam_id: userCtx.examId,
         start_time: startTime,
         submission_time: submissionTime,
         answers: answers,
-      }),
-    });
+      },
+      userCtx.authTokens.access
+    );
     if (response.status === 200) {
       history("/course");
     } else {

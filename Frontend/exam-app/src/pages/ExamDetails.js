@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import ExamInfo from "../components/ExamInfo";
 import UserContext from "../store/user-context";
+import { get } from "../utils/Fetch";
 
 function ExamDetailsPage() {
   const userCtx = useContext(UserContext);
@@ -15,16 +16,7 @@ function ExamDetailsPage() {
 
   let getExamDetails = async () => {
     if (examId) {
-      let response = await fetch(
-        "http://localhost:8000/main_app/examdetail/" + examId,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + String(userCtx.authTokens.access),
-          },
-        }
-      );
+      let response = await get("http://localhost:8000/main_app/examdetail/" + examId, userCtx.authTokens.access);
       let data = await response.json();
       if (response.status === 200) {
         setExamDetails(data);

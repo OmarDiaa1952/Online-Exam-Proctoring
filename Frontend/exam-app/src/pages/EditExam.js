@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import ExamQuestionsEdit from "../components/ExamQuestionsEdit";
 import EditExamInfo from "../components/EditExamInfo";
 import UserContext from "../store/user-context";
+import { get, post, put, dlt } from "../utils/Fetch";
 
 function EditExamPage() {
   const userCtx = useContext(UserContext);
@@ -26,15 +27,9 @@ function EditExamPage() {
 
   let getExamDetails = async () => {
     if (examId) {
-      let response = await fetch(
+      let response = await get(
         "http://localhost:8000/main_app/examdetail/" + examId,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + String(userCtx.authTokens.access),
-          },
-        }
+        userCtx.authTokens.access
       );
       let data = await response.json();
       if (response.status === 200) {
@@ -49,15 +44,9 @@ function EditExamPage() {
 
   let getExamQuestions = async () => {
     if (examId) {
-      let response = await fetch(
+      let response = await get(
         "http://localhost:8000/main_app/questionlist/" + examId,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + String(userCtx.authTokens.access),
-          },
-        }
+        userCtx.authTokens.access
       );
       let data = await response.json();
       if (response.status === 200) {
@@ -87,29 +76,34 @@ function EditExamPage() {
   let examDetailsHandler = async (e) => {
     e.preventDefault();
     const sub_url = examId ? "examedit/" + examId : "examcreate";
-    let response = await fetch("http://localhost:8000/main_app/" + sub_url, {
-      method: examId ? "PUT" : "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(userCtx.authTokens.access),
-      },
-      body: JSON.stringify({
-        name: e.target.name.value,
-        description: e.target.description.value,
-        course_id: courseId,
-        exam_start_date:
-          e.target.exam_start_date.value +
-          "T" +
-          e.target.exam_start_time.value +
-          ":00",
-        exam_end_date:
-          e.target.exam_end_date.value +
-          "T" +
-          e.target.exam_end_time.value +
-          ":00",
-        duration: e.target.duration.value + ":00",
-      }),
-    });
+    let examDetails = {
+      name: e.target.name.value,
+      description: e.target.description.value,
+      course_id: courseId,
+      exam_start_date:
+        e.target.exam_start_date.value +
+        "T" +
+        e.target.exam_start_time.value +
+        ":00",
+      exam_end_date:
+        e.target.exam_end_date.value +
+        "T" +
+        e.target.exam_end_time.value +
+        ":00",
+      duration: e.target.duration.value + ":00",
+    };
+    let response =
+      examId !== null
+        ? await put(
+            "http://localhost:8000/main_app/" + sub_url,
+            examDetails,
+            userCtx.authTokens.access
+          )
+        : await post(
+            "http://localhost:8000/main_app/" + sub_url,
+            examDetails,
+            userCtx.authTokens.access
+          );
     let data = await response.json();
     if (response.status === 200 || response.status === 201) {
       userCtx.setExamId(data.id);
@@ -154,14 +148,18 @@ function EditExamPage() {
       examId && !newQuestionFlag
         ? "questionedit/" + question.id
         : "questioncreate";
-    let response = await fetch("http://localhost:8000/main_app/" + sub_url, {
-      method: examId && !newQuestionFlag ? "PUT" : "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(userCtx.authTokens.access),
-      },
-      body: JSON.stringify(question),
-    });
+    let response =
+      examId && !newQuestionFlag
+        ? await put(
+            "http://localhost:8000/main_app/" + sub_url,
+            question,
+            userCtx.authTokens.access
+          )
+        : await post(
+            "http://localhost:8000/main_app/" + sub_url,
+            question,
+            userCtx.authTokens.access
+          );
     if (response.status === 200 || response.status === 201) {
       // history("/preview-exam");
     } else if (response.statusText === "Unauthorized") {
@@ -171,15 +169,9 @@ function EditExamPage() {
 
   let deleteQuestionHandler = async (id) => {
     if (examQuestions.some((q) => q.id === id)) {
-      let response = await fetch(
+      let response = await dlt(
         "http://localhost:8000/main_app/questiondelete/" + id,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + String(userCtx.authTokens.access),
-          },
-        }
+        userCtx.authTokens.access
       );
       if (response.status === 204) {
         setExamQuestions(examQuestions.filter((q) => q.id !== id));

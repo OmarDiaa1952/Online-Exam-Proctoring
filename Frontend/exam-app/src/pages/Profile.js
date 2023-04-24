@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import UserInfo from "../components/UserInfo";
 import UserContext from "../store/user-context";
+import { get } from "../utils/Fetch";
 
 function ProfilePage() {
   const userCtx = useContext(UserContext);
@@ -19,13 +20,7 @@ function ProfilePage() {
   }, []);
 
   let getUserData = async () => {
-    let response = await fetch("http://localhost:8000/users/userdata", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(userCtx.authTokens.access),
-      },
-    });
+    let response = await get("http://localhost:8000/users/userdata", userCtx.authTokens.access);
     let data = await response.json();
     if (response.status === 200) {
       setUserData(data);

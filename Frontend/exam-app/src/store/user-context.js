@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { post } from "../utils/Fetch";
 
 const UserContext = createContext();
 
@@ -49,15 +50,9 @@ export function UserContextProvider({ children }) {
 
   let loginUser = async (e) => {
     e.preventDefault();
-    let response = await fetch("http://localhost:8000/users/api/token/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: e.target.username.value,
-        password: e.target.password.value,
-      }),
+    let response = await post("http://localhost:8000/users/api/token/", {
+      username: e.target.username.value,
+      password: e.target.password.value,
     });
     let data = await response.json();
     if (response.status === 200) {
@@ -87,17 +82,10 @@ export function UserContextProvider({ children }) {
 
   let updateToken = async () => {
     console.log("Updating token");
-    let response = await fetch(
+    let response = await post(
       "http://localhost:8000/users/api/token/refresh/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ refresh: authTokens?.refresh }),
-      }
+      { refresh: authTokens?.refresh }
     );
-
     let data = await response.json();
 
     if (response.status === 200) {

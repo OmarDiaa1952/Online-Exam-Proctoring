@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import CourseInfo from "../components/CourseInfo";
 import UserContext from "../store/user-context";
+import { get, post } from "../utils/Fetch";
 
 function CourseDetailsPage() {
   const userCtx = useContext(UserContext);
@@ -15,16 +16,7 @@ function CourseDetailsPage() {
   }, []);
 
   let getCourseDetails = async () => {
-    let response = await fetch(
-      "http://localhost:8000/main_app/coursedetail/" + courseId,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
-      }
-    );
+    let response = await get("http://localhost:8000/main_app/coursedetail/" + courseId, userCtx.authTokens.access);
     let data = await response.json();
 
     if (response.status === 200) {
@@ -37,16 +29,7 @@ function CourseDetailsPage() {
 
   let requestCourseHandler = async (e) => {
     e.preventDefault();
-    let response = await fetch(
-      "http://localhost:8000/main_app/coursejoin/" + courseId,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        }
-      }
-    );
+    let response = await post("http://localhost:8000/main_app/coursejoin/" + courseId, {}, userCtx.authTokens.access);
     let data = await response.json();
     if (response.status === 201) {
       history("/");

@@ -1,9 +1,11 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
+import swal from "sweetalert";
 
 import ModifyCourseDetails from "../components/ModifyCourseDetails";
 import StudentAdmission from "../components/StudentAdmission";
 import UserContext from "../store/user-context";
+import { get, dlt, post, put } from "../utils/Fetch";
 
 function ModifyCoursePage() {
   const history = useNavigate();
@@ -29,19 +31,12 @@ function ModifyCoursePage() {
 
   let getCourseDetails = async () => {
     if (userCtx.courseId) {
-      let response = await fetch(
+      let response = await get(
         "http://localhost:8000/main_app/coursedetail/" + userCtx.courseId,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + String(userCtx.authTokens.access),
-          },
-        }
+        userCtx.authTokens.access
       );
       let data = await response.json();
       console.log(data);
-
       if (response.status === 200) {
         setCourseDetails(data);
         setDelayCourseDetails(true);
@@ -65,18 +60,25 @@ function ModifyCoursePage() {
       req = "courseedit/" + userCtx.courseId;
       reqMethod = "PUT";
     }
-    let response = await fetch("http://localhost:8000/main_app/" + req, {
-      method: reqMethod,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(userCtx.authTokens.access),
-      },
-      body: JSON.stringify({
-        name: e.target.name.value,
-        description: e.target.description.value,
-        status: status,
-      }),
-    });
+    let response = reqMethod === "POST"
+      ? await post(
+          "http://localhost:8000/main_app/" + req,
+          {
+            name: e.target.name.value,
+            description: e.target.description.value,
+            status: status,
+          },
+          userCtx.authTokens.access
+        )
+      : await put(
+          "http://localhost:8000/main_app/" + req,
+          {
+            name: e.target.name.value,
+            description: e.target.description.value,
+            status: status,
+          },
+          userCtx.authTokens.access
+        );
     let data = await response.json();
     console.log(data);
     if (response.status === 201 && !userCtx.courseId) {
@@ -91,20 +93,13 @@ function ModifyCoursePage() {
 
   let getEnrollmentRequests = async () => {
     if (userCtx.courseId) {
-      let response = await fetch(
+      let response = await get(
         "http://localhost:8000/main_app/enrollmentrequestlist/" +
           userCtx.courseId,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + String(userCtx.authTokens.access),
-          },
-        }
+        userCtx.authTokens.access
       );
       let data = await response.json();
       console.log(data);
-
       if (response.status === 200) {
         setEnrollmentRequests(data);
       } else if (response.statusText === "Unauthorized") {
@@ -114,15 +109,9 @@ function ModifyCoursePage() {
   };
 
   let getEnrolledStudents = async () => {
-    let response = await fetch(
+    let response = await get(
       "http://localhost:8000/main_app/enrolledstudentlist/" + userCtx.courseId,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
-      }
+      userCtx.authTokens.access
     );
     let data = await response.json();
     if (response.status === 200) {
@@ -133,18 +122,12 @@ function ModifyCoursePage() {
   };
 
   let requestHandler = async (requestId, requestType) => {
-    let response = await fetch(
+    let response = await put(
       "http://localhost:8000/main_app/enrollmentrequestaction/" + requestId,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
-        body: JSON.stringify({
-          action: requestType,
-        }),
-      }
+        action: requestType,
+      },
+      userCtx.authTokens.access
     );
     let data = await response.json();
 
@@ -162,18 +145,12 @@ function ModifyCoursePage() {
   };
 
   let addStudentByEmail = async (studentEmail) => {
-    let response = await fetch(
+    let response = await post(
       "http://localhost:8000/main_app/enrollmentcreate/" + userCtx.courseId,
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
-        body: JSON.stringify({
-          student_email: studentEmail,
-        }),
-      }
+        student_email: studentEmail,
+      },
+      userCtx.authTokens.access
     );
     let data = await response.json();
     if (response.status === 201) {
@@ -184,15 +161,9 @@ function ModifyCoursePage() {
   };
 
   let removeStudentHandler = async (id) => {
-    let response = await fetch(
+    let response = await dlt(
       "http://localhost:8000/main_app/enrollmentdelete/" + id,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
-      }
+      userCtx.authTokens.access
     );
     if (response.status === 204) {
       setUpdateEnrolledStudents((prevState) => !prevState);
@@ -201,16 +172,29 @@ function ModifyCoursePage() {
     }
   };
 
-  let deleteCourseHandler = async () => {
-    let response = await fetch(
-      "http://localhost:8000/main_app/coursedelete/" + userCtx.courseId,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(userCtx.authTokens.access),
-        },
+  let deleteCourse = () => {
+    swal({
+      title: "Are you sure you want to delete?",
+      text: "Once deleted, you will not be able to recover it",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteCourseHandler();
+        swal("Poof! The course has been deleted!", {
+          icon: "success",
+        });
+      } else {
+        swal("The course is safe!");
       }
+    });
+  };
+
+  let deleteCourseHandler = async () => {
+    let response = await dlt(
+      "http://localhost:8000/main_app/coursedelete/" + userCtx.courseId,
+      userCtx.authTokens.access
     );
     if (response.status === 204) {
       history("/");
@@ -244,7 +228,7 @@ function ModifyCoursePage() {
         </Link>
       </div>
       <div>
-        <button onClick={deleteCourseHandler}>Delete Course</button>
+        <button onClick={deleteCourse}>Delete Course</button>
       </div>
     </section>
   );
