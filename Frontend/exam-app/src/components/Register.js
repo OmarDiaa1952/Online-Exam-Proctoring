@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import classes from "./Register.module.css";
 import UserContext from "../store/user-context";
-// import { Link } from "react-router-dom";
 
 function Register(props) {
   const [userType, setUserType] = useState(() =>
