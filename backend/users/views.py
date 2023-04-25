@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from rest_framework import generics, status
 from .serializers import *
 from .models import *
+from .permissions import IsStudent
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -40,7 +41,7 @@ class StudentRegisterView(generics.CreateAPIView):
 
 class PhotoUploadView(generics.UpdateAPIView):
     # this view is responsible for uploading student's photo
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStudent,)
     serializer_class = PhotoSerializer
 
     # gotta use get_object() instead of get_queryset() so lookup_field becomes unrequired
@@ -52,7 +53,7 @@ class PhotoUploadView(generics.UpdateAPIView):
 
 class PhotoRetrieve(APIView):
     # this view is responsible for retrieving student's photo
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStudent,)
 
     def get(self, request, format=None):
         student_id = self.request.user.pk

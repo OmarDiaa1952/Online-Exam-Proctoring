@@ -4,6 +4,7 @@ from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsExaminer, IsStudent
 from rest_framework import filters
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -11,6 +12,8 @@ from asgiref.sync import async_to_sync
 #################################### General Views ####################################
 
 class CourseListView(generics.ListAPIView):
+
+    permission_classes = (IsAuthenticated,)
     search_fields = ['id','name']
     filter_backends = (filters.SearchFilter,)
     serializer_class = CourseSerializer
@@ -31,6 +34,7 @@ class CourseListView(generics.ListAPIView):
 
 class CourseDetailView(generics.RetrieveAPIView):
     # this view is responsible for listing all details of a specific course except exams
+    permission_classes = (IsAuthenticated,)
     serializer_class = CourseDetailSerializer
     lookup_url_kwarg = "course_id"
 
@@ -42,6 +46,7 @@ class CourseDetailView(generics.RetrieveAPIView):
 
 class ExamListView(generics.ListAPIView):
     # this view is responsible for listing all exams of a specific course
+    permission_classes = (IsAuthenticated,)
     serializer_class = ExamSerializer
     lookup_url_kwarg = "course_id"
 
@@ -53,6 +58,7 @@ class ExamListView(generics.ListAPIView):
 
 class ExamDetailView(generics.RetrieveAPIView):
     # this view is responsible for listing all details of a specific exam except questions
+    permission_classes = (IsAuthenticated,)
     serializer_class = ExamSerializer
     lookup_url_kwarg = "exam_id"
 
@@ -66,6 +72,7 @@ class QuestionListView(generics.ListAPIView):
     # this view is responsible for listing all questions of a specific exam
     # called when examiner views exam details
     # or when a student starts the exam
+    permission_classes = (IsAuthenticated,)
     serializer_class = QuestionSerializer
     lookup_url_kwarg = "exam_id"
 
@@ -80,7 +87,7 @@ class QuestionListView(generics.ListAPIView):
 class CourseJoinView(generics.CreateAPIView):
     # this view is responsible for adding a student to a course
     serializer_class = EnrollmentRequestSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStudent,)
     lookup_url_kwarg = "course_id"
 
     def create(self, request, *args, **kwargs):
@@ -98,7 +105,7 @@ class ExamReviewView(generics.RetrieveAPIView):
     # retrieves the attempt and answers of a student for a specific exam
     serializer_class = AttemptSerializer
     lookup_url_kwarg = "exam_id"
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStudent,)
     def retrieve(self, request, *args, **kwargs):
         student_id = self.request.user.id
         exam_id = self.kwargs.get('exam_id')
@@ -113,7 +120,7 @@ class ExamStartView(APIView):
     this view is responsible for creating a WebSocket 
     connection between a student and the server
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStudent,)
 
     def get(self, request, **kwargs):
         # get exam_id from the kwargs
@@ -139,7 +146,7 @@ class ExamStartView(APIView):
 
 # This class is very ugly, I know. I will refactor it later
 class ExamEndView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsStudent,)
     def post(self, request, format=None):
         try:
             student_id = self.request.user.pk
@@ -163,11 +170,12 @@ class ExamEndView(APIView):
 
 class CourseCreateView(generics.CreateAPIView):
     # this view is responsible for creating a course
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsExaminer,)
     serializer_class = CourseCreateSerializer
 
 class CourseEditView(generics.UpdateAPIView):
     # this view is responsible for editing a course
+    permission_classes = (IsExaminer,)
     serializer_class = CourseEditSerializer
     lookup_url_kwarg = "pk"
 
@@ -177,6 +185,7 @@ class CourseEditView(generics.UpdateAPIView):
 
 class CourseDeleteView(generics.DestroyAPIView):
     # this view is responsible for deleting a course
+    permission_classes = (IsExaminer,)
     lookup_url_kwarg = "pk"
 
     def get_queryset(self):
@@ -185,11 +194,12 @@ class CourseDeleteView(generics.DestroyAPIView):
 
 class ExamCreateView(generics.CreateAPIView):
     # this view is responsible for creating an exam
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsExaminer,)
     serializer_class = ExamCreateSerializer
 
 class ExamEditView(generics.UpdateAPIView):
     # this view is responsible for editing a course
+    permission_classes = (IsExaminer,)
     serializer_class = ExamEditSerializer
     lookup_url_kwarg = "pk"
 
@@ -199,6 +209,7 @@ class ExamEditView(generics.UpdateAPIView):
 
 class ExamDeleteView(generics.DestroyAPIView):
     # this view is responsible for deleting an exam
+    permission_classes = (IsExaminer,)
     lookup_url_kwarg = "pk"
 
     def get_queryset(self):
@@ -207,7 +218,7 @@ class ExamDeleteView(generics.DestroyAPIView):
 
 class QuestionCreateView(generics.CreateAPIView):
     # this view is responsible for creating a question
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsExaminer,)
     serializer_class = QuestionCreateSerializer
 
     def perform_create(self, serializer):
@@ -217,6 +228,7 @@ class QuestionCreateView(generics.CreateAPIView):
 
 class QuestionEditView(generics.UpdateAPIView):
     # this view is responsible for editing a question
+    permission_classes = (IsExaminer,)
     serializer_class = QuestionEditSerializer
     lookup_url_kwarg = "pk"
 
@@ -226,6 +238,7 @@ class QuestionEditView(generics.UpdateAPIView):
 
 class QuestionDeleteView(generics.DestroyAPIView):
     # this view is responsible for deleting a question
+    permission_classes = (IsExaminer,)
     lookup_url_kwarg = "pk"
 
     def get_queryset(self):
@@ -234,6 +247,7 @@ class QuestionDeleteView(generics.DestroyAPIView):
 
 class EnrolledStudentListView(generics.ListAPIView):
     # this view is responsible for listing all enrolled students of a specific course
+    permission_classes = (IsExaminer,)
     serializer_class = EnrollmentDetailSerializer
     lookup_url_kwarg = "course_id"
     
@@ -245,6 +259,7 @@ class EnrolledStudentListView(generics.ListAPIView):
 
 class EnrollmentRequestListView(generics.ListAPIView):
     # this view is responsible for listing all enrollment requests of a specific course
+    permission_classes = (IsExaminer,)
     serializer_class = EnrollmentRequestSerializer
     lookup_url_kwarg = "course_id"
     
@@ -256,6 +271,7 @@ class EnrollmentRequestListView(generics.ListAPIView):
 
 class EnrollmentRequestActionView(APIView):
     # this view is responsible for accepting or rejecting an enrollment request
+    permission_classes = (IsExaminer,)
     lookup_url_kwarg = "request_id"
     serializer_class = EnrollmentRequestActionSerializer
 
@@ -278,7 +294,7 @@ class EnrollmentRequestActionView(APIView):
 class EnrollmentCreateView(generics.CreateAPIView):
     # this view is responsible for creating an enrollment
     # by the examiner inserting the student's email
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsExaminer,)
     serializer_class = EnrollmentCreateSerializer
     lookup_url_kwarg = "course_id"
 
@@ -291,6 +307,7 @@ class EnrollmentCreateView(generics.CreateAPIView):
 class EnrollmentDeleteView(generics.DestroyAPIView):
     # this view is responsible for deleting an enrollment
     # (removing a student from a course)
+    permission_classes = (IsExaminer,)
     lookup_url_kwarg = "pk"
 
     def get_queryset(self):
