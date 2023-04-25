@@ -21,15 +21,14 @@ class ExamConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         # Start the exam timer
-        
-        exam = await database_sync_to_async(Exam.objects.get)(id=self.exam_id)
-
-        self.remaining_time = exam.duration * 60
+        exam = await database_sync_to_async(self.get_exam)()
+        self.remaining_time = exam.duration
+        print(self.remaining_time)
         self.timer_task = asyncio.ensure_future(self.update_timer())
 
-    # testing the db_sync_to_async
-    def get_all_exams(self):
-        return Exam.objects.all()
+    def get_exam(self):
+        # Get the exam object from the database
+        return Exam.objects.get(id=self.exam_id)
         
     async def receive(self, text_data):
         # Handle incoming WebSocket messages
@@ -46,15 +45,17 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
     async def update_timer(self):
         # Update the remaining time and send updates to the client-side
-        if int(self.remaining_time.total_seconds()) > 0:
+        while int(self.remaining_time.total_seconds()) > 0:
             self.remaining_time -= timedelta(seconds=1)
+            await asyncio.sleep(1)
             await self.send(dumps({
                 'type': 'timer',
                 'remaining_time': str(self.remaining_time)
             }))
-        else:
-            # End the exam session
-            await self.send(dumps({
-                'type': 'exam_ended'
-            }))
-            await self.timer_task.cancel()
+
+        # End the exam session
+        await self.send(dumps({
+            'type': 'exam_ended'
+        }))
+        await self.close()
+        await self.timer_task.cancel()
