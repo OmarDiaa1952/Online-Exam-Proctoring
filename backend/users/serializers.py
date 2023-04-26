@@ -3,8 +3,6 @@ from .models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import make_password
 from json import loads
-import base64
-from django.core.files.base import ContentFile
 
 #################### General Serializers ####################
 
@@ -63,8 +61,3 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         if isinstance(error_response, JsonResponse):
             raise serializers.ValidationError(loads(error_response.content))
         return student
-
-class PhotoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StudentProfile
-        fields = ("photo",)

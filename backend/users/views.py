@@ -6,8 +6,9 @@ from .permissions import IsStudent
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-
+from rest_framework.permissions import IsAuthenticated
+from django.core.files.base import ContentFile
+import base64
 
 ########################### General Views ###########################
 
@@ -46,13 +47,11 @@ class PhotoUploadView(generics.UpdateAPIView):
     # gotta use get_object() instead of get_queryset() so lookup_field becomes unrequired
     def get_object(self):
         student_id = self.request.user.pk
-        print(self.request.data['photo'])
         if student_id is not None:
             return StudentProfile.objects.filter(user_id=student_id).first()
         return None
     
     def update(self, request, *args, **kwargs):
-
         instance = self.get_object()
         if instance is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -78,5 +77,9 @@ class PhotoRetrieve(APIView):
         student_id = self.request.user.pk
         if student_id is not None:
             photo = StudentProfile.objects.get(user_id=student_id).photo
-            return HttpResponse(photo, content_type="image/png", status=status.HTTP_200_OK)
+            if photo:
+                with open(photo.path, "rb") as f:
+                    photo_data = f.read()
+                    base64_encoded_data = base64.b64encode(photo_data).decode('utf-8')
+                    return HttpResponse({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
