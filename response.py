@@ -75,7 +75,8 @@
             "exam_end_date": "2023-02-26T16:21:37",
             "duration": "00:00:50",
             "max_grade": 10,
-            "course_id": 1
+            "course_id": 1,
+            "exam_taken": 'true or false',
         },
         {  # question list response
             # http 200 ok
