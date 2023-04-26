@@ -83,3 +83,14 @@ class PhotoRetrieve(APIView):
                     base64_encoded_data = base64.b64encode(photo_data).decode('utf-8')
                     return Response({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+class PhotoExistsView(generics.RetrieveAPIView):
+    # this view is responsible for checking if student has a photo
+    permission_classes = (IsStudent,)
+    serializer_class = PhotoExistsSerializer
+
+    def get_object(self):
+        student_id = self.request.user.pk
+        if student_id is not None:
+            return StudentProfile.objects.filter(user_id=student_id).first()
+        return None
