@@ -1,12 +1,17 @@
 import { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 import UserInfo from "../components/UserInfo";
 import UserContext from "../store/user-context";
-import { get } from "../utils/Fetch";
+import { get, put } from "../utils/Fetch";
 
 function ProfilePage() {
   const userCtx = useContext(UserContext);
+  const location = useLocation();
+  let image = location.state ? location.state : null;
+  const [imageDataURL, setImageDataURL] = useState(image);
+  const [hasPhoto, setHasPhoto] = useState(false);
 
   const [userData, setUserData] = useState({
     username: "",
@@ -16,23 +21,109 @@ function ProfilePage() {
   });
 
   useEffect(() => {
-    getUserData();
+    checkPhoto();
+    if (imageDataURL) {
+      setPhoto();
+      setImageDataURL(null);
+    }
   }, []);
 
-  let getUserData = async () => {
-    let response = await get("http://localhost:8000/users/userdata", userCtx.authTokens.access);
+  let checkPhoto = async () => {
+    let response = await get(
+      "http://localhost:8000/users/photoexists",
+      userCtx.authTokens.access
+    );
     let data = await response.json();
     if (response.status === 200) {
-      setUserData(data);
+      if (data.has_photo) {
+        setHasPhoto(true);
+        getUserData();
+      } else {
+        setHasPhoto(false);
+      }
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
   };
 
+  let setPhoto = async () => {
+    let response = await put(
+      "http://localhost:8000/users/photoupload",
+      { photo: imageDataURL },
+      userCtx.authTokens.access
+    );
+    if (response.status === 200) {
+      setUserData((prev) => ({
+        ...prev,
+        photo: imageDataURL.photo,
+      }));
+    } else if (response.statusText === "Unauthorized") {
+      swal({
+        title: "Error",
+        text: "Couldn't upload your photo.",
+        icon: "error",
+        button: "OK",
+      });
+    }
+  };
+
+  let getUserData = async () => {
+    let response = await get(
+      "http://localhost:8000/users/userdata",
+      userCtx.authTokens.access
+    );
+    let data = await response.json();
+    if (response.status === 200) {
+      setUserData(data);
+      if (userCtx.type === "student") {
+        let response = await get(
+          "http://localhost:8000/users/photoretrieve",
+          userCtx.authTokens.access
+        );
+        let data = await response.json();
+        if (response.status === 200) {
+          setUserData((prev) => ({
+            ...prev,
+            photo: data.photo,
+          }));
+        } else if (response.statusText === "Unauthorized") {
+          swal({
+            title: "Error",
+            text: "Couldn't retrieve your photo.",
+            icon: "error",
+            button: "OK",
+          });
+        }
+      }
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
+  const history = useNavigate();
+  const useCamera = () => {
+    navigator.getUserMedia(
+      { audio: true, video: true },
+      function (stream) {
+        stream.getTracks().forEach((x) => x.stop());
+        history("/camera");
+      },
+      (err) => console.log(err)
+    );
+  };
+
   return (
     <div>
       <h1>Profile</h1>
-      <UserInfo userData={userData} />
+      <img src={userData.photo} alt="Please take a photo" />
+      {/* {!loading && ( */}
+      <div>
+        <button type="button" onClick={useCamera}>
+          {hasPhoto ? "Update Photo" : "Take Photo"}
+        </button>
+        <UserInfo userData={userData} />
+      </div>
+      {/* )} */}
       <div>
         <Link to="/">
           <button type="button">Home</button>
