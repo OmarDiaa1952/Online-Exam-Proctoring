@@ -6,6 +6,7 @@ import CourseInfo from "../components/CourseInfo";
 import ExamsComponentsList from "../components/ExamsComponentsList";
 import UserContext from "../store/user-context";
 import { get, dlt } from "../utils/Fetch";
+import MissingPhoto from "../components/MissingPhoto";
 
 function CoursePage() {
   const userCtx = useContext(UserContext);
@@ -13,11 +14,17 @@ function CoursePage() {
 
   let [courseDetails, setCourseDetails] = useState([]);
   let [examsList, setExamsList] = useState([]);
+  let [hasPhoto, setHasPhoto] = useState(true);
+
   useEffect(() => {
     userCtx.setExamId(null);
     getCourseDetails();
     getExamsList();
   }, [examsList]);
+
+  useEffect(() => {
+    if(userCtx.type === "student") checkPhoto();
+  }, []);
 
   let getCourseDetails = async () => {
     let response = await get("http://localhost:8000/main_app/coursedetail/" + courseId, userCtx.authTokens.access)
@@ -69,8 +76,26 @@ function CoursePage() {
     }
   };
 
+  let checkPhoto = async () => {
+    let response = await get(
+      "http://localhost:8000/users/photoexists",
+      userCtx.authTokens.access
+    );
+    let data = await response.json();
+    if (response.status === 200) {
+      if (data.has_photo) {
+        setHasPhoto(true);
+      } else {
+        setHasPhoto(false);
+      }
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
   return (
     <section>
+      {!hasPhoto && <MissingPhoto />}
       <CourseInfo courseData={courseDetails} />
       <ExamsComponentsList
         components={examsList}

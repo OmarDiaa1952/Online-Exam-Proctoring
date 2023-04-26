@@ -3,14 +3,17 @@ import { useEffect, useState, useContext } from "react";
 import HomeNavigation from "../components/HomeNavigation";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
+import MissingPhoto from "../components/MissingPhoto";
 
 function HomePage() {
   let [courses, setCourses] = useState([]);
   let [foundCourses, setFoundCourses] = useState([]);
   let { authTokens, logoutUser, type, setCourseId, setExamId } =
     useContext(UserContext);
+  let [hasPhoto, setHasPhoto] = useState(true);
 
   useEffect(() => {
+    if(type === "student") checkPhoto();
     getCourses("");
     setCourseId(null);
     setExamId(null);
@@ -37,8 +40,26 @@ function HomePage() {
     }
   };
 
+  let checkPhoto = async () => {
+    let response = await get(
+      "http://localhost:8000/users/photoexists",
+      authTokens.access
+    );
+    let data = await response.json();
+    if (response.status === 200) {
+      if (data.has_photo) {
+        setHasPhoto(true);
+      } else {
+        setHasPhoto(false);
+      }
+    } else if (response.statusText === "Unauthorized") {
+      logoutUser();
+    }
+  };
+
   return (
     <div>
+      {!hasPhoto && <MissingPhoto />}
       <HomeNavigation
         allCourses={foundCourses}
         myCourses={courses}
