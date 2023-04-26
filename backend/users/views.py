@@ -42,14 +42,33 @@ class StudentRegisterView(generics.CreateAPIView):
 class PhotoUploadView(generics.UpdateAPIView):
     # this view is responsible for uploading student's photo
     permission_classes = (IsStudent,)
-    serializer_class = PhotoSerializer
 
     # gotta use get_object() instead of get_queryset() so lookup_field becomes unrequired
     def get_object(self):
         student_id = self.request.user.pk
+        print(self.request.data['photo'])
         if student_id is not None:
             return StudentProfile.objects.filter(user_id=student_id).first()
         return None
+    
+    def update(self, request, *args, **kwargs):
+
+        instance = self.get_object()
+        if instance is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        # extract the base64-encoded string from the request data
+        photo_data = request.data.get('photo')
+        
+        # decode the base64-encoded string to binary data
+        if photo_data is not None:
+            format, imgstr = photo_data.split(';base64,') 
+            ext = format.split('/')[-1] 
+            data = ContentFile(base64.b64decode(imgstr), name=f"{instance.user.username}.{ext}")
+            instance.photo = data
+            instance.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 class PhotoRetrieve(APIView):
     # this view is responsible for retrieving student's photo

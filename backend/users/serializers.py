@@ -3,6 +3,8 @@ from .models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import make_password
 from json import loads
+import base64
+from django.core.files.base import ContentFile
 
 #################### General Serializers ####################
 
@@ -66,9 +68,3 @@ class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentProfile
         fields = ("photo",)
-
-    # update existing profile
-    def update(self, instance, validated_data):
-        instance.photo = validated_data.get("photo", instance.photo)
-        instance.save()
-        return instance
