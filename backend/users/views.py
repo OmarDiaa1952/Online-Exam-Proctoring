@@ -81,5 +81,5 @@ class PhotoRetrieve(APIView):
                 with open(photo.path, "rb") as f:
                     photo_data = f.read()
                     base64_encoded_data = base64.b64encode(photo_data).decode('utf-8')
-                    return HttpResponse({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
+                    return Response({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
