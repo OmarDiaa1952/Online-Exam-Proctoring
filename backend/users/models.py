@@ -16,11 +16,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=True)
     role = models.CharField(max_length=10, choices=Role.choices)
 
-
-
 ##################### Examiner Models #####################
-
-
 
 class ExaminerManager(models.Manager):
     def get_queryset(self):
@@ -122,11 +118,21 @@ class StudentProfile(models.Model):
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
     enrolled_courses = models.ManyToManyField('main_app.Course', related_name='students',through='main_app.EnrollmentDetail', blank=True)
     photo = models.ImageField(upload_to=upload_to, blank=True, null=True)
-    # account status field must be added #for adding photos
+    has_photo = models.BooleanField(default=False)
 
     # overriding save method to set id to user id
     # so that we can use user id as primary key
     def save(self, *args, **kwargs):
         # set id to user id before saving
         self.id = self.user.id
+        if self.photo:
+            self.has_photo = True
         super().save()
+
+# @receiver(post_save, sender=StudentProfile)
+# def update_has_photo(sender, instance, **kwargs):
+#     if instance.photo:
+#         instance.has_photo = True
+#     else:
+#         instance.has_photo = False
+#     instance.save()
