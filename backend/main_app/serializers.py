@@ -146,6 +146,27 @@ class ExamSerializer(serializers.ModelSerializer):
         model = Exam
         fields = ("id", "name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade", "course_id")
 
+class ExamDetailSerializer(serializers.ModelSerializer):
+    # new field indicates whether the student has taken the exam or not
+    exam_taken = serializers.SerializerMethodField()
+
+    # adding value to the newly created field
+    def get_exam_taken(self, obj):
+        pk = self.context['request'].user.pk
+        return Attempt.objects.filter(exam_id=obj.id, student_id=pk).exists()
+
+    class Meta:
+        model = Exam
+        fields = ("id", "name", "description", "exam_start_date", "exam_end_date", "duration", "max_grade", "course_id", "exam_taken")
+
+    # sending exam_taken field to the client if the user is a student
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        user_role = self.context['request'].user.role
+        if user_role == "EXAMINER":
+            data.pop("exam_taken")
+        return data
+
 
 
 ########################## Question Serializers ##########################

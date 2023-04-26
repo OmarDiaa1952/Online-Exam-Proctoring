@@ -59,7 +59,7 @@ class ExamListView(generics.ListAPIView):
 class ExamDetailView(generics.RetrieveAPIView):
     # this view is responsible for listing all details of a specific exam except questions
     permission_classes = (IsAuthenticated,)
-    serializer_class = ExamSerializer
+    serializer_class = ExamDetailSerializer
     lookup_url_kwarg = "exam_id"
 
     def get_queryset(self):
