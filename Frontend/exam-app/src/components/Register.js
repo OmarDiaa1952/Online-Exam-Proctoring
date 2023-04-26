@@ -13,7 +13,7 @@ function Register(props) {
   useEffect(() => {
     userCtx.type === "student" ? userCtx.setUserType("student") : userCtx.setUserType("examiner");
   }, []);
-  
+
   const userCtx = useContext(UserContext);
   const location = useLocation();
   const imageDataURL = location.state;
@@ -62,74 +62,92 @@ function Register(props) {
   };
 
   return (
-    <div>
-      <div>
-        <div>
-          <input
-            type="radio"
-            id="student"
-            name="user-type"
-            value="student"
-            defaultChecked={userType === "student"}
-            onClick={() => {
-              userCtx.setUserType("student");
-            }}
-          />
-          <label htmlFor="student">Student</label>
+    <div className="container">
+      {/* Radio buttons part */}
+      <div className="row mb-3">
+        <div className="col">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="student"
+              name="user-type"
+              value="student"
+              defaultChecked={userType === "student"}
+              onClick={() => {
+                userCtx.setUserType("student");
+              }}
+            />
+            <label htmlFor="student" className="form-check-label">
+              Student
+            </label>
+          </div>
         </div>
-        <div>
-          <input
-            type="radio"
-            id="examiner"
-            name="user-type"
-            value="examiner"
-            defaultChecked={userType === "examiner"}
-            onClick={() => {
-              userCtx.setUserType("examiner");
-            }}
-          />
-          <label htmlFor="examiner">Examiner</label>
+        <div className="col">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="examiner"
+              name="user-type"
+              value="examiner"
+              defaultChecked={userType === "examiner"}
+              onClick={() => {
+                userCtx.setUserType("examiner");
+              }}
+            />
+            <label htmlFor="examiner" className="form-check-label">
+              Examiner
+            </label>
+          </div>
         </div>
       </div>
+
+      {/* Form part */}
+
       <form onSubmit={submitHandler}>
-        <div>
+        <div className="form-group">
           <label htmlFor="name">Username</label>
-          <input type="text" required id="name" ref={usernameInputRef} />
+          <input type="text" className="form-control" required id="name" ref={usernameInputRef} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input type="text" required id="email" ref={emailInputRef} />
+          <input type="text" className="form-control" required id="email" ref={emailInputRef} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
+            className="form-control"
             type="password"
             required
             id="password"
             ref={passwordInputRef}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="confirm-password">Confirm Password</label>
           <input
+            className="form-control"
             type="password"
             required
             id="confirm-password"
             ref={confirmPasswordInputRef}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="first-name">First Name</label>
           <input
+            className="form-control"
             type="text"
             required
             id="first-name"
             ref={firstNameInputRef}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="last-name">Last Name</label>
           <input
+            className="form-control"
             type="text"
             required
             id="last-name"
@@ -137,14 +155,14 @@ function Register(props) {
           />
         </div>
         {userCtx.type === "student" && (
-          <div>
-            <button type="button" onClick={useCamera}>
+          <div className="text-center">
+            <button type="button" className="btn btn-primary" onClick={useCamera}>
               Camera
             </button>
           </div>
         )}
-        <div>
-          <button type="submit">Register</button>
+        <div className="text-center mt-3">
+          <button type="submit" className="btn btn-primary">Register</button>
         </div>
       </form>
     </div>

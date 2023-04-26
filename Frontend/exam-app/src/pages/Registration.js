@@ -20,10 +20,10 @@ function RegistrationPage() {
         put("http://localhost:8000/users/photoupload", registerData.imageDataURL);
       }
       history("/welcome");
-    } else if(data.email !== undefined) {
+    } else if (data.email !== undefined) {
       let message = "Another " + userCtx.type + " with this email already exists.";
       alert(message);
-    } else if(data.username !== undefined) {
+    } else if (data.username !== undefined) {
       alert("A user with that username already exists.");
     } else {
       alert("Registration failed.");
@@ -32,10 +32,28 @@ function RegistrationPage() {
 
   return (
     <div>
-      <Register onRegister={registerHandler} />
-      <div>
-        <Link to="/welcome">Already have an account?</Link>
-      </div>
+      <section className="mt-5">
+        <div className="container-fluid h-custom">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-6">
+              <h1>WEBSITE NAME</h1>
+              <p>WEBSITE DESCRIPTION</p>
+            </div>
+            <div className="col-6">
+              <div className="card bg-light">
+                <div className="card-body">
+                  <h3 class="card-title">Sign-Up</h3>
+                  <br />
+                  <Register onRegister={registerHandler} />
+                  <div className="text-center">
+                    <Link to="/welcome">Already have an account?</Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
