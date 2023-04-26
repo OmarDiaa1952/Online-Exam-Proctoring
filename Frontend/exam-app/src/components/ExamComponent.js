@@ -8,21 +8,31 @@ function ExamComponent(props) {
   const userCtx = useContext(UserContext);
   return (
     <div className="card bg-light mb-3">
-      <h4>{props.name}</h4>
-      <p>{props.description}</p>
-      <Link
-        className="card-body"
-        to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}
-      >
-        <button onClick={() => userCtx.setExamId(props.id)}>
-          View Details
-        </button>
-      </Link>
-      {userCtx.type === "examiner" && (
-        <button type="button" onClick={() => props.onDelete(props.id)}>
-          Delete
-        </button>
-      )}
+      <div className="card-body">
+        <h4 className="card-title">{props.name}</h4>
+        <p className="card-text">{props.description}</p>
+        <div className="container">
+          <div className="mr-3">
+            <Link to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}>
+              <button
+                onClick={() => userCtx.setExamId(props.id)}>
+                View Details
+              </button>
+            </Link>
+          </div>
+          {userCtx.type === "examiner" && (
+            <div className="ml-auto pl-3">
+              <button type="button"
+                class="btn btn-danger"
+                onClick={() => props.onDelete(props.id)}>
+                Delete
+              </button>
+            </div>
+
+          )}
+        </div>
+
+      </div>
     </div>
   );
 }

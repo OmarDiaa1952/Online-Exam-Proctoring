@@ -10,9 +10,11 @@ function HomeNavigation(props) {
   return (
     <div>
       <div>
-        <button>
-          <Link to="/profile">Profile</Link>
-        </button>
+        <Link to="/profile">
+          <button>
+            Profile
+          </button>
+        </Link>
       </div>
       <GetCourses
         coursesData={props.myCourses}
