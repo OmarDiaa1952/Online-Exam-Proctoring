@@ -1,5 +1,6 @@
 import { useContext, useRef, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import swal from "sweetalert";
 
 import classes from "./Register.module.css";
 import UserContext from "../store/user-context";
@@ -11,12 +12,12 @@ function Register(props) {
       : "student"
   );
   useEffect(() => {
-    userCtx.type === "student" ? userCtx.setUserType("student") : userCtx.setUserType("examiner");
+    userCtx.type === "student"
+      ? userCtx.setUserType("student")
+      : userCtx.setUserType("examiner");
   }, []);
-  
+
   const userCtx = useContext(UserContext);
-  const location = useLocation();
-  const imageDataURL = location.state;
 
   const usernameInputRef = useRef();
   const emailInputRef = useRef();
@@ -36,30 +37,81 @@ function Register(props) {
     const enteredLastName = lastNameInputRef.current.value;
 
     let registrationData = {
-      mainData: {
-        username: enteredUsername,
-        email: enteredEmail,
-        password: enteredPassword,
-        first_name: enteredFirstName,
-        last_Name: enteredLastName,
-      },
-      imageDataURL: { photo: imageDataURL },
+      username: enteredUsername,
+      email: enteredEmail,
+      password: enteredPassword,
+      first_name: enteredFirstName,
+      last_Name: enteredLastName,
     };
-
-    props.onRegister(registrationData);
+    let errorMessages = [];
+    if (enteredPassword !== enteredConfirmPassword) {
+      errorMessages.push("Passwords do not match");
+    }
+    if (enteredPassword.length < 8) {
+      errorMessages.push("Password must be at least 8 characters long");
+    }
+    if (enteredUsername.length < 4) {
+      errorMessages.push("Username must be at least 4 characters long");
+    }
+    if (enteredFirstName.length < 3) {
+      errorMessages.push("First name must be at least 3 characters long");
+    }
+    if (enteredLastName.length < 3) {
+      errorMessages.push("Last name must be at least 3 characters long");
+    }
+    if (enteredEmail.length < 5) {
+      errorMessages.push("Email must be at least 5 characters long");
+    }
+    if (enteredUsername.length > 20) {
+      errorMessages.push("Username must be at most 20 characters long");
+    }
+    if (enteredFirstName.length > 20) {
+      errorMessages.push("First name must be at most 20 characters long");
+    }
+    if (enteredLastName.length > 20) {
+      errorMessages.push("Last name must be at most 20 characters long");
+    }
+    if (enteredEmail.length > 50) {
+      errorMessages.push("Email must be at most 50 characters long");
+    }
+    if (enteredPassword.length > 50) {
+      errorMessages.push("Password must be at most 50 characters long");
+    }
+    if (enteredConfirmPassword.length > 50) {
+      errorMessages.push("Confirm password must be at most 50 characters long");
+    }
+    if (enteredUsername.includes(" ")) {
+      errorMessages.push("Username cannot contain spaces");
+    }
+    if (enteredFirstName.includes(" ")) {
+      errorMessages.push("First name cannot contain spaces");
+    }
+    if (enteredLastName.includes(" ")) {
+      errorMessages.push("Last name cannot contain spaces");
+    }
+    if (enteredEmail.includes(" ")) {
+      errorMessages.push("Email cannot contain spaces");
+    }
+    if (!enteredEmail.includes("@")) {
+      errorMessages.push("Email must contain @");
+    }
+    if (errorMessages.length === 0) {
+      swal({
+        title: "Success!",
+        text: "Registration successful",
+        icon: "success",
+        button: "Ok!",
+      });
+      props.onRegister(registrationData);
+    } else {
+      swal({
+        title: "Failed!",
+        text: errorMessages.join("\n"),
+        icon: "warning",
+        button: "Ok!",
+      });
+    }
   }
-  const history = useNavigate();
-  console.log(imageDataURL);
-  const useCamera = () => {
-    navigator.getUserMedia(
-      { audio: true, video: true },
-      function (stream) {
-        stream.getTracks().forEach((x) => x.stop());
-        history("/camera");
-      },
-      (err) => console.log(err)
-    );
-  };
 
   return (
     <div>
@@ -120,29 +172,12 @@ function Register(props) {
         </div>
         <div>
           <label htmlFor="first-name">First Name</label>
-          <input
-            type="text"
-            required
-            id="first-name"
-            ref={firstNameInputRef}
-          />
+          <input type="text" required id="first-name" ref={firstNameInputRef} />
         </div>
         <div>
           <label htmlFor="last-name">Last Name</label>
-          <input
-            type="text"
-            required
-            id="last-name"
-            ref={lastNameInputRef}
-          />
+          <input type="text" required id="last-name" ref={lastNameInputRef} />
         </div>
-        {userCtx.type === "student" && (
-          <div>
-            <button type="button" onClick={useCamera}>
-              Camera
-            </button>
-          </div>
-        )}
         <div>
           <button type="submit">Register</button>
         </div>
