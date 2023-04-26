@@ -9,7 +9,7 @@ function Question(props) {
   else if (props.correctAnswer === 4) correctChoiceText = props.choice4;
   return (
     <li>
-      <div className="card bg-info m-3 p-2">
+      <div className="card bg-info bg-opacity-50 m-3 p-2">
         <div className="d-flex justify-content-between">
           <span>Question{" "}<b>{props.questionNumber}{" "}</b></span>
           <span>

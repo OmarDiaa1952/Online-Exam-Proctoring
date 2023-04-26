@@ -58,10 +58,8 @@ function PreviewExamPage() {
 
   return (
     <section>
-      <div className="card bg-info m-3">
-        <div className="card-body">
-          <ExamInfo examData={examDetails} maxGrade={maxGrade} />
-        </div>
+      <div>
+        <ExamInfo examData={examDetails} maxGrade={maxGrade} />
       </div>
       <ExamQuestions questions={examQuestions} editable={false} />
       <div>
