@@ -11,53 +11,61 @@ function Login() {
   }, []);
 
   return (
-    <div>
-      <div>
-        <div>
-          <input
-            type="radio"
-            id="student"
-            name="user-type"
-            value="student"
-            defaultChecked={userCtx.type === "student"}
-            onClick={() => {
-              userCtx.setUserType("student");
-            }}
-          />
-          <label htmlFor="student">Student</label>
+    <div className="container">
+      <div className="row mb-3">
+        <div className="col">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="student"
+              name="user-type"
+              value="student"
+              defaultChecked
+              onClick={() => {
+                userCtx.setUserType("student");
+              }}
+            />
+            <label className="form-check-label" htmlFor="student">
+              Student
+            </label>
+          </div>
         </div>
-        <div>
-          <input
-            type="radio"
-            id="examiner"
-            name="user-type"
-            value="examiner"
-            defaultChecked={userCtx.type === "examiner"}
-            onClick={() => {
-              userCtx.setUserType("examiner");
-            }}
-          />
-          <label htmlFor="examiner">Examiner</label>
+        <div className="col">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="examiner"
+              name="user-type"
+              value="examiner"
+              onClick={() => {
+                userCtx.setUserType("examiner");
+              }}
+            />
+            <label className="form-check-label" htmlFor="examiner">
+              Examiner
+            </label>
+          </div>
         </div>
       </div>
       <form onSubmit={userCtx.loginUser}>
-        <div>
+        <div className="form-group">
           <label htmlFor="username">Username</label>
-          <input type="text" required id="username" />
+          <input type="text" className="form-control" required id="username" />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            required
-            id="password"
-          />
+          <input type="password" className="form-control" required id="password" />
         </div>
-        <div>
-          <button type="submit">Login</button>
+        <div className="text-center">
+          <button type="submit" className="btn btn-primary">
+            Login
+          </button>
         </div>
       </form>
     </div>
+
   );
 }
 
