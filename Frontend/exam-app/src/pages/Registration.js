@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 import Register from "../components/Register";
 import UserContext from "../store/user-context";
-import { post, put } from "../utils/Fetch";
+import { post } from "../utils/Fetch";
 
 function RegistrationPage() {
   const userCtx = useContext(UserContext);
@@ -13,12 +13,9 @@ function RegistrationPage() {
     console.log(registerData);
     const req =
       userCtx.type === "student" ? "studentregister" : "examinerregister";
-    let response = await post("http://localhost:8000/users/" + req, registerData.mainData);
+    let response = await post("http://localhost:8000/users/" + req, registerData);
     let data = await response.json();
     if (response.status === 201) {
-      if (req === "studentregister") {
-        put("http://localhost:8000/users/photoupload", registerData.imageDataURL);
-      }
       history("/welcome");
     } else if(data.email !== undefined) {
       let message = "Another " + userCtx.type + " with this email already exists.";

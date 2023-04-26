@@ -126,7 +126,7 @@ class Camera extends React.Component {
         <button onClick={this.initializeMedia}>Take Photo</button>
         <button onClick={this.capturePicture}>Capture</button>
         <button onClick={this.switchCamera}>Switch</button>
-        <Link to="/register" state={this.state.imageDataURL}><button>Save</button></Link>
+        <Link to="/profile" state={this.state.imageDataURL}><button>Save to Profile</button></Link>
       </div>
     );
   }
