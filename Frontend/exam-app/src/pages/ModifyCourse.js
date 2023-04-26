@@ -83,6 +83,12 @@ function ModifyCoursePage() {
     console.log(data);
     if (response.status === 201 && !userCtx.courseId) {
       userCtx.setCourseId(data.id);
+      swal({
+        title: "Course " + userCtx.courseId ? "Modified!" : "Created!",
+        text: "Changes has been saved successfully.",
+        icon: "success",
+        button: "OK",
+      })
       history("/course");
     } else if (response.status === 200 && userCtx.courseId) {
       history("/");
@@ -139,6 +145,13 @@ function ModifyCoursePage() {
         return updatedRequests;
       });
       setUpdateEnrolledStudents((prevState) => !prevState);
+      let msg = requestType === "accept" ? "accepted" : "rejected";
+      swal({
+        title: "Request accepted!",
+        text: "Student request has been " + msg + " successfully.",
+        icon: "success",
+        button: "OK",
+      });
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -155,6 +168,12 @@ function ModifyCoursePage() {
     let data = await response.json();
     if (response.status === 201) {
       setUpdateEnrolledStudents((prevState) => !prevState);
+      swal({
+        title: "Student Added!",
+        text: "Student has been added successfully.",
+        icon: "success",
+        button: "OK",
+      });
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -167,6 +186,12 @@ function ModifyCoursePage() {
     );
     if (response.status === 204) {
       setUpdateEnrolledStudents((prevState) => !prevState);
+      swal({
+        title: "Student Removed!",
+        text: "Student has been removed successfully.",
+        icon: "success",
+        button: "OK",
+      });
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }

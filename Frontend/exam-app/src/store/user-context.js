@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import swal from 'sweetalert';
+
 import { post } from "../utils/Fetch";
 
 const UserContext = createContext();
@@ -66,7 +68,12 @@ export function UserContextProvider({ children }) {
       localStorage.setItem("examId", null);
       history("/");
     } else {
-      alert("Something went wrong!");
+      swal({
+        title: "Failed!",
+        text: "The username or password is wrong!",
+        icon: "warning",
+        button: "Ok!",
+      });
     }
   };
 

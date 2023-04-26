@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
+import swal from "sweetalert";
 
 import ExamQuestionsEdit from "../components/ExamQuestionsEdit";
 import EditExamInfo from "../components/EditExamInfo";
@@ -12,7 +13,7 @@ function EditExamPage() {
   const examId = userCtx.examId;
   let [examDetails, setExamDetails] = useState([]);
   let [examQuestions, setExamQuestions] = useState([]);
-  let [delayEamDetails, setDelayExamDetails] = useState(false);
+  let [delayExamDetails, setDelayExamDetails] = useState(false);
   let [delayExamQuestions, setDelayExamQuestions] = useState(false);
 
   useEffect(() => {}, [examQuestions, examDetails]);
@@ -108,6 +109,12 @@ function EditExamPage() {
     if (response.status === 200 || response.status === 201) {
       userCtx.setExamId(data.id);
       setDelayExamDetails(false);
+      swal({
+        title: "Success!",
+        text: "Exam has been saved successfully!",
+        icon: "success",
+        button: "OK",
+      })
       // history("/preview-exam");
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
@@ -193,6 +200,12 @@ function EditExamPage() {
         questionChangeHandler(question, newQuestionFlag);
       }
     });
+    swal({
+      title: "Success!",
+      text: "Exam has been updated successfully!",
+      icon: "success",
+      button: "OK",
+    })
   };
 
   function timeout(delay) {
@@ -203,11 +216,11 @@ function EditExamPage() {
     <section>
       <h1>Edit Exam</h1>
       <div>
-        {(delayEamDetails || !examId) && (
+        {(delayExamDetails || !examId) && (
           <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />
         )}
       </div>
-      {(examQuestions.length > 0 || delayExamQuestions) && (
+      {(examId && (examQuestions.length > 0 || delayExamQuestions)) && (
         <div>
           <ExamQuestionsEdit
             questions={examQuestions}

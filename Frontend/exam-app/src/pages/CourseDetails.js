@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 import CourseInfo from "../components/CourseInfo";
 import UserContext from "../store/user-context";
@@ -32,6 +33,13 @@ function CourseDetailsPage() {
     let response = await post("http://localhost:8000/main_app/coursejoin/" + courseId, {}, userCtx.authTokens.access);
     let data = await response.json();
     if (response.status === 201) {
+      let msg = (courseDetails.is_requested === true) ? "has been removed!" : "sent successfully!";
+      swal({
+        title: "Success!",
+        text: "Course request "+ msg,
+        icon: "success",
+        button: "OK",
+      })
       history("/");
     } else {
       alert("Something went wrong!");
@@ -43,7 +51,7 @@ function CourseDetailsPage() {
       <CourseInfo courseData={courseDetails} />
       {courseDetails.status === "open" && <div>
         <button type="submit" onClick={requestCourseHandler}>
-          {courseDetails.is_requested ? "Cancel Request" : "Enroll"}
+          {(courseDetails.is_requested === true) ? "Cancel Request" : "Enroll"}
         </button>
       </div>}
       <div>
