@@ -2,8 +2,9 @@ import classes from "./Choice.module.css";
 
 function Choice(props) {
     return (
-        <div>
+        <div className="form-check mb-2">
             <input
+                className="form-check-input"
                 type="radio"
                 name={props.questionId}
                 value={props.choice}
@@ -11,7 +12,7 @@ function Choice(props) {
                 defaultChecked={props.isChecked}
                 disabled={!props.editable}
             />
-            <label>{props.choice}</label>
+            <label className="form-check-label">{props.choice}</label>
         </div>
     );
 }

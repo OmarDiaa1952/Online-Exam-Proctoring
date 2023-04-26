@@ -4,7 +4,7 @@
 */
 body {
     font-family: monospace ;
-    font-size: 16px;
+    font-size: auto;
     color: #333;
     background-color: #f5f5f5;
     /* add resposive margin */
@@ -31,7 +31,6 @@ button {
 }
 
 button:hover {
-    border: 2px solid #666;
     background-color: #555;
 }
 

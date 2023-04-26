@@ -70,7 +70,9 @@ function PreviewExamPage() {
 
   return (
     <section>
-      <ExamInfo examData={examDetails} maxGrade={maxGrade} />
+      <div>
+        <ExamInfo examData={examDetails} maxGrade={maxGrade} />
+      </div>
       <ExamQuestions questions={examQuestions} editable={false} />
       <div>
         <div>

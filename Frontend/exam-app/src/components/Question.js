@@ -9,10 +9,12 @@ function Question(props) {
   else if (props.correctAnswer === 4) correctChoiceText = props.choice4;
   return (
     <li>
-      <div>
-        <span>
-          Grade:{" "}
-          {/* {props.studentChoice && (
+      <div className="card bg-info bg-opacity-50 m-3 p-2">
+        <div className="d-flex justify-content-between">
+          <span>Question{" "}<b>{props.questionNumber}{" "}</b></span>
+          <span>
+            Grade:{" "}
+            {/* {props.studentChoice && (
             <span>
               {props.studentChoice ===
               props.choices[correctChoiceIndex].choiceId
@@ -21,78 +23,82 @@ function Question(props) {
               /{" "}
             </span>
           )} */}
-          {props.questionGrade}
-        </span>
+            {props.questionGrade}
+          </span>
+        </div>
       </div>
-      <div>
-        <span>{props.questionNumber}. </span>
-        <span>{props.questionText}</span>
-      </div>
-      <div>
-        {
-          <Choice
-            id="1"
-            editable={props.editable}
-            key={props.questionId + "1"}
-            questionId={props.questionId}
-            choice={props.choice1}
-            isChecked={
-              props.choice ? props.choice === 1 : props.correctAnswer === 1
+      <div className="card bg-light m-3 p-1">
+        <div className="card-body">
+          <div className="card-title mb-3">
+            <p className="h4">{props.questionText}</p>
+          </div>
+          <div>
+            {
+              <Choice
+                id="1"
+                editable={props.editable}
+                key={props.questionId + "1"}
+                questionId={props.questionId}
+                choice={props.choice1}
+                isChecked={
+                  props.choice ? props.choice === 1 : props.correctAnswer === 1
+                }
+                onChoiceChange={props.onChoiceChange}
+              // isChecked={
+              //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
+              // }
+              />
             }
-            onChoiceChange={props.onChoiceChange}
-            // isChecked={
-            //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
-            // }
-          />
-        }
-        {
-          <Choice
-            id="2"
-            editable={props.editable}
-            key={props.questionId + "2"}
-            questionId={props.questionId}
-            choice={props.choice2}
-            isChecked={
-              props.choice ? props.choice === 2 : props.correctAnswer === 2
+            {
+              <Choice
+                id="2"
+                editable={props.editable}
+                key={props.questionId + "2"}
+                questionId={props.questionId}
+                choice={props.choice2}
+                isChecked={
+                  props.choice ? props.choice === 2 : props.correctAnswer === 2
+                }
+                onChoiceChange={props.onChoiceChange}
+              // isChecked={
+              //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
+              // }
+              />
             }
-            onChoiceChange={props.onChoiceChange}
-            // isChecked={
-            //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
-            // }
-          />
-        }
-        {
-          <Choice
-            id="3"
-            editable={props.editable}
-            key={props.questionId + "3"}
-            questionId={props.questionId}
-            choice={props.choice3}
-            isChecked={
-              props.choice ? props.choice === 3 : props.correctAnswer === 3
+            {
+              <Choice
+                id="3"
+                editable={props.editable}
+                key={props.questionId + "3"}
+                questionId={props.questionId}
+                choice={props.choice3}
+                isChecked={
+                  props.choice ? props.choice === 3 : props.correctAnswer === 3
+                }
+                onChoiceChange={props.onChoiceChange}
+              // isChecked={
+              //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
+              // }
+              />
             }
-            onChoiceChange={props.onChoiceChange}
-            // isChecked={
-            //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
-            // }
-          />
-        }
-        {
-          <Choice
-            id="4"
-            editable={props.editable}
-            key={props.questionId + "4"}
-            questionId={props.questionId}
-            choice={props.choice4}
-            isChecked={
-              props.choice ? props.choice === 4 : props.correctAnswer === 4
+            {
+              <Choice
+                id="4"
+                editable={props.editable}
+                key={props.questionId + "4"}
+                questionId={props.questionId}
+                choice={props.choice4}
+                isChecked={
+                  props.choice ? props.choice === 4 : props.correctAnswer === 4
+                }
+                onChoiceChange={props.onChoiceChange}
+              // isChecked={
+              //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
+              // }
+              />
             }
-            onChoiceChange={props.onChoiceChange}
-            // isChecked={
-            //   props.studentChoice === choice.choiceId ? true : choice.isCorrect
-            // }
-          />
-        }
+          </div>
+        </div>
       </div>
       <div>
         {props.choice && <span>The correct answer: {correctChoiceText}</span>}
