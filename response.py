@@ -411,8 +411,12 @@
         { # photo retrieve response
             # http 200 ok
             "photo": "the image"
-        }
-
+        },
+        {
+            # photo exists response
+            # http 200 ok
+            "has_photo": "true or false"
+        },
     ]
 }
 
@@ -441,6 +445,9 @@
             ]
         },
         {  # expected request for photo retrieve
+            # GET request
+        },
+        {  # expected request for photo exists
             # GET request
         },
     ]
