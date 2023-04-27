@@ -16,7 +16,7 @@ function WelcomePage() {
             <div className="col-6">
               <div className="card bg-light">
                 <div className="card-body">
-                  <h3 class="card-title">Login</h3>
+                  <h3 className="card-title">Login</h3>
                   <br/>
                   <Login />
                   <div>

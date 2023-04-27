@@ -39,7 +39,7 @@ function RegistrationPage() {
             <div className="col-6">
               <div className="card bg-light">
                 <div className="card-body">
-                  <h3 class="card-title">Sign-Up</h3>
+                  <h3 className="card-title">Sign-Up</h3>
                   <br />
                   <Register onRegister={registerHandler} />
                   <div className="text-center">

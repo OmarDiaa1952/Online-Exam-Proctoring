@@ -23,7 +23,7 @@ function ExamComponent(props) {
           {userCtx.type === "examiner" && (
             <div className="ml-auto pl-3">
               <button type="button"
-                class="btn btn-danger"
+                className="btn btn-danger"
                 onClick={() => props.onDelete(props.id)}>
                 Delete
               </button>

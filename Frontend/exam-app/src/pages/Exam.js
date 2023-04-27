@@ -8,6 +8,7 @@ import TabSwitch from "../utils/TabSwitch";
 import FullScreen from "../utils/FullScreen";
 import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
+import WebSocketDemo from "../utils/WebSocketDemo";
 import { get, post } from "../utils/Fetch";
 
 function ExamPage() {
@@ -117,10 +118,7 @@ function ExamPage() {
       <UseWindowDimensions />
       {/* <FullScreen /> */}
       <h2>Exam:</h2>
-      <div>
-        <span>Remaining Time: </span>
-        <span>01:23:48</span>
-      </div>
+      <WebSocketDemo />
       <ExamQuestions
         questions={examQuestions}
         editable={true}
