@@ -75,7 +75,6 @@ function ExamDetailsPage() {
             currentHour === examStartHour &&
             currentMinute < examStartMinute)
         ) {
-          console.log("not started");
           setExamStatus(-1);
         } else if (
           currentYear > examEndYear ||
@@ -93,10 +92,8 @@ function ExamDetailsPage() {
             currentHour === examEndHour &&
             currentMinute > examEndMinute)
         ) {
-          console.log("finished");
           setExamStatus(1);
         } else {
-          console.log("started");
           setExamStatus(0);
         }
       } else if (response.statusText === "Unauthorized") {
@@ -106,7 +103,7 @@ function ExamDetailsPage() {
   };
 
   let startExamHandler = () => {
-    if (examStatus === 0 && hasPhoto) {
+    if (examStatus === 0 && hasPhoto && !examDetails.exam_taken) {
       swal({
         title: "Are you sure you want to start the exam?",
         text: "Note: You have only one attempt.\nYou are not allowed to switch to other tabs nor to open other apps nor other windows.\nYou must keep the window maximzed.\nOtherwise the exam will be instantly ended.\nYou must allow the camera to be used\nYou should keep away from any trials of cheating.\nAny cheating trial will be recorded to the instructor\nBest wishes!",
@@ -131,6 +128,13 @@ function ExamDetailsPage() {
             "Cancelled! Make sure you start the exam before the exam date expires"
           );
         }
+      });
+    } else if (examDetails.exam_taken) {
+      swal({
+        title: "You have already taken the exam!",
+        text: "You can review your exam.",
+        icon: "warning",
+        buttons: "ok",
       });
     } else if (!hasPhoto) {
       swal({
@@ -158,7 +162,7 @@ function ExamDetailsPage() {
 
   let reviewExamHandler = () => {
     if (examStatus === 1) {
-      navigate("/examreview");
+      navigate("/review-exam");
     } else {
       swal({
         title: "Exam review is not allowed!",
