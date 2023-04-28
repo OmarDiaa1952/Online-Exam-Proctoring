@@ -7,11 +7,11 @@ function ExamReviewDetails(props) {
       <div>
         <div>
           <span>Start Date: </span>
-          <span>{props.examData.startTime}</span>
+          <span>{props.examData.examStartYear} / {props.examData.examStartMonth} / {props.examData.examStartDay} {props.examData.examStartHour}:{props.examData.examStartMinute}</span>
         </div>
         <div>
           <span>Submission Date: </span>
-          <span>{props.examData.submissionTime}</span>
+          <span>{props.examData.examSubmissionYear} / {props.examData.examSubmissionMonth} / {props.examData.examSubmissionDay} {props.examData.examSubmissionHour}:{props.examData.examSubmissionMinute}</span>
         </div>
         <div>
         <span>Grade: </span>

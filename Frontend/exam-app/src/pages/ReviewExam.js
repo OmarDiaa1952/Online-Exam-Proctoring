@@ -29,8 +29,16 @@ function ReviewExamPage() {
         setExamDetails({
           id: data.id,
           examId: data.exam_id,
-          startTime: data.start_time,
-          submissionTime: data.submission_time,
+          examStartYear: data.start_time.substring(0, 4),
+          examStartMonth: data.start_time.substring(5, 7),
+          examStartDay: data.start_time.substring(8, 10),
+          examStartHour: data.start_time.substring(11, 13),
+          examStartMinute: data.start_time.substring(14, 16),
+          examSubmissionYear: data.submission_time.substring(0, 4),
+          examSubmissionMonth: data.submission_time.substring(5, 7),
+          examSubmissionDay: data.submission_time.substring(8, 10),
+          examSubmissionHour: data.submission_time.substring(11, 13),
+          examSubmissionMinute: data.submission_time.substring(14, 16),
           grade: data.grade,
         });
         setExamQuestions(
