@@ -113,7 +113,7 @@ class StudentProfile(models.Model):
     # determining upload path for profile picture
     def upload_to(self, filename):
         # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-        return 'user_{0}/profile_pic/{1}'.format(self.user.id, filename)
+        return 'profile_pics/user_{0}/{1}'.format(self.user.id, filename)
     
     user = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='student_profile')
     enrolled_courses = models.ManyToManyField('main_app.Course', related_name='students',through='main_app.EnrollmentDetail', blank=True)
