@@ -38,6 +38,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
         if message_type == 'photo':
             # get the photo from the message
             photo_data = message.get('photo_data')
+            print(photo_data)
             # then i gotta decide what to do with the photo
 
         elif message_type == 'start_exam':
