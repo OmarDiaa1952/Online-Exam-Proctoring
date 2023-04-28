@@ -46,12 +46,11 @@ class ExamConsumer(AsyncWebsocketConsumer):
                 print(photo_data)
                 format, imgstr = photo_data.split(';base64,') 
                 ext = format.split('/')[-1] 
-                data = ContentFile(base64.b64decode(imgstr), name=f"{self.remaining_time}.{ext}")
+                data = ContentFile(base64.b64decode(imgstr), name=f"{os.urandom(8).hex()}.{ext}")
                 # save the image to the media directory
                 media_root = settings.MEDIA_ROOT
                 media_dir = os.path.join(media_root, f"user_{self.student_id}",f"exam_{self.exam_id}")
                 os.makedirs(media_dir, exist_ok=True)
-
                 
                 filename = os.path.join(media_root, data.name)
                 with open(filename, 'wb') as f:
