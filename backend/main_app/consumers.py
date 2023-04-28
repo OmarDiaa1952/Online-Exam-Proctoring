@@ -49,7 +49,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
                 data = ContentFile(base64.b64decode(imgstr), name=f"{self.remaining_time}.{ext}")
                 # save the image to the media directory
                 media_root = settings.MEDIA_ROOT
-                media_dir = os.path.join(media_root, f"user_{self.user_id}",f"exam_{self.exam_id}")
+                media_dir = os.path.join(media_root, f"user_{self.student_id}",f"exam_{self.exam_id}")
                 os.makedirs(media_dir, exist_ok=True)
 
                 
