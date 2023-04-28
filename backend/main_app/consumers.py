@@ -52,7 +52,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
                 media_dir = os.path.join(media_root, f"user_{self.student_id}",f"exam_{self.exam_id}")
                 os.makedirs(media_dir, exist_ok=True)
                 
-                filename = os.path.join(media_root, data.name)
+                filename = os.path.join(media_dir, data.name)
                 with open(filename, 'wb') as f:
                     f.write(data.read())
         
