@@ -87,12 +87,26 @@ function EditExamInfo(props) {
               </div>
               <div className="row mb-3">
                 <label htmlFor="duration" className="col-2">Duration</label>
+                <span id="duration">
                 <input
                   className="col-2"
-                  type="time"
-                  id="duration"
-                  defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(0, 5) : ""}
+                  type="number"
+                  id="duration_hours"
+                  min={0}
+                  max={24}
+                  defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(0, 2) : ""}
                 />
+                </span>
+                <span id="duration">
+                <input
+                  className="col-2"
+                  type="number"
+                  id="duration_minutes"
+                  min={0}
+                  max={59}
+                  defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(3, 5) : ""}
+                />
+                </span>
               </div>
             </div>
           </div>

@@ -91,7 +91,11 @@ function EditExamPage() {
         "T" +
         e.target.exam_end_time.value +
         ":00",
-      duration: e.target.duration.value + ":00",
+      duration:
+        e.target.duration_hours.value +
+        ":" +
+        e.target.duration_minutes.value +
+        ":00",
     };
     let response =
       examId !== null
@@ -106,15 +110,18 @@ function EditExamPage() {
             userCtx.authTokens.access
           );
     let data = await response.json();
+    console.log(data);
     if (response.status === 200 || response.status === 201) {
-      userCtx.setExamId(data.id);
-      setDelayExamDetails(false);
+      if (data.id) {
+        userCtx.setExamId(data.id);
+        setDelayExamDetails(false);
+      }
       swal({
         title: "Success!",
         text: "Exam has been saved successfully!",
         icon: "success",
         button: "OK",
-      })
+      });
       // history("/preview-exam");
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
@@ -205,7 +212,7 @@ function EditExamPage() {
       text: "Exam has been updated successfully!",
       icon: "success",
       button: "OK",
-    })
+    });
   };
 
   function timeout(delay) {
@@ -220,7 +227,7 @@ function EditExamPage() {
           <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />
         )}
       </div>
-      {(examId && (examQuestions.length > 0 || delayExamQuestions)) && (
+      {examId && (examQuestions.length > 0 || delayExamQuestions) && (
         <div>
           <ExamQuestionsEdit
             questions={examQuestions}
