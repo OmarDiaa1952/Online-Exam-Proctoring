@@ -1,10 +1,14 @@
 from datetime import timedelta
 from json import loads, dumps
+import os
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.conf import settings
 from .models import Exam
 from asgiref.sync import sync_to_async
 import asyncio
 from channels.db import database_sync_to_async
+from django.core.files.base import ContentFile
+import base64
 
 class ExamConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -38,9 +42,21 @@ class ExamConsumer(AsyncWebsocketConsumer):
         if message_type == 'photo':
             # get the photo from the message
             photo_data = message.get('photo_data')
-            print(photo_data)
-            # then i gotta decide what to do with the photo
+            if photo_data is not None:
+                print(photo_data)
+                format, imgstr = photo_data.split(';base64,') 
+                ext = format.split('/')[-1] 
+                data = ContentFile(base64.b64decode(imgstr), name=f"{self.remaining_time}.{ext}")
+                # save the image to the media directory
+                media_root = settings.MEDIA_ROOT
+                media_dir = os.path.join(media_root, f"user_{self.user_id}",f"exam_{self.exam_id}")
+                os.makedirs(media_dir, exist_ok=True)
 
+                
+                filename = os.path.join(media_root, data.name)
+                with open(filename, 'wb') as f:
+                    f.write(data.read())
+        
         elif message_type == 'start_exam':
             print("exam started")
 
