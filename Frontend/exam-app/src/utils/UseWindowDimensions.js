@@ -20,11 +20,34 @@ export default function UseWindowDimensions() {
     console.log(window.innerHeight);
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
+      CheckWindow();
     }
     console.log(windowDimensions);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  function CheckWindow() {
+
+    var A = window.screen.availWidth;
+    var AA = window.outerWidth;
+  
+    var B = window.screen.availHeight;
+    var BB = window.outerHeight;
+    
+    if (A === AA && B === BB) {
+    
+      console.log("Window is maximized or in full screen");
+  
+    }
+     
+    else {
+     
+      console.log("Window is not maximized or in full screen");
+      
+     }
+  
+  }
 
   return (
     <div>

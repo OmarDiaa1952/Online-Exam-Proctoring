@@ -14,6 +14,7 @@ import { get, post } from "../utils/Fetch";
 function ExamPage() {
   const userCtx = useContext(UserContext);
   const examId = userCtx.examId;
+  const [imgUrl, setImgUrl] = useState("");
   const [examQuestions, setExamQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [startTime, setStartTime] = useState("");
@@ -110,6 +111,10 @@ function ExamPage() {
     });
   };
 
+  let imgHandler = (img) => {
+    setImgUrl(img);
+  };
+
   return (
     <section>
       <FocusWindow />
@@ -118,7 +123,7 @@ function ExamPage() {
       <UseWindowDimensions />
       {/* <FullScreen /> */}
       <h2>Exam:</h2>
-      <WebSocketDemo />
+      <WebSocketDemo imgUrl={imgUrl} />
       <ExamQuestions
         questions={examQuestions}
         editable={true}
@@ -127,7 +132,7 @@ function ExamPage() {
       <div>
         <button onClick={finishHandler}>Finish</button>
       </div>
-      <WebcamCapture />
+      <WebcamCapture setImg={imgHandler} />
     </section>
   );
 }

@@ -1,6 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 
-export default function WebSocketDemo() {
+import UserContext from "../store/user-context";
+
+export default function WebSocketDemo(props) {
+  const userCtx = useContext(UserContext);
   //   const [isPaused, setPause] = useState(false);
   //   const ws = useRef(null);
 
@@ -78,10 +81,15 @@ export default function WebSocketDemo() {
 
   const [remainingTime, setRemainingTime] = useState(null);
   const socketRef = useRef(null);
+  useEffect(() => {
+    if(!props.imgUrl) return;
+    const imgUrl = { type: "photo", photo_data: props.imgUrl };
+    socketRef.current.send(JSON.stringify(imgUrl));
+  }, [props.imgUrl]);
 
   useEffect(() => {
     // Connect to the WebSocket server
-    socketRef.current = new WebSocket("ws://localhost:8000/ws/exam/7/1/");
+    socketRef.current = new WebSocket("ws://localhost:8000/ws/exam/" + userCtx.examId + "/1/");
 
     // Define event handlers
     socketRef.current.onopen = () => {
