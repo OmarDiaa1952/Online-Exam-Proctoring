@@ -28,16 +28,16 @@ function PreviewExamPage() {
       let data = await response.json();
       if (response.status === 200) {
         const examDate = {
-          exam_start_year: Number(data.exam_start_date.substring(0, 4)),
-          exam_start_month: Number(data.exam_start_date.substring(5, 7)),
-          exam_start_day: Number(data.exam_start_date.substring(8, 10)),
-          exam_start_hour: Number(data.exam_start_date.substring(11, 13)),
-          exam_start_minute: Number(data.exam_start_date.substring(14, 16)),
-          exam_end_year: Number(data.exam_end_date.substring(0, 4)),
-          exam_end_month: Number(data.exam_end_date.substring(5, 7)),
-          exam_end_day: Number(data.exam_end_date.substring(8, 10)),
-          exam_end_hour: Number(data.exam_end_date.substring(11, 13)),
-          exam_end_minute: Number(data.exam_end_date.substring(14, 16)),
+          exam_start_year: data.exam_start_date.substring(0, 4),
+          exam_start_month: data.exam_start_date.substring(5, 7),
+          exam_start_day: data.exam_start_date.substring(8, 10),
+          exam_start_hour: data.exam_start_date.substring(11, 13),
+          exam_start_minute: data.exam_start_date.substring(14, 16),
+          exam_end_year: data.exam_end_date.substring(0, 4),
+          exam_end_month: data.exam_end_date.substring(5, 7),
+          exam_end_day: data.exam_end_date.substring(8, 10),
+          exam_end_hour: data.exam_end_date.substring(11, 13),
+          exam_end_minute: data.exam_end_date.substring(14, 16),
         };
         setExamDetails({ ...data, ...examDate });
       } else if (response.statusText === "Unauthorized") {
