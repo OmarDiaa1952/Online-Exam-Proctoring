@@ -9,6 +9,7 @@ import asyncio
 from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
 import base64
+import time
 
 class ExamConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -43,15 +44,16 @@ class ExamConsumer(AsyncWebsocketConsumer):
             # get the photo from the message
             photo_data = message.get('photo_data')
             if photo_data is not None:
-                print(photo_data)
                 format, imgstr = photo_data.split(';base64,') 
                 ext = format.split('/')[-1] 
-                data = ContentFile(base64.b64decode(imgstr), name=f"{os.urandom(8).hex()}.{ext}")
-                # save the image to the media directory
+                data = ContentFile(base64.b64decode(imgstr), name=f"{int(time.time())}.{ext}")
+
+                # construct the path to the media directory
                 media_root = settings.MEDIA_ROOT
-                media_dir = os.path.join(media_root, f"user_{self.student_id}",f"exam_{self.exam_id}")
+                media_dir = os.path.join(media_root, "exams", f"exam_{self.exam_id}", f"user_{self.student_id}")
                 os.makedirs(media_dir, exist_ok=True)
                 
+                # save the image to the media directory
                 filename = os.path.join(media_dir, data.name)
                 with open(filename, 'wb') as f:
                     f.write(data.read())
