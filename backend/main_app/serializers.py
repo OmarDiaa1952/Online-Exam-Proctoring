@@ -27,6 +27,9 @@ class EnrollmentRequestSerializer(serializers.ModelSerializer):
         student_id = self.context['request'].user.pk
         # course_id is passed as a parameter in the url
         course_id = self.context['view'].kwargs['course_id']
+        # if the request already exists return error
+        if EnrollmentRequest.objects.filter(student_id=student_id, course_id=course_id).exists():
+            raise serializers.ValidationError("Request already exists")
         enrollment_request = EnrollmentRequest.objects.create(student_id=student_id, course_id=course_id)
         return enrollment_request
 
