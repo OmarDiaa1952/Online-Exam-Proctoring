@@ -21,7 +21,7 @@ function Login() {
               id="student"
               name="user-type"
               value="student"
-              defaultChecked
+              defaultChecked={userCtx.type !== "examiner"}
               onClick={() => {
                 userCtx.setUserType("student");
               }}
@@ -39,6 +39,7 @@ function Login() {
               id="examiner"
               name="user-type"
               value="examiner"
+              defaultChecked={userCtx.type === "examiner"}
               onClick={() => {
                 userCtx.setUserType("examiner");
               }}
