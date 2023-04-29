@@ -23,7 +23,8 @@
         {  # login response && refresh token response
             # http 200 ok
             "refresh": "eyJ0eXAiOiJKV1Q ...",
-            "access": "eyJ0eXAiOiJKV1Q ..."
+            "access": "eyJ0eXAiOiJKV1Q ...",
+            "role": "STUDENT or EXAMINER"
         },
         {  # course list response
             # http 200 ok
