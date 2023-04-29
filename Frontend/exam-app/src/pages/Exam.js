@@ -48,6 +48,7 @@ function ExamPage() {
       userCtx.authTokens.access
     );
     let data = await response.json();
+    console.log(data);
     if (response.status === 200) {
       setExamQuestions(
         data.map((question) => ({

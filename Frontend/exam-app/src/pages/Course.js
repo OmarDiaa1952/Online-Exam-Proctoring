@@ -15,13 +15,14 @@ function CoursePage() {
 
   let [courseDetails, setCourseDetails] = useState([]);
   let [examsList, setExamsList] = useState([]);
+  let [updateExamListFlag, setUpdateExamListFlag] = useState(false);
   let [hasPhoto, setHasPhoto] = useState(true);
 
   useEffect(() => {
     userCtx.setExamId(null);
     getCourseDetails();
     getExamsList();
-  }, [examsList]);
+  }, [updateExamListFlag]);
 
   useEffect(() => {
     if (userCtx.type === "student") checkPhoto();
@@ -81,6 +82,7 @@ function CoursePage() {
       setExamsList((prevExamsList) =>
         prevExamsList.filter((exam) => exam.id !== id)
       );
+      setUpdateExamListFlag(!updateExamListFlag);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
