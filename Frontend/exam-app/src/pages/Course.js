@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 import CourseInfo from "../components/CourseInfo";
@@ -11,6 +11,7 @@ import MissingPhoto from "../components/MissingPhoto";
 function CoursePage() {
   const userCtx = useContext(UserContext);
   const courseId = userCtx.courseId;
+  const history = useNavigate();
 
   let [courseDetails, setCourseDetails] = useState([]);
   let [examsList, setExamsList] = useState([]);
@@ -23,11 +24,14 @@ function CoursePage() {
   }, [examsList]);
 
   useEffect(() => {
-    if(userCtx.type === "student") checkPhoto();
+    if (userCtx.type === "student") checkPhoto();
   }, []);
 
   let getCourseDetails = async () => {
-    let response = await get("http://localhost:8000/main_app/coursedetail/" + courseId, userCtx.authTokens.access)
+    let response = await get(
+      "http://localhost:8000/main_app/coursedetail/" + courseId,
+      userCtx.authTokens.access
+    );
     let data = await response.json();
     if (response.status === 200) {
       setCourseDetails(data);
@@ -37,7 +41,10 @@ function CoursePage() {
   };
 
   let getExamsList = async () => {
-    let response = await get("http://localhost:8000/main_app/examlist/" + courseId, userCtx.authTokens.access);
+    let response = await get(
+      "http://localhost:8000/main_app/examlist/" + courseId,
+      userCtx.authTokens.access
+    );
     let data = await response.json();
     if (response.status === 200) {
       setExamsList(data);
@@ -66,7 +73,10 @@ function CoursePage() {
   };
 
   let deleteExamHandler = async (id) => {
-    let response = await dlt("http://localhost:8000/main_app/examdelete/" + id, userCtx.authTokens.access);
+    let response = await dlt(
+      "http://localhost:8000/main_app/examdelete/" + id,
+      userCtx.authTokens.access
+    );
     if (response.status === 204) {
       setExamsList((prevExamsList) =>
         prevExamsList.filter((exam) => exam.id !== id)
@@ -93,15 +103,44 @@ function CoursePage() {
     }
   };
 
+  let leaveCourse = () => {
+    swal({
+      title: "Are you sure you want to leave the course?",
+      text: "Once you left, you will not be able to access the course contents",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        leaveCourseHandler();
+        swal("Poof! You left the course!", {
+          icon: "success",
+        });
+      } else {
+        swal("The course is safe!");
+      }
+    });
+  };
+
+  let leaveCourseHandler = async () => {
+    let response = await dlt(
+      "http://localhost:8000/main_app/courseleave/" + userCtx.courseId,
+      userCtx.authTokens.access
+    );
+    if (response.status === 204) {
+      history("/");
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
+
   return (
     <section>
       {!hasPhoto && <MissingPhoto />}
       <CourseInfo courseData={courseDetails} />
-      <ExamsComponentsList
-        components={examsList}
-        onDelete={deleteExam}
-      />
-      {userCtx.type === "examiner" && (
+      <ExamsComponentsList components={examsList} onDelete={deleteExam} />
+      {userCtx.type === "examiner" ? (
         <div>
           <div>
             <Link to="/edit-exam">
@@ -113,6 +152,10 @@ function CoursePage() {
               <button type="button">Edit</button>
             </Link>
           </div>
+        </div>
+      ) : (
+        <div>
+          <button type="button" onClick={leaveCourse}>Leave Course</button>
         </div>
       )}
       <div>
