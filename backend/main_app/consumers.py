@@ -1,23 +1,22 @@
 from datetime import timedelta
 from json import loads, dumps
-import os
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.conf import settings
 from .models import Exam
 from asgiref.sync import sync_to_async
-import asyncio
 from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
-import base64
-import time
+import base64, time, os, asyncio
 
 class ExamConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print("WebSocket connection established for exam")
 
+        # Get the user ID from the WebSocket scope
+        self.student_id = self.scope['user'].id
+
         # Get the exam ID and student ID from the WebSocket URL
         self.exam_id = self.scope['url_route']['kwargs']['exam_id']
-        self.student_id = self.scope['url_route']['kwargs']['student_id']
 
         # Create a unique WebSocket channel for this student
         self.channel_name = f'exam_{self.exam_id}_{self.student_id}'
@@ -28,7 +27,6 @@ class ExamConsumer(AsyncWebsocketConsumer):
         # Start the exam timer
         exam = await database_sync_to_async(self.get_exam)()
         self.remaining_time = exam.duration
-        print(self.remaining_time)
         self.timer_task = asyncio.ensure_future(self.update_timer())
 
     def get_exam(self):
