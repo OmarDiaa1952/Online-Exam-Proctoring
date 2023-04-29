@@ -383,6 +383,9 @@
         {  # enrollment request delete response
             # http 204 no content with no body
         },
+        {  # course leave response
+            # http 204 no content with no body
+        },
         {   # Exam review response
             # http 200 ok
 
@@ -433,6 +436,10 @@
             # POST request
         },
         {  # expected request for enrollment request delete
+            # i expect course id to be sent in the url
+            # DELETE request
+        },
+        {   # expected request for course leave
             # i expect course id to be sent in the url
             # DELETE request
         },
