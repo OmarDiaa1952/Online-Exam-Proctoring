@@ -91,7 +91,7 @@ class Attempt(models.Model):
     student = models.ForeignKey('users.Student', on_delete=models.CASCADE)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now=False, auto_now_add=False)
-    submission_time = models.DateTimeField(auto_now=False, auto_now_add=False)
+    submission_time = models.DateTimeField(auto_now=False, auto_now_add=False, null=True)
     grade = models.IntegerField(default=0)   
 
     # This is to make sure that a student can only attempt an exam once
