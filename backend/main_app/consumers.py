@@ -1,8 +1,9 @@
 from datetime import timedelta
+from django.utils import timezone
 from json import loads, dumps
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.conf import settings
-from .models import Exam
+from .models import *
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
@@ -57,7 +58,8 @@ class ExamConsumer(AsyncWebsocketConsumer):
                     f.write(data.read())
         
         elif message_type == 'start_exam':
-            print("exam started")
+            # create attempt object
+            attempt = await database_sync_to_async(Attempt.objects.create)(exam_id=self.exam_id, student_id=self.student_id, start_time=timezone.now())
 
     async def update_timer(self):
         # Update the remaining time and send updates to the client-side
