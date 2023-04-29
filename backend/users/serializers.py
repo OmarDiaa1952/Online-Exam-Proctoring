@@ -7,7 +7,6 @@ from json import loads
 #################### General Serializers ####################
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    # username_field = User.EMAIL_FIELD #  should edit to enable username or email login
     
     @classmethod
     def get_token(cls, user):
@@ -17,6 +16,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # token['username'] = user.username
         # ...
         return token
+    
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        # Add user role to the response
+        data['role'] = self.user.role
+        return data
 
 class UserDataSerializer(serializers.ModelSerializer):
     class Meta:
