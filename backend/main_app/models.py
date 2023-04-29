@@ -25,6 +25,10 @@ class EnrollmentRequest(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     request_date = models.DateTimeField(auto_now=False, auto_now_add=False, default=datetime.now)
 
+    # only one request per student per course
+    class Meta:
+        unique_together = ('student', 'course')
+
     def accept(self):
         EnrollmentDetail.objects.create(student=self.student, course=self.course, enrollment_date=datetime.now())
         self.delete()
@@ -35,6 +39,10 @@ class EnrollmentDetail(models.Model):
     student = models.ForeignKey('users.StudentProfile', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateTimeField(auto_now=False, auto_now_add=False,default=datetime.now)
+
+    # only one enrollment per student per course
+    class Meta:
+        unique_together = ('student', 'course')
 
 class Exam(models.Model):
     # Exam Status field must be added
@@ -85,6 +93,11 @@ class Attempt(models.Model):
     start_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     submission_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     grade = models.IntegerField(default=0)   
+
+    # This is to make sure that a student can only attempt an exam once
+    class Meta:
+        unique_together = ('student', 'exam')
+
     def calculate_grade(self):
         marks = 0
         # Query all the answers for this attempt
