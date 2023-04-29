@@ -167,14 +167,13 @@ class ExamDetailSerializer(serializers.ModelSerializer):
         return data
 
 
-
 ########################## Question Serializers ##########################
 
 
 class QuestionCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ("question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer")
+        fields = ("question_text", "marks", "choices", "correct_answer")
 
     def to_representation(self, instance):
         data = {"id": instance.id}
@@ -183,26 +182,16 @@ class QuestionCreateSerializer(serializers.ModelSerializer):
 class QuestionEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ("question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer")
-
-    def update(self, instance, validated_data):
-        instance.question_text = validated_data.get('question_text', instance.question_text)
-        instance.marks = validated_data.get('marks', instance.marks)
-        instance.choice_1 = validated_data.get('choice_1', instance.choice_1)
-        instance.choice_2 = validated_data.get('choice_2', instance.choice_2)
-        instance.choice_3 = validated_data.get('choice_3', instance.choice_3)
-        instance.choice_4 = validated_data.get('choice_4', instance.choice_4)
-        instance.correct_answer = validated_data.get('correct_answer', instance.correct_answer)
-        instance.save()
-        return instance
+        fields = ("question_text", "marks", "choices", "correct_answer")
     
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ("id", "question_text", "marks", "choice_1", "choice_2", "choice_3", "choice_4", "correct_answer", "exam_id")
+        fields = ("id", "question_text", "marks", "choices", "correct_answer", "exam_id")
 
 
 ########################## Attempt Serializers ##########################
+
 
 class QuestionViewSerializer(serializers.ModelSerializer):
     class Meta:
