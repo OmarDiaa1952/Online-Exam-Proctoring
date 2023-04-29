@@ -6,7 +6,6 @@ from .models import *
 class EnrollmentDetailSerializer(serializers.ModelSerializer):
     # used by EnrolledStudentListView
     student_name = serializers.CharField(source='student.user.get_full_name') 
-    # i rememer concatinating first and full name manually before somewhere else, i need to change that
     student_email = serializers.CharField(source='student.user.email')
     
     class Meta:
@@ -14,6 +13,7 @@ class EnrollmentDetailSerializer(serializers.ModelSerializer):
         fields = ("id", "student_name", "student_email", "enrollment_date")
 
 class EnrollmentRequestSerializer(serializers.ModelSerializer):
+    # used by CoureJoinView and EnrollmentRequestListView
     student_name = serializers.CharField(source='student.user.get_full_name', read_only=True)
     student_email = serializers.CharField(source='student.user.email', read_only=True)
     request_date = serializers.DateTimeField(read_only=True)
@@ -77,7 +77,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     
     is_requested = serializers.SerializerMethodField()
     is_enrolled = serializers.SerializerMethodField()
-    examiner = serializers.SerializerMethodField()
+    examiner = serializers.CharField(source='examiner.get_full_name')
 
     def get_is_requested(self, obj):
         pk = self.context['request'].user.pk
@@ -86,10 +86,6 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     def get_is_enrolled(self, obj):
         pk = self.context['request'].user.pk
         return EnrollmentDetail.objects.filter(course_id=obj.id, student_id=pk).exists()
-    
-    def get_examiner(self, obj):
-        # get examiner first_name and last_name from course table using select related
-        return obj.examiner.first_name + " " + obj.examiner.last_name
 
     class Meta:
         model = Course
@@ -224,27 +220,3 @@ class AttemptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attempt
         fields = ("id", "exam_id", "student_id", "start_time", "submission_time", "grade", "answers")
-
-
-
-
-
-# class AnswerCreateSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Answer
-#         fields = ("question_id", "choice")
-
-# class AttemptCreateSerializer(serializers.ModelSerializer):
-#     answers = AnswerCreateSerializer(many=True)
-#     class Meta:
-#         model = Attempt
-#         fields = ("exam_id", "student_id", "start_time", "submission_time", "answers")
-
-#     def save(self, *args, **kwargs):
-#         pk = self.context['request'].user.pk
-#         self.validated_data['student_id'] = pk
-#         for answer in self.validated_data['answers']:
-#             a = Answer(question_id=answer['question_id'], choice=answer['choice'])
-
-#         super().save(*args, **kwargs)
-

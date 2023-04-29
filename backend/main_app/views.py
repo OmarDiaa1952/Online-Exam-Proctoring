@@ -99,6 +99,18 @@ class CourseJoinView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'success': 'request created'}, status=status.HTTP_201_CREATED)
+    
+class EnrollmentRequestDeleteView(generics.DestroyAPIView):
+    # this view is responsible for deleting an enrollment request by a student
+    permission_classes = (IsStudent,)
+    lookup_url_kwarg = "course_id"
+
+    def get_object(self):
+        course_id = self.kwargs.get(self.lookup_url_kwarg)
+        student_id = self.request.user.id
+        if course_id is not None and student_id is not None:
+            return EnrollmentRequest.objects.filter(course_id=course_id, student_id=student_id).first()
+        return Response({'error': 'Missing course_id or student_id parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
 class ExamReviewView(generics.RetrieveAPIView):
     # retrieves the attempt and answers of a student for a specific exam
