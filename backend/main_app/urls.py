@@ -34,6 +34,6 @@ urlpatterns = [
     
     path("coursejoin/<int:course_id>", CourseJoinView.as_view(), name="coursejoin"),
     path("examreview/<int:exam_id>", ExamReviewView.as_view(), name="examreview"),
-    path("examstart/<int:exam_id>", ExamStartView.as_view(), name="examstart"),
+    # path("examstart/<int:exam_id>", ExamStartView.as_view(), name="examstart"),
     path("examend", ExamEndView.as_view(), name="examend")
 ]
