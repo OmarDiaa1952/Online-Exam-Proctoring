@@ -36,16 +36,16 @@ function ExamDetailsPage() {
       let currentHour = currentTime.getHours();
       let currentMinute = currentTime.getMinutes();
       if (response.status === 200) {
-        let examStartYear = Number(data.exam_start_date.substring(0, 4));
-        let examStartMonth = Number(data.exam_start_date.substring(5, 7));
-        let examStartDay = Number(data.exam_start_date.substring(8, 10));
-        let examStartHour = Number(data.exam_start_date.substring(11, 13));
-        let examStartMinute = Number(data.exam_start_date.substring(14, 16));
-        let examEndYear = Number(data.exam_end_date.substring(0, 4));
-        let examEndMonth = Number(data.exam_end_date.substring(5, 7));
-        let examEndDay = Number(data.exam_end_date.substring(8, 10));
-        let examEndHour = Number(data.exam_end_date.substring(11, 13));
-        let examEndMinute = Number(data.exam_end_date.substring(14, 16));
+        let examStartYear = data.exam_start_date.substring(0, 4);
+        let examStartMonth = data.exam_start_date.substring(5, 7);
+        let examStartDay = data.exam_start_date.substring(8, 10);
+        let examStartHour = data.exam_start_date.substring(11, 13);
+        let examStartMinute = data.exam_start_date.substring(14, 16);
+        let examEndYear = data.exam_end_date.substring(0, 4);
+        let examEndMonth = data.exam_end_date.substring(5, 7);
+        let examEndDay = data.exam_end_date.substring(8, 10);
+        let examEndHour = data.exam_end_date.substring(11, 13);
+        let examEndMinute = data.exam_end_date.substring(14, 16);
         const examDate = {
           exam_start_year: examStartYear,
           exam_start_month: examStartMonth,
@@ -60,37 +60,37 @@ function ExamDetailsPage() {
         };
         setExamDetails({ ...data, ...examDate });
         if (
-          currentYear < examStartYear ||
-          (currentYear === examStartYear && currentMonth < examStartMonth) ||
-          (currentYear === examStartYear &&
-            currentMonth === examStartMonth &&
-            currentDay < examStartDay) ||
-          (currentYear === examStartYear &&
-            currentMonth === examStartMonth &&
-            currentDay === examStartDay &&
-            currentHour < examStartHour) ||
-          (currentYear === examStartYear &&
-            currentMonth === examStartMonth &&
-            currentDay === examStartDay &&
-            currentHour === examStartHour &&
-            currentMinute < examStartMinute)
+          currentYear < Number(examStartYear) ||
+          (currentYear === Number(examStartYear) && currentMonth < Number(examStartMonth)) ||
+          (currentYear === Number(examStartYear) &&
+            currentMonth === Number(examStartMonth) &&
+            currentDay < Number(examStartDay)) ||
+          (currentYear === Number(examStartYear) &&
+            currentMonth === Number(examStartMonth) &&
+            currentDay === Number(examStartDay) &&
+            currentHour < Number(examStartHour)) ||
+          (currentYear === Number(examStartYear) &&
+            currentMonth === Number(examStartMonth) &&
+            currentDay === Number(examStartDay) &&
+            currentHour === Number(examStartHour) &&
+            currentMinute < Number(examStartMinute))
         ) {
           setExamStatus(-1);
         } else if (
-          currentYear > examEndYear ||
-          (currentYear === examEndYear && currentMonth > examEndMonth) ||
-          (currentYear === examEndYear &&
-            currentMonth === examEndMonth &&
-            currentDay > examEndDay) ||
-          (currentYear === examEndYear &&
-            currentMonth === examEndMonth &&
-            currentDay === examEndDay &&
-            currentHour > examEndHour) ||
-          (currentYear === examEndYear &&
-            currentMonth === examEndMonth &&
-            currentDay === examEndDay &&
-            currentHour === examEndHour &&
-            currentMinute > examEndMinute)
+          currentYear > Number(examEndYear) ||
+          (currentYear === Number(examEndYear) && currentMonth > Number(examEndMonth)) ||
+          (currentYear === Number(examEndYear) &&
+            currentMonth === Number(examEndMonth) &&
+            currentDay > Number(examEndDay)) ||
+          (currentYear === Number(examEndYear) &&
+            currentMonth === Number(examEndMonth) &&
+            currentDay === Number(examEndDay) &&
+            currentHour > Number(examEndHour)) ||
+          (currentYear === Number(examEndYear) &&
+            currentMonth === Number(examEndMonth) &&
+            currentDay === Number(examEndDay) &&
+            currentHour === Number(examEndHour) &&
+            currentMinute > Number(examEndMinute))
         ) {
           setExamStatus(1);
         } else {
