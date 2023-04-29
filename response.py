@@ -380,6 +380,9 @@
             "student_id": 5,
             "request_date": "2023-02-28T14:36:51.439715"
         },
+        {  # enrollment request delete response
+            # http 204 no content with no body
+        },
         {   # Exam review response
             # http 200 ok
 
@@ -428,6 +431,10 @@
         {  # expected request for join course
             # i expect course id to be sent in the url
             # POST request
+        },
+        {  # expected request for enrollment request delete
+            # i expect course id to be sent in the url
+            # DELETE request
         },
         {  # expected request for review exam
             # i expect exam id to be sent in the url
