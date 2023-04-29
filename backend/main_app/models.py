@@ -1,9 +1,13 @@
+import json
 from django.apps import apps
 from django.db import models
 from datetime import datetime
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+
+# faster than the default JSONField
+# from django.contrib.postgres.fields import JSONField
 
 def get_id_from_email(email):
     return apps.get_model('users', 'User').objects.get(email=email).pk
@@ -68,15 +72,12 @@ class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     question_text = models.TextField()
     marks = models.IntegerField(default=1)
-    choice_1 = models.TextField(blank=True)
-    choice_2 = models.TextField(blank=True)
-    choice_3 = models.TextField(blank=True)
-    choice_4 = models.TextField(blank=True)
-    correct_answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
+    choices = models.JSONField(blank=True, default=dict)
+    correct_answer = models.IntegerField(validators=[MinValueValidator(1)])
 
     def __str__(self):
         return self.question_text
-
+    
 @receiver(post_save, sender=Question)
 def update_exam_max_grade_on_save(sender, instance, created, **kwargs):
     if created:
