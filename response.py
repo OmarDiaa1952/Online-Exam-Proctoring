@@ -84,26 +84,24 @@
             [
                 {
                     "id": 3,
-                    "question_text": "how are you?",
+                    "question_text": "what is ur fav field?",
                     "marks": 1,
-                    "choice_1": "fine1",
-                    "choice_2": "fine2",
-                    "choice_3": "fine3",
-                    "choice_4": "fine4",
+                    "choices": {
+                        "choice_1": "ok",
+                        "choice_2": "ok",
+                        "choice_3": "ok"
+                    },
                     "correct_answer": 1,
-                    "exam_id": 24
+                    "exam_id": 39
                 },
                 {
-                    "id": 4,
-                    "question_text": "how old are you?",
+                    "id": 8,
+                    "question_text": "What is the capital of France?",
                     "marks": 1,
-                    "choice_1": "10",
-                    "choice_2": "11",
-                    "choice_3": "12",
-                    "choice_4": "13",
+                    "choices": {},
                     "correct_answer": 1,
-                    "exam_id": 24
-                }
+                    "exam_id": 39
+                },
             ]
         },
     ]
@@ -218,12 +216,12 @@
         },
         {  # question edit response
             # http 200 ok
-            "question_text": "what is your age?V2",
+            "question_text": "What is the capital of France?",
             "marks": 1,
-            "choice_1": "12",
-            "choice_2": "13",
-            "choice_3": "14",
-            "choice_4": "15",
+            "choices": {
+                "choice_1": "Paris",
+                "choice_2": "London2"
+            },
             "correct_answer": 1
         },
         {  # question delete response
@@ -317,25 +315,22 @@
         },
         {  # expected request format for creating a question
             # POST request
-            "exam_id": "23",
-            "question_text": "what is your age?",
-            "marks": "1",
-            "choice_1": "12",
-            "choice_2": "13",
-            "choice_3": "14",
-            "choice_4": "15",
-            "correct_answer": "1"
+            "question_text": "What is the capital of France?",
+            "marks": 1,
+            "choices": {"choice_1":"Paris", "choice_2":"London"},
+            "correct_answer": 1,
+            "exam_id":39
         },
         {  # expected request format for editing a question
             # i expect question id to be sent in the url
             # PUT request
-            "question_text": "what is your age?V2",
+            "question_text": "What is the capital of France?",
             "marks": 1,
-            "choice_1": "12",
-            "choice_2": "13",
-            "choice_3": "14",
-            "choice_4": "15",
-            "correct_answer": "1"
+            "choices": {
+                "choice_1": "Paris",
+                "choice_2": "London2"
+            },
+            "correct_answer": 1
         },
         {  # expected request format for deleting a question
             # i expect question id to be sent in the url
