@@ -1,3 +1,6 @@
 
 Frontend/exam-app/src/components/ExamQuestionsEditOld.js
 node_modules
+Frontend/exam-app/src/utils/Image.js
+Frontend/exam-app/src/utils/Screenshot.js
+Frontend/exam-app/src/utils/TestScreenshot.js

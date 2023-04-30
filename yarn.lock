@@ -407,6 +407,11 @@ find-root@^1.1.0:
   resolved "https://registry.yarnpkg.com/find-root/-/find-root-1.1.0.tgz#abcfc8ba76f708c42a97b3d685b7e9450bfb9ce4"
   integrity sha512-NKfW6bec6GfKc0SGx1e07QZY9PE99u0Bft/0rzSD5k3sO/vwkVUpDUKVm5Gpp5Ue3YfShPFTX2070tDs5kB9Ng==
 
+fscreen@^1.0.2:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/fscreen/-/fscreen-1.2.0.tgz#1a8c88e06bc16a07b473ad96196fb06d6657f59e"
+  integrity sha512-hlq4+BU0hlPmwsFjwGGzZ+OZ9N/wq9Ljg/sq3pX+2CD7hrJsX9tJgWWK/wiNTFM212CLHWhicOoqwXyZGGetJg==
+
 function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
@@ -542,6 +547,13 @@ react-dom@^16.13.1:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
+react-full-screen@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-full-screen/-/react-full-screen-1.1.1.tgz#b707d56891015a71c503a65dbab3086d75be97d7"
+  integrity sha512-xoEgkoTiN0dw9cjYYGViiMCBYbkS97BYb4bHPhQVWXj1UnOs8PZ1rPzpX+2HMhuvQV1jA5AF9GaRbO3fA5aZtg==
+  dependencies:
+    fscreen "^1.0.2"
+
 react-hook-form@^7.43.5:
   version "7.43.9"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.43.9.tgz#84b56ac2f38f8e946c6032ccb760e13a1037c66d"
@@ -574,7 +586,7 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-use-websocket@3.0.0:
+react-use-websocket@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-use-websocket/-/react-use-websocket-3.0.0.tgz#754cb8eea76f55d31c5676d4abe3e573bc2cea04"
   integrity sha512-BInlbhXYrODBPKIplDAmI0J1VPM+1KhCLN09o+dzgQ8qMyrYs4t5kEYmCrTqyRuMTmpahylHFZWQXpfYyDkqOw==

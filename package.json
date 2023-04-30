@@ -6,6 +6,7 @@
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "jwt-decode": "^3.1.2",
+    "react-full-screen": "^1.1.1",
     "react-hook-form": "^7.43.5",
     "react-screen-capture": "^1.0.1",
     "react-use-websocket": "^3.0.0",
