@@ -61,7 +61,8 @@ function ExamDetailsPage() {
         setExamDetails({ ...data, ...examDate });
         if (
           currentYear < Number(examStartYear) ||
-          (currentYear === Number(examStartYear) && currentMonth < Number(examStartMonth)) ||
+          (currentYear === Number(examStartYear) &&
+            currentMonth < Number(examStartMonth)) ||
           (currentYear === Number(examStartYear) &&
             currentMonth === Number(examStartMonth) &&
             currentDay < Number(examStartDay)) ||
@@ -78,7 +79,8 @@ function ExamDetailsPage() {
           setExamStatus(-1);
         } else if (
           currentYear > Number(examEndYear) ||
-          (currentYear === Number(examEndYear) && currentMonth > Number(examEndMonth)) ||
+          (currentYear === Number(examEndYear) &&
+            currentMonth > Number(examEndMonth)) ||
           (currentYear === Number(examEndYear) &&
             currentMonth === Number(examEndMonth) &&
             currentDay > Number(examEndDay)) ||
@@ -103,7 +105,13 @@ function ExamDetailsPage() {
   };
 
   let startExamHandler = () => {
-    if (examStatus === 0 && hasPhoto && !examDetails.exam_taken) {
+    if (
+      examStatus === 0 &&
+      hasPhoto &&
+      !examDetails.exam_taken &&
+      window.screen.availWidth === window.outerWidth &&
+      window.screen.availHeight === window.outerHeight
+    ) {
       swal({
         title: "Are you sure you want to start the exam?",
         text: "Note: You have only one attempt.\nYou are not allowed to switch to other tabs nor to open other apps nor other windows.\nYou must keep the window maximzed.\nOtherwise the exam will be instantly ended.\nYou must allow the camera to be used\nYou should keep away from any trials of cheating.\nAny cheating trial will be recorded to the instructor\nBest wishes!",
@@ -147,6 +155,16 @@ function ExamDetailsPage() {
       swal({
         title: "Exam date has already expired!",
         text: "You can review your exam.",
+        icon: "warning",
+        buttons: "ok",
+      });
+    } else if (
+      window.screen.availWidth !== window.outerWidth ||
+      window.screen.availHeight !== window.outerHeight
+    ) {
+      swal({
+        title: "You must keep the window maximized!",
+        text: "You can't start the exam unless you keep the window maximized (And also not in fullscreen mode, You will be automatically moved to fullscreen mode when you start the exam).",
         icon: "warning",
         buttons: "ok",
       });
