@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useWindowFocus from "./useWindowFocus";
 
-const FocusWindow = () => {
+const FocusWindow = (props) => {
   const windowFocused = useWindowFocus();
-  console.log(windowFocused);
-  return (
-    <div>
-      <span>{windowFocused ? 'Focused' : 'Not focused'}</span>
-    </div>
-  );
+  useEffect(() => {
+    props.onChangeFocus(windowFocused);
+  }, [windowFocused]);
+  return <div>
+    {!windowFocused && <p>Warning, Please return instantly to the exam otherwise the exam will be ended!</p>}
+  </div>;
 };
 
 export default FocusWindow;
