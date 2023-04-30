@@ -2,7 +2,7 @@ import ExamQuestions from "../components/ExamQuestions";
 import { useContext, useEffect, useState } from "react";
 
 import UserContext from "../store/user-context";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import WebcamCapture from "../utils/WebcamCapture";
 import TabSwitch from "../utils/TabSwitch";
 import FullScreen from "../utils/FullScreen";
@@ -10,13 +10,18 @@ import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get, post } from "../utils/Fetch";
+import Timer from "../utils/Timer";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
   const examId = userCtx.examId;
+  const navigate = useNavigate();
   const [imgUrl, setImgUrl] = useState("");
+  const [windowDimensionsFlag, setWindowDimensionsFlag] = useState(0);
+  const [isFocused, setIsFocused] = useState(true);
   const [examQuestions, setExamQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
+  const [changeAnswerId, setChangeAnswerId] = useState(null);
   const [startTime, setStartTime] = useState("");
   const history = useNavigate();
   useEffect(() => {
@@ -94,6 +99,7 @@ function ExamPage() {
   };
 
   let changeAnswerHandler = (questionId, answer) => {
+    setChangeAnswerId(String(questionId) + "-" + String(answer));
     // console.log(questionId, answer);
     setUserAnswers((prevUserAnswers) => {
       let userAnswerIndex = prevUserAnswers.findIndex(
@@ -116,15 +122,39 @@ function ExamPage() {
     setImgUrl(img);
   };
 
+  let changeWindowDimensionsHandler = (changeFlag) => {
+    // 0 means window is not maximized
+    // 1 means window is maximized
+    setWindowDimensionsFlag(changeFlag);
+  };
+
+  let changeFocusHandler = (focused) => {
+    // false means window is not focused
+    // true means window is focused
+    setIsFocused(focused);
+  };
+
   return (
     <section>
-      <FocusWindow />
+      <Timer
+        onTimeOut={() => navigate("/exam-details")}
+        hours={0}
+        minutes={1}
+      />
+      <FocusWindow onChangeFocus={changeFocusHandler} />
       <FullScreen />
       <TabSwitch />
-      <UseWindowDimensions />
+      <UseWindowDimensions
+        onChangeWindowDimensions={changeWindowDimensionsHandler}
+      />
       {/* <FullScreen /> */}
       <h2>Exam:</h2>
-      <WebSocketDemo imgUrl={imgUrl} />
+      <WebSocketDemo
+        imgUrl={imgUrl}
+        changeAnswerId={changeAnswerId}
+        windowDimensionsFlag={windowDimensionsFlag}
+        focus={isFocused}
+      />
       <ExamQuestions
         questions={examQuestions}
         editable={true}
