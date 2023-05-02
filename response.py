@@ -37,7 +37,7 @@
                     "id": 2,
                     "name": "js"
                 }
-            ]       
+            ]
         },
         {  # course detail response
 
@@ -81,27 +81,60 @@
         },
         {  # question list response
             # http 200 ok
+            ##### EXAMINER #####
             [
                 {
-                    "id": 3,
-                    "question_text": "what is ur fav field?",
+                    "id": 15,
+                    "question_text": "What is the Hardest College in the world ?",
                     "marks": 1,
                     "choices": {
-                        "choice_1": "ok",
-                        "choice_2": "ok",
-                        "choice_3": "ok"
+                        "choice_1": "MiT",
+                        "choice_2": "Harvard",
+                        "choice_3": "Handasat Ain Shams"
                     },
-                    "correct_answer": 1,
-                    "exam_id": 39
+                    "correct_answer": 3,
+                    "exam_id": 40
                 },
                 {
-                    "id": 8,
-                    "question_text": "What is the capital of France?",
-                    "marks": 1,
-                    "choices": {},
+                    "id": 16,
+                    "question_text": "Who live in pineapple under the sea?",
+                    "marks": 3,
+                    "choices": {
+                        "choice_1": "SpongeBob Squarepants",
+                        "choice_2": "Donald Duck",
+                        "choice_3": "Timon"
+                    },
                     "correct_answer": 1,
-                    "exam_id": 39
+                    "exam_id": 40
+                }
+            ],
+
+
+            ##### STUDENT #####
+
+            [
+                {
+                    "id": 15,
+                    "question_text": "What is the Hardest College in the world ?",
+                    "marks": 1,
+                    "choices": {
+                        "choice_1": "MiT",
+                        "choice_2": "Harvard",
+                        "choice_3": "Handasat Ain Shams"
+                    },
+                    "exam_id": 40
                 },
+                {
+                    "id": 16,
+                    "question_text": "Who live in pineapple under the sea?",
+                    "marks": 3,
+                    "choices": {
+                        "choice_1": "SpongeBob Squarepants",
+                        "choice_2": "Donald Duck",
+                        "choice_3": "Timon"
+                    },
+                    "exam_id": 40
+                }
             ]
         },
     ]
@@ -115,14 +148,14 @@
             # GET request
         },
         {  # expected request format for registration
-            # POST request 
+            # POST request
             "email": "khalil@mail.com",
             "username": "khalil",
             "password": "123",
             "first_name": "mahmoud",
             "last_name": "khalil"
         },
-        {   """expected request format for getting course list
+        {"""expected request format for getting course list
             GET request
             this is example of the request
             http://localhost:8000/main_app/courselist?search=dev&all=1
@@ -153,8 +186,8 @@
             then all courses in the db 
             for a specific user will be returned """
 
-        },
-        {  # expected request format for getting a course detail 
+         },
+        {  # expected request format for getting a course detail
             # i expect course id to be sent in the url
             # GET request
         },
@@ -170,15 +203,13 @@
             # i expect exam id to be sent in the url
             # GET request
         },
-        {  # expected request format for getting a list of questions for an exam 
+        {  # expected request format for getting a list of questions for an exam
 
             # i expect exam id to be sent in the url
             # GET request
         },
     ]
 }
-
-
 
 
 ############################### examiner ###############################
@@ -242,13 +273,13 @@
             # http 200 ok
             [
                 {
-                    "id":1,
+                    "id": 1,
                     "student_name": "moath hamda",
                     "student_email": "moza@mail.com",
                     "request_date": "2023-02-27T05:36:04.727800"
                 },
                 {
-                    "id":2,
+                    "id": 2,
                     "student_name": "moath hamda",
                     "student_email": "moza@mail.com",
                     "request_date": "2023-02-27T05:39:08.504462"
@@ -317,9 +348,9 @@
             # POST request
             "question_text": "What is the capital of France?",
             "marks": 1,
-            "choices": {"choice_1":"Paris", "choice_2":"London"},
+            "choices": {"choice_1": "Paris", "choice_2": "London"},
             "correct_answer": 1,
-            "exam_id":39
+            "exam_id": 39
         },
         {  # expected request format for editing a question
             # i expect question id to be sent in the url
@@ -349,7 +380,7 @@
             # PUT request
             "action": "accept" or "reject"
         },
-        {  # expected request format for enrolling a student in a course 
+        {  # expected request format for enrolling a student in a course
            # by the examiner inserting student's email
             # i expect course id to be sent in the url
             # POST request
@@ -409,9 +440,9 @@
             ]
         },
         {   # End Exam response
-            # http 200 ok            
+            # http 200 ok
         },
-        { # photo retrieve response
+        {  # photo retrieve response
             # http 200 ok
             "photo": "the image"
         },
@@ -444,7 +475,7 @@
             # GET request
         },
         {  # expected request for end exam
-            #post request
+            # post request
             "exam_id": 1,
             "start_time": "2023-02-28T15:40:52",
             "submission_time": "2023-02-28T15:40:54",

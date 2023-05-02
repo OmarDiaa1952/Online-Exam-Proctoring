@@ -188,6 +188,13 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ("id", "question_text", "marks", "choices", "correct_answer", "exam_id")
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        user_role = self.context['request'].user.role
+        if user_role == "STUDENT":
+            data.pop("correct_answer")
+        return data 
 
 
 ########################## Attempt Serializers ##########################
