@@ -64,7 +64,29 @@ class ExamConsumer(AsyncWebsocketConsumer):
         elif message_type == 'focus_status':
             # handle focus status message
             self.handle_focus_status(message)
+
+        elif message_type == 'change_answer':
+            # handle change answer message
+            await self.change_answer(message)
             
+    async def change_answer(self,message):
+        # Get the question ID and choice from the message
+        question_id = message.get('question_id')
+        choice = message.get('choice')
+        answer_exists = await database_sync_to_async(Answer.objects.filter(attempt_id=self.attempt_id, question_id=question_id).exists)()
+        if not answer_exists:
+            # if the answer is not in the database, create a new answer object
+            try:
+                await database_sync_to_async(Answer.objects.create)(attempt_id=self.attempt_id, question_id=question_id, choice=choice)
+            except Exception as e:
+                print(e)
+        else:
+            # if the answer is in the database, update the answer
+            try:
+                await database_sync_to_async(Answer.objects.filter(attempt_id=self.attempt_id, question_id=question_id).update)(choice=choice)
+            except Exception as e:
+                print(e)
+
     def handle_photo(self,message):
         # Get the photo data from the message
         photo_data = message.get('photo_data')
@@ -128,9 +150,9 @@ class ExamConsumer(AsyncWebsocketConsumer):
         # Update the remaining time and send updates to the client-side
         while int(self.remaining_time.total_seconds()) > 0:
             self.remaining_time -= timedelta(seconds=1)
-            await asyncio.sleep(1)
             await self.send(dumps({
                 'type': 'timer',
                 'remaining_time': str(self.remaining_time)
             }))
+            await asyncio.sleep(1)
         await self.disconnect('time_up')
