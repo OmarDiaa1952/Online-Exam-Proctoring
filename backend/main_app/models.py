@@ -116,6 +116,10 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice = models.IntegerField(blank=True)
 
+    # This is to make sure that a student can only answer a question once
+    class Meta:
+        unique_together = ('attempt', 'question')
+
 @receiver(post_save, sender=Answer)
 def update_attempt_grade_on_save(sender, instance, created, **kwargs):
     if created:
