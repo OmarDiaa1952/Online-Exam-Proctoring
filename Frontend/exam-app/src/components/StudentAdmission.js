@@ -24,31 +24,38 @@ function StudentAdmission(props) {
     <div>
       <div>
         <h2>Add Student:</h2>
-        <form onSubmit={addStudentHandler}>
-          <span>
+        <form onSubmit={addStudentHandler} className="form-group">
+          <div>
             <label htmlFor="student-email">Email: </label>
-            <input
-              type="text"
-              required
-              id="student-email"
-              ref={studentEmailInputRef}
-            />
-          </span>
-          <span>
-            <button type="submit">Add</button>
-          </span>
+            <div class="input-group mb-3">
+              <input
+                className="form-control"
+                placeholder="Enter student email"
+                type="text"
+                required
+                id="student-email"
+                ref={studentEmailInputRef}
+              />
+              <button type="submit" className="input-group-append btn btn-success">Add</button>
+              {/* <div className="input-group-append">
+                <button type="submit" className="btn btn-success">Add</button>
+              </div> */}
+            </div>
+          </div>
         </form>
       </div>
       <div>
         <h2>Enrolled Students:</h2>
         <ol>
           {props.enrolledStudents.map((student) => (
-            <li key={student.id}>
-              <span>{student.student_name}</span>
-              <span>{student.student_email}</span>
-              <span>
-                <button onClick={()=>{removeHandler(student.id)}}>Remove</button>
-              </span>
+            <li key={student.id} className="card bg-light mb-3">
+              <div className="card-body row">
+                <span className="col">{"Name: "}{student.student_name}</span>
+                <span className="col">{" Email: "}{student.student_email}</span>
+                <span className="col">
+                  <button onClick={() => { removeHandler(student.id) }} className="btn btn-danger">Remove</button>
+                </span>
+              </div>
             </li>
           ))}
         </ol>
@@ -61,23 +68,27 @@ function StudentAdmission(props) {
           </div>
           <ol>
             {props.enrollmentRequests.map((student) => (
-              <li key={student.student_id}>
-                <span>{student.student_name}</span>
-                <span>{student.student_email}</span>
-                <span>
-                  <button
-                    onClick={() => requestHandler(student.id, "accept")}
-                  >
-                    Approve
-                  </button>
-                </span>
-                <span>
-                  <button
-                    onClick={() => requestHandler(student.id, "reject")}
-                  >
-                    Decline
-                  </button>
-                </span>
+              <li key={student.student_id} className="card bg-light-25 mb-3">
+                <div className="card-body row">
+                  <span className="col">{"Name: "}{student.student_name}</span>
+                  <span className="col">{"Email: "}{student.student_email}</span>
+                  <span className="col">
+                    <button
+                      className="btn btn-success"
+                      onClick={() => requestHandler(student.id, "accept")}
+                    >
+                      Approve
+                    </button>
+                  </span>
+                  <span className="col">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => requestHandler(student.id, "reject")}
+                    >
+                      Decline
+                    </button>
+                  </span>
+                </div>
               </li>
             ))}
           </ol>

@@ -253,7 +253,7 @@ function ModifyCoursePage() {
         </Link>
       </div>
       <div>
-        <button onClick={deleteCourse}>Delete Course</button>
+        <button onClick={deleteCourse} className="btn btn-danger">Delete Course</button>
       </div>
     </section>
   );
