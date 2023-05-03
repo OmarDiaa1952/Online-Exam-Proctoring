@@ -203,7 +203,7 @@ const QuestionEdit = forwardRef((props, ref) => {
               id={"q" + props.qNumber + "questionGrade"}
               type="number"
               min={1}
-              defaultValue={props.questionGrade}
+              defaultValue={props.questionGrade ? props.questionGrade : 1}
               ref={questionGradeRef}
               onChange={questionGradeChangeHandler}
             />
