@@ -7,9 +7,16 @@ function SearchCourses(props) {
   }
   return (
     <section>
-      <div>
-        <label htmlFor="search">Search:</label>
-        <input type="text" id="search" onChange={textChangeHandler} />
+      <div className="input-group mb-3">
+        <input
+          className="form-control"
+          placeholder="Course name or ID"
+          type="text"
+          id="search"
+          onChange={textChangeHandler} />
+        <div className="input-group-append">
+          <span className="input-group-text">&#128269;</span>
+        </div>
       </div>
     </section>
   );
