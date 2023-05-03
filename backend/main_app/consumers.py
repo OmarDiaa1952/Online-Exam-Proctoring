@@ -30,11 +30,11 @@ class ExamConsumer(AsyncWebsocketConsumer):
         self.remaining_time = exam.duration
         self.timer_task = asyncio.ensure_future(self.update_timer())
 
-        # Initialize the not_focused_count
-        self.not_focused_count = 0
-
-        # Initialize the probable_cheating_times
+        # Initialize the cheating trials
         self.cheating_trials = 0
+
+        # Initialize the focus status
+        self.focus_status = 'focused'
 
         # define attempt_id here
         self.attempt_id = None
@@ -63,7 +63,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
         elif message_type == 'focus_status':
             # handle focus status message
-            self.handle_focus_status(message)
+            await self.handle_focus_status(message)
 
         elif message_type == 'change_answer':
             # handle change answer message
@@ -79,13 +79,13 @@ class ExamConsumer(AsyncWebsocketConsumer):
             try:
                 await database_sync_to_async(Answer.objects.create)(attempt_id=self.attempt_id, question_id=question_id, choice=choice)
             except Exception as e:
-                print(e)
+                self.send_error(e)
         else:
             # if the answer is in the database, update the answer
             try:
                 await database_sync_to_async(Answer.objects.filter(attempt_id=self.attempt_id, question_id=question_id).update)(choice=choice)
             except Exception as e:
-                print(e)
+                self.send_error(e)
 
     def handle_photo(self,message):
         # Get the photo data from the message
@@ -105,45 +105,50 @@ class ExamConsumer(AsyncWebsocketConsumer):
             with open(filename, 'wb') as f:
                 f.write(data.read())
 
-    def handle_focus_status(self,message):
+    async def handle_focus_status(self,message):
         # Get the focus status from the message
         is_focused = message.get('is_focused')
-        if is_focused:
-            self.not_focused_count = 0
+        if is_focused == 'True':
+            self.focus_status = 'focused'
         else:
+            # if cheating_trials>=3, disconnect
             if self.cheating_trials >= 3:
-                self.disconnect('trying to cheat for 3 times')
-            self.not_focused_count += 1
-
-        if self.not_focused_count == 2:
+                self.cheating_trials = 0
+                await self.disconnect('more than three cheating trials')
+            # if the student is not focused, increment the cheating trials
             self.cheating_trials += 1
-            self.send_warning('3 seconds')
+            self.focus_status = 'not_focused'
+            seconds = 0
+            while seconds < 5:
+                if self.focus_status == 'focused':
+                    return
+                await asyncio.sleep(1)
+                seconds += 1
+            # if the student is not focused for 5 consecutive seconds, disconnect the WebSocket
+            await self.disconnect('not focused more than 5 seconds')
 
-        elif self.not_focused_count == 3:
-            self.send_warning('2 seconds')
-
-        elif self.not_focused_count == 4:
-            self.send_warning('1 second')
-
-        elif self.not_focused_count >= 5:
-            self.disconnect('not focused for 5 seconds or more')
-
-    async def send_warning(self,remaining_time):
-        # Send a warning message to the client-side
-        await self.send(dumps({
-            'type': 'warning',
-            'remaining_time_for_ending_exam': remaining_time
-        }))
+    async def send_error(self,error):
+        # Send an error message to the client-side
+        try:
+            await self.send(dumps({
+                'type': 'error',
+                'error': error
+            }))
+        except Exception as e:
+            print(e)
 
     async def disconnect(self, reason):
         # End the exam session
         # cancel the timer task if it is still running
         if hasattr(self, 'timer_task') and not self.timer_task.done():
             self.timer_task.cancel()
-        await self.send(dumps({
-            'type': 'exam_ended',
-            'reason': reason
-        }))
+        try:
+            await self.send(dumps({
+                'type': 'exam_ended',
+                'reason': reason
+            }))
+        except Exception as e:
+            print(e)
         await self.close()
 
     async def update_timer(self):
