@@ -76,6 +76,51 @@ function EditExamPage() {
 
   let examDetailsHandler = async (e) => {
     e.preventDefault();
+    let warningMsgs = [];
+    let startYear = Number(e.target.exam_start_date.value.split("-")[0]);
+    let startMonth = Number(e.target.exam_start_date.value.split("-")[1]);
+    let startDay = Number(e.target.exam_start_date.value.split("-")[2]);
+    let endYear = Number(e.target.exam_end_date.value.split("-")[0]);
+    let endMonth = Number(e.target.exam_end_date.value.split("-")[1]);
+    let endDay = Number(e.target.exam_end_date.value.split("-")[2]);
+    let startHour = Number(e.target.exam_start_time.value.split(":")[0]);
+    let startMinute = Number(e.target.exam_start_time.value.split(":")[1]);
+    let endHour = Number(e.target.exam_end_time.value.split(":")[0]);
+    let endMinute = Number(e.target.exam_end_time.value.split(":")[1]);
+    let durationHours = Number(e.target.duration_hours.value);
+    let durationMinutes = Number(e.target.duration_minutes.value);
+    console.log(e.target.duration_hours.value, e.target.duration_minutes.value);
+
+    if (durationHours === 0 && durationMinutes === 0) {
+      // console.log(durationHours, durationMinutes);
+      warningMsgs.push("Duration can't be equal to zero!");
+    }
+    if (
+      startYear > endYear ||
+      (startMonth > endMonth && startYear === endYear) ||
+      (startDay > endDay && startMonth === endMonth && startYear === endYear)
+    ) {
+      warningMsgs.push("Exam end date can't be before exam start date!");
+    }
+    if (
+      durationHours * 60 + durationMinutes * 1 >
+      (endYear - startYear) * 365 * 24 * 60 +
+        (endMonth - startMonth) * 30 * 24 * 60 +
+        (endDay - startDay) * 24 * 60 +
+        (endHour - startHour) * 60 +
+        (endMinute - startMinute)
+    ) {
+      warningMsgs.push("Exam duration can't be longer than exam period!");
+    }
+    if (warningMsgs.length > 0) {
+      swal({
+        title: "Error!",
+        text: warningMsgs.join("\n"),
+        icon: "warning",
+        button: "OK",
+      });
+      return;
+    }
     const sub_url = examId ? "examedit/" + examId : "examcreate";
     let examDetails = {
       name: e.target.name.value,
@@ -140,7 +185,8 @@ function EditExamPage() {
           : oldQuestion.question_text,
         marks: question.marks ? question.marks : oldQuestion.marks,
         choices: question.choices
-          ? question.choices.map((choice) => choice.text) : oldQuestion.choices.map((choice) => choice.text),
+          ? question.choices.map((choice) => choice.text)
+          : oldQuestion.choices.map((choice) => choice.text),
         correct_answer: question.correct_answer
           ? question.correct_answer + ""
           : oldQuestion.correct_answer + "",

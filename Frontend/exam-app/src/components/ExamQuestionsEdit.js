@@ -12,7 +12,7 @@ function ExamQuestionsEdit(props) {
   const DUMMY_QUESTION = {
     id: -1,
     question_text: "",
-    marks: 0,
+    marks: 1,
     choices: [],
     correct_answer: 1,
     is_deleted: false,
@@ -24,6 +24,7 @@ function ExamQuestionsEdit(props) {
   const [currentUpdatedQuestion, setCurrentUpdatedQuestion] =
     useState(DUMMY_QUESTION);
   const [questions, setQuestions] = useState([]);
+  const [newQuestionFlag, setNewQuestionFlag] = useState(false);
   const [maxGrade, setMaxGrade] = useState(0);
   const [deleteFlag, setDeleteFlag] = useState(false);
 
@@ -123,17 +124,12 @@ function ExamQuestionsEdit(props) {
   }
 
   const addQuestionHandler = () => {
-    const min = 1;
-    const max = questionsData.reduce((maxId, question) => {
+    const tempKey = questionsData.reduce((maxId, question) => {
       if (question.id > maxId) {
         return question.id;
         }
         return maxId;
-        }, questionsData.length > 0 ? questionsData[0].id : min) + 2;
-    let tempKey = Math.floor(min + Math.random() * (max - min));
-    while(questionsData.some((question) => question.id === tempKey)){
-      tempKey = Math.floor(min + Math.random() * (max - min));
-    }
+        }, questionsData.length > 0 ? questionsData[0].id : 1) + 1;
     setQuestionsData((oldData) => {
       let tempQuestions = oldData;
       tempQuestions.push({
@@ -156,7 +152,7 @@ function ExamQuestionsEdit(props) {
         key={tempKey}
         qNumber={tempKey}
         questionText=""
-        questionGrade={0}
+        questionGrade={1}
         correctChoice={1}
         newQuestionFlag={true}
         onChoiceChange={(choiceId) => {}}
@@ -170,6 +166,52 @@ function ExamQuestionsEdit(props) {
       />,
     ]);
   };
+  // useEffect(() => {
+  //   if (newQuestionFlag) {
+  //     const tempKey = questionsData.reduce((maxId, question) => {
+  //       if (question.id > maxId) {
+  //         return question.id;
+  //         }
+  //         return maxId;
+  //         }, questionsData.length > 0 ? questionsData[0].id : 1) + 1;
+  //     setQuestionsData((oldData) => {
+  //       let tempQuestions = oldData;
+  //       tempQuestions.push({
+  //         id: tempKey,
+  //         question_text: "",
+  //         marks: 1,
+  //         correct_answer: 1,
+  //         choices: [
+  //           { id: 1, text: "" },
+  //           { id: 2, text: "" },
+  //         ],
+  //         is_deleted: false,
+  //       });
+  //       return tempQuestions;
+  //     });
+  
+  //     setQuestions((oldData) => [
+  //       ...oldData,
+  //       <QuestionEdit
+  //         key={tempKey}
+  //         qNumber={tempKey}
+  //         questionText=""
+  //         questionGrade={1}
+  //         correctChoice={1}
+  //         newQuestionFlag={true}
+  //         onChoiceChange={(choiceId) => {}}
+  //         choices={[
+  //           { id: 1, text: "" },
+  //           { id: 2, text: "" },
+  //         ]}
+  //         onChangeData={editQHandler}
+  //         onDelete={deleteQHandler}
+  //         ref={questionRef}
+  //       />,
+  //     ]);
+  //     setNewQuestionFlag(false);
+  //   };
+  // }, [newQuestionFlag]);
 
   return (
     <section>

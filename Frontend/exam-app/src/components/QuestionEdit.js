@@ -8,7 +8,7 @@ const QuestionEdit = forwardRef((props, ref) => {
   const questionGradeRef = useRef();
 
   const [questionText, setQuestionText] = useState("");
-  const [questionGrade, setQuestionGrade] = useState(0);
+  const [questionGrade, setQuestionGrade] = useState(1);
   const [choicesList, setChoicesList] = useState(props.choices);
   const [correctChoice, setCorrectChoice] = useState(props.correctChoice);
   const [choices, setChoices] = useState([]);
@@ -26,7 +26,7 @@ const QuestionEdit = forwardRef((props, ref) => {
           questionText={props.questionText}
           questionId={props.qNumber}
           checked={
-            props.newQuestionFlag ? false : props.correctChoice === choice.id
+            props.correctChoice === choice.id
           }
           onChoiceChange={choiceChangeHandler}
           onChange={choicesTextChangeHandler}
@@ -105,13 +105,14 @@ const QuestionEdit = forwardRef((props, ref) => {
           return prevChoice;
         }
       });
+      console.log(updatedChoices);
       setChoicesList(updatedChoices);
       setUpdatedChoice(null);
       props.onChangeData({
         id: props.qNumber,
         question_text: questionText,
         marks: Number(questionGrade),
-        choices: choicesList,
+        choices: updatedChoices,
         correct_answer: correctChoice,
       });
     }
@@ -119,6 +120,7 @@ const QuestionEdit = forwardRef((props, ref) => {
 
   const questionTextChangeHandler = () => {
     setQuestionText(questionTextRef.current.value);
+    console.log(questionTextRef.current.value);
     props.onChangeData({
       id: props.qNumber,
       question_text: questionTextRef.current.value,
@@ -129,6 +131,7 @@ const QuestionEdit = forwardRef((props, ref) => {
   };
   const questionGradeChangeHandler = () => {
     setQuestionGrade(questionGradeRef.current.value);
+    console.log(questionGradeRef.current.value);
     props.onChangeData({
       id: props.qNumber,
       question_text: questionText,
@@ -139,16 +142,24 @@ const QuestionEdit = forwardRef((props, ref) => {
   };
   const choiceChangeHandler = (choiceId) => {
     setCorrectChoice(choiceId);
+  };
+
+  useEffect(() => {
+    // console.log(props.qNumber);
+    // console.log(questionText);
+    // console.log(questionGrade);
+    // console.log(choicesList);
     props.onChangeData({
       id: props.qNumber,
       question_text: questionText,
       marks: Number(questionGrade),
       choices: choicesList,
-      correct_answer: choiceId,
+      correct_answer: correctChoice,
     });
-  };
+  }, [correctChoice]);
 
   const choicesTextChangeHandler = (choiceId, choiceText) => {
+    console.log(choiceId, choiceText);
     setUpdatedChoice({ id: choiceId, text: choiceText });
   };
 
