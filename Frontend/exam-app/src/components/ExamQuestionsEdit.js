@@ -18,7 +18,6 @@ function ExamQuestionsEdit(props) {
     is_deleted: false,
   };
 
-  const [tempKey, setTempKey] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questionsData, setQuestionsData] = useState([]);
   const [editedQuestionsIds, setEditedQuestionsIds] = useState([]);
@@ -46,7 +45,6 @@ function ExamQuestionsEdit(props) {
           ref={questionRef}
         />,
       ]);
-      setTempKey(tempKey + 1);
     });
   };
 
@@ -58,7 +56,6 @@ function ExamQuestionsEdit(props) {
         if (props.questions[i].id + 0 > initialKey)
           initialKey = props.questions[i].id;
       }
-      setTempKey(initialKey + 1);
     }
   };
   useEffect(() => {
@@ -78,6 +75,7 @@ function ExamQuestionsEdit(props) {
   }, [currentIndex]);
 
   useEffect(() => {
+    // console.log("currentUpdatedQuestion", currentUpdatedQuestion);
     if (
       !editedQuestionsIds.some((id) => id === currentUpdatedQuestion.id) &&
       currentUpdatedQuestion.id !== -1
@@ -98,7 +96,9 @@ function ExamQuestionsEdit(props) {
     );
   }, [currentUpdatedQuestion]);
   useEffect(() => {
-    setMaxGrade(questionsData.reduce((acc, question) => acc + question.marks, 0));
+    setMaxGrade(
+      questionsData.reduce((acc, question) => acc + question.marks, 0)
+    );
   }, [questionsData]);
 
   useEffect(() => {}, [deleteFlag]);
@@ -123,6 +123,17 @@ function ExamQuestionsEdit(props) {
   }
 
   const addQuestionHandler = () => {
+    const min = 1;
+    const max = questionsData.reduce((maxId, question) => {
+      if (question.id > maxId) {
+        return question.id;
+        }
+        return maxId;
+        }, questionsData.length > 0 ? questionsData[0].id : min) + 2;
+    let tempKey = Math.floor(min + Math.random() * (max - min));
+    while(questionsData.some((question) => question.id === tempKey)){
+      tempKey = Math.floor(min + Math.random() * (max - min));
+    }
     setQuestionsData((oldData) => {
       let tempQuestions = oldData;
       tempQuestions.push({
@@ -130,7 +141,10 @@ function ExamQuestionsEdit(props) {
         question_text: "",
         marks: 0,
         correct_answer: 1,
-        choices: [{ id: 1, text: "" }, { id: 2, text: "" }, { id: 3, text: "" }, { id: 4, text: "" }],
+        choices: [
+          { id: 1, text: "" },
+          { id: 2, text: "" },
+        ],
         is_deleted: false,
       });
       return tempQuestions;
@@ -146,25 +160,22 @@ function ExamQuestionsEdit(props) {
         correctChoice={1}
         newQuestionFlag={true}
         onChoiceChange={(choiceId) => {}}
-        choices={[{ id: 1, text: "" }, { id: 2, text: "" }, { id: 3, text: "" }, { id: 4, text: "" }]}
+        choices={[
+          { id: 1, text: "" },
+          { id: 2, text: "" },
+        ]}
         onChangeData={editQHandler}
         onDelete={deleteQHandler}
         ref={questionRef}
       />,
     ]);
-    setTempKey(tempKey + 1);
   };
 
   return (
     <section>
       <div>
         <label htmlFor="max_grade">Max Grade</label>
-        <input
-          type="number"
-          id="max_grade"
-          value={maxGrade}
-          readOnly
-        />
+        <input type="number" id="max_grade" value={maxGrade} readOnly />
       </div>
       <h2>Questions:</h2>
       <div>

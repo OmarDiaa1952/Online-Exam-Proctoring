@@ -16,7 +16,7 @@ const WebcamCapture = (props) => {
   useEffect(() => {
     proctoring();
     console.log(imgSrc);
-  }, [imgSrc]);
+  }, []);
 
   let proctoring = async () => {
     capture();

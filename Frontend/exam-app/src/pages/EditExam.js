@@ -54,12 +54,12 @@ function EditExamPage() {
         data = data.map((question) => {
           return {
             ...question,
-            choices: [
-              { id: 1, text: question.choice_1 },
-              { id: 2, text: question.choice_2 },
-              { id: 3, text: question.choice_3 },
-              { id: 4, text: question.choice_4 },
-            ],
+            choices: question.choices.map((choice, index) => {
+              return {
+                id: index + 1,
+                text: choice,
+              };
+            }),
           };
         });
         setExamQuestions(data);
@@ -139,19 +139,8 @@ function EditExamPage() {
           ? question.question_text
           : oldQuestion.question_text,
         marks: question.marks ? question.marks : oldQuestion.marks,
-        choice_1: question.choices.find((choice) => choice.id === 1).text
-          ? question.choices.find((choice) => choice.id === 1).text
-          : oldQuestion.choices.find((choice) => choice.id === 1).text,
-        choice_2: question.choices.find((choice) => choice.id === 2).text
-          ? question.choices.find((choice) => choice.id === 2).text
-          : oldQuestion.choices.find((choice) => choice.id === 2).text,
-        choice_3: question.choices.find((choice) => choice.id === 3).text
-          ? question.choices.find((choice) => choice.id === 3).text
-          : oldQuestion.choices.find((choice) => choice.id === 3).text,
-        choice_4: question.choices.find((choice) => choice.id === 4).text
-          ? question.choices.find((choice) => choice.id === 4).text
-          : oldQuestion.choices.find((choice) => choice.id === 4).text,
-        // choices: question.choices ? question.choices : oldQuestion.choices,
+        choices: question.choices
+          ? question.choices.map((choice) => choice.text) : oldQuestion.choices.map((choice) => choice.text),
         correct_answer: question.correct_answer
           ? question.correct_answer + ""
           : oldQuestion.correct_answer + "",

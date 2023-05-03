@@ -14,6 +14,7 @@ const QuestionEdit = forwardRef((props, ref) => {
   const [choices, setChoices] = useState([]);
   const [newChoiceFlag, setNewChoiceFlag] = useState(false);
   const [deletedChoiceId, setDeletedChoiceId] = useState(-1);
+  const [updatedChoice, setUpdatedChoice] = useState(null);
 
   useEffect(() => {
     setChoices(
@@ -63,6 +64,16 @@ const QuestionEdit = forwardRef((props, ref) => {
   useEffect(() => {
     if (deletedChoiceId !== -1) {
       if (choicesList.length !== 2) {
+        let updatedQuestion = {
+          id: props.qNumber,
+          question_text: questionText,
+          marks: questionGrade,
+          choices: choicesList.filter((choice) => {
+            return choice.id !== deletedChoiceId;
+          }),
+          correct_answer: correctChoice,
+        };
+        props.onChangeData(updatedQuestion);
         setChoicesList((prevChoices) => {
           return prevChoices.filter((choice) => {
             // console.log(choice.id);
@@ -84,6 +95,27 @@ const QuestionEdit = forwardRef((props, ref) => {
       // console.log("deletedChoiceId: " + deletedChoiceId);
     }
   }, [deletedChoiceId]);
+
+  useEffect(() => {
+    if(updatedChoice !== null) {
+      let updatedChoices = choicesList.map((prevChoice) => {
+        if (prevChoice.id === updatedChoice.id) {
+          return { id: updatedChoice.id, text: updatedChoice.text };
+        } else {
+          return prevChoice;
+        }
+      });
+      setChoicesList(updatedChoices);
+      setUpdatedChoice(null);
+      props.onChangeData({
+        id: props.qNumber,
+        question_text: questionText,
+        marks: Number(questionGrade),
+        choices: choicesList,
+        correct_answer: correctChoice,
+      });
+    }
+  }, [updatedChoice]);
 
   const questionTextChangeHandler = () => {
     setQuestionText(questionTextRef.current.value);
@@ -117,22 +149,7 @@ const QuestionEdit = forwardRef((props, ref) => {
   };
 
   const choicesTextChangeHandler = (choiceId, choiceText) => {
-    let updatedChoices = choicesList.map((prevChoice) => {
-      if (prevChoice.id === choiceId) {
-        return { id: choiceId, text: choiceText };
-      } else {
-        return prevChoice;
-      }
-    });
-    console.log(updatedChoices);
-    setChoicesList(updatedChoices);
-    props.onChangeData({
-      id: props.qNumber,
-      question_text: questionText,
-      marks: Number(questionGrade),
-      choices: updatedChoices,
-      correct_answer: correctChoice,
-    });
+    setUpdatedChoice({ id: choiceId, text: choiceText });
   };
 
   const deleteQuestionHandler = () => {
