@@ -21,24 +21,28 @@ function EditExamInfo(props) {
     <div>
       {true && (
         <form onSubmit={props.onSave}>
-          <div>
-            <label htmlFor="name">Exam Name</label>
-            <input
-              type="text"
-              id="name"
-              defaultValue={examInfo.examData.name ? examInfo.examData.name : ""}
-            />
-          </div>
-          <div>
-            <label htmlFor="description">Description</label>
-            <textarea
-              id="description"
-              rows="5"
-              defaultValue={examInfo.examData.description ? examInfo.examData.description : ""}
-            />
-          </div>
           <div className="card bg-light">
             <div className="card-body">
+              <div className="form-group mb-3">
+                <label htmlFor="name"
+                  className="form-label"
+                >Exam Name</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  id="name"
+                  defaultValue={examInfo.examData.name ? examInfo.examData.name : ""}
+                />
+              </div>
+              <div className="form-group mb-3">
+                <label htmlFor="description" className="form-label">Description</label>
+                <textarea
+                  className="form-control"
+                  id="description"
+                  rows="5"
+                  defaultValue={examInfo.examData.description ? examInfo.examData.description : ""}
+                />
+              </div>
               <div className="row mb-3">
                 <span className="col">
                   <label htmlFor="exam_start_date" className="col">Start Date</label>
@@ -86,26 +90,28 @@ function EditExamInfo(props) {
                 </span>
               </div>
               <div className="row mb-3">
-                <label htmlFor="duration" className="col-2">Duration</label>
-                <span id="duration">
-                <input
-                  className="col-2"
-                  type="number"
-                  id="duration_hours"
-                  min={0}
-                  max={24}
-                  defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(0, 2) : ""}
-                />
+                <label htmlFor="duration" className="col">Duration</label>
+                <span id="duration" className="col">
+                  <label>Hours</label>
+                  <input
+
+                    type="number"
+                    id="duration_hours"
+                    min={0}
+                    max={24}
+                    defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(0, 2) : ""}
+                  />
                 </span>
-                <span id="duration">
-                <input
-                  className="col-2"
-                  type="number"
-                  id="duration_minutes"
-                  min={0}
-                  max={59}
-                  defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(3, 5) : ""}
-                />
+                <span id="duration" className="col">
+                  <label>Minutes</label>
+                  <input
+
+                    type="number"
+                    id="duration_minutes"
+                    min={0}
+                    max={59}
+                    defaultValue={examInfo.examData.duration ? examInfo.examData.duration.substring(3, 5) : ""}
+                  />
                 </span>
               </div>
             </div>
