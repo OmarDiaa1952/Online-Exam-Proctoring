@@ -10,7 +10,7 @@ body {
     /* add resposive margin */
     margin: 0 auto;
     max-width: 800px;
-    padding: 20px 20px;
+    padding: 20px 20px;  
 }
 
 /* Button styles 
@@ -60,3 +60,7 @@ video {
   position: absolute;
   right: 100%;
 } */
+
+.prewrap {
+    white-space: pre-wrap;  
+}
