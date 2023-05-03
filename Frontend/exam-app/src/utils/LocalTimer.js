@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-const Timer = (props) => {
-  const [seconds, setSeconds] = useState(props.seconds);
-  const [minutes, setMinutes] = useState(props.minutes);
-  const [hours, setHours] = useState(props.hours);
+const Timer = () => {
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(34);
+  const [hours, setHours] = useState(19);
 
   useEffect(() => {
     console.log("seconds: ", seconds);
     console.log("minutes: ", minutes);
     console.log("hours: ", hours);
-    if(!props.seconds) return;
+    // if(!props.seconds) return;
     let interval = null;
     interval = setInterval(() => {
       if (seconds === 0 && minutes === 0 && hours === 0) {
-        props.onTimeOut();
+        // props.onTimeOut();
         return;
       } else if (seconds === 0 && minutes === 0) {
         setSeconds(59);
@@ -34,32 +34,21 @@ const Timer = (props) => {
     return () => clearInterval(interval);
   }, [seconds]);
 
-  useEffect(() => {
-    console.log("Update Timer");
-    if(!props.seconds) return;
-    setSeconds(props.seconds);
-    setMinutes(props.minutes);
-    setHours(props.hours);
-  }, [props.minutes]);
 
   let getTime = () => {
-    console.log("seconds: ", props.seconds);
-    console.log("minutes: ", props.minutes);
-    console.log("hours: ", props.hours);
+    console.log("seconds: ", seconds);
+    console.log("minutes: ", minutes);
+    console.log("hours: ", hours);
   };
 
   return (
     <div>
       <button onClick={getTime}>Get Time</button>
-      {props.seconds ? (
         <div>
-          Remaining time: {hours < 10 ? "0" + String(hours) : hours} :{" "}
+          Local Timer: {hours < 10 ? "0" + String(hours) : hours} :{" "}
           {minutes < 10 ? "0" + String(minutes) : minutes} :{" "}
           {seconds < 10 ? "0" + String(seconds) : seconds}
         </div>
-      ) : (
-        <div>Remaining time: ?? : ?? : ??</div>
-      )}
     </div>
   );
 };
