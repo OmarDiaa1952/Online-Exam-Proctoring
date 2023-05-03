@@ -1,9 +1,14 @@
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Login from "../components/Login";
+import UserContext from "../store/user-context";
 
 function WelcomePage() {
-
+  const userCtx = useContext(UserContext);
+  useEffect(() => {
+    userCtx.setUserType(null);
+  }, []);
   return (
     <div>
       <section className="mt-5">
@@ -17,14 +22,12 @@ function WelcomePage() {
               <div className="card bg-light">
                 <div className="card-body">
                   <h3 className="card-title">Login</h3>
-                  <br/>
+                  <br />
                   <Login />
                   <div>
                     <p className="text-center">
                       Don't have an account?{" "}
-                      <Link to="/register" >
-                        Register
-                      </Link>
+                      <Link to="/register">Register</Link>
                     </p>
                   </div>
                 </div>

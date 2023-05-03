@@ -8,17 +8,18 @@ import MissingPhoto from "../components/MissingPhoto";
 function HomePage() {
   let [courses, setCourses] = useState([]);
   let [foundCourses, setFoundCourses] = useState([]);
-  let { authTokens, logoutUser, type, setCourseId, setExamId } =
+  let { authTokens, logoutUser, type, setUserType, setCourseId, setExamId } =
     useContext(UserContext);
   let [hasPhoto, setHasPhoto] = useState(true);
 
   useEffect(() => {
+    setUserType(localStorage.getItem("userType"));
     if(type === "student") checkPhoto();
     getCourses("");
     setCourseId(null);
     setExamId(null);
     if (type === "student") inspectCourses("");
-  }, []);
+  }, [type]);
 
   let getCourses = async (text) => {
     let response = await get("http://localhost:8000/main_app/courselist?search=" + text, authTokens.access);
@@ -60,12 +61,12 @@ function HomePage() {
   return (
     <div>
       {!hasPhoto && <MissingPhoto />}
-      <HomeNavigation
+      {type && <HomeNavigation
         allCourses={foundCourses}
         myCourses={courses}
         onChangeSearchText={getCourses}
         onSearchNewCourses={inspectCourses}
-      />
+      />}
     </div>
   );
 }
