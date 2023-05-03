@@ -21,11 +21,12 @@ function ProfilePage() {
   });
 
   useEffect(() => {
-    checkPhoto();
+    if(userCtx.type === "student") checkPhoto();
     if (imageDataURL) {
       setPhoto();
       setImageDataURL(null);
     }
+    getUserData();
   }, []);
 
   let checkPhoto = async () => {
@@ -37,7 +38,6 @@ function ProfilePage() {
     if (response.status === 200) {
       if (data.has_photo) {
         setHasPhoto(true);
-        getUserData();
       } else {
         setHasPhoto(false);
       }
@@ -73,6 +73,7 @@ function ProfilePage() {
       userCtx.authTokens.access
     );
     let data = await response.json();
+    console.log(data);
     if (response.status === 200) {
       setUserData(data);
       if (userCtx.type === "student") {
@@ -115,14 +116,18 @@ function ProfilePage() {
   return (
     <div>
       <h1>Profile</h1>
-      <img src={userData.photo} alt="Please take a photo" />
-      {/* {!loading && ( */}
-      <div>
-        <button type="button" onClick={useCamera}>
-          {hasPhoto ? "Update Photo" : "Take Photo"}
-        </button>
-        <UserInfo userData={userData} />
-      </div>
+      {userCtx.type === "student" && (
+        <div>
+          <img src={userData.photo} alt="Please take a photo" />
+          {/* {!loading && ( */}
+          <div>
+            <button type="button" onClick={useCamera}>
+              {hasPhoto ? "Update Photo" : "Take Photo"}
+            </button>
+          </div>
+        </div>
+      )}
+      <UserInfo userData={userData} />
       {/* )} */}
       <div>
         <Link to="/">
