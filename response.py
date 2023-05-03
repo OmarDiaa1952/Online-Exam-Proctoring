@@ -87,11 +87,7 @@
                     "id": 15,
                     "question_text": "What is the Hardest College in the world ?",
                     "marks": 1,
-                    "choices": {
-                        "choice_1": "MiT",
-                        "choice_2": "Harvard",
-                        "choice_3": "Handasat Ain Shams"
-                    },
+                    "choices": ["MIT","Harvard","Handasat Ain Shams"],
                     "correct_answer": 3,
                     "exam_id": 40
                 },
@@ -99,11 +95,7 @@
                     "id": 16,
                     "question_text": "Who live in pineapple under the sea?",
                     "marks": 3,
-                    "choices": {
-                        "choice_1": "SpongeBob Squarepants",
-                        "choice_2": "Donald Duck",
-                        "choice_3": "Timon"
-                    },
+                    "choices": ["SpongeBob Squarepants","Donald Duck","Timon"],
                     "correct_answer": 1,
                     "exam_id": 40
                 }
@@ -117,22 +109,14 @@
                     "id": 15,
                     "question_text": "What is the Hardest College in the world ?",
                     "marks": 1,
-                    "choices": {
-                        "choice_1": "MiT",
-                        "choice_2": "Harvard",
-                        "choice_3": "Handasat Ain Shams"
-                    },
+                    "choices": ["MIT","Harvard","Handasat Ain Shams"],
                     "exam_id": 40
                 },
                 {
                     "id": 16,
                     "question_text": "Who live in pineapple under the sea?",
                     "marks": 3,
-                    "choices": {
-                        "choice_1": "SpongeBob Squarepants",
-                        "choice_2": "Donald Duck",
-                        "choice_3": "Timon"
-                    },
+                    "choices": ["SpongeBob Squarepants","Donald Duck","Timon"],
                     "exam_id": 40
                 }
             ]
@@ -249,10 +233,7 @@
             # http 200 ok
             "question_text": "What is the capital of France?",
             "marks": 1,
-            "choices": {
-                "choice_1": "Paris",
-                "choice_2": "London2"
-            },
+            "choices":["paris","cairo","NoCapital"],
             "correct_answer": 1
         },
         {  # question delete response
@@ -348,7 +329,7 @@
             # POST request
             "question_text": "What is the capital of France?",
             "marks": 1,
-            "choices": {"choice_1": "Paris", "choice_2": "London"},
+            "choices":["paris","cairo","NoCapital"],
             "correct_answer": 1,
             "exam_id": 39
         },
@@ -357,10 +338,7 @@
             # PUT request
             "question_text": "What is the capital of France?",
             "marks": 1,
-            "choices": {
-                "choice_1": "Paris",
-                "choice_2": "London2"
-            },
+            "choices":["paris","cairo","NoCapital"],
             "correct_answer": 1
         },
         {  # expected request format for deleting a question
