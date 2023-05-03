@@ -34,7 +34,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
         self.cheating_trials = 0
 
         # Initialize the focus status as static 
-        
+        self.focus_status = 'static'
 
         # define attempt_id here
         self.attempt_id = None
