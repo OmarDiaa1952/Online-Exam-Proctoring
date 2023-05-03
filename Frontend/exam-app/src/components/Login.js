@@ -6,50 +6,9 @@ import UserContext from "../store/user-context";
 
 function Login() {
   const userCtx = useContext(UserContext);
-  useEffect(() => {
-    userCtx.type === "student" ? userCtx.setUserType("student") : userCtx.setUserType("examiner");
-  }, []);
 
   return (
     <div className="container">
-      <div className="row mb-3">
-        <div className="col">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              id="student"
-              name="user-type"
-              value="student"
-              defaultChecked={userCtx.type !== "examiner"}
-              onClick={() => {
-                userCtx.setUserType("student");
-              }}
-            />
-            <label className="form-check-label" htmlFor="student">
-              Student
-            </label>
-          </div>
-        </div>
-        <div className="col">
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              id="examiner"
-              name="user-type"
-              value="examiner"
-              defaultChecked={userCtx.type === "examiner"}
-              onClick={() => {
-                userCtx.setUserType("examiner");
-              }}
-            />
-            <label className="form-check-label" htmlFor="examiner">
-              Examiner
-            </label>
-          </div>
-        </div>
-      </div>
       <form onSubmit={userCtx.loginUser}>
         <div className="form-group">
           <label htmlFor="username">Username</label>

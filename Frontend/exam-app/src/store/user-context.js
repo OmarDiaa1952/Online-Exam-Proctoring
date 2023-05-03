@@ -24,7 +24,7 @@ export function UserContextProvider({ children }) {
   const [userType, setUserType] = useState(() =>
     localStorage.getItem("userType")
       ? localStorage.getItem("userType")
-      : "student"
+      : null
   );
   const [courseId, setCourseId] = useState(() =>
     localStorage.getItem("courseId") ? localStorage.getItem("courseId") : null
@@ -63,9 +63,10 @@ export function UserContextProvider({ children }) {
       setCourseId(null);
       setExamId(null);
       localStorage.setItem("authTokens", JSON.stringify(data));
-      localStorage.setItem("userType", userType);
+      localStorage.setItem("userType", data.role.toLowerCase());
       localStorage.setItem("courseId", null);
       localStorage.setItem("examId", null);
+      // await timeout(1000);
       history("/");
     } else {
       swal({
