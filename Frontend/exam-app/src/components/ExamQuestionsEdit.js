@@ -139,7 +139,7 @@ function ExamQuestionsEdit(props) {
       tempQuestions.push({
         id: tempKey,
         question_text: "",
-        marks: 0,
+        marks: 1,
         correct_answer: 1,
         choices: [
           { id: 1, text: "" },
