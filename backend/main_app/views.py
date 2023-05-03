@@ -1,3 +1,5 @@
+from django.utils import timezone
+import time
 from rest_framework import generics, status
 from .serializers import *
 from .models import *
@@ -76,10 +78,38 @@ class QuestionListView(generics.ListAPIView):
     lookup_url_kwarg = "exam_id"
 
     def get_queryset(self):
-        exam_id = self.kwargs.get(self.lookup_url_kwarg)
-        if exam_id is not None:
-            return Question.objects.filter(exam_id=exam_id)
-        return None
+        # For Student check if the exam time is now
+        if self.request.user.role == "STUDENT":
+            exam_id = self.kwargs.get(self.lookup_url_kwarg)
+            if exam_id is not None:
+                exam = Exam.objects.filter(id=exam_id).first()
+                if exam is not None:
+                    start_timestamp = int(time.mktime(exam.exam_start_date.timetuple()))
+                    end_timestamp = int(time.mktime(exam.exam_end_date.timetuple()))
+                    now_timestamp = int(time.time())
+                    if start_timestamp <= now_timestamp and now_timestamp <= end_timestamp:
+                        return Question.objects.filter(exam_id=exam_id)
+                    else:
+                        return None
+                else:
+                    return None
+            return None
+        # For Examiner return all questions
+        else:
+            exam_id = self.kwargs.get(self.lookup_url_kwarg)
+            if exam_id is not None:
+                return Question.objects.filter(exam_id=exam_id)
+            return None
+        
+
+
+
+
+    # def get_queryset(self):
+    #     exam_id = self.kwargs.get(self.lookup_url_kwarg)
+    #     if exam_id is not None:
+    #         return Question.objects.filter(exam_id=exam_id)
+    #     return None
 
 #################################### Student Views ####################################
 
