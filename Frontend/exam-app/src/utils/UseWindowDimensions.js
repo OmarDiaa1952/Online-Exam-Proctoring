@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -9,6 +10,8 @@ function getWindowDimensions() {
 }
 
 export default function UseWindowDimensions(props) {
+  const navigate = useNavigate();
+
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
@@ -20,6 +23,7 @@ export default function UseWindowDimensions(props) {
 
   const [windowStatus, setWindowStatus] = useState("fullScreen");
   const [initialized, setInitialized] = useState(false);
+  const [remainingSeconds, setRemainingSeconds] = useState(0);
 
   let fullScreenWarningDiv = (
     <div>
@@ -34,12 +38,26 @@ export default function UseWindowDimensions(props) {
     <div>
       <p>
         Warning, You must keep the window maximized otherwise the exam will be
-        ended!
+        ended! Please return to the maximized window in {remainingSeconds}{" "}
+        seconds.
       </p>
     </div>
   );
 
-  useEffect(() => {}, [windowStatus]);
+  useEffect(() => {
+    setRemainingSeconds(5);
+  }, [windowStatus]);
+
+  useEffect(() => {
+    let interval = null;
+    interval = setInterval(() => {
+      if (remainingSeconds === 0) navigate("/exam-details");
+      else if (windowStatus === "notMaximized")
+        setRemainingSeconds((remainingSeconds) => remainingSeconds - 1);
+      else setRemainingSeconds(5);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [remainingSeconds, windowStatus]);
 
   useEffect(() => {
     function handleResize() {

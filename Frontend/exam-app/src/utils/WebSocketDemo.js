@@ -5,6 +5,8 @@ import UserContext from "../store/user-context";
 export default function WebSocketDemo(props) {
   const userCtx = useContext(UserContext);
   const [remainingTime, setRemainingTime] = useState(null);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
   const socketRef = useRef(null);
   useEffect(() => {
     if(!socketRef.current || !props.imgUrl) return;
@@ -12,19 +14,19 @@ export default function WebSocketDemo(props) {
     socketRef.current.send(JSON.stringify(imgUrl));
   }, [props.imgUrl]);
 
-  useEffect(() => {
-    if(!socketRef.current || props.windowDimensionsFlag === null) return;
-    const warningMsg = { type: "window_status", is_maximized: props.windowDimensionsFlag === 1 };
-    console.log("warningMsg: ", warningMsg);
-    socketRef.current.send(JSON.stringify(warningMsg));
-  }, [props.windowDimensionsFlag]);
+  // useEffect(() => {
+  //   if(!socketRef.current || props.windowDimensionsFlag === null) return;
+  //   const warningMsg = { type: "window_status", is_maximized: props.windowDimensionsFlag === 1 };
+  //   console.log("warningMsg: ", warningMsg);
+  //   socketRef.current.send(JSON.stringify(warningMsg));
+  // }, [props.windowDimensionsFlag]);
 
   useEffect(() => {
     if(!socketRef.current || props.focus === null) return;
-    const warningMsg = { type: "focus_status", is_focused: props.focus };
+    const warningMsg = { type: "focus_status", is_focused: props.focus && props.windowDimensionsFlag === 1 };
     console.log("warningMsg: ", warningMsg);
     socketRef.current.send(JSON.stringify(warningMsg));
-  }, [props.focus]);
+  }, [props.focus, props.windowDimensionsFlag]);
 
   useEffect(() => {
     if (props.changeAnswerId === null) return;
@@ -36,6 +38,10 @@ export default function WebSocketDemo(props) {
     console.log("message: ", message);
     socketRef.current.send(JSON.stringify(message));
   }, [props.changeAnswerId]);
+
+  useEffect(() => {
+    props.updateTimer(remainingTime);
+  }, [seconds]);
 
   useEffect(() => {
     // Connect to the WebSocket server
@@ -55,6 +61,8 @@ export default function WebSocketDemo(props) {
       if (messageType === "timer") {
         // Update the remaining time
         setRemainingTime(message.remaining_time);
+        setMinutes(message.remaining_time.split(":")[1]);
+        setSeconds(message.remaining_time.split(":")[2]);
         console.log(`Received message: ${event.data}`);
       } else if (messageType === "exam_ended") {
         // End the exam session

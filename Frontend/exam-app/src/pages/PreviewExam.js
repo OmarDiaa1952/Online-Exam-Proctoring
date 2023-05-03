@@ -56,10 +56,12 @@ function PreviewExamPage() {
             questionText: question.question_text,
             questionGrade: question.marks,
             correctAnswer: question.correct_answer,
-            choice1: question.choice_1,
-            choice2: question.choice_2,
-            choice3: question.choice_3,
-            choice4: question.choice_4,
+            choices: question.choices.map((choice, index) => {
+              return {
+                id: index + 1,
+                text: choice,
+              };
+            }),
           }))
         );
       } else if (response.statusText === "Unauthorized") {

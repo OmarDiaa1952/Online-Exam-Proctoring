@@ -11,6 +11,7 @@ import FocusWindow from "../utils/FocusWindow";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get, post } from "../utils/Fetch";
 import Timer from "../utils/Timer";
+import LocalTimer from "../utils/LocalTimer";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
@@ -19,6 +20,11 @@ function ExamPage() {
   const [imgUrl, setImgUrl] = useState("");
   const [windowDimensionsFlag, setWindowDimensionsFlag] = useState(0);
   const [isFocused, setIsFocused] = useState(true);
+  const [remainingTime, setRemainingTime] = useState({
+    hours: null,
+    minutes: null,
+    seconds: null,
+  });
   const [examQuestions, setExamQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [changeAnswerId, setChangeAnswerId] = useState(null);
@@ -59,11 +65,11 @@ function ExamPage() {
         data.map((question) => ({
           questionId: question.id,
           questionText: question.question_text,
-          questionGrade: question.question_grade,
-          choice1: question.choice_1,
-          choice2: question.choice_2,
-          choice3: question.choice_3,
-          choice4: question.choice_4,
+          questionGrade: question.marks,
+          choices: question.choices.map((choice, index) => ({
+            id: index + 1,
+            text: choice,
+          })),
         }))
       );
       setStartTime(current_date);
@@ -72,33 +78,12 @@ function ExamPage() {
     }
   };
 
-  let finishHandler = async (e) => {
-    e.preventDefault();
-    // console.log(userAnswers);
-    const answers = userAnswers.map((answer) => ({
-      question_id: answer.questionId,
-      choice: answer.answer,
-    }));
-    // console.log(answers);
-    const submissionTime = dateConverter(new Date().toLocaleString());
-    let response = await post(
-      "http://localhost:8000/main_app/examend",
-      {
-        exam_id: userCtx.examId,
-        start_time: startTime,
-        submission_time: submissionTime,
-        answers: answers,
-      },
-      userCtx.authTokens.access
-    );
-    if (response.status === 200) {
-      history("/course");
-    } else {
-      alert("Something went wrong!");
-    }
+  let finishHandler = () => {
+    history("/course");
   };
 
   let changeAnswerHandler = (questionId, answer) => {
+    console.log(questionId, answer);
     setChangeAnswerId(String(questionId) + "-" + String(answer));
     // console.log(questionId, answer);
     setUserAnswers((prevUserAnswers) => {
@@ -134,13 +119,30 @@ function ExamPage() {
     setIsFocused(focused);
   };
 
+  let getTime = (remainingTime) => {
+    if (remainingTime) {
+      let hours = remainingTime.split(":")[0];
+      let minutes = remainingTime.split(":")[1];
+      let seconds = remainingTime.split(":")[2];
+      console.log(hours, ":", minutes, ":", seconds);
+      setRemainingTime({
+        hours: Number(hours),
+        minutes: Number(minutes),
+        seconds: Number(seconds),
+      });
+      console.log(remainingTime);
+    }
+  };
+
   return (
     <section>
+      {/* <LocalTimer />
       <Timer
         onTimeOut={() => navigate("/exam-details")}
-        hours={0}
-        minutes={1}
-      />
+        hours={remainingTime.hours}
+        minutes={remainingTime.minutes}
+        seconds={remainingTime.seconds}
+      /> */}
       <FocusWindow onChangeFocus={changeFocusHandler} />
       <FullScreen />
       <TabSwitch />
@@ -154,6 +156,7 @@ function ExamPage() {
         changeAnswerId={changeAnswerId}
         windowDimensionsFlag={windowDimensionsFlag}
         focus={isFocused}
+        updateTimer={getTime}
       />
       <ExamQuestions
         questions={examQuestions}

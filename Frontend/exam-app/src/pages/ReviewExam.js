@@ -47,10 +47,10 @@ function ReviewExamPage() {
             questionText: answer.question.question_text,
             questionGrade: answer.question.marks,
             correctAnswer: answer.question.correct_answer,
-            choice1: answer.question.choice_1,
-            choice2: answer.question.choice_2,
-            choice3: answer.question.choice_3,
-            choice4: answer.question.choice_4,
+            choices: answer.question.choices.map((choice, index) => ({
+              id: index + 1,
+              text: choice,
+            })),
             choice: answer.choice,
           }))
         );

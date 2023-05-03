@@ -28,7 +28,7 @@ const ChoiceEdit = forwardRef((props, ref) => {
       </div>
       <div className="col">
         <textarea
-          id={props.choiceId}
+          id={"q" + props.questionId + "choice" + props.choiceId}
           rows="5"
           placeholder="Choice text"
           defaultValue={props.choiceText}

@@ -18,10 +18,7 @@ function ExamQuestions(props) {
             questionText={question.questionText}
             questionGrade={question.questionGrade}
             correctAnswer={question.correctAnswer}
-            choice1={question.choice1}
-            choice2={question.choice2}
-            choice3={question.choice3}
-            choice4={question.choice4}
+            choices={question.choices}
             choice={question.choice ? question.choice : null}
             onChoiceChange={props.onChangeAnswer}
             // studentChoice={question.studentChoice}
