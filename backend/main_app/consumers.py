@@ -33,8 +33,8 @@ class ExamConsumer(AsyncWebsocketConsumer):
         # Initialize the cheating trials
         self.cheating_trials = 0
 
-        # Initialize the focus status
-        self.focus_status = 'focused'
+        # Initialize the focus status as static 
+        self.focus_status = 'static'
 
         # define attempt_id here
         self.attempt_id = None
@@ -63,12 +63,45 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
         elif message_type == 'focus_status':
             # handle focus status message
-            await self.handle_focus_status(message)
+            if message.get('is_focused') == 'True':
+                self.focus_status = 'focused'
+                print(self.focus_status)
+            else:
+                asyncio.get_event_loop().create_task(self.handle_focus_status(message))
 
         elif message_type == 'change_answer':
             # handle change answer message
             await self.change_answer(message)
             
+    async def handle_focus_status(self,message):
+        # Get the focus status from the message
+        is_focused = message.get('is_focused')
+        if is_focused == 'True':
+            self.focus_status = 'focused'
+            print(self.focus_status)
+        else:
+            # if cheating_trials>=3, disconnect
+            if self.cheating_trials >= 3:
+                self.cheating_trials = 0
+                await self.disconnect('more than three cheating trials')
+            # if the student is not focused, increment the cheating trials
+            self.cheating_trials += 1
+            self.focus_status = 'not_focused'
+            print(self.focus_status)
+            seconds = 0
+            while seconds < 5:
+                print(seconds)
+                print(self.focus_status)
+                if self.focus_status == 'focused':
+                    print('focused inside loop')
+                    return
+                await asyncio.sleep(1)
+                seconds += 1
+
+            # if the student is not focused for 5 consecutive seconds, disconnect the WebSocket
+            if self.focus_status == 'not_focused':
+                await self.disconnect('not focused more than 5 seconds')
+
     async def change_answer(self,message):
         # Get the question ID and choice from the message
         question_id = message.get('question_id')
@@ -105,28 +138,6 @@ class ExamConsumer(AsyncWebsocketConsumer):
             with open(filename, 'wb') as f:
                 f.write(data.read())
 
-    async def handle_focus_status(self,message):
-        # Get the focus status from the message
-        is_focused = message.get('is_focused')
-        if is_focused == 'True':
-            self.focus_status = 'focused'
-        else:
-            # if cheating_trials>=3, disconnect
-            if self.cheating_trials >= 3:
-                self.cheating_trials = 0
-                await self.disconnect('more than three cheating trials')
-            # if the student is not focused, increment the cheating trials
-            self.cheating_trials += 1
-            self.focus_status = 'not_focused'
-            seconds = 0
-            while seconds < 5:
-                if self.focus_status == 'focused':
-                    return
-                await asyncio.sleep(1)
-                seconds += 1
-            # if the student is not focused for 5 consecutive seconds, disconnect the WebSocket
-            await self.disconnect('not focused more than 5 seconds')
-
     async def send_error(self,error):
         # Send an error message to the client-side
         try:
@@ -161,3 +172,8 @@ class ExamConsumer(AsyncWebsocketConsumer):
             }))
             await asyncio.sleep(1)
         await self.disconnect('time_up')
+
+    async def my_async_function(self):
+        # This is a dummy function to test async/await
+        await asyncio.sleep(1)
+        
