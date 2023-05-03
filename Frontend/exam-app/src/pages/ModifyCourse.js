@@ -252,9 +252,9 @@ function ModifyCoursePage() {
           <button type="button">Back</button>
         </Link>
       </div>
-      <div>
+      {userCtx.courseId !== null && <div>
         <button onClick={deleteCourse} className="btn btn-danger">Delete Course</button>
-      </div>
+      </div>}
     </section>
   );
 }
