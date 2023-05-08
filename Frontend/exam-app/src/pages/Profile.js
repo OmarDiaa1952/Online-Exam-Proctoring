@@ -73,7 +73,6 @@ function ProfilePage() {
       userCtx.authTokens.access
     );
     let data = await response.json();
-    console.log(data);
     if (response.status === 200) {
       setUserData(data);
       if (userCtx.type === "student") {

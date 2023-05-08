@@ -7,7 +7,7 @@ function MissingPhoto() {
       <p>
         Warning! You have to record a video of yourself to be able to join exams.
       </p>
-      <Link to="/video">Record Video</Link>
+      <Link to="/stream">Record Video</Link>
     </div>
   );
 }

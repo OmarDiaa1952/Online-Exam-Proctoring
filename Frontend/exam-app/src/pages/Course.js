@@ -93,14 +93,11 @@ function CoursePage() {
       "http://localhost:8000/users/videoexists",
       userCtx.authTokens.access
     );
-    let data = await response.json();
     if (response.status === 200) {
-      if (data.has_video) {
         setHasVideo(true);
-      } else {
+      } else if(response.status === 404) {
         setHasVideo(false);
-      }
-    } else if (response.statusText === "Unauthorized") {
+      } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
   };

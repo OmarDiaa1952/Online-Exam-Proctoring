@@ -5,19 +5,19 @@ import swal from "sweetalert";
 import ExamInfo from "../components/ExamInfo";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
-import MissingPhoto from "../components/MissingVideo";
+import MissingVideo from "../components/MissingVideo";
 
 function ExamDetailsPage() {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const examId = userCtx.examId;
-  let [hasPhoto, setHasPhoto] = useState(true);
+  let [hasVideo, setHasVideo] = useState(true);
   let [examDetails, setExamDetails] = useState([]);
   let [examStatus, setExamStatus] = useState(-1);
   // -1: not started, 0: started, 1: finished
 
   useEffect(() => {
-    if (userCtx.type === "student") checkPhoto();
+    if (userCtx.type === "student") checkVideo();
     getExamDetails();
   }, []);
 
@@ -107,7 +107,6 @@ function ExamDetailsPage() {
   let startExamHandler = () => {
     if (
       examStatus === 0 &&
-      hasPhoto &&
       !examDetails.exam_taken &&
       window.screen.availWidth === window.outerWidth &&
       window.screen.availHeight === window.outerHeight
@@ -141,13 +140,6 @@ function ExamDetailsPage() {
       swal({
         title: "You have already taken the exam!",
         text: "You can review your exam when the end date expires.",
-        icon: "warning",
-        buttons: "ok",
-      });
-    } else if (!hasPhoto) {
-      swal({
-        title: "You must upload your photo first!",
-        text: "You can upload your photo in your profile page.",
         icon: "warning",
         buttons: "ok",
       });
@@ -191,18 +183,15 @@ function ExamDetailsPage() {
     }
   };
 
-  let checkPhoto = async () => {
+  let checkVideo = async () => {
     let response = await get(
-      "http://localhost:8000/users/photoexists",
+      "http://localhost:8000/users/videoexists",
       userCtx.authTokens.access
     );
-    let data = await response.json();
     if (response.status === 200) {
-      if (data.has_photo) {
-        setHasPhoto(true);
-      } else {
-        setHasPhoto(false);
-      }
+      setHasVideo(true);
+    } else if (response.status === 404) {
+      setHasVideo(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -210,7 +199,7 @@ function ExamDetailsPage() {
 
   return (
     <section>
-      {!hasPhoto && <MissingPhoto />}
+      {!hasVideo && <MissingVideo />}
       <ExamInfo examData={examDetails} />
       <div>
         <button type="button" onClick={startExamHandler}>

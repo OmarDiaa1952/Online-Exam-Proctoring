@@ -1,20 +1,21 @@
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import HomeNavigation from "../components/HomeNavigation";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
-import MissingPhoto from "../components/MissingPhoto";
+import MissingVideo from "../components/MissingVideo";
 
 function HomePage() {
   let [courses, setCourses] = useState([]);
   let [foundCourses, setFoundCourses] = useState([]);
   let { authTokens, logoutUser, type, setUserType, setCourseId, setExamId } =
     useContext(UserContext);
-  let [hasPhoto, setHasPhoto] = useState(true);
+  let [hasVideo, setHasVideo] = useState(true);
 
   useEffect(() => {
     setUserType(localStorage.getItem("userType"));
-    if(type === "student") checkPhoto();
+    if (type === "student") checkVideo();
     getCourses("");
     setCourseId(null);
     setExamId(null);
@@ -22,7 +23,10 @@ function HomePage() {
   }, [type]);
 
   let getCourses = async (text) => {
-    let response = await get("http://localhost:8000/main_app/courselist?search=" + text, authTokens.access);
+    let response = await get(
+      "http://localhost:8000/main_app/courselist?search=" + text,
+      authTokens.access
+    );
     let data = await response.json();
     if (response.status === 200) {
       setCourses(data);
@@ -32,7 +36,10 @@ function HomePage() {
   };
 
   let inspectCourses = async (text) => {
-    let response = await get("http://localhost:8000/main_app/courselist?search=" + text + "&all=1", authTokens.access);
+    let response = await get(
+      "http://localhost:8000/main_app/courselist?search=" + text + "&all=1",
+      authTokens.access
+    );
     let data = await response.json();
     if (response.status === 200) {
       setFoundCourses(data);
@@ -41,18 +48,15 @@ function HomePage() {
     }
   };
 
-  let checkPhoto = async () => {
+  let checkVideo = async () => {
     let response = await get(
-      "http://localhost:8000/users/photoexists",
+      "http://localhost:8000/users/videoexists",
       authTokens.access
     );
-    let data = await response.json();
     if (response.status === 200) {
-      if (data.has_photo) {
-        setHasPhoto(true);
-      } else {
-        setHasPhoto(false);
-      }
+      setHasVideo(true);
+    } else if (response.status === 404) {
+      setHasVideo(false);
     } else if (response.statusText === "Unauthorized") {
       logoutUser();
     }
@@ -60,13 +64,18 @@ function HomePage() {
 
   return (
     <div>
-      {!hasPhoto && <MissingPhoto />}
-      {type && <HomeNavigation
-        allCourses={foundCourses}
-        myCourses={courses}
-        onChangeSearchText={getCourses}
-        onSearchNewCourses={inspectCourses}
-      />}
+      <Link to="/stream">
+        <button>Test Video</button>
+      </Link>
+      {!hasVideo && <MissingVideo />}
+      {type && (
+        <HomeNavigation
+          allCourses={foundCourses}
+          myCourses={courses}
+          onChangeSearchText={getCourses}
+          onSearchNewCourses={inspectCourses}
+        />
+      )}
     </div>
   );
 }
