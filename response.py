@@ -432,6 +432,10 @@
         {  # video upload response
             # http 200 ok
         },
+        {  # video exists response
+            # http 200 ok if exists
+            # http 404 not found if not exists
+        },
     ]
 }
 
@@ -476,6 +480,9 @@
         {  # expected request for video upload
             # POST request
             "video": "the video_data encoded in base64"
+        },
+        {  # expected request for video exists view
+            # GET request
         },
     ]
 }
