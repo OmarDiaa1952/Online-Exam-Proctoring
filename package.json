@@ -10,6 +10,7 @@
     "react-hook-form": "^7.43.5",
     "react-screen-capture": "^1.0.1",
     "react-use-websocket": "^3.0.0",
+    "react-webcam": "^7.0.1",
     "sweetalert": "^2.1.2",
     "use-window-focus": "^1.4.2"
   },
