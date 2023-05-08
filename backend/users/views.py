@@ -79,7 +79,7 @@ class VideoUploadView(APIView):
         if student_id is not None:
             video = request.data.get('video')
             # save video in txt file in media directory
-            with open(f"media/videos/user_{student_id}/{student_id}.txt", "w", encoding="utf-8") as f:
+            with open(f"media/videos/user_{student_id}/{student_id}.txt", "wb", encoding="utf-8") as f:
                 # if not created already, create a directory for the student
                 if not os.path.exists(f"media/videos/user_{student_id}"):
                     os.makedirs(f"media/videos/user_{student_id}")
