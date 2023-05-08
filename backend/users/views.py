@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse
 from rest_framework import generics, status
 from .serializers import *
@@ -79,6 +80,9 @@ class VideoUploadView(APIView):
             video = request.data.get('video')
             # save video in txt file in media directory
             with open(f"media/videos/user_{student_id}/{student_id}.txt", "w") as f:
+                # if not created already, create a directory for the student
+                if not os.path.exists(f"media/videos/user_{student_id}"):
+                    os.makedirs(f"media/videos/user_{student_id}")
                 f.write(video)
             if video is not None:
                 # save video in media directory
