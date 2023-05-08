@@ -10,5 +10,6 @@ urlpatterns = [
     path("studentregister", StudentRegisterView.as_view(), name="StudentRegister"),
     path("photoupload", PhotoUploadView.as_view(), name="PhotoUpload"),
     path("photoretrieve", PhotoRetrieve.as_view(), name="PhotoRetrieve"),
-    path("photoexists", PhotoExistsView.as_view(), name="PhotoExists")
+    path("photoexists", PhotoExistsView.as_view(), name="PhotoExists"),
+    path("videouplaod", VideoUploadView.as_view(), name="VideoUpload"),
 ]

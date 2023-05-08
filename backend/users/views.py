@@ -68,6 +68,25 @@ class PhotoUploadView(generics.UpdateAPIView):
             instance.save()
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+class VideoUploadView(APIView):
+    # this view is responsible for uploading student's video
+    permission_classes = (IsStudent,)
+
+    def post(self, request, format=None):
+        student_id = self.request.user.pk
+        if student_id is not None:
+            video = request.data.get('video')
+            # save video in txt file in media directory
+            with open(f"media/videos/user_{student_id}/{student_id}.txt", "w") as f:
+                f.write(video)
+            if video is not None:
+                # save video in media directory
+                with open(f"media/videos/user_{student_id}/{student_id}.webm", "wb") as f:
+                    f.write(video.read())
+                return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 class PhotoRetrieve(APIView):
     # this view is responsible for retrieving student's photo
