@@ -64,9 +64,6 @@ function HomePage() {
 
   return (
     <div>
-      <Link to="/stream">
-        <button>Test Video</button>
-      </Link>
       {!hasVideo && <MissingVideo />}
       {type && (
         <HomeNavigation

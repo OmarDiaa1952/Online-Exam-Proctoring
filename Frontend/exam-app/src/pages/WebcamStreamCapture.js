@@ -1,17 +1,21 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 
-import { post } from "./Fetch";
+import { post } from "../utils/Fetch";
 import UserContext from "../store/user-context";
+import VideoTimer from "../utils/VideoTimer";
 
 const WebcamComponent = () => <Webcam />;
 
-const WebcamStreamCapture = () => {
+const WebcamStreamCapturePage = () => {
   const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
+  const [isSaved, setIsSaved] = React.useState(false);
 
   let videoUpload = async (text) => {
     const data = {
@@ -45,7 +49,7 @@ const WebcamStreamCapture = () => {
     [setRecordedChunks]
   );
 
-  const handleStopCaptureClick = React.useCallback(() => {
+  const handleStopCapture = React.useCallback(() => {
     mediaRecorderRef.current.stop();
     setCapturing(false);
   }, [mediaRecorderRef, webcamRef, setCapturing]);
@@ -59,25 +63,30 @@ const WebcamStreamCapture = () => {
       reader.readAsDataURL(blob);
       reader.onloadend = function () {
         var base64data = reader.result;
-        console.log(base64data);
         videoUpload(base64data);
       };
+      setIsSaved(true);
     }
   }, [recordedChunks]);
 
   return (
     <>
+      <VideoTimer
+        stopRecording={handleStopCapture}
+        startRecording={capturing}
+      />
       <Webcam audio={false} ref={webcamRef} />
-      {capturing ? (
-        <button onClick={handleStopCaptureClick}>Stop Capture</button>
-      ) : (
+      {!capturing && (
         <button onClick={handleStartCaptureClick}>Start Capture</button>
       )}
-      {recordedChunks.length > 0 && (
-        <button onClick={handleSave}>Save</button>
+      {(!isSaved && recordedChunks.length > 0) && (
+        <div>
+          <button onClick={handleSave}>Save</button>
+        </div>
       )}
+      {isSaved && <button onClick={() => navigate(-1)}>Done</button>}
     </>
   );
 };
 
-export default WebcamStreamCapture;
+export default WebcamStreamCapturePage;

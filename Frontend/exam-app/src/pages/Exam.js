@@ -10,8 +10,6 @@ import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get, post } from "../utils/Fetch";
-import Timer from "../utils/Timer";
-import LocalTimer from "../utils/LocalTimer";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);

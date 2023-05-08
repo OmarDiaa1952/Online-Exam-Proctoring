@@ -13,8 +13,8 @@ import LogFilePage from "./pages/LogFile";
 import ReviewExamPage from "./pages/ReviewExam";
 import PreviewExamPage from "./pages/PreviewExam";
 import PrivateRoute from "./utils/PrivateRoute";
-import Camera from "./utils/Camera";
-import WebcamStreamCapture from "./utils/WebcamStreamCapture";
+import CameraPage from "./pages/Camera";
+import WebcamStreamCapturePage from "./pages/WebcamStreamCapture";
 import ProfilePage from "./pages/Profile";
 import CourseStudentsPage from "./pages/CourseStudents";
 
@@ -37,8 +37,8 @@ function App() {
       <Route path="/review-exam" exact element={<ReviewExamPage />} />
       <Route path="/Preview-exam" exact element={<PreviewExamPage />} />
       <Route path="/log-file" exact element={<LogFilePage />} />
-      <Route path="/camera" exact element={<Camera />} />
-      <Route path="/stream" exact element={<WebcamStreamCapture />} />
+      <Route path="/camera" exact element={<CameraPage />} />
+      <Route path="/stream" exact element={<WebcamStreamCapturePage />} />
     </Routes>
   );
 }

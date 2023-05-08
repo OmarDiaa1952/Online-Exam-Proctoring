@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-class Camera extends React.Component {
+class CameraPage extends React.Component {
   constructor() {
     super();
 
@@ -132,4 +132,4 @@ class Camera extends React.Component {
   }
 }
 
-export default Camera;
+export default CameraPage;
