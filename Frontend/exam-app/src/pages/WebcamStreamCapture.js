@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 
-import { post } from "../utils/Fetch";
+import { post, get } from "../utils/Fetch";
 import UserContext from "../store/user-context";
 import VideoTimer from "../utils/VideoTimer";
 
@@ -16,6 +16,22 @@ const WebcamStreamCapturePage = () => {
   const [capturing, setCapturing] = React.useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
   const [isSaved, setIsSaved] = React.useState(false);
+
+  let checkVideo = async () => {
+    let response = await get(
+      "http://localhost:8000/users/videoexists",
+      userCtx.authTokens.access
+    );
+    if (response.status === 200) {
+      navigate("/");
+    } else if (response.statusText === "Unauthorized") {
+      userCtx.logoutUser();
+    }
+  };
+
+  React.useEffect(() => {
+    checkVideo();
+  }, []);
 
   let videoUpload = async (text) => {
     const data = {
