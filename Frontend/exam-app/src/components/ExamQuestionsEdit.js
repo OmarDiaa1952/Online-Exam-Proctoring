@@ -124,12 +124,16 @@ function ExamQuestionsEdit(props) {
   }
 
   const addQuestionHandler = () => {
-    const tempKey = questionsData.reduce((maxId, question) => {
-      if (question.id > maxId) {
-        return question.id;
-        }
-        return maxId;
-        }, questionsData.length > 0 ? questionsData[0].id : 1) + 1;
+    const tempKey =
+      questionsData.reduce(
+        (maxId, question) => {
+          if (question.id > maxId) {
+            return question.id;
+          }
+          return maxId;
+        },
+        questionsData.length > 0 ? questionsData[0].id : 1
+      ) + 1;
     setQuestionsData((oldData) => {
       let tempQuestions = oldData;
       tempQuestions.push({
@@ -189,7 +193,7 @@ function ExamQuestionsEdit(props) {
   //       });
   //       return tempQuestions;
   //     });
-  
+
   //     setQuestions((oldData) => [
   //       ...oldData,
   //       <QuestionEdit
@@ -233,14 +237,14 @@ function ExamQuestionsEdit(props) {
         >
           <ol>{questions}</ol>
           <div>
+            <button type="button" onClick={addQuestionHandler}>
+              Add Question
+            </button>
+          </div>
+          <div>
             <button type="submit">Save</button>
           </div>
         </form>
-      </div>
-      <div>
-        <button type="button" onClick={addQuestionHandler}>
-          Add Question
-        </button>
       </div>
     </section>
   );
