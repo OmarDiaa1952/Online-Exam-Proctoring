@@ -89,7 +89,7 @@ function PreviewExamPage() {
         </div>
         <div>
           <Link to="/course">
-            <button type="button">Back</button>
+            <button type="button">Back to Course</button>
           </Link>
         </div>
         <div>

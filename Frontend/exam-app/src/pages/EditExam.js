@@ -273,16 +273,13 @@ function EditExamPage() {
         </div>
       )}
       <div>
-        <div>
-          <Link to={examId ? "/preview-exam" : "/course"}>
-            <button type="button">Cancel</button>
-          </Link>
-        </div>
-        <div>
-          <Link to="/preview-exam">
-            <button type="button">Preview Exam</button>
-          </Link>
-        </div>
+        {examId && (
+          <div>
+            <Link to="/preview-exam">
+              <button type="button">Preview Exam</button>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

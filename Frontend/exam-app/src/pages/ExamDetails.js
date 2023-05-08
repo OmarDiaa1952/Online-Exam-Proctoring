@@ -5,7 +5,7 @@ import swal from "sweetalert";
 import ExamInfo from "../components/ExamInfo";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
-import MissingPhoto from "../components/MissingPhoto";
+import MissingPhoto from "../components/MissingVideo";
 
 function ExamDetailsPage() {
   const userCtx = useContext(UserContext);
@@ -140,7 +140,7 @@ function ExamDetailsPage() {
     } else if (examDetails.exam_taken) {
       swal({
         title: "You have already taken the exam!",
-        text: "You can review your exam.",
+        text: "You can review your exam when the end date expires.",
         icon: "warning",
         buttons: "ok",
       });
@@ -222,9 +222,13 @@ function ExamDetailsPage() {
           Review Exam
         </button>
       </div>
+      <div className="m-2">
+        <hr />
+           
+      </div>
       <div>
         <Link to="/course">
-          <button type="button">Back</button>
+          <button type="button">Back to Course</button>
         </Link>
       </div>
       <div>
