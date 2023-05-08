@@ -429,6 +429,9 @@
             # http 200 ok
             "has_photo": "true or false"
         },
+        {  # video upload response
+            # http 200 ok
+        },
     ]
 }
 
@@ -469,6 +472,10 @@
         },
         {  # expected request for photo exists
             # GET request
+        },
+        {  # expected request for video upload
+            # POST request
+            "video": "the video_data encoded in base64"
         },
     ]
 }
