@@ -6,7 +6,7 @@ import CourseInfo from "../components/CourseInfo";
 import ExamsComponentsList from "../components/ExamsComponentsList";
 import UserContext from "../store/user-context";
 import { get, dlt } from "../utils/Fetch";
-import MissingPhoto from "../components/MissingPhoto";
+import MissingVideo from "../components/MissingVideo";
 
 function CoursePage() {
   const userCtx = useContext(UserContext);
@@ -16,7 +16,7 @@ function CoursePage() {
   let [courseDetails, setCourseDetails] = useState([]);
   let [examsList, setExamsList] = useState([]);
   let [updateExamListFlag, setUpdateExamListFlag] = useState(false);
-  let [hasPhoto, setHasPhoto] = useState(true);
+  let [hasVideo, setHasVideo] = useState(true);
 
   useEffect(() => {
     userCtx.setExamId(null);
@@ -25,7 +25,7 @@ function CoursePage() {
   }, [updateExamListFlag]);
 
   useEffect(() => {
-    if (userCtx.type === "student") checkPhoto();
+    if (userCtx.type === "student") checkVideo();
   }, []);
 
   let getCourseDetails = async () => {
@@ -88,17 +88,17 @@ function CoursePage() {
     }
   };
 
-  let checkPhoto = async () => {
+  let checkVideo = async () => {
     let response = await get(
-      "http://localhost:8000/users/photoexists",
+      "http://localhost:8000/users/videoexists",
       userCtx.authTokens.access
     );
     let data = await response.json();
     if (response.status === 200) {
-      if (data.has_photo) {
-        setHasPhoto(true);
+      if (data.has_video) {
+        setHasVideo(true);
       } else {
-        setHasPhoto(false);
+        setHasVideo(false);
       }
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
@@ -136,10 +136,9 @@ function CoursePage() {
     }
   };
 
-
   return (
     <section>
-      {!hasPhoto && <MissingPhoto />}
+      {!hasVideo && <MissingVideo />}
       <CourseInfo courseData={courseDetails} />
       <ExamsComponentsList components={examsList} onDelete={deleteExam} />
       {userCtx.type === "examiner" ? (
@@ -151,15 +150,26 @@ function CoursePage() {
           </div>
           <div>
             <Link to="/modify-course" state={courseId}>
-              <button type="button">Edit</button>
+              <button type="button">Edit Course</button>
+            </Link>
+          </div>
+          <div>
+            <Link to="/course-students">
+              <button type="button">View Students</button>
             </Link>
           </div>
         </div>
       ) : (
         <div>
-          <button type="button" onClick={leaveCourse}>Leave Course</button>
+          <button type="button" onClick={leaveCourse}>
+            Leave Course
+          </button>
         </div>
       )}
+      <div className="m-2">
+        <hr />
+           
+      </div>
       <div>
         <Link to="/">
           <button type="button">Home</button>
