@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import UserContext from "../store/user-context";
 
 export default function WebSocketDemo(props) {
   const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
   const [remainingTime, setRemainingTime] = useState(null);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -67,6 +69,7 @@ export default function WebSocketDemo(props) {
       } else if (messageType === "exam_ended") {
         // End the exam session
         socketRef.current.close();
+        navigate("/course")
       } else {
         console.log(`Received message: ${event.data}`);
       }
