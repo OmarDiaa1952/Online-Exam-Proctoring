@@ -41,7 +41,7 @@ function Register(props) {
       email: enteredEmail,
       password: enteredPassword,
       first_name: enteredFirstName,
-      last_Name: enteredLastName,
+      last_name: enteredLastName,
     };
     let errorMessages = [];
     if (enteredPassword !== enteredConfirmPassword) {
