@@ -14,7 +14,9 @@ import ReviewExamPage from "./pages/ReviewExam";
 import PreviewExamPage from "./pages/PreviewExam";
 import PrivateRoute from "./utils/PrivateRoute";
 import Camera from "./utils/Camera";
+import WebcamStreamCapture from "./utils/WebcamStreamCapture";
 import ProfilePage from "./pages/Profile";
+import CourseStudentsPage from "./pages/CourseStudents";
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
       <Route path="/profile" exact element={<ProfilePage />} />
       <Route path="/modify-course" exact element={<ModifyCoursePage />} />
       <Route path="/course" exact element={<CoursePage />} />
+      <Route path="/course-students" exact element={<CourseStudentsPage />} />
       <Route path="/course-details" exact element={<CourseDetailsPage />} />
       <Route path="/exam" exact element={<ExamPage />} />
       <Route path="/exam-details" exact element={<ExamDetailsPage />} />
@@ -35,6 +38,7 @@ function App() {
       <Route path="/Preview-exam" exact element={<PreviewExamPage />} />
       <Route path="/log-file" exact element={<LogFilePage />} />
       <Route path="/camera" exact element={<Camera />} />
+      <Route path="/stream" exact element={<WebcamStreamCapture />} />
     </Routes>
   );
 }
