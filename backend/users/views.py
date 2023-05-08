@@ -125,3 +125,18 @@ class PhotoExistsView(generics.RetrieveAPIView):
         if student_id is not None:
             return StudentProfile.objects.filter(user_id=student_id).first()
         return None
+    
+class VideoExistsView(APIView):
+    # this view is responsible for checking if student has a video
+    permission_classes = (IsStudent,)
+
+    # check if student has a video by checking if the video file exists in the media directory
+    def get(self, request, format=None):
+        student_id = self.request.user.pk
+        if student_id is not None:
+            media_root = settings.MEDIA_ROOT
+            media_dir = os.path.join(media_root, "videos", f"user_{student_id}")
+            filename = os.path.join(media_dir, f"{student_id}.mp4")
+            if os.path.exists(filename):
+                return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)

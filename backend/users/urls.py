@@ -12,4 +12,5 @@ urlpatterns = [
     path("photoretrieve", PhotoRetrieve.as_view(), name="PhotoRetrieve"),
     path("photoexists", PhotoExistsView.as_view(), name="PhotoExists"),
     path("videoupload", VideoUploadView.as_view(), name="VideoUpload"),
+    path("videoexists", VideoExistsView.as_view(), name="VideoExists"),
 ]
