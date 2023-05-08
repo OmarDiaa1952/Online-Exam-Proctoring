@@ -1,4 +1,5 @@
 import os
+from django.conf import settings
 from django.http import HttpResponse
 from rest_framework import generics, status
 from .serializers import *
@@ -77,17 +78,24 @@ class VideoUploadView(APIView):
     def post(self, request, format=None):
         student_id = self.request.user.pk
         if student_id is not None:
-            video = request.data.get('video')
-            # save video in txt file in media directory
-            with open(f"media/videos/user_{student_id}/{student_id}.txt", "w", encoding="utf-8") as f:
-                # if not created already, create a directory for the student
-                if not os.path.exists(f"media/videos/user_{student_id}"):
-                    os.makedirs(f"media/videos/user_{student_id}")
-                f.write(video)
-            if video is not None:
-                # save video in media directory
-                with open(f"media/videos/user_{student_id}/{student_id}.mp4", "wb") as f:
-                    f.write(video.read())
+            base64_video = request.data.get('video')
+            if base64_video is not None:
+                # decode the base64-encoded video data
+                format, base64_video = base64_video.split(';base64,')
+                ext = format.split('/')[-1]
+                video_data = base64.b64decode(base64_video)
+
+                # construct the path to the media directory
+                media_root = settings.MEDIA_ROOT
+                media_dir = os.path.join(media_root, "videos", f"user_{student_id}")
+                os.makedirs(media_dir, exist_ok=True)
+                
+                # save the video to the media directory
+                filename = os.path.join(media_dir, f"{student_id}.mp4")
+                with open(filename, 'wb') as f:
+                    f.write(video_data)
+                
+                # return a response with status code 200
                 return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
