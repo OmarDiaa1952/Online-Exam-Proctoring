@@ -1,0 +1,9 @@
+commands:
+
+1- To Train The Model --> train.py
+
+	python train.py --dataset dataset1 --model liveness.model --le le.pickle
+-----------------------------------------------------------------------------------------------
+2- Deploying our liveness detector to real-time video:
+
+	python liveness_demo.py --model liveness.model --le le.pickle --detector Face_detector
