@@ -71,7 +71,7 @@ class PhotoUploadView(generics.UpdateAPIView):
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
     
-class VideoUploadView(APIView):
+class RegistrationVideoUploadView(APIView):
     # this view is responsible for uploading student's video
     permission_classes = (IsStudent,)
 
@@ -87,11 +87,11 @@ class VideoUploadView(APIView):
 
                 # construct the path to the media directory
                 media_root = settings.MEDIA_ROOT
-                media_dir = os.path.join(media_root, "videos", f"user_{student_id}")
+                media_dir = os.path.join(media_root, "videos", "registration", f"user_{student_id}")
                 os.makedirs(media_dir, exist_ok=True)
                 
                 # save the video to the media directory
-                filename = os.path.join(media_dir, f"{student_id}.mp4")
+                filename = os.path.join(media_dir, f"{student_id}.{ext}")
                 with open(filename, 'wb') as f:
                     f.write(video_data)
                 
