@@ -186,7 +186,7 @@ class RecognitionVideoUploadView(APIView):
                     f.write(video_data)
                 
                 # return a response with status code 200
-                return Response(status=status.HTTP_200_OK)
+                return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
 
             # return a response with status code 400
             return Response({'error': 'Missing video parameter'}, status=status.HTTP_400_BAD_REQUEST)
