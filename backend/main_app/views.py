@@ -168,57 +168,6 @@ class ExamReviewView(generics.RetrieveAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'error': 'Missing student_id or exam_id parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
-# class ExamStartView(APIView):
-#     """
-#     this view is responsible for creating a WebSocket 
-#     connection between a student and the server
-#     """
-#     permission_classes = (IsStudent,)
-
-#     def get(self, request, **kwargs):
-#         # get exam_id from the kwargs
-#         exam_id = kwargs.get('exam_id')
-
-#         # Check if the exam exists
-#         try:
-#             exam = Exam.objects.get(id=exam_id)
-#         except Exam.DoesNotExist:
-#             return Response({'error': 'Invalid exam ID.'}, status=400)
-
-#         # Create the WebSocket connection
-#         channel_layer = get_channel_layer()
-#         async_to_sync(channel_layer.send)(
-#             f'exam_{exam_id}_{request.user.id}',
-#             {
-#                 'type': 'start_exam',
-#             }
-#         )
-
-#         # Return a response
-#         return Response({'message': 'WebSocket connection started.'})
-
-# This class is very ugly, I know. I will refactor it later
-class ExamEndView(APIView):
-    permission_classes = (IsStudent,)
-    def post(self, request, format=None):
-        try:
-            student_id = self.request.user.pk
-            exam_id = request.data['exam_id']
-            start_time = request.data['start_time']
-            submission_time = request.data['submission_time']
-            answers = request.data['answers']
-            attempt = Attempt.objects.create(student_id=student_id, exam_id=exam_id, start_time=start_time, submission_time=submission_time)
-            attempt_id = attempt.id
-            for answer in answers:
-                Answer.objects.create(attempt_id=attempt_id, question_id=answer['question_id'], choice=answer['choice'])
-            attempt.calculate_grade()
-            if attempt is not None:
-                return Response(request.data ,status=status.HTTP_200_OK)
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
 #################################### Examiner Views ####################################
 
 class CourseCreateView(generics.CreateAPIView):
