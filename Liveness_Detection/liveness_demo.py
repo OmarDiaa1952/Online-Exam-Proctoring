@@ -73,7 +73,11 @@ while True:
 			# extract the face ROI and then preproces it in the exact
 			# same manner as our training data
 			face = frame[startY:endY, startX:endX]
+			try:
 			face = cv2.resize(face, (32, 32))
+			except cv2.error:
+				# Some fallback behavior, such as skipping the current face region and moving on to the next face
+				continue
 			face = face.astype("float") / 255.0
 			face = img_to_array(face)
 			face = np.expand_dims(face, axis=0)
