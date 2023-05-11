@@ -16,6 +16,7 @@ function ExamPage() {
   const examId = userCtx.examId;
   const navigate = useNavigate();
   const [imgUrl, setImgUrl] = useState("");
+  const [imgUrl2, setImgUrl2] = useState("");
   const [windowDimensionsFlag, setWindowDimensionsFlag] = useState(0);
   const [isFocused, setIsFocused] = useState(true);
   const [remainingTime, setRemainingTime] = useState({
@@ -105,6 +106,10 @@ function ExamPage() {
     setImgUrl(img);
   };
 
+  let img2Handler = (img) => {
+    setImgUrl2(img);
+  };
+
   let changeWindowDimensionsHandler = (changeFlag) => {
     // 0 means window is not maximized
     // 1 means window is maximized
@@ -151,6 +156,7 @@ function ExamPage() {
       <h2>Exam:</h2>
       <WebSocketDemo
         imgUrl={imgUrl}
+        imgUrl2={imgUrl2}
         changeAnswerId={changeAnswerId}
         windowDimensionsFlag={windowDimensionsFlag}
         focus={isFocused}
@@ -164,7 +170,8 @@ function ExamPage() {
       <div>
         <button onClick={finishHandler}>Finish</button>
       </div>
-      <WebcamCapture setImg={imgHandler} />
+      <WebcamCapture setImg={imgHandler} deviceId={userCtx.camera1} />
+      <WebcamCapture setImg2={img2Handler} deviceId={userCtx.camera2} />
     </section>
   );
 }

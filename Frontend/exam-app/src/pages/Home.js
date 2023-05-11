@@ -5,6 +5,7 @@ import HomeNavigation from "../components/HomeNavigation";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
 import MissingVideo from "../components/MissingVideo";
+import Test from "../utils/Test";
 
 function HomePage() {
   let [courses, setCourses] = useState([]);
@@ -64,6 +65,13 @@ function HomePage() {
 
   return (
     <div>
+      {/* <Link to="/test">Test Page</Link>
+      <Test />
+      <Link to="/camera">Camera</Link>
+      <br />
+      <Link to="/two-camera">Two-Camera</Link>
+      <br />
+      <Link to="/two-camera-test">Two-Camera-Test</Link> */}
       {!hasVideo && <MissingVideo />}
       {type && (
         <HomeNavigation

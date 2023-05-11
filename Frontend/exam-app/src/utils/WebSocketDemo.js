@@ -16,12 +16,11 @@ export default function WebSocketDemo(props) {
     socketRef.current.send(JSON.stringify(imgUrl));
   }, [props.imgUrl]);
 
-  // useEffect(() => {
-  //   if(!socketRef.current || props.windowDimensionsFlag === null) return;
-  //   const warningMsg = { type: "window_status", is_maximized: props.windowDimensionsFlag === 1 };
-  //   console.log("warningMsg: ", warningMsg);
-  //   socketRef.current.send(JSON.stringify(warningMsg));
-  // }, [props.windowDimensionsFlag]);
+  useEffect(() => {
+    if(!socketRef.current || !props.imgUrl2) return;
+    const imgUrl2 = { type: "photo2", photo_data: props.imgUrl2 };
+    socketRef.current.send(JSON.stringify(imgUrl2));
+  }, [props.imgUrl2]);
 
   useEffect(() => {
     if(!socketRef.current || props.focus === null) return;

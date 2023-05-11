@@ -1,50 +1,42 @@
-import React, { useContext } from "react";
+import { useContext, useEffect, useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 
+import classes from "./FaceDetectionComponent.module.css";
 import { post, get } from "../utils/Fetch";
 import UserContext from "../store/user-context";
 import VideoTimer from "../utils/VideoTimer";
 
 const WebcamComponent = () => <Webcam />;
 
-const WebcamStreamCapturePage = () => {
+const FaceDetectionComponent = (props) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
-  const webcamRef = React.useRef(null);
-  const mediaRecorderRef = React.useRef(null);
-  const [capturing, setCapturing] = React.useState(false);
-  const [recordedChunks, setRecordedChunks] = React.useState([]);
-  const [isSaved, setIsSaved] = React.useState(false);
+  const webcamRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const [capturing, setCapturing] = useState(false);
+  const [recordedChunks, setRecordedChunks] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
+  const [finishedRecording, setFinishedRecording] = useState(false);
 
-  let checkVideo = async () => {
-    let response = await get(
-      "http://localhost:8000/users/videoexists",
-      userCtx.authTokens.access
-    );
-    if (response.status === 200) {
-      navigate("/");
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+  useEffect(() => {
+    if (finishedRecording) {
+      handleSave();
     }
-  };
+  }, [finishedRecording]);
 
-  React.useEffect(() => {
-    checkVideo();
-  }, []);
+  // useEffect(() => {
+  //         handleStartCapture();
+  // }, []);
 
   let videoUpload = async (text) => {
     const data = {
       video: text,
     };
-    let response = await post(
-      "http://localhost:8000/users/registrationvideoupload",
-      data,
-      userCtx.authTokens.access
-    );
+    props.setVideo(text);
   };
 
-  const handleStartCaptureClick = React.useCallback(() => {
+  const handleStartCapture = useCallback(() => {
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: "video/webm",
@@ -56,7 +48,7 @@ const WebcamStreamCapturePage = () => {
     mediaRecorderRef.current.start();
   }, [webcamRef, setCapturing, mediaRecorderRef]);
 
-  const handleDataAvailable = React.useCallback(
+  const handleDataAvailable = useCallback(
     ({ data }) => {
       if (data.size > 0) {
         setRecordedChunks((prev) => prev.concat(data));
@@ -65,12 +57,13 @@ const WebcamStreamCapturePage = () => {
     [setRecordedChunks]
   );
 
-  const handleStopCapture = React.useCallback(() => {
+  const handleStopCapture = useCallback(() => {
     mediaRecorderRef.current.stop();
     setCapturing(false);
+    setFinishedRecording(true);
   }, [mediaRecorderRef, webcamRef, setCapturing]);
 
-  const handleSave = React.useCallback(() => {
+  const handleSave = useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm",
@@ -88,22 +81,18 @@ const WebcamStreamCapturePage = () => {
   return (
     <>
       <VideoTimer
-        text="Video Remaining Time"
+        text="The Exam will start in"
         stopRecording={handleStopCapture}
         startRecording={capturing}
       />
-      <Webcam audio={false} ref={webcamRef} />
-      {!capturing && (
-        <button onClick={handleStartCaptureClick}>Start Capture</button>
-      )}
-      {!isSaved && recordedChunks.length > 0 && (
-        <div>
-          <button onClick={handleSave}>Save</button>
-        </div>
-      )}
-      {isSaved && <button onClick={() => navigate(-1)}>Done</button>}
+      <Webcam
+        audio={false}
+        ref={webcamRef}
+        videoConstraints={{ deviceId: userCtx.camera1 }}
+      />
+      {!capturing && <button onClick={handleStartCapture}>Start Exam</button>}
     </>
   );
 };
 
-export default WebcamStreamCapturePage;
+export default FaceDetectionComponent;

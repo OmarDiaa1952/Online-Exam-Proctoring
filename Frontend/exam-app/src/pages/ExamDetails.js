@@ -126,8 +126,8 @@ function ExamDetailsPage() {
             },
             (err) => console.log(err)
           );
-          navigate("/exam");
-          swal("Poof! The exam has started!", {
+          navigate("/face-detection");
+          swal("One moment before you start the exam...", {
             icon: "success",
           });
         } else {

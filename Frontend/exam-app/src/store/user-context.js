@@ -33,6 +33,14 @@ export function UserContextProvider({ children }) {
     localStorage.getItem("examId") ? localStorage.getItem("examId") : null
   );
 
+  const [camera1, setCamera1] = useState(() =>
+    localStorage.getItem("camera1") ? localStorage.getItem("camera1") : null
+    );
+
+  const [camera2, setCamera2] = useState(() =>
+    localStorage.getItem("camera2") ? localStorage.getItem("camera2") : null
+    );
+
   function setUserTypeHandler(type) {
     setUserType(type);
     localStorage.setItem("userType", type);
@@ -46,6 +54,16 @@ export function UserContextProvider({ children }) {
   function setExamIdHandler(id) {
     setExamId(id);
     localStorage.setItem("examId", id);
+  }
+
+  function setCamera1Handler(id) {
+    setCamera1(id);
+    localStorage.setItem("camera1", id);
+  }
+
+  function setCamera2Handler(id) {
+    setCamera2(id);
+    localStorage.setItem("camera2", id);
   }
 
   const history = useNavigate();
@@ -114,12 +132,16 @@ export function UserContextProvider({ children }) {
     type: userType,
     courseId: courseId,
     examId: examId,
+    camera1: camera1,
+    camera2: camera2,
     loginUser: loginUser,
     logoutUser: logoutUser,
     setUserType: setUserTypeHandler,
     setAuthTokens: setAuthTokens,
     setCourseId: setCourseIdHandler,
     setExamId: setExamIdHandler,
+    setCamera1: setCamera1Handler,
+    setCamera2: setCamera2Handler,
   };
 
   useEffect(() => {

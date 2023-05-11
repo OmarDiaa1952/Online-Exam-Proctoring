@@ -29,7 +29,7 @@ const VideoTimer = (props) => {
   return (
     <div>
         <div>
-          Video Remaining Time: 
+          {props.text}: 
           {seconds < 10 ? "0" + String(seconds) : seconds}
         </div>
     </div>
