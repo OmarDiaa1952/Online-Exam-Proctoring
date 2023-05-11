@@ -14,3 +14,4 @@ asgiref==3.6.0
 channels==4.0.0
 daphne==4.0.0
 attrs==22.2.0
+python-dotenv==0.19.1
