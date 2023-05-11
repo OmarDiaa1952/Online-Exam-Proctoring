@@ -57,9 +57,13 @@ class ExamConsumer(AsyncWebsocketConsumer):
             attempt = await database_sync_to_async(self.create_empty_attempt)()
             self.attempt_id = attempt.id
         
-        elif message_type == 'photo':
-            # handle photo message
-            self.handle_photo(message)
+        elif message_type == 'photo1':
+            # handle photo message from first camera
+            self.handle_photo(message, "cam1")
+
+        elif message_type == 'photo2':
+            # handle photo message from second camera
+            self.handle_photo(message, "cam2")
 
         elif message_type == 'focus_status':
             # handle focus status message
@@ -120,7 +124,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
             except Exception as e:
                 self.send_error(e)
 
-    def handle_photo(self,message):
+    def handle_photo(self,message, camera):
         # Get the photo data from the message
         photo_data = message.get('photo_data')
         if photo_data is not None:
@@ -130,7 +134,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
             # construct the path to the media directory
             media_root = settings.MEDIA_ROOT
-            media_dir = os.path.join(media_root, "exams", f"exam_{self.exam_id}", f"user_{self.student_id}")
+            media_dir = os.path.join(media_root, "exams", f"exam_{self.exam_id}", f"user_{self.student_id}, {camera}")
             os.makedirs(media_dir, exist_ok=True)
             
             # save the image to the media directory
