@@ -1,5 +1,5 @@
-from django.utils import timezone
-import time
+import base64, os, time
+from django.conf import settings
 from rest_framework import generics, status
 from .serializers import *
 from .models import *
@@ -102,15 +102,6 @@ class QuestionListView(generics.ListAPIView):
             return None
         
 
-
-
-
-    # def get_queryset(self):
-    #     exam_id = self.kwargs.get(self.lookup_url_kwarg)
-    #     if exam_id is not None:
-    #         return Question.objects.filter(exam_id=exam_id)
-    #     return None
-
 #################################### Student Views ####################################
 
 class CourseJoinView(generics.CreateAPIView):
@@ -167,6 +158,42 @@ class ExamReviewView(generics.RetrieveAPIView):
             serializer = self.get_serializer(the_attempt)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'error': 'Missing student_id or exam_id parameters'}, status=status.HTTP_400_BAD_REQUEST)
+    
+class RecognitionVideoUploadView(APIView):
+    # this view is responsible for uploading and processing student's video before exam
+    permission_classes = (IsStudent,)
+    lookup_url_kwarg = "exam_id"
+    
+    def post(self, request, format=None):
+        student_id = self.request.user.pk
+        exam_id = self.kwargs.get(self.lookup_url_kwarg)
+        if student_id is not None:
+            base64_video = request.data.get('video')
+            if base64_video is not None:
+                # decode the base64-encoded video data
+                format, base64_video = base64_video.split(';base64,')
+                ext = format.split('/')[-1]
+                video_data = base64.b64decode(base64_video)
+
+                # construct the path to the media directory
+                media_root = settings.MEDIA_ROOT
+                media_dir = os.path.join(media_root, "videos", "face_recognition", f"exam_{exam_id}" , f"user_{student_id}")
+                os.makedirs(media_dir, exist_ok=True)
+                
+                # save the video to the media directory
+                filename = os.path.join(media_dir, f"exam_{exam_id}-user_{student_id}.{ext}")
+                with open(filename, 'wb') as f:
+                    f.write(video_data)
+                
+                # return a response with status code 200
+                return Response(status=status.HTTP_200_OK)
+
+            # return a response with status code 400
+            return Response({'error': 'Missing video parameter'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # return a response with status code 400
+        return Response({'error': 'Missing student_id parameter'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 #################################### Examiner Views ####################################
 
