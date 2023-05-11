@@ -36,6 +36,4 @@ urlpatterns = [
     path("enrollmentrequestdelete/<int:course_id>", EnrollmentRequestDeleteView.as_view(), name="deleteenrollmentrequest"),
     path("courseleave/<int:course_id>", CourseLeaveView.as_view(), name="courseleave"),
     path("examreview/<int:exam_id>", ExamReviewView.as_view(), name="examreview"),
-    # path("examstart/<int:exam_id>", ExamStartView.as_view(), name="examstart"),
-    path("examend", ExamEndView.as_view(), name="examend")
 ]
