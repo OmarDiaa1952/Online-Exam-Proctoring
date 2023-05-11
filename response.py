@@ -429,12 +429,16 @@
             # http 200 ok
             "has_photo": "true or false"
         },
-        {  # video upload response
+        {  # registration video upload response
             # http 200 ok
         },
         {  # video exists response
             # http 200 ok if exists
             # http 404 not found if not exists
+        },
+        {  # recognition response
+            # http 200 ok
+            "recognized": "true or false"
         },
     ]
 }
@@ -483,6 +487,11 @@
         },
         {  # expected request for video exists view
             # GET request
+        },
+        {  # expected request for recognition
+            # POST request
+            # i expect exam id to be sent in the url
+            "video": "the video_data encoded in base64"
         },
     ]
 }
