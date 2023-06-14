@@ -15,3 +15,6 @@ backend/backend/settings.py
 required_to_edit.txt
 ws_test.py
 ws_test.js
+#test data
+photo.txt
+video.txt
