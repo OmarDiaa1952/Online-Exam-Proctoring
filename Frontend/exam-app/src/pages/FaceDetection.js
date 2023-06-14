@@ -6,6 +6,7 @@ import CameraSet from "../components/CameraSet";
 import FaceDetectionComponent from "../components/FaceDetectionComponent";
 import UserContext from "../store/user-context";
 import { post } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts"; 
 
 const FaceDetectionPage = () => {
   const [cameraSetFlag, setCameraSetFlag] = useState(false);
@@ -18,7 +19,7 @@ const FaceDetectionPage = () => {
 
   let sendVideo = async (text) => {
     let response = await post(
-      "http://localhost:8000/main_app/recognitionvideoupload/" + userCtx.examId,
+      BASEURL + "/main_app/recognitionvideoupload/" + userCtx.examId,
       text,
       userCtx.authTokens.access
     );

@@ -5,6 +5,7 @@ import ExamQuestions from "../components/ExamQuestions";
 import UserContext from "../store/user-context";
 import ExamReviewDetails from "../components/ExamReviewDetails";
 import { get } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts";
 
 function ReviewExamPage() {
   const userCtx = useContext(UserContext);
@@ -23,7 +24,10 @@ function ReviewExamPage() {
 
   let Review = async () => {
     if (examId) {
-      let response = await get("http://localhost:8000/main_app/examreview/" + examId, userCtx.authTokens.access)
+      let response = await get(
+        BASEURL + "/main_app/examreview/" + examId,
+        userCtx.authTokens.access
+      );
       let data = await response.json();
       if (response.status === 200) {
         setExamDetails({
@@ -59,7 +63,7 @@ function ReviewExamPage() {
       }
     }
   };
-  
+
   let getMaxGrade = () => {
     let maxGrade = 0;
     examQuestions.forEach((question) => {

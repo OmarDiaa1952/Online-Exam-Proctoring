@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { BASEURL } from "../utils/Consts"; 
+
 function LogFilePage() {
     return (
         <div>

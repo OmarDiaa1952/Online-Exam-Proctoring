@@ -5,6 +5,7 @@ import ExamInfo from "../components/ExamInfo";
 import ExamQuestions from "../components/ExamQuestions";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts";
 
 function PreviewExamPage() {
   const userCtx = useContext(UserContext);
@@ -19,12 +20,17 @@ function PreviewExamPage() {
   }, []);
 
   useEffect(() => {
-    setMaxGrade(examQuestions.reduce((acc, question) => acc + question.questionGrade, 0));
+    setMaxGrade(
+      examQuestions.reduce((acc, question) => acc + question.questionGrade, 0)
+    );
   }, [examQuestions]);
 
   let getExamDetails = async () => {
     if (examId) {
-      let response = await get("http://localhost:8000/main_app/examdetail/" + examId, userCtx.authTokens.access);
+      let response = await get(
+        BASEURL + "/main_app/examdetail/" + examId,
+        userCtx.authTokens.access
+      );
       let data = await response.json();
       if (response.status === 200) {
         const examDate = {
@@ -47,7 +53,10 @@ function PreviewExamPage() {
   };
   let getExamQuestions = async () => {
     if (examId) {
-      let response = await get("http://localhost:8000/main_app/questionlist/" + examId, userCtx.authTokens.access);
+      let response = await get(
+        BASEURL + "/main_app/questionlist/" + examId,
+        userCtx.authTokens.access
+      );
       let data = await response.json();
       if (response.status === 200) {
         setExamQuestions(

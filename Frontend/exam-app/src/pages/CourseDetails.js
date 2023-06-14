@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import CourseInfo from "../components/CourseInfo";
 import UserContext from "../store/user-context";
 import { dlt, get, post } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts"; 
 
 function CourseDetailsPage() {
   const userCtx = useContext(UserContext);
@@ -18,7 +19,7 @@ function CourseDetailsPage() {
 
   let getCourseDetails = async () => {
     let response = await get(
-      "http://localhost:8000/main_app/coursedetail/" + courseId,
+      BASEURL + "/main_app/coursedetail/" + courseId,
       userCtx.authTokens.access
     );
     let data = await response.json();
@@ -36,12 +37,12 @@ function CourseDetailsPage() {
     let response =
       courseDetails.is_requested === false
         ? await post(
-            "http://localhost:8000/main_app/coursejoin/" + courseId,
+            BASEURL + "/main_app/coursejoin/" + courseId,
             {},
             userCtx.authTokens.access
           )
         : await dlt(
-            "http://localhost:8000/main_app/enrollmentrequestdelete/" +
+            BASEURL + "/main_app/enrollmentrequestdelete/" +
               courseId,
             userCtx.authTokens.access
           );

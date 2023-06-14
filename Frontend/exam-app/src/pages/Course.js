@@ -7,6 +7,7 @@ import ExamsComponentsList from "../components/ExamsComponentsList";
 import UserContext from "../store/user-context";
 import { get, dlt } from "../utils/Fetch";
 import MissingVideo from "../components/MissingVideo";
+import { BASEURL } from "../utils/Consts"; 
 
 function CoursePage() {
   const userCtx = useContext(UserContext);
@@ -30,7 +31,7 @@ function CoursePage() {
 
   let getCourseDetails = async () => {
     let response = await get(
-      "http://localhost:8000/main_app/coursedetail/" + courseId,
+      BASEURL + "/main_app/coursedetail/" + courseId,
       userCtx.authTokens.access
     );
     let data = await response.json();
@@ -43,7 +44,7 @@ function CoursePage() {
 
   let getExamsList = async () => {
     let response = await get(
-      "http://localhost:8000/main_app/examlist/" + courseId,
+      BASEURL + "/main_app/examlist/" + courseId,
       userCtx.authTokens.access
     );
     let data = await response.json();
@@ -75,7 +76,7 @@ function CoursePage() {
 
   let deleteExamHandler = async (id) => {
     let response = await dlt(
-      "http://localhost:8000/main_app/examdelete/" + id,
+      BASEURL + "/main_app/examdelete/" + id,
       userCtx.authTokens.access
     );
     if (response.status === 204) {
@@ -90,7 +91,7 @@ function CoursePage() {
 
   let checkVideo = async () => {
     let response = await get(
-      "http://localhost:8000/users/videoexists",
+      BASEURL + "/users/videoexists",
       userCtx.authTokens.access
     );
     if (response.status === 200) {
@@ -123,7 +124,7 @@ function CoursePage() {
 
   let leaveCourseHandler = async () => {
     let response = await dlt(
-      "http://localhost:8000/main_app/courseleave/" + userCtx.courseId,
+      BASEURL + "/main_app/courseleave/" + userCtx.courseId,
       userCtx.authTokens.access
     );
     if (response.status === 204) {

@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import UserInfo from "../components/UserInfo";
 import UserContext from "../store/user-context";
 import { get, put } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts"; 
 
 function ProfilePage() {
   const userCtx = useContext(UserContext);
@@ -31,7 +32,7 @@ function ProfilePage() {
 
   let checkPhoto = async () => {
     let response = await get(
-      "http://localhost:8000/users/photoexists",
+      BASEURL + "/users/photoexists",
       userCtx.authTokens.access
     );
     let data = await response.json();
@@ -48,7 +49,7 @@ function ProfilePage() {
 
   let setPhoto = async () => {
     let response = await put(
-      "http://localhost:8000/users/photoupload",
+      BASEURL + "/users/photoupload",
       { photo: imageDataURL },
       userCtx.authTokens.access
     );
@@ -69,7 +70,7 @@ function ProfilePage() {
 
   let getUserData = async () => {
     let response = await get(
-      "http://localhost:8000/users/userdata",
+      BASEURL + "/users/userdata",
       userCtx.authTokens.access
     );
     let data = await response.json();
@@ -77,7 +78,7 @@ function ProfilePage() {
       setUserData(data);
       if (userCtx.type === "student") {
         let response = await get(
-          "http://localhost:8000/users/photoretrieve",
+          BASEURL + "/users/photoretrieve",
           userCtx.authTokens.access
         );
         let data = await response.json();

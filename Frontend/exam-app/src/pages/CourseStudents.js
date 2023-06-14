@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import StudentAdmission from "../components/StudentAdmission";
 import UserContext from "../store/user-context";
 import { get, dlt, post, put } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts";
 
 function CourseStudentsPage() {
   let [enrollmentRequests, setEnrollmentRequests] = useState([]);
@@ -22,7 +23,7 @@ function CourseStudentsPage() {
   let getEnrollmentRequests = async () => {
     if (userCtx.courseId) {
       let response = await get(
-        "http://localhost:8000/main_app/enrollmentrequestlist/" +
+        BASEURL + "/main_app/enrollmentrequestlist/" +
           userCtx.courseId,
         userCtx.authTokens.access
       );
@@ -38,7 +39,7 @@ function CourseStudentsPage() {
 
   let getEnrolledStudents = async () => {
     let response = await get(
-      "http://localhost:8000/main_app/enrolledstudentlist/" + userCtx.courseId,
+      BASEURL + "/main_app/enrolledstudentlist/" + userCtx.courseId,
       userCtx.authTokens.access
     );
     let data = await response.json();
@@ -51,7 +52,7 @@ function CourseStudentsPage() {
 
   let requestHandler = async (requestId, requestType) => {
     let response = await put(
-      "http://localhost:8000/main_app/enrollmentrequestaction/" + requestId,
+      BASEURL + "/main_app/enrollmentrequestaction/" + requestId,
       {
         action: requestType,
       },
@@ -81,7 +82,7 @@ function CourseStudentsPage() {
 
   let addStudentByEmail = async (studentEmail) => {
     let response = await post(
-      "http://localhost:8000/main_app/enrollmentcreate/" + userCtx.courseId,
+      BASEURL + "/main_app/enrollmentcreate/" + userCtx.courseId,
       {
         student_email: studentEmail,
       },
@@ -103,7 +104,7 @@ function CourseStudentsPage() {
 
   let removeStudentHandler = async (id) => {
     let response = await dlt(
-      "http://localhost:8000/main_app/enrollmentdelete/" + id,
+      BASEURL + "/main_app/enrollmentdelete/" + id,
       userCtx.authTokens.access
     );
     if (response.status === 204) {

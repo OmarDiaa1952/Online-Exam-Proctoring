@@ -1,9 +1,10 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 import { post } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts";
 
 const UserContext = createContext();
 
@@ -22,9 +23,7 @@ export function UserContextProvider({ children }) {
   );
   let [loading, setLoading] = useState(true);
   const [userType, setUserType] = useState(() =>
-    localStorage.getItem("userType")
-      ? localStorage.getItem("userType")
-      : null
+    localStorage.getItem("userType") ? localStorage.getItem("userType") : null
   );
   const [courseId, setCourseId] = useState(() =>
     localStorage.getItem("courseId") ? localStorage.getItem("courseId") : null
@@ -35,11 +34,11 @@ export function UserContextProvider({ children }) {
 
   const [camera1, setCamera1] = useState(() =>
     localStorage.getItem("camera1") ? localStorage.getItem("camera1") : null
-    );
+  );
 
   const [camera2, setCamera2] = useState(() =>
     localStorage.getItem("camera2") ? localStorage.getItem("camera2") : null
-    );
+  );
 
   function setUserTypeHandler(type) {
     setUserType(type);
@@ -70,7 +69,7 @@ export function UserContextProvider({ children }) {
 
   let loginUser = async (e) => {
     e.preventDefault();
-    let response = await post("http://localhost:8000/users/api/token/", {
+    let response = await post(BASEURL + "/users/api/token/", {
       username: e.target.username.value,
       password: e.target.password.value,
     });
@@ -109,7 +108,7 @@ export function UserContextProvider({ children }) {
   let updateToken = async () => {
     console.log("Updating token");
     let response = await post(
-      "http://localhost:8000/users/api/token/refresh/",
+      BASEURL + "/users/api/token/refresh/",
       { refresh: authTokens?.refresh }
     );
     let data = await response.json();

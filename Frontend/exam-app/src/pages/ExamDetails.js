@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import ExamInfo from "../components/ExamInfo";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts";
 import MissingVideo from "../components/MissingVideo";
 
 function ExamDetailsPage() {
@@ -24,7 +25,7 @@ function ExamDetailsPage() {
   let getExamDetails = async () => {
     if (examId) {
       let response = await get(
-        "http://localhost:8000/main_app/examdetail/" + examId,
+        BASEURL + "/main_app/examdetail/" + examId,
         userCtx.authTokens.access
       );
       let data = await response.json();
@@ -185,7 +186,7 @@ function ExamDetailsPage() {
 
   let checkVideo = async () => {
     let response = await get(
-      "http://localhost:8000/users/videoexists",
+      BASEURL + "/users/videoexists",
       userCtx.authTokens.access
     );
     if (response.status === 200) {

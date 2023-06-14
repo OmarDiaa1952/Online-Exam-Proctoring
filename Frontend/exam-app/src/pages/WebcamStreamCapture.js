@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 
 import { post, get } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts"; 
 import UserContext from "../store/user-context";
 import VideoTimer from "../utils/VideoTimer";
 
@@ -19,7 +20,7 @@ const WebcamStreamCapturePage = () => {
 
   let checkVideo = async () => {
     let response = await get(
-      "http://localhost:8000/users/videoexists",
+      BASEURL + "/users/videoexists",
       userCtx.authTokens.access
     );
     if (response.status === 200) {
@@ -38,7 +39,7 @@ const WebcamStreamCapturePage = () => {
       video: text,
     };
     let response = await post(
-      "http://localhost:8000/users/registrationvideoupload",
+      BASEURL + "/users/registrationvideoupload",
       data,
       userCtx.authTokens.access
     );

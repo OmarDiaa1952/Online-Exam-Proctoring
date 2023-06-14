@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import HomeNavigation from "../components/HomeNavigation";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts"; 
 import MissingVideo from "../components/MissingVideo";
 import Test from "../utils/Test";
 
@@ -25,7 +26,7 @@ function HomePage() {
 
   let getCourses = async (text) => {
     let response = await get(
-      "http://localhost:8000/main_app/courselist?search=" + text,
+      BASEURL + "/main_app/courselist?search=" + text,
       authTokens.access
     );
     let data = await response.json();
@@ -38,7 +39,7 @@ function HomePage() {
 
   let inspectCourses = async (text) => {
     let response = await get(
-      "http://localhost:8000/main_app/courselist?search=" + text + "&all=1",
+      BASEURL + "/main_app/courselist?search=" + text + "&all=1",
       authTokens.access
     );
     let data = await response.json();
@@ -51,7 +52,7 @@ function HomePage() {
 
   let checkVideo = async () => {
     let response = await get(
-      "http://localhost:8000/users/videoexists",
+      BASEURL + "/users/videoexists",
       authTokens.access
     );
     if (response.status === 200) {

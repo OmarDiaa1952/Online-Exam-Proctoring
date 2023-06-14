@@ -10,6 +10,7 @@ import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get, post } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
@@ -54,7 +55,7 @@ function ExamPage() {
   let getExamQuestions = async () => {
     let current_date = dateConverter(new Date().toLocaleString());
     let response = await get(
-      "http://localhost:8000/main_app/questionlist/" + examId,
+      BASEURL + "/main_app/questionlist/" + examId,
       userCtx.authTokens.access
     );
     let data = await response.json();

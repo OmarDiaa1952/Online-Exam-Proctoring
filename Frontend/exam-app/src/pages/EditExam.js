@@ -6,6 +6,7 @@ import ExamQuestionsEdit from "../components/ExamQuestionsEdit";
 import EditExamInfo from "../components/EditExamInfo";
 import UserContext from "../store/user-context";
 import { get, post, put, dlt } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts";
 
 function EditExamPage() {
   const userCtx = useContext(UserContext);
@@ -29,7 +30,7 @@ function EditExamPage() {
   let getExamDetails = async () => {
     if (examId) {
       let response = await get(
-        "http://localhost:8000/main_app/examdetail/" + examId,
+        BASEURL + "/main_app/examdetail/" + examId,
         userCtx.authTokens.access
       );
       let data = await response.json();
@@ -46,7 +47,7 @@ function EditExamPage() {
   let getExamQuestions = async () => {
     if (examId) {
       let response = await get(
-        "http://localhost:8000/main_app/questionlist/" + examId,
+        BASEURL + "/main_app/questionlist/" + examId,
         userCtx.authTokens.access
       );
       let data = await response.json();
@@ -145,12 +146,12 @@ function EditExamPage() {
     let response =
       examId !== null
         ? await put(
-            "http://localhost:8000/main_app/" + sub_url,
+            BASEURL + "/main_app/" + sub_url,
             examDetails,
             userCtx.authTokens.access
           )
         : await post(
-            "http://localhost:8000/main_app/" + sub_url,
+            BASEURL + "/main_app/" + sub_url,
             examDetails,
             userCtx.authTokens.access
           );
@@ -200,12 +201,12 @@ function EditExamPage() {
     let response =
       examId && !newQuestionFlag
         ? await put(
-            "http://localhost:8000/main_app/" + sub_url,
+            BASEURL + "/main_app/" + sub_url,
             question,
             userCtx.authTokens.access
           )
         : await post(
-            "http://localhost:8000/main_app/" + sub_url,
+            BASEURL + "/main_app/" + sub_url,
             question,
             userCtx.authTokens.access
           );
@@ -219,7 +220,7 @@ function EditExamPage() {
   let deleteQuestionHandler = async (id) => {
     if (examQuestions.some((q) => q.id === id)) {
       let response = await dlt(
-        "http://localhost:8000/main_app/questiondelete/" + id,
+        BASEURL + "/main_app/questiondelete/" + id,
         userCtx.authTokens.access
       );
       if (response.status === 204) {

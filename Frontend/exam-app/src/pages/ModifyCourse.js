@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import ModifyCourseDetails from "../components/ModifyCourseDetails";
 import UserContext from "../store/user-context";
 import { get, dlt, post, put } from "../utils/Fetch";
+import { BASEURL } from "../utils/Consts"; 
 
 function ModifyCoursePage() {
   const history = useNavigate();
@@ -23,7 +24,7 @@ function ModifyCoursePage() {
   let getCourseDetails = async () => {
     if (userCtx.courseId) {
       let response = await get(
-        "http://localhost:8000/main_app/coursedetail/" + userCtx.courseId,
+        BASEURL + "/main_app/coursedetail/" + userCtx.courseId,
         userCtx.authTokens.access
       );
       let data = await response.json();
@@ -54,7 +55,7 @@ function ModifyCoursePage() {
     let response =
       reqMethod === "POST"
         ? await post(
-            "http://localhost:8000/main_app/" + req,
+            BASEURL + "/main_app/" + req,
             {
               name: e.target.name.value,
               description: e.target.description.value,
@@ -63,7 +64,7 @@ function ModifyCoursePage() {
             userCtx.authTokens.access
           )
         : await put(
-            "http://localhost:8000/main_app/" + req,
+            BASEURL + "/main_app/" + req,
             {
               name: e.target.name.value,
               description: e.target.description.value,
@@ -110,7 +111,7 @@ function ModifyCoursePage() {
 
   let deleteCourseHandler = async () => {
     let response = await dlt(
-      "http://localhost:8000/main_app/coursedelete/" + userCtx.courseId,
+      BASEURL + "/main_app/coursedelete/" + userCtx.courseId,
       userCtx.authTokens.access
     );
     if (response.status === 204) {
