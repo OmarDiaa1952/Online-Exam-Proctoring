@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('IS_DEVELOPMENT')
+DEBUG = os.environ.get('IS_DEBUG')
 
 ALLOWED_HOSTS = ['104.248.16.188','localhost']
 
@@ -119,18 +119,6 @@ DATABASES = {
     # }
 }
 
-# remote db
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'ZRWJ7bv8of8QiM3OvvYx',
-#         'HOST': 'containers-us-west-106.railway.app',
-#         'PORT': '5784',
-#     }
-# }
-
 # # local db
 # DATABASES = {
     
@@ -198,8 +186,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
+# Custom user model
 AUTH_USER_MODEL = 'users.User'
 
+# JWT settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=500),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
