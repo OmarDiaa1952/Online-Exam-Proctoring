@@ -135,8 +135,8 @@ class VideoExistsView(APIView):
         student_id = self.request.user.pk
         if student_id is not None:
             media_root = settings.MEDIA_ROOT
-            media_dir = os.path.join(media_root, "videos", f"user_{student_id}")
-            filename = os.path.join(media_dir, f"{student_id}.mp4")
+            media_dir = os.path.join(media_root, "videos", "registration", f"user_{student_id}")
+            filename = os.path.join(media_dir, f"{student_id}.webm")
             if os.path.exists(filename):
                 return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
