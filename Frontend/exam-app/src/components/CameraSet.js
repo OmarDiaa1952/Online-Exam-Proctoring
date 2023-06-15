@@ -25,16 +25,17 @@ const CameraSet = (props) => {
 
   useEffect(() => {
     if(!devices[0]) return;
+    let multipleCameras = devices.length > 1;
     setWebcam(
       <div>
         <Webcam
           audio={false}
-          videoConstraints={{ deviceId: devices[deviceIndex].deviceId }}
+          videoConstraints={{ deviceId: multipleCameras ? devices[deviceIndex].deviceId : devices[0].deviceId }}
         />
       </div>
     );
-    userCtx.setCamera1(devices[deviceIndex].deviceId);
-    userCtx.setCamera2(devices[(deviceIndex + 1) % devices.length].deviceId);
+    userCtx.setCamera1(multipleCameras ? devices[deviceIndex].deviceId : devices[0].deviceId);
+    userCtx.setCamera2(multipleCameras ? devices[(deviceIndex + 1) % devices.length].deviceId : null);
   }, [deviceIndex, devices])
 
   let switchCamera = () => {

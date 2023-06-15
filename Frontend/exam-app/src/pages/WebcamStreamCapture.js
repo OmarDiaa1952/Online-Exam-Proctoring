@@ -42,6 +42,12 @@ const WebcamStreamCapturePage = () => {
       text,
       userCtx.authTokens.access
     );
+    swal({
+      title: "Success!",
+      text: "Video Uploaded!",
+      icon: "success",
+      button: "Ok!",
+      });
     navigate("/");
   };
 
