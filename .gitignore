@@ -18,6 +18,8 @@ video.txt
 Dockerfile
 docker-compose.yml
 entrypoint.sh
+#nginx
+nginx/*
 #more
 required_to_edit.txt
 ws_test.py
