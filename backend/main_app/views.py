@@ -158,15 +158,15 @@ class ExamReviewView(generics.RetrieveAPIView):
             serializer = self.get_serializer(the_attempt)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'error': 'Missing student_id or exam_id parameters'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 class RecognitionVideoUploadView(APIView):
     # this view is responsible for uploading and processing student's video before exam
     permission_classes = (IsStudent,)
     lookup_url_kwarg = "exam_id"
     
-    def post(self, request, format=None):
+    def post(self, request, **kwargs):
         student_id = self.request.user.pk
-        exam_id = self.kwargs.get(self.lookup_url_kwarg)
+        exam_id = kwargs['exam_id']
         if student_id is not None:
             base64_video = request.data.get('video')
             if base64_video is not None:
