@@ -11,10 +11,14 @@ backend/Dockerfile
 #environment variables
 *.env
 backend/backend/settings.py
+#test data
+photo.txt
+video.txt
+#docker settings
+Dockerfile
+docker-compose.yml
+entrypoint.sh
 #more
 required_to_edit.txt
 ws_test.py
 ws_test.js
-#test data
-photo.txt
-video.txt
