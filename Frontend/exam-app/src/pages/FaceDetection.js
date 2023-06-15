@@ -19,7 +19,7 @@ const FaceDetectionPage = () => {
 
   let sendVideo = async (text) => {
     let response = await post(
-      BASEURL + "/main_app/recognitionvideoupload/" + userCtx.examId,
+      BASEURL + "/main_app/livenessvideoupload/" + userCtx.examId,
       text,
       userCtx.authTokens.access
     );
@@ -45,7 +45,7 @@ const FaceDetectionPage = () => {
   return (
     <div>
       {cameraSetFlag ? (
-        <FaceDetectionComponent setVideo={sendVideo} />
+        <FaceDetectionComponent setVideo={sendVideo} startMessage={"Start Exam"} />
       ) : (
         <CameraSet onProceed={faceDetectionHandler} />
       )}

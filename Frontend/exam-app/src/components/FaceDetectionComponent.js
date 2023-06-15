@@ -33,7 +33,8 @@ const FaceDetectionComponent = (props) => {
     const data = {
       video: text,
     };
-    props.setVideo(text);
+    console.log(data);
+    props.setVideo(data);
   };
 
   const handleStartCapture = useCallback(() => {
@@ -90,7 +91,7 @@ const FaceDetectionComponent = (props) => {
         ref={webcamRef}
         videoConstraints={{ deviceId: userCtx.camera1 }}
       />
-      {!capturing && <button onClick={handleStartCapture}>Start Exam</button>}
+      {!capturing && <button onClick={handleStartCapture}>{props.startMessage}</button>}
     </>
   );
 };
