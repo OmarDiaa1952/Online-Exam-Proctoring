@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const VideoTimer = (props) => {
-  const [seconds, setSeconds] = useState(30);
+  const [seconds, setSeconds] = useState(20);
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
