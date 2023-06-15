@@ -10,6 +10,7 @@ from .permissions import IsExaminer, IsStudent
 from rest_framework import filters
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+# TODO: import the liveness module
 
 #################################### General Views ####################################
 
@@ -159,7 +160,7 @@ class ExamReviewView(generics.RetrieveAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({'error': 'Missing student_id or exam_id parameters'}, status=status.HTTP_400_BAD_REQUEST)
 
-class RecognitionVideoUploadView(APIView):
+class LivenessVideoUploadView(APIView):
     # this view is responsible for uploading and processing student's video before exam
     permission_classes = (IsStudent,)
     lookup_url_kwarg = "exam_id"
@@ -174,6 +175,8 @@ class RecognitionVideoUploadView(APIView):
                 format, base64_video = base64_video.split(';base64,')
                 ext = format.split('/')[-1]
                 video_data = base64.b64decode(base64_video)
+
+                # TODO: send the video to the face recognition model
 
                 # construct the path to the media directory
                 media_root = settings.MEDIA_ROOT
