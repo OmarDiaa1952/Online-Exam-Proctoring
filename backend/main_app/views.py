@@ -176,7 +176,10 @@ class LivenessVideoUploadView(APIView):
                 ext = format.split('/')[-1]
                 video_data = base64.b64decode(base64_video)
 
-                # TODO: send the video to the face recognition model
+                """ TODO: send the video to the liveness model
+                    and return a response with status code 200 if the student is recognized
+                    or return a response with status code 400 if the student is not recognized
+                """
 
                 # construct the path to the media directory
                 media_root = settings.MEDIA_ROOT

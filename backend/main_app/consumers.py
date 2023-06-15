@@ -56,7 +56,9 @@ class ExamConsumer(AsyncWebsocketConsumer):
             # create attempt object on starting the exam
             attempt = await database_sync_to_async(self.create_empty_attempt)()
             self.attempt_id = attempt.id
-        
+
+            # TODO: Start the socket connecting to the ML components here if needed
+
         elif message_type == 'photo1':
             # handle photo message from first camera
             self.handle_photo(message, "cam1")
@@ -132,6 +134,20 @@ class ExamConsumer(AsyncWebsocketConsumer):
             ext = format.split('/')[-1] 
             data = ContentFile(base64.b64decode(imgstr), name=f"{int(time.time())}.{ext}")
 
+            """ TODO: Send the photo to the ML component here using an if condition
+            if camera == "cam1":
+                # send the photo to the ML component for camera 1
+            elif camera == "cam2":
+                # send the photo to the ML component for camera 2
+            
+            then, recieve the response from the ML component
+            if response == "cheating":
+                # send a message to the client-side to display a cheating warning
+                # and save the photo to the media directory -- this should be done in the ML component
+            elif response == "not_cheating":
+                # send a message to the client-side to remove the cheating warning --with more details
+            """
+
             # construct the path to the media directory
             media_root = settings.MEDIA_ROOT
             media_dir = os.path.join(media_root, "exams", f"exam_{self.exam_id}", f"user_{self.student_id}, {camera}")
@@ -181,3 +197,8 @@ class ExamConsumer(AsyncWebsocketConsumer):
         # This is a dummy function to test async/await
         await asyncio.sleep(1)
         
+
+# TODO: Implement the MLConsumer class if needed
+class MLConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        pass
