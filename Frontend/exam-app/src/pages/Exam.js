@@ -11,6 +11,7 @@ import FocusWindow from "../utils/FocusWindow";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
+import WebcamContainer from "../components/WebcamContainer";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
@@ -153,7 +154,10 @@ function ExamPage() {
         onChangeWindowDimensions={changeWindowDimensionsHandler}
       />
       {/* <FullScreen /> */}
-      <h2>Exam:</h2>
+      <div className="container">
+      <div className="row">
+      <h2 className="col-12">Exam:</h2>
+      <div className="col-9">
       <WebSocketDemo
         imgUrl={imgUrl}
         imgUrl2={imgUrl2}
@@ -167,11 +171,23 @@ function ExamPage() {
         editable={true}
         onChangeAnswer={changeAnswerHandler}
       />
-      <div>
+      </div>
+      <div className="col-3">
+        <WebcamContainer
+        setImg={imgHandler}
+        setImg2={img2Handler}
+        facingMode1={userCtx.camera1}
+        facingMode2={userCtx.camera2}
+      />
+      </div>
+      <div className="col-12">
         <button onClick={finishHandler}>Finish</button>
       </div>
-      <WebcamCapture setImg={imgHandler} facingMode={userCtx.camera1} />
-      <WebcamCapture setImg2={img2Handler} facingMode={userCtx.camera2} />
+      </div>
+      </div>
+      
+      {/* <WebcamCapture setImg={imgHandler} facingMode={userCtx.camera1} />
+      <WebcamCapture setImg2={img2Handler} facingMode={userCtx.camera2} /> */}
     </section>
   );
 }
