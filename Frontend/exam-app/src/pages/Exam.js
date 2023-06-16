@@ -2,20 +2,19 @@ import ExamQuestions from "../components/ExamQuestions";
 import { useContext, useEffect, useState } from "react";
 
 import UserContext from "../store/user-context";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import WebcamCapture from "../utils/WebcamCapture";
 import TabSwitch from "../utils/TabSwitch";
 import FullScreen from "../utils/FullScreen";
 import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
 import WebSocketDemo from "../utils/WebSocketDemo";
-import { get, post } from "../utils/Fetch";
+import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
   const examId = userCtx.examId;
-  const navigate = useNavigate();
   const [imgUrl, setImgUrl] = useState("");
   const [imgUrl2, setImgUrl2] = useState("");
   const [windowDimensionsFlag, setWindowDimensionsFlag] = useState(0);
@@ -171,8 +170,8 @@ function ExamPage() {
       <div>
         <button onClick={finishHandler}>Finish</button>
       </div>
-      <WebcamCapture setImg={imgHandler} deviceId={userCtx.camera1} />
-      <WebcamCapture setImg2={img2Handler} deviceId={userCtx.camera2} />
+      <WebcamCapture setImg={imgHandler} facingMode={userCtx.camera1} />
+      <WebcamCapture setImg2={img2Handler} facingMode={userCtx.camera2} />
     </section>
   );
 }

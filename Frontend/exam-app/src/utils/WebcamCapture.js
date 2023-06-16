@@ -1,30 +1,18 @@
-import React, { useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Webcam from "react-webcam";
-
-const FACING_MODE_USER = "user";
-const FACING_MODE_ENVIRONMENT = "environment";
 
 const WebcamComponent = () => <Webcam />;
 
 const WebcamCapture = (props) => {
-  const webcamRef = React.useRef(null);
-  const [imgSrc, setImgSrc] = React.useState(null);
-  const [facingMode, setFacingMode] = React.useState(FACING_MODE_USER);
+  const webcamRef = useRef(null);
+  const [imgSrc, setImgSrc] = useState(null);
 
-  const capture = React.useCallback(() => {
+  const capture = useCallback(() => {
     console.log();
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
     props.setImg(imageSrc);
   }, [webcamRef, setImgSrc]);
-
-  const handleSwitch = React.useCallback(() => {
-    setFacingMode((prevState) =>
-      prevState === FACING_MODE_USER
-        ? FACING_MODE_ENVIRONMENT
-        : FACING_MODE_USER
-    );
-  }, []);
 
   const getVideo = () => {
     navigator.mediaDevices
@@ -40,8 +28,7 @@ const WebcamCapture = (props) => {
   };
 
   let videoConstraints = {
-    deviceId: props.deviceId,
-    facingMode: { exact: "right" },
+    deviceId: { exact: props.facingMode },
     width: 200,
     height: 200
   };
@@ -52,8 +39,8 @@ const WebcamCapture = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(facingMode);
-  }, [facingMode]);
+    console.log(props.facingMode);
+  }, [props.facingMode]);
 
   let proctoring = async () => {
     capture();
@@ -75,7 +62,6 @@ const WebcamCapture = (props) => {
         videoConstraints={videoConstraints}
         screenshotFormat="image/jpeg"
       />
-      <button onClick={handleSwitch}>Switch</button>
     </>
   );
 };
