@@ -1,0 +1,76 @@
+import classes from "./StudentPicture.module.css";
+
+import { useState, useCallback, useRef } from "react";
+import Webcam from "react-webcam";
+const WebcamComponent = () => <Webcam />;
+const videoConstraints = {
+  width: 400,
+  height: 400,
+  facingMode: "user",
+};
+const StudentPicture = (props) => {
+  const [picture, setPicture] = useState("");
+  const webcamRef = useRef(null);
+  const capture = useCallback(() => {
+    const pictureSrc = webcamRef.current.getScreenshot();
+    setPicture(pictureSrc);
+  });
+  return (
+    <div>
+      <h2 className="mb-5 text-center">
+        Set Profile Picture
+      </h2>
+      <div>
+        {picture == "" ? (
+          <Webcam
+            audio={false}
+            height={400}
+            ref={webcamRef}
+            width={400}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+          />
+        ) : (
+          <img src={picture} />
+        )}
+      </div>
+      <div>
+        {picture != "" ? (
+          <div>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setPicture("");
+              }}
+              className="btn btn-primary"
+            >
+              Retake
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                props.updatePhoto(picture);
+              }}
+              className="btn btn-danger"
+            >
+              Save Photo
+            </button>
+          </div>
+        ) : (
+          <div>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                capture();
+              }}
+              className="btn btn-danger"
+            >
+              Capture
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+export default StudentPicture;

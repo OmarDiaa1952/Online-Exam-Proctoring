@@ -18,6 +18,7 @@ import TwoCameraPage from "./pages/TwoCamera";
 import TwoCameraTestPage from "./pages/TwoCameraTest";
 import WebcamStreamCapturePage from "./pages/WebcamStreamCapture";
 import ProfilePage from "./pages/Profile";
+import ProfilePic from "./pages/ProfilePic";
 import CourseStudentsPage from "./pages/CourseStudents";
 import FaceDetectionPage from "./pages/FaceDetection";
 import Test from "./pages/Test";
@@ -31,6 +32,7 @@ function App() {
         <Route exact path="/" element={<HomePage />} />
       </Route>
       <Route path="/profile" exact element={<ProfilePage />} />
+      <Route path="/profile-pic" exact element={<ProfilePic />} />
       <Route path="/modify-course" exact element={<ModifyCoursePage />} />
       <Route path="/course" exact element={<CoursePage />} />
       <Route path="/course-students" exact element={<CourseStudentsPage />} />

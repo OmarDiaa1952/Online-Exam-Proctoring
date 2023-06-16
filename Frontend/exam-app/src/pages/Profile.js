@@ -107,7 +107,7 @@ function ProfilePage() {
       { audio: true, video: true },
       function (stream) {
         stream.getTracks().forEach((x) => x.stop());
-        history("/camera");
+        history("/profile-pic");
       },
       (err) => console.log(err)
     );
