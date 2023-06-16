@@ -58,6 +58,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
             self.attempt_id = attempt.id
 
             # TODO: Start the socket connecting to the ML components here if needed
+            # or create object from the model's class
 
         elif message_type == 'photo1':
             # handle photo message from first camera
