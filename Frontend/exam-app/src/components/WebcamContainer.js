@@ -28,7 +28,7 @@ function WebcamContainer(props) {
             />
           </div>
           <button onClick={() => setImg2View(!img2view)}>
-            {img2view ? "Hide environment" : "Show "}
+            {img2view ? "Hide environment" : "Show Environment"}
           </button>
         </div>
       </div>

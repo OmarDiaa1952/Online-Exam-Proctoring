@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 
 import UserContext from "../store/user-context";
 import { useNavigate } from "react-router-dom";
-import WebcamCapture from "../utils/WebcamCapture";
 import TabSwitch from "../utils/TabSwitch";
 import FullScreen from "../utils/FullScreen";
 import UseWindowDimensions from "../utils/UseWindowDimensions";
@@ -185,9 +184,6 @@ function ExamPage() {
       </div>
       </div>
       </div>
-      
-      {/* <WebcamCapture setImg={imgHandler} facingMode={userCtx.camera1} />
-      <WebcamCapture setImg2={img2Handler} facingMode={userCtx.camera2} /> */}
     </section>
   );
 }

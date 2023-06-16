@@ -1,15 +1,20 @@
 import classes from "./StudentPicture.module.css";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useContext } from "react";
 import Webcam from "react-webcam";
+
+import UserContext from "../store/user-context";
+
 const WebcamComponent = () => <Webcam />;
-const videoConstraints = {
-  width: 400,
-  height: 400,
-  facingMode: "user",
-};
+
 const StudentPicture = (props) => {
   const [picture, setPicture] = useState("");
+  const userCtx = useContext(UserContext);
+  const videoConstraints = {
+    width: 400,
+    height: 400,
+    deviceId: userCtx.camera1,
+  };
   const webcamRef = useRef(null);
   const capture = useCallback(() => {
     const pictureSrc = webcamRef.current.getScreenshot();
@@ -17,9 +22,7 @@ const StudentPicture = (props) => {
   });
   return (
     <div>
-      <h2 className="mb-5 text-center">
-        Set Profile Picture
-      </h2>
+      <h2 className="mb-5 text-center">Set Profile Picture</h2>
       <div>
         {picture == "" ? (
           <Webcam
