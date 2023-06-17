@@ -6,11 +6,13 @@ import StudentAdmission from "../components/StudentAdmission";
 import UserContext from "../store/user-context";
 import { get, dlt, post, put } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function CourseStudentsPage() {
   let [enrollmentRequests, setEnrollmentRequests] = useState([]);
   let [enrolledStudents, setEnrolledStudents] = useState([]);
   let [updateEnrolledStudents, setUpdateEnrolledStudents] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
   let userCtx = useContext(UserContext);
 
   useEffect(() => {
@@ -21,16 +23,17 @@ function CourseStudentsPage() {
   }, [updateEnrolledStudents]);
 
   let getEnrollmentRequests = async () => {
+    setIsLoading(true);
     if (userCtx.courseId) {
       let response = await get(
-        BASEURL + "/main_app/enrollmentrequestlist/" +
-          userCtx.courseId,
+        BASEURL + "/main_app/enrollmentrequestlist/" + userCtx.courseId,
         userCtx.authTokens.access
       );
       let data = await response.json();
       console.log(data);
       if (response.status === 200) {
         setEnrollmentRequests(data);
+        setIsLoading(false);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
@@ -38,6 +41,7 @@ function CourseStudentsPage() {
   };
 
   let getEnrolledStudents = async () => {
+    setIsLoading(true);
     let response = await get(
       BASEURL + "/main_app/enrolledstudentlist/" + userCtx.courseId,
       userCtx.authTokens.access
@@ -45,12 +49,14 @@ function CourseStudentsPage() {
     let data = await response.json();
     if (response.status === 200) {
       setEnrolledStudents(data);
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
   };
 
   let requestHandler = async (requestId, requestType) => {
+    setIsLoading(true);
     let response = await put(
       BASEURL + "/main_app/enrollmentrequestaction/" + requestId,
       {
@@ -75,12 +81,14 @@ function CourseStudentsPage() {
         icon: "success",
         button: "OK",
       });
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
   };
 
   let addStudentByEmail = async (studentEmail) => {
+    setIsLoading(true);
     let response = await post(
       BASEURL + "/main_app/enrollmentcreate/" + userCtx.courseId,
       {
@@ -97,12 +105,14 @@ function CourseStudentsPage() {
         icon: "success",
         button: "OK",
       });
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
   };
 
   let removeStudentHandler = async (id) => {
+    setIsLoading(true);
     let response = await dlt(
       BASEURL + "/main_app/enrollmentdelete/" + id,
       userCtx.authTokens.access
@@ -115,29 +125,36 @@ function CourseStudentsPage() {
         icon: "success",
         button: "OK",
       });
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
   };
   return (
     <div>
-      <StudentAdmission
-        enrollmentRequests={enrollmentRequests}
-        enrolledStudents={enrolledStudents}
-        onJoinRequest={requestHandler}
-        onAddStudent={addStudentByEmail}
-        onRemoveStudent={removeStudentHandler}
-      />
-      <div>
-        <Link to="/course">
-          <button type="button">Back to Course</button>
-        </Link>
-      </div>
-      <div>
-        <Link to="/">
-          <button type="button">Home</button>
-        </Link>
-      </div>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div>
+          <StudentAdmission
+            enrollmentRequests={enrollmentRequests}
+            enrolledStudents={enrolledStudents}
+            onJoinRequest={requestHandler}
+            onAddStudent={addStudentByEmail}
+            onRemoveStudent={removeStudentHandler}
+          />
+          <div>
+            <Link to="/course">
+              <button type="button">Back to Course</button>
+            </Link>
+          </div>
+          <div>
+            <Link to="/">
+              <button type="button">Home</button>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

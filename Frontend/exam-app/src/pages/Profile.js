@@ -5,7 +5,8 @@ import swal from "sweetalert";
 import UserInfo from "../components/UserInfo";
 import UserContext from "../store/user-context";
 import { get, put } from "../utils/Fetch";
-import { BASEURL } from "../utils/Consts"; 
+import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ProfilePage() {
   const userCtx = useContext(UserContext);
@@ -13,16 +14,16 @@ function ProfilePage() {
   let image = location.state ? location.state : null;
   const [imageDataURL, setImageDataURL] = useState(image);
   const [hasPhoto, setHasPhoto] = useState(false);
-
   const [userData, setUserData] = useState({
     username: "",
     name: "",
     email: "",
     photo: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if(userCtx.type === "student") checkPhoto();
+    if (userCtx.type === "student") checkPhoto();
     if (imageDataURL) {
       setPhoto();
       setImageDataURL(null);
@@ -31,6 +32,7 @@ function ProfilePage() {
   }, []);
 
   let checkPhoto = async () => {
+    setIsLoading(true);
     let response = await get(
       BASEURL + "/users/photoexists",
       userCtx.authTokens.access
@@ -42,12 +44,14 @@ function ProfilePage() {
       } else {
         setHasPhoto(false);
       }
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
   };
 
   let setPhoto = async () => {
+    setIsLoading(true);
     let response = await put(
       BASEURL + "/users/photoupload",
       { photo: imageDataURL },
@@ -58,6 +62,7 @@ function ProfilePage() {
         ...prev,
         photo: imageDataURL.photo,
       }));
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       swal({
         title: "Error",
@@ -69,6 +74,7 @@ function ProfilePage() {
   };
 
   let getUserData = async () => {
+    setIsLoading(true);
     let response = await get(
       BASEURL + "/users/userdata",
       userCtx.authTokens.access
@@ -87,6 +93,7 @@ function ProfilePage() {
             ...prev,
             photo: data.photo,
           }));
+          setIsLoading(false);
         } else if (response.statusText === "Unauthorized") {
           swal({
             title: "Error",
@@ -116,24 +123,30 @@ function ProfilePage() {
   return (
     <div>
       <h1>Profile</h1>
-      {userCtx.type === "student" && (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <div>
-          <img src={userData.photo} alt="Please take a photo" />
-          {/* {!loading && ( */}
+          {userCtx.type === "student" && (
+            <div>
+              <img src={userData.photo} alt="Please take a photo" />
+              {/* {!loading && ( */}
+              <div>
+                <button type="button" onClick={useCamera}>
+                  {hasPhoto ? "Update Photo" : "Take Photo"}
+                </button>
+              </div>
+            </div>
+          )}
+          <UserInfo userData={userData} />
+          {/* )} */}
           <div>
-            <button type="button" onClick={useCamera}>
-              {hasPhoto ? "Update Photo" : "Take Photo"}
-            </button>
+            <Link to="/">
+              <button type="button">Home</button>
+            </Link>
           </div>
         </div>
       )}
-      <UserInfo userData={userData} />
-      {/* )} */}
-      <div>
-        <Link to="/">
-          <button type="button">Home</button>
-        </Link>
-      </div>
     </div>
   );
 }

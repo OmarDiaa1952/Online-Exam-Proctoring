@@ -7,6 +7,7 @@ import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import MissingVideo from "../components/MissingVideo";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ExamDetailsPage() {
   const userCtx = useContext(UserContext);
@@ -15,6 +16,7 @@ function ExamDetailsPage() {
   let [hasVideo, setHasVideo] = useState(true);
   let [examDetails, setExamDetails] = useState([]);
   let [examStatus, setExamStatus] = useState(-1);
+  let [isLoading, setIsLoading] = useState(false);
   // -1: not started, 0: started, 1: finished
 
   useEffect(() => {
@@ -24,6 +26,7 @@ function ExamDetailsPage() {
 
   let getExamDetails = async () => {
     if (examId) {
+      setIsLoading(true);
       let response = await get(
         BASEURL + "/main_app/examdetail/" + examId,
         userCtx.authTokens.access
@@ -96,8 +99,10 @@ function ExamDetailsPage() {
             currentMinute > Number(examEndMinute))
         ) {
           setExamStatus(1);
+          setIsLoading(false);
         } else {
           setExamStatus(0);
+          setIsLoading(false);
         }
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
@@ -185,14 +190,17 @@ function ExamDetailsPage() {
   };
 
   let checkVideo = async () => {
+    setIsLoading(true);
     let response = await get(
       BASEURL + "/users/videoexists",
       userCtx.authTokens.access
     );
     if (response.status === 200) {
       setHasVideo(true);
+      setIsLoading(false);
     } else if (response.status === 404) {
       setHasVideo(false);
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -200,32 +208,38 @@ function ExamDetailsPage() {
 
   return (
     <section>
-      {!hasVideo && <MissingVideo />}
-      <ExamInfo examData={examDetails} />
-      <div>
-        <button type="button" onClick={startExamHandler}>
-          Start Exam
-        </button>
-      </div>
-      <div>
-        <button type="button" onClick={reviewExamHandler}>
-          Review Exam
-        </button>
-      </div>
-      <div className="m-2">
-        <hr />
-           
-      </div>
-      <div>
-        <Link to="/course">
-          <button type="button">Back to Course</button>
-        </Link>
-      </div>
-      <div>
-        <Link to="/">
-          <button type="button">Home</button>
-        </Link>
-      </div>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div>
+          {!hasVideo && <MissingVideo />}
+          <ExamInfo examData={examDetails} />
+          <div>
+            <button type="button" onClick={startExamHandler}>
+              Start Exam
+            </button>
+          </div>
+          <div>
+            <button type="button" onClick={reviewExamHandler}>
+              Review Exam
+            </button>
+          </div>
+          <div className="m-2">
+            <hr />
+               
+          </div>
+          <div>
+            <Link to="/course">
+              <button type="button">Back to Course</button>
+            </Link>
+          </div>
+          <div>
+            <Link to="/">
+              <button type="button">Home</button>
+            </Link>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

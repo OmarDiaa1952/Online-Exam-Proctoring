@@ -5,13 +5,15 @@ import swal from "sweetalert";
 import ModifyCourseDetails from "../components/ModifyCourseDetails";
 import UserContext from "../store/user-context";
 import { get, dlt, post, put } from "../utils/Fetch";
-import { BASEURL } from "../utils/Consts"; 
+import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ModifyCoursePage() {
   const history = useNavigate();
   const userCtx = useContext(UserContext);
   let [courseDetails, setCourseDetails] = useState([]);
   let [delayCourseDetails, setDelayCourseDetails] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getCourseDetails();
@@ -23,6 +25,7 @@ function ModifyCoursePage() {
 
   let getCourseDetails = async () => {
     if (userCtx.courseId) {
+      setIsLoading(true);
       let response = await get(
         BASEURL + "/main_app/coursedetail/" + userCtx.courseId,
         userCtx.authTokens.access
@@ -32,6 +35,7 @@ function ModifyCoursePage() {
       if (response.status === 200) {
         setCourseDetails(data);
         setDelayCourseDetails(true);
+        setIsLoading(false);
       } else {
         await timeout(1000);
         setDelayCourseDetails(true);
@@ -41,6 +45,7 @@ function ModifyCoursePage() {
 
   let modifyCourseHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     let req = "coursecreate";
     let reqMethod = "POST";
     let status = "closed";
@@ -83,8 +88,10 @@ function ModifyCoursePage() {
         button: "OK",
       });
       history("/course");
+      setIsLoading(false);
     } else if (response.status === 200 && userCtx.courseId) {
       history("/");
+      setIsLoading(false);
     } else {
       alert("Something went wrong!");
     }
@@ -110,12 +117,14 @@ function ModifyCoursePage() {
   };
 
   let deleteCourseHandler = async () => {
+    setIsLoading(true);
     let response = await dlt(
       BASEURL + "/main_app/coursedelete/" + userCtx.courseId,
       userCtx.authTokens.access
     );
     if (response.status === 204) {
       history("/");
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -127,23 +136,28 @@ function ModifyCoursePage() {
 
   return (
     <section>
-      {(delayCourseDetails || userCtx.courseId === null) && (
-        <ModifyCourseDetails
-          onSave={modifyCourseHandler}
-          courseDetails={courseDetails}
-        />
-      )}
-
-      <div>
-        <Link to={userCtx.courseId ? "/course" : "/"}>
-          <button type="button">Back</button>
-        </Link>
-      </div>
-      {userCtx.courseId !== null && (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <div>
-          <button onClick={deleteCourse} className="btn btn-danger">
-            Delete Course
-          </button>
+          {(delayCourseDetails || userCtx.courseId === null) && (
+            <ModifyCourseDetails
+              onSave={modifyCourseHandler}
+              courseDetails={courseDetails}
+            />
+          )}
+          <div>
+            <Link to={userCtx.courseId ? "/course" : "/"}>
+              <button type="button">Back</button>
+            </Link>
+          </div>
+          {userCtx.courseId !== null && (
+            <div>
+              <button onClick={deleteCourse} className="btn btn-danger">
+                Delete Course
+              </button>
+            </div>
+          )}
         </div>
       )}
     </section>

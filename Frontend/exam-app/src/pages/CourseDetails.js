@@ -5,11 +5,13 @@ import swal from "sweetalert";
 import CourseInfo from "../components/CourseInfo";
 import UserContext from "../store/user-context";
 import { dlt, get, post } from "../utils/Fetch";
-import { BASEURL } from "../utils/Consts"; 
+import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function CourseDetailsPage() {
   const userCtx = useContext(UserContext);
   let [courseDetails, setCourseDetails] = useState([]);
+  let [isLoading, setIsLoading] = useState(false);
   const courseId = userCtx.courseId;
   const history = useNavigate();
 
@@ -18,6 +20,7 @@ function CourseDetailsPage() {
   }, []);
 
   let getCourseDetails = async () => {
+    setIsLoading(true);
     let response = await get(
       BASEURL + "/main_app/coursedetail/" + courseId,
       userCtx.authTokens.access
@@ -27,6 +30,7 @@ function CourseDetailsPage() {
     if (response.status === 200) {
       if (userCtx.type === "examiner" || data.is_enrolled) history("/course");
       setCourseDetails(data);
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -34,6 +38,7 @@ function CourseDetailsPage() {
 
   let requestCourseHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     let response =
       courseDetails.is_requested === false
         ? await post(
@@ -42,8 +47,7 @@ function CourseDetailsPage() {
             userCtx.authTokens.access
           )
         : await dlt(
-            BASEURL + "/main_app/enrollmentrequestdelete/" +
-              courseId,
+            BASEURL + "/main_app/enrollmentrequestdelete/" + courseId,
             userCtx.authTokens.access
           );
     // let data = await response.json();
@@ -59,6 +63,7 @@ function CourseDetailsPage() {
         button: "OK",
       });
       history("/");
+      setIsLoading(false);
     } else {
       alert("Something went wrong!");
     }
@@ -66,19 +71,27 @@ function CourseDetailsPage() {
 
   return (
     <section>
-      <CourseInfo courseData={courseDetails} />
-      {courseDetails.status === "open" && (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <div>
-          <button type="submit" onClick={requestCourseHandler}>
-            {courseDetails.is_requested === true ? "Cancel Request" : "Enroll"}
-          </button>
+          <CourseInfo courseData={courseDetails} />
+          {courseDetails.status === "open" && (
+            <div>
+              <button type="submit" onClick={requestCourseHandler}>
+                {courseDetails.is_requested === true
+                  ? "Cancel Request"
+                  : "Enroll"}
+              </button>
+            </div>
+          )}
+          <div>
+            <Link to="/">
+              <button type="button">Back</button>
+            </Link>
+          </div>
         </div>
       )}
-      <div>
-        <Link to="/">
-          <button type="button">Back</button>
-        </Link>
-      </div>
     </section>
   );
 }

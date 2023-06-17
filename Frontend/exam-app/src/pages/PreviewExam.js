@@ -6,6 +6,7 @@ import ExamQuestions from "../components/ExamQuestions";
 import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function PreviewExamPage() {
   const userCtx = useContext(UserContext);
@@ -13,6 +14,7 @@ function PreviewExamPage() {
   const [maxGrade, setMaxGrade] = useState(0);
   let [examDetails, setExamDetails] = useState([]);
   let [examQuestions, setExamQuestions] = useState([]);
+  let [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getExamDetails();
@@ -27,6 +29,7 @@ function PreviewExamPage() {
 
   let getExamDetails = async () => {
     if (examId) {
+      setIsLoading(true);
       let response = await get(
         BASEURL + "/main_app/examdetail/" + examId,
         userCtx.authTokens.access
@@ -46,6 +49,7 @@ function PreviewExamPage() {
           exam_end_minute: data.exam_end_date.substring(14, 16),
         };
         setExamDetails({ ...data, ...examDate });
+        setIsLoading(false);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
@@ -53,6 +57,7 @@ function PreviewExamPage() {
   };
   let getExamQuestions = async () => {
     if (examId) {
+      setIsLoading(true);
       let response = await get(
         BASEURL + "/main_app/questionlist/" + examId,
         userCtx.authTokens.access
@@ -73,6 +78,7 @@ function PreviewExamPage() {
             }),
           }))
         );
+        setIsLoading(false);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
@@ -81,32 +87,38 @@ function PreviewExamPage() {
 
   return (
     <section>
-      <div>
-        <ExamInfo examData={examDetails} maxGrade={maxGrade} />
-      </div>
-      <ExamQuestions questions={examQuestions} editable={false} />
-      <div>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <div>
-          <Link to="/log-file">
-            <button type="button">View Log File</button>
-          </Link>
+          <div>
+            <ExamInfo examData={examDetails} maxGrade={maxGrade} />
+          </div>
+          <ExamQuestions questions={examQuestions} editable={false} />
+          <div>
+            <div>
+              <Link to="/log-file">
+                <button type="button">View Log File</button>
+              </Link>
+            </div>
+            <div>
+              <Link to="/edit-exam">
+                <button type="button">Edit</button>
+              </Link>
+            </div>
+            <div>
+              <Link to="/course">
+                <button type="button">Back to Course</button>
+              </Link>
+            </div>
+            <div>
+              <Link to="/">
+                <button type="button">Home</button>
+              </Link>
+            </div>
+          </div>
         </div>
-        <div>
-          <Link to="/edit-exam">
-            <button type="button">Edit</button>
-          </Link>
-        </div>
-        <div>
-          <Link to="/course">
-            <button type="button">Back to Course</button>
-          </Link>
-        </div>
-        <div>
-          <Link to="/">
-            <button type="button">Home</button>
-          </Link>
-        </div>
-      </div>
+      )}
     </section>
   );
 }

@@ -6,6 +6,7 @@ import UserContext from "../store/user-context";
 import ExamReviewDetails from "../components/ExamReviewDetails";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ReviewExamPage() {
   const userCtx = useContext(UserContext);
@@ -13,6 +14,7 @@ function ReviewExamPage() {
 
   let [examDetails, setExamDetails] = useState({});
   let [examQuestions, setExamQuestions] = useState([]);
+  let [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     Review();
@@ -24,6 +26,7 @@ function ReviewExamPage() {
 
   let Review = async () => {
     if (examId) {
+      setIsLoading(true);
       let response = await get(
         BASEURL + "/main_app/examreview/" + examId,
         userCtx.authTokens.access
@@ -58,6 +61,7 @@ function ReviewExamPage() {
             choice: answer.choice,
           }))
         );
+        setIsLoading(false);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
@@ -78,20 +82,26 @@ function ReviewExamPage() {
   return (
     <section>
       <h1>Review Exam Page</h1>
-      <ExamReviewDetails examData={examDetails} />
-      <ExamQuestions questions={examQuestions} editable={false} />
-      <div>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <div>
-          <Link to="/exam-details">
-            <button type="button">Back</button>
-          </Link>
+          <ExamReviewDetails examData={examDetails} />
+          <ExamQuestions questions={examQuestions} editable={false} />
+          <div>
+            <div>
+              <Link to="/exam-details">
+                <button type="button">Back</button>
+              </Link>
+            </div>
+            <div>
+              <Link to="/">
+                <button type="button">Home</button>
+              </Link>
+            </div>
+          </div>
         </div>
-        <div>
-          <Link to="/">
-            <button type="button">Home</button>
-          </Link>
-        </div>
-      </div>
+      )}
     </section>
   );
 }

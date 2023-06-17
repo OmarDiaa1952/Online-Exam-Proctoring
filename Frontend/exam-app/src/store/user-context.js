@@ -5,6 +5,7 @@ import swal from "sweetalert";
 
 import { post } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const UserContext = createContext();
 
@@ -158,7 +159,7 @@ export function UserContextProvider({ children }) {
 
   return (
     <UserContext.Provider value={context}>
-      {loading ? null : children}
+      {loading ? <LoadingSpinner /> : children}
     </UserContext.Provider>
   );
 }

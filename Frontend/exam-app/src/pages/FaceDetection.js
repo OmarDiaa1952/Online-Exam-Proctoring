@@ -6,10 +6,12 @@ import CameraSet from "../components/CameraSet";
 import FaceDetectionComponent from "../components/FaceDetectionComponent";
 import UserContext from "../store/user-context";
 import { post } from "../utils/Fetch";
-import { BASEURL } from "../utils/Consts"; 
+import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const FaceDetectionPage = () => {
   const [cameraSetFlag, setCameraSetFlag] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -18,6 +20,7 @@ const FaceDetectionPage = () => {
   };
 
   let sendVideo = async (text) => {
+    setIsLoading(true);
     let response = await post(
       BASEURL + "/main_app/livenessvideoupload/" + userCtx.examId,
       text,
@@ -40,14 +43,24 @@ const FaceDetectionPage = () => {
         button: "Ok!",
       });
     }
+    setIsLoading(false);
   };
 
   return (
     <div>
-      {cameraSetFlag ? (
-        <FaceDetectionComponent setVideo={sendVideo} startMessage={"Start Exam"} />
+      {isLoading ? (
+        <LoadingSpinner />
       ) : (
-        <CameraSet onProceed={faceDetectionHandler} />
+        <div>
+          {cameraSetFlag ? (
+            <FaceDetectionComponent
+              setVideo={sendVideo}
+              startMessage={"Start Exam"}
+            />
+          ) : (
+            <CameraSet onProceed={faceDetectionHandler} />
+          )}
+        </div>
       )}
     </div>
   );

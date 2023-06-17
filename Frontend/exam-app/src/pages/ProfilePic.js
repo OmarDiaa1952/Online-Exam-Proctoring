@@ -7,9 +7,11 @@ import UserContext from "../store/user-context";
 import { put } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import StudentPicture from "../components/StudentPicture";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ProfilePic() {
-    const [cameraSetFlag, setCameraSetFlag] = useState(false);
+  const [cameraSetFlag, setCameraSetFlag] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -18,19 +20,20 @@ function ProfilePic() {
   };
 
   let setPhoto = async (imageDataURL) => {
+    setIsLoading(true);
     let response = await put(
       BASEURL + "/users/photoupload",
       { photo: imageDataURL },
       userCtx.authTokens.access
     );
     if (response.status === 200) {
-        swal({
-            title: "Success!",
-            text: "Photo updated successfully!",
-            icon: "success",
-            button: "Ok!",
-            });
-        navigate("/profile");
+      swal({
+        title: "Success!",
+        text: "Photo updated successfully!",
+        icon: "success",
+        button: "Ok!",
+      });
+      navigate("/profile");
     } else {
       swal({
         title: "Error",
@@ -39,14 +42,21 @@ function ProfilePic() {
         button: "OK",
       });
     }
+    setIsLoading(false);
   };
 
   return (
     <div>
-      {cameraSetFlag ? (
-        <StudentPicture updatePhoto={setPhoto} />
+      {isLoading ? (
+        <LoadingSpinner />
       ) : (
-        <CameraSet onProceed={updatePicHandler} />
+        <div>
+          {cameraSetFlag ? (
+            <StudentPicture updatePhoto={setPhoto} />
+          ) : (
+            <CameraSet onProceed={updatePicHandler} />
+          )}
+        </div>
       )}
     </div>
   );

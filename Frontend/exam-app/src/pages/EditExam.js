@@ -7,6 +7,7 @@ import EditExamInfo from "../components/EditExamInfo";
 import UserContext from "../store/user-context";
 import { get, post, put, dlt } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function EditExamPage() {
   const userCtx = useContext(UserContext);
@@ -16,6 +17,7 @@ function EditExamPage() {
   let [examQuestions, setExamQuestions] = useState([]);
   let [delayExamDetails, setDelayExamDetails] = useState(false);
   let [delayExamQuestions, setDelayExamQuestions] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {}, [examQuestions, examDetails]);
   useEffect(() => {
@@ -28,6 +30,7 @@ function EditExamPage() {
   }, []);
 
   let getExamDetails = async () => {
+    setIsLoading(true);
     if (examId) {
       let response = await get(
         BASEURL + "/main_app/examdetail/" + examId,
@@ -38,6 +41,7 @@ function EditExamPage() {
         // console.log(data);
         setExamDetails(data);
         setDelayExamDetails(true);
+        setIsLoading(false);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
@@ -45,6 +49,7 @@ function EditExamPage() {
   };
 
   let getExamQuestions = async () => {
+    setIsLoading(true);
     if (examId) {
       let response = await get(
         BASEURL + "/main_app/questionlist/" + examId,
@@ -67,6 +72,7 @@ function EditExamPage() {
         // console.log(data);
         await timeout(1000);
         setDelayExamQuestions(true);
+        setIsLoading(false);
       } else if (response.statusText === "Unauthorized") {
         userCtx.logoutUser();
       }
@@ -77,6 +83,7 @@ function EditExamPage() {
 
   let examDetailsHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     let warningMsgs = [];
     let startYear = Number(e.target.exam_start_date.value.split("-")[0]);
     let startMonth = Number(e.target.exam_start_date.value.split("-")[1]);
@@ -168,6 +175,7 @@ function EditExamPage() {
         icon: "success",
         button: "OK",
       });
+      setIsLoading(false);
       // history("/preview-exam");
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
@@ -258,30 +266,39 @@ function EditExamPage() {
   return (
     <section>
       <h1>Edit Exam</h1>
-      <div>
-        {(delayExamDetails || !examId) && (
-          <EditExamInfo examData={examDetails} onSave={examDetailsHandler} />
-        )}
-      </div>
-      {examId && (examQuestions.length > 0 || delayExamQuestions) && (
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
         <div>
-          <ExamQuestionsEdit
-            questions={examQuestions}
-            editable={true}
-            onSave={questionsChangeHandler}
-            onDeleteQuestion={deleteQuestionHandler}
-          />
+          <div>
+            {(delayExamDetails || !examId) && (
+              <EditExamInfo
+                examData={examDetails}
+                onSave={examDetailsHandler}
+              />
+            )}
+          </div>
+          {examId && (examQuestions.length > 0 || delayExamQuestions) && (
+            <div>
+              <ExamQuestionsEdit
+                questions={examQuestions}
+                editable={true}
+                onSave={questionsChangeHandler}
+                onDeleteQuestion={deleteQuestionHandler}
+              />
+            </div>
+          )}
+          <div>
+            {examId && (
+              <div>
+                <Link to="/preview-exam">
+                  <button type="button">Preview Exam</button>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       )}
-      <div>
-        {examId && (
-          <div>
-            <Link to="/preview-exam">
-              <button type="button">Preview Exam</button>
-            </Link>
-          </div>
-        )}
-      </div>
     </section>
   );
 }
