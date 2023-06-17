@@ -4,7 +4,6 @@ import swal from "sweetalert";
 
 import UserContext from "../store/user-context";
 import { useNavigate } from "react-router-dom";
-import TabSwitch from "../utils/TabSwitch";
 import FullScreen from "../utils/FullScreen";
 import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
@@ -158,7 +157,6 @@ function ExamPage() {
       /> */}
       <FocusWindow onChangeFocus={changeFocusHandler} />
       <FullScreen />
-      <TabSwitch />
       <UseWindowDimensions
         onChangeWindowDimensions={changeWindowDimensionsHandler}
       />
