@@ -13,15 +13,11 @@ import LogFilePage from "./pages/LogFile";
 import ReviewExamPage from "./pages/ReviewExam";
 import PreviewExamPage from "./pages/PreviewExam";
 import PrivateRoute from "./utils/PrivateRoute";
-import CameraPage from "./pages/Camera";
-import TwoCameraPage from "./pages/TwoCamera";
-import TwoCameraTestPage from "./pages/TwoCameraTest";
 import WebcamStreamCapturePage from "./pages/WebcamStreamCapture";
 import ProfilePage from "./pages/Profile";
 import ProfilePic from "./pages/ProfilePic";
 import CourseStudentsPage from "./pages/CourseStudents";
 import FaceDetectionPage from "./pages/FaceDetection";
-import Test from "./pages/Test";
 
 function App() {
   return (
@@ -43,12 +39,8 @@ function App() {
       <Route path="/review-exam" exact element={<ReviewExamPage />} />
       <Route path="/Preview-exam" exact element={<PreviewExamPage />} />
       <Route path="/log-file" exact element={<LogFilePage />} />
-      <Route path="/camera" exact element={<CameraPage />} />
-      <Route path="/two-camera" exact element={<TwoCameraPage />} />
-      <Route path="/two-camera-test" exact element={<TwoCameraTestPage />} />
       <Route path="/stream" exact element={<WebcamStreamCapturePage />} />
       <Route path="/face-detection" exact element={<FaceDetectionPage />} />
-      <Route path="/test" exact element={<Test />} />
     </Routes>
   );
 }

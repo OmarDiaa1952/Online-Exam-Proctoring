@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Test() {
+function Test2() {
     const [cameraNumber, setCameraNumber] = useState(0);
     const [imageDataURL, setImageDataURL] = useState(null);
 
@@ -93,4 +93,4 @@ function Test() {
   </div>;
 }
 
-export default Test;
+export default Test2;

@@ -12,9 +12,7 @@ function Register(props) {
       : "student"
   );
   useEffect(() => {
-    userCtx.type === "student"
-      ? userCtx.setUserType("student")
-      : userCtx.setUserType("examiner");
+    if (userCtx.type === null) userCtx.setUserType("student");
   }, []);
 
   const userCtx = useContext(UserContext);
@@ -125,7 +123,7 @@ function Register(props) {
               id="student"
               name="user-type"
               value="student"
-              defaultChecked={userType === "student"}
+              defaultChecked
               onClick={() => {
                 userCtx.setUserType("student");
               }}
@@ -143,7 +141,6 @@ function Register(props) {
               id="examiner"
               name="user-type"
               value="examiner"
-              defaultChecked={userType === "examiner"}
               onClick={() => {
                 userCtx.setUserType("examiner");
               }}
@@ -160,11 +157,23 @@ function Register(props) {
       <form onSubmit={submitHandler}>
         <div className="form-group">
           <label htmlFor="name">Username</label>
-          <input type="text" className="form-control" required id="name" ref={usernameInputRef} />
+          <input
+            type="text"
+            className="form-control"
+            required
+            id="name"
+            ref={usernameInputRef}
+          />
         </div>
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input type="text" className="form-control" required id="email" ref={emailInputRef} />
+          <input
+            type="text"
+            className="form-control"
+            required
+            id="email"
+            ref={emailInputRef}
+          />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
@@ -207,7 +216,9 @@ function Register(props) {
           />
         </div>
         <div className="text-center mt-3">
-          <button type="submit" className="btn btn-primary">Register</button>
+          <button type="submit" className="btn btn-primary">
+            Register
+          </button>
         </div>
       </form>
     </div>
