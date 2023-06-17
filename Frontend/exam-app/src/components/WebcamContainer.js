@@ -7,7 +7,7 @@ function WebcamContainer(props) {
   const [img1view, setImg1View] = useState(true);
   const [img2view, setImg2View] = useState(true);
   return (
-    <div className="container">
+    <div className="container sticky-top">
       <div className="row align-content-end flex-column">
         <div className="col-md-4">
           <div className={img1view ? "visible" : "invisible"}>
