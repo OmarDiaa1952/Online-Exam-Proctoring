@@ -8,7 +8,6 @@ const WebcamCapture = (props) => {
   const [imgSrc, setImgSrc] = useState(null);
 
   const capture = useCallback(() => {
-    console.log();
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
     props.setImg(imageSrc);

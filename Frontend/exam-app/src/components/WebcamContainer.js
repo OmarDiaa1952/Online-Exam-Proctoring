@@ -23,7 +23,7 @@ function WebcamContainer(props) {
         <div className="col-md-4">
           <div className={img2view ? "visible" : "invisible"}>
             <WebcamCapture
-              setImg2={props.setImg2}
+              setImg={props.setImg2}
               facingMode={props.facingMode2}
             />
           </div>
