@@ -31,8 +31,13 @@ function CourseDetailsPage() {
       if (userCtx.type === "examiner" || data.is_enrolled) history("/course");
       setCourseDetails(data);
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -65,7 +70,12 @@ function CourseDetailsPage() {
       history("/");
       setIsLoading(false);
     } else {
-      alert("Something went wrong!");
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 

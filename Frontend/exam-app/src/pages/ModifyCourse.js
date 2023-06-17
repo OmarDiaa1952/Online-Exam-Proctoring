@@ -93,7 +93,12 @@ function ModifyCoursePage() {
       history("/");
       setIsLoading(false);
     } else {
-      alert("Something went wrong!");
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -125,8 +130,13 @@ function ModifyCoursePage() {
     if (response.status === 204) {
       history("/");
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 

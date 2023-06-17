@@ -45,8 +45,13 @@ function ProfilePage() {
         setHasPhoto(false);
       }
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -63,7 +68,7 @@ function ProfilePage() {
         photo: imageDataURL.photo,
       }));
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
+    } else {
       swal({
         title: "Error",
         text: "Couldn't upload your photo.",
@@ -103,8 +108,13 @@ function ProfilePage() {
           });
         }
       }
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 

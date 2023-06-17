@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
+import swal from "sweetalert";
 
 import ExamInfo from "../components/ExamInfo";
 import ExamQuestions from "../components/ExamQuestions";
@@ -50,8 +51,13 @@ function PreviewExamPage() {
         };
         setExamDetails({ ...data, ...examDate });
         setIsLoading(false);
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
+      } else {
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
       }
     }
   };
@@ -79,8 +85,13 @@ function PreviewExamPage() {
           }))
         );
         setIsLoading(false);
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
+      } else {
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
       }
     }
   };

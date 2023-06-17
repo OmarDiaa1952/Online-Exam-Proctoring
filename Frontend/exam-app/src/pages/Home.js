@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import swal from "sweetalert";
 
 import HomeNavigation from "../components/HomeNavigation";
 import UserContext from "../store/user-context";
@@ -34,8 +35,13 @@ function HomePage() {
     if (response.status === 200) {
       setCourses(data);
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -49,8 +55,13 @@ function HomePage() {
     if (response.status === 200) {
       setFoundCourses(data);
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -63,8 +74,13 @@ function HomePage() {
     } else if (response.status === 404) {
       setHasVideo(false);
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 

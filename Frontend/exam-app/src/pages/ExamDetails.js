@@ -104,8 +104,13 @@ function ExamDetailsPage() {
           setExamStatus(0);
           setIsLoading(false);
         }
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
+      } else {
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
       }
     }
   };
@@ -201,8 +206,13 @@ function ExamDetailsPage() {
     } else if (response.status === 404) {
       setHasVideo(false);
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 

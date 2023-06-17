@@ -1,5 +1,6 @@
 import ExamQuestions from "../components/ExamQuestions";
 import { useContext, useEffect, useState } from "react";
+import swal from "sweetalert";
 
 import UserContext from "../store/user-context";
 import { useNavigate } from "react-router-dom";
@@ -76,8 +77,13 @@ function ExamPage() {
       );
       setStartTime(current_date);
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 

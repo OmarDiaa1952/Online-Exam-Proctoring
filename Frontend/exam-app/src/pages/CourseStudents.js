@@ -34,8 +34,13 @@ function CourseStudentsPage() {
       if (response.status === 200) {
         setEnrollmentRequests(data);
         setIsLoading(false);
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
+      } else {
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
       }
     }
   };
@@ -50,8 +55,13 @@ function CourseStudentsPage() {
     if (response.status === 200) {
       setEnrolledStudents(data);
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -82,8 +92,13 @@ function CourseStudentsPage() {
         button: "OK",
       });
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -126,8 +141,13 @@ function CourseStudentsPage() {
         button: "OK",
       });
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
   return (

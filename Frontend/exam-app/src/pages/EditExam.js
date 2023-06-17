@@ -42,9 +42,14 @@ function EditExamPage() {
         setExamDetails(data);
         setDelayExamDetails(true);
         setIsLoading(false);
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
-      }
+      } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
+    }
     }
   };
 
@@ -73,9 +78,14 @@ function EditExamPage() {
         await timeout(1000);
         setDelayExamQuestions(true);
         setIsLoading(false);
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
-      }
+      } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
+    }
     } else {
       setDelayExamQuestions(true);
     }
@@ -177,8 +187,13 @@ function EditExamPage() {
       });
       setIsLoading(false);
       // history("/preview-exam");
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -220,8 +235,13 @@ function EditExamPage() {
           );
     if (response.status === 200 || response.status === 201) {
       // history("/preview-exam");
-    } else if (response.statusText === "Unauthorized") {
-      alert("Something went wrong!");
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
@@ -233,9 +253,14 @@ function EditExamPage() {
       );
       if (response.status === 204) {
         setExamQuestions(examQuestions.filter((q) => q.id !== id));
-      } else if (response.statusText === "Unauthorized") {
-        userCtx.logoutUser();
-      }
+      } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
+    }
     }
   };
 

@@ -33,8 +33,13 @@ const WebcamStreamCapturePage = () => {
       setIsLoading(false);
     } else if (response.status === 404) {
       setIsLoading(false);
-    } else if (response.statusText === "Unauthorized") {
-      userCtx.logoutUser();
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
     }
   };
 
