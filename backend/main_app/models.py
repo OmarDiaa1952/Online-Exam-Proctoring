@@ -21,7 +21,7 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='open')
-    examiner = models.ForeignKey('users.Examiner', on_delete=models.SET_NULL , null=True, related_name='courses')
+    examiner = models.ForeignKey('users.Examiner', on_delete=models.CASCADE , null=True, related_name='courses')
     def __str__(self):
         return self.name
 
