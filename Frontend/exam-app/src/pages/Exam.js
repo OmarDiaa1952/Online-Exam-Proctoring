@@ -11,6 +11,7 @@ import WebSocketDemo from "../utils/WebSocketDemo";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import WebcamContainer from "../components/WebcamContainer";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
@@ -28,6 +29,7 @@ function ExamPage() {
   const [userAnswers, setUserAnswers] = useState([]);
   const [changeAnswerId, setChangeAnswerId] = useState(null);
   const [startTime, setStartTime] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const history = useNavigate();
   useEffect(() => {
     getExamQuestions();
@@ -52,6 +54,7 @@ function ExamPage() {
   }
 
   let getExamQuestions = async () => {
+    setIsLoading(true);
     let current_date = dateConverter(new Date().toLocaleString());
     let response = await get(
       BASEURL + "/main_app/questionlist/" + examId,
@@ -72,6 +75,7 @@ function ExamPage() {
         }))
       );
       setStartTime(current_date);
+      setIsLoading(false);
     } else if (response.statusText === "Unauthorized") {
       userCtx.logoutUser();
     }
@@ -152,7 +156,6 @@ function ExamPage() {
       <UseWindowDimensions
         onChangeWindowDimensions={changeWindowDimensionsHandler}
       />
-      {/* <FullScreen /> */}
       <div className="container">
       <div className="row">
       <h2 className="col-12">Exam:</h2>
@@ -165,11 +168,11 @@ function ExamPage() {
         focus={isFocused}
         updateTimer={getTime}
       />
-      <ExamQuestions
+      {isLoading ? <LoadingSpinner /> : <ExamQuestions
         questions={examQuestions}
         editable={true}
         onChangeAnswer={changeAnswerHandler}
-      />
+      />}
       </div>
       <div className="col-3">
         <WebcamContainer
