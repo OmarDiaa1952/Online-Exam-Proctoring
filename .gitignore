@@ -25,4 +25,5 @@ required_to_edit.txt
 ws_test.py
 ws_test.js
 #ml models
-backend/main_app/ml_models/*
+backend/main_app/ml_models/__pycache__/*
+backend/main_app/ml_models/liveness/__pycache__/*
