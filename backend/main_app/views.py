@@ -11,6 +11,7 @@ from rest_framework import filters
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 # TODO: import the liveness module
+from .ml_models.liveness import liveness_detection
 
 #################################### General Views ####################################
 
