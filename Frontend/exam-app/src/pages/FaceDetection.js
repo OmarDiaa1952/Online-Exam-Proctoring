@@ -27,7 +27,7 @@ const FaceDetectionPage = () => {
       userCtx.authTokens.access
     );
     let data = await response.json();
-    if (data.recognized) {
+    if (data.recognized === "true") {
       swal({
         title: "Success!",
         text: "Exam Started!",
@@ -42,6 +42,7 @@ const FaceDetectionPage = () => {
         icon: "warning",
         button: "Ok!",
       });
+      navigate("/exam-details");
     }
     setIsLoading(false);
   };
