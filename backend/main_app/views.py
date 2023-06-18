@@ -192,8 +192,20 @@ class LivenessVideoUploadView(APIView):
                 with open(filename, 'wb') as f:
                     f.write(video_data)
                 
+                # send the video to the liveness model
+                # if the student is recognized : respones with status code 200
+                # if the student is not recognized : respones with status code 400
+
+                liveness_detection_result = liveness_detection.liveness_response(filename)
+
+                if(liveness_detection_result == True):
+                    return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
+                else:
+                    return Response({'recognized': 'false'} ,status=status.HTTP_400_BAD_REQUEST)
+                
+
                 # return a response with status code 200
-                return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
+                # return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
 
             # return a response with status code 400
             return Response({'error': 'Missing video parameter'}, status=status.HTTP_400_BAD_REQUEST)
