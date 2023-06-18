@@ -12,14 +12,14 @@ function Login() {
       <form onSubmit={userCtx.loginUser}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
-          <input type="text" className="form-control" required id="username" />
+          <input type="text" className="form-control border border-success" required id="username" />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" className="form-control" required id="password" />
+          <input type="password" className="form-control border border-success" required id="password" />
         </div>
         <div className="text-center">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-success">
             Login
           </button>
         </div>
