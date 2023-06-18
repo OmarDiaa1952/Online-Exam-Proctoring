@@ -15,6 +15,7 @@ function HomePage() {
     useContext(UserContext);
   let [hasVideo, setHasVideo] = useState(true);
   let [isLoading, setIsLoading] = useState(false);
+  let [loadCount, setLoadCount] = useState(0);
 
   useEffect(() => {
     setUserType(localStorage.getItem("userType"));
@@ -26,7 +27,10 @@ function HomePage() {
   }, [type]);
 
   let getCourses = async (text) => {
-    setIsLoading(true);
+    if(loadCount < 2) {
+      setIsLoading(true);
+      setLoadCount(loadCount + 1);
+    }
     let response = await get(
       BASEURL + "/main_app/courselist?search=" + text,
       authTokens.access
@@ -46,7 +50,10 @@ function HomePage() {
   };
 
   let inspectCourses = async (text) => {
-    setIsLoading(true);
+    if(loadCount < 2) {
+      setIsLoading(true);
+      setLoadCount(loadCount + 1);
+    }
     let response = await get(
       BASEURL + "/main_app/courselist?search=" + text + "&all=1",
       authTokens.access
