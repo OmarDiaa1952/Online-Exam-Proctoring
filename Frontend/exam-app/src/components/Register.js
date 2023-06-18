@@ -159,7 +159,7 @@ function Register(props) {
           <label htmlFor="name">Username</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control border border-success"
             required
             id="name"
             ref={usernameInputRef}
@@ -169,7 +169,7 @@ function Register(props) {
           <label htmlFor="email">Email</label>
           <input
             type="text"
-            className="form-control"
+            className="form-control border border-success"
             required
             id="email"
             ref={emailInputRef}
@@ -178,7 +178,7 @@ function Register(props) {
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            className="form-control"
+            className="form-control border border-success"
             type="password"
             required
             id="password"
@@ -188,7 +188,7 @@ function Register(props) {
         <div className="form-group">
           <label htmlFor="confirm-password">Confirm Password</label>
           <input
-            className="form-control"
+            className="form-control border border-success"
             type="password"
             required
             id="confirm-password"
@@ -198,7 +198,7 @@ function Register(props) {
         <div className="form-group">
           <label htmlFor="first-name">First Name</label>
           <input
-            className="form-control"
+            className="form-control border border-success"
             type="text"
             required
             id="first-name"
@@ -208,7 +208,7 @@ function Register(props) {
         <div className="form-group">
           <label htmlFor="last-name">Last Name</label>
           <input
-            className="form-control"
+            className="form-control border border-success"
             type="text"
             required
             id="last-name"
@@ -216,7 +216,7 @@ function Register(props) {
           />
         </div>
         <div className="text-center mt-3">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-success">
             Register
           </button>
         </div>
