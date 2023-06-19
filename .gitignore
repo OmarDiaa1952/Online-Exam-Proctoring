@@ -14,12 +14,10 @@ backend/backend/settings.py
 #test data
 photo.txt
 video.txt
-#docker settings
-Dockerfile
-docker-compose.yml
-entrypoint.sh
 #nginx
 nginx/*
+#certbot
+certbot/*
 #more
 required_to_edit.txt
 ws_test.py

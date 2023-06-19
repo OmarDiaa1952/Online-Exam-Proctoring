@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('IS_DEBUG')
 
-ALLOWED_HOSTS = ['104.248.16.188','localhost','django']
+ALLOWED_HOSTS = ['104.248.16.188','localhost','django','159.89.101.145','www.proctobot.me']
 
 
 # Application definition

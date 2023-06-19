@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  backend:
+    volumes:
+      - ./backend/media:/app/media
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend/Online-Exam-Proctoring/
+    volumes:
+      - frontend:/app/Frontend/exam-app/build
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - frontend:/var/www/frontend
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+volumes:
+  frontend:
