@@ -3,7 +3,7 @@ version: '3.7'
 services:
   backend:
     volumes:
-      - media:/media
+      - ./backend/media:/app/media
     env_file:
       - .env
     build:
@@ -24,7 +24,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - media:/media
       - frontend:/var/www/frontend
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
@@ -41,5 +40,4 @@ services:
       - ./certbot/www:/var/www/certbot
 
 volumes:
-  media:
   frontend:
