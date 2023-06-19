@@ -81,21 +81,28 @@ const FaceDetectionComponent = (props) => {
 
   return (
     <>
-      <div>
-        <VideoTimer
-          text={props.messageDisplayed}
-          stopRecording={handleStopCapture}
-          startRecording={capturing}
-        />
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          videoConstraints={{ deviceId: userCtx.camera1 }}
-        />
+      <div className="card">
+        <h3 className="card-header">Pre-Exam Video Check</h3>
+        <div className="card-body">
+          <div>
+            <h4 className="card-title">
+              <VideoTimer
+                text={props.messageDisplayed}
+                stopRecording={handleStopCapture}
+                startRecording={capturing}
+              />
+            </h4>
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              videoConstraints={{ deviceId: userCtx.camera1 }}
+            />
+          </div>
+          {!capturing && (
+            <button onClick={handleStartCapture} className="btn btn-success">{props.startMessage}</button>
+          )}
+        </div>
       </div>
-      {!capturing && (
-        <button onClick={handleStartCapture}>{props.startMessage}</button>
-      )}
     </>
   );
 };

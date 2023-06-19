@@ -13,7 +13,7 @@ const VideoTimer = (props) => {
   useEffect(() => {
     let interval = null;
     interval = setInterval(() => {
-      if(!isActive) {
+      if (!isActive) {
         return;
       }
       if (seconds === 0) {
@@ -28,10 +28,13 @@ const VideoTimer = (props) => {
 
   return (
     <div>
-        <div>
-          {props.text}: 
-          {seconds < 10 ? "0" + String(seconds) : seconds}
-        </div>
+      <div>
+        {props.text}
+        <span className="border border-danger rounded p-1 m-2">
+          {seconds < 10 ? "0" + String(seconds) : seconds}:00
+        </span>
+        seconds
+      </div>
     </div>
   );
 };

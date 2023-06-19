@@ -3,7 +3,7 @@ import classes from "./UserInfo.module.css";
 function UserInfo(props) {
   return (
     <div>
-      <div>
+      {/* <div>
         <span>Username: </span>
         <span>{props.userData.username}</span>
       </div>
@@ -18,9 +18,40 @@ function UserInfo(props) {
       <div>
         <span>Email: </span>
         <span>{props.userData.email}</span>
+      </div> */}
+
+      {/* refactoring the above as a table */}
+      <div className="card bg-info bg-opacity-10 m-3">
+        <div className="card-body">
+          <section>
+            <h2 className="card-title">Profile Info</h2>
+            <table className="table table-sm">
+              <tbody>
+                <tr>
+                  <td>Username:</td>
+                  <td>{props.userData.username}</td>
+                </tr>
+                <tr>
+                  <td>First name:</td>
+                  <td>{props.userData.first_name}</td>
+                </tr>
+                <tr>
+                  <td>Last name:</td>
+                  <td>{props.userData.last_name}</td>
+                </tr>
+                <tr>
+                  <td>Email:</td>
+                  <td>{props.userData.email}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
       </div>
     </div>
-  );
+
+
+            );
 }
 
-export default UserInfo;
+            export default UserInfo;

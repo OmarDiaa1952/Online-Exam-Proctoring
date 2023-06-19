@@ -57,7 +57,7 @@ const FaceDetectionPage = () => {
             <FaceDetectionComponent
               setVideo={sendVideo}
               startMessage={"Start Exam"}
-              messageDisplayed={"The Exam will start in "}
+              messageDisplayed={"The Exam will start in:"}
             />
           ) : (
             <CameraSet onProceed={faceDetectionHandler} />
