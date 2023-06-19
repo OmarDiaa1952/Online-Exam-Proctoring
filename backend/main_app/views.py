@@ -201,7 +201,7 @@ class LivenessVideoUploadView(APIView):
                 if(liveness_detection_result == True):
                     return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
                 else:
-                    return Response({'recognized': 'false'} ,status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'recognized': 'false'} ,status=status.HTTP_200_OK)
                 
 
                 # return a response with status code 200
