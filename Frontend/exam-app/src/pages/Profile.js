@@ -139,7 +139,7 @@ function ProfilePage() {
         <div>
           {userCtx.type === "student" && (
             <div>
-              <img src={userData.photo} alt="Please take a photo" className="rounded-circle" />
+              <img src={userData.photo} alt="Please take a photo" className="rounded-circle border border-5 border-success " />
               {/* {!loading && ( */}
               <div>
                 <button type="button" onClick={useCamera}>
