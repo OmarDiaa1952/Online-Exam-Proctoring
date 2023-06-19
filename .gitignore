@@ -14,10 +14,6 @@ backend/backend/settings.py
 #test data
 photo.txt
 video.txt
-#docker settings
-Dockerfile
-docker-compose.yml
-entrypoint.sh
 #nginx
 nginx/*
 #more
