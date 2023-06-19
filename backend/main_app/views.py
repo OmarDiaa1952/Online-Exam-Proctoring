@@ -10,7 +10,6 @@ from .permissions import IsExaminer, IsStudent
 from rest_framework import filters
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-# TODO: import the liveness module
 from .ml_models.liveness import liveness_detection
 
 #################################### General Views ####################################
@@ -169,51 +168,34 @@ class LivenessVideoUploadView(APIView):
     def post(self, request, **kwargs):
         student_id = self.request.user.pk
         exam_id = kwargs['exam_id']
-        if student_id is not None:
-            base64_video = request.data.get('video')
-            if base64_video is not None:
-                # decode the base64-encoded video data
-                format, base64_video = base64_video.split(';base64,')
-                ext = format.split('/')[-1]
-                video_data = base64.b64decode(base64_video)
-
-                """ TODO: send the video to the liveness model
-                    and return a response with status code 200 if the student is recognized
-                    or return a response with status code 400 if the student is not recognized
-                """
-
-                # construct the path to the media directory
-                media_root = settings.MEDIA_ROOT
-                media_dir = os.path.join(media_root, "videos", "face_recognition", f"exam_{exam_id}" , f"user_{student_id}")
-                os.makedirs(media_dir, exist_ok=True)
-                
-                # save the video to the media directory
-                filename = os.path.join(media_dir, f"exam_{exam_id}-user_{student_id}.{ext}")
-                with open(filename, 'wb') as f:
-                    f.write(video_data)
-                
-                # send the video to the liveness model
-                # if the student is recognized : respones with status code 200
-                # if the student is not recognized : respones with status code 400
-
-                liveness_detection_result = liveness_detection.liveness_response(filename)
-
-                if(liveness_detection_result == True):
-                    return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
-                else:
-                    return Response({'recognized': 'false'} ,status=status.HTTP_200_OK)
-                
-
-                # return a response with status code 200
-                # return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
-
-            # return a response with status code 400
+        base64_video = request.data.get('video')
+        if student_id is None:
+            return Response({'error': 'Missing student_id parameter'}, status=status.HTTP_400_BAD_REQUEST)
+        elif base64_video is None:
             return Response({'error': 'Missing video parameter'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # return a response with status code 400
-        return Response({'error': 'Missing student_id parameter'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # decode the base64-encoded video data
+            format, base64_video = base64_video.split(';base64,')
+            ext = format.split('/')[-1]
+            video_data = base64.b64decode(base64_video)
 
+            # construct the path to the media directory
+            media_root = settings.MEDIA_ROOT
+            media_dir = os.path.join(media_root, "videos", "face_recognition", f"exam_{exam_id}" , f"user_{student_id}")
+            os.makedirs(media_dir, exist_ok=True)
+            
+            # save the video to the media directory
+            filename = os.path.join(media_dir, f"exam_{exam_id}-user_{student_id}.{ext}")
+            with open(filename, 'wb') as f:
+                f.write(video_data)
 
+            liveness_detection_result = liveness_detection.liveness_response(filename)
+
+            if(liveness_detection_result == True):
+                return Response({'recognized': 'true'} ,status=status.HTTP_200_OK)
+            else:
+                return Response({'recognized': 'false'} ,status=status.HTTP_200_OK)
+            
 #################################### Examiner Views ####################################
 
 class CourseCreateView(generics.CreateAPIView):
@@ -361,5 +343,3 @@ class EnrollmentDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return EnrollmentDetail.objects.filter(id=pk)
-
-# class dealing with logs must be added
