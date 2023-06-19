@@ -70,14 +70,17 @@ const WebcamStreamCapturePage = () => {
         <LoadingSpinner />
       ) : (
         <div>
-          {cameraSetFlag ? (
-            <FaceDetectionComponent
-              setVideo={videoUpload}
-              startMessage={"Start Recording"}
-            />
-          ) : (
-            <CameraSet onProceed={faceDetectionHandler} />
-          )}
+          <div>
+            {cameraSetFlag ? (
+              <FaceDetectionComponent
+                setVideo={videoUpload}
+                startMessage={"Start Recording"}
+                messageDisplayed={"Remaining Time: "}
+              />
+            ) : (
+              <CameraSet onProceed={faceDetectionHandler} />
+            )}
+          </div>
         </div>
       )}
     </>

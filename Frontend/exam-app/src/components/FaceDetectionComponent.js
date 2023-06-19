@@ -83,7 +83,7 @@ const FaceDetectionComponent = (props) => {
     <>
       <div>
         <VideoTimer
-          text="The Exam will start in"
+          text={props.messageDisplayed}
           stopRecording={handleStopCapture}
           startRecording={capturing}
         />
