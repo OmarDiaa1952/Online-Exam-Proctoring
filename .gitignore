@@ -16,6 +16,8 @@ photo.txt
 video.txt
 #nginx
 nginx/*
+#certbot
+certbot/*
 #more
 required_to_edit.txt
 ws_test.py
