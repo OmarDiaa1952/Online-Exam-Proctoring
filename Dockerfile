@@ -1,9 +1,6 @@
 # Use an official Python runtime as a parent image
 FROM python
 
-# ENV http_proxy http://proxy-chain.xxx.com:911/
-# ENV https_proxy http://proxy-chain.xxx.com:912/
-
 # Set the working directory to /app
 WORKDIR /app
 
@@ -15,6 +12,7 @@ COPY ./requirements.txt .
 
 # Install any needed packages specified in requirements.txt
 # RUN apt-get update
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install -r requirements.txt
 
 # Expose port 8000 for the Django application
