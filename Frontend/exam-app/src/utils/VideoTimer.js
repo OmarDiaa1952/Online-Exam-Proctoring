@@ -30,7 +30,7 @@ const VideoTimer = (props) => {
     <div>
       <div>
         {props.text}
-        <span className="border border-danger rounded p-1 m-2">
+        <span className="border border-warning rounded p-1 m-2">
           {seconds < 10 ? "0" + String(seconds) : seconds}:00
         </span>
         seconds
