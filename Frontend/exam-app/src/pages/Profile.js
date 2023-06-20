@@ -44,7 +44,6 @@ function ProfilePage() {
       } else {
         setHasPhoto(false);
       }
-      setIsLoading(false);
     } else {
       swal({
         title: "Error",
@@ -53,6 +52,7 @@ function ProfilePage() {
         button: "Ok",
       });
     }
+    setIsLoading(false);
   };
 
   let setPhoto = async () => {
@@ -98,8 +98,7 @@ function ProfilePage() {
             ...prev,
             photo: data.photo,
           }));
-          setIsLoading(false);
-        } else if (response.statusText === "Unauthorized") {
+        } else {
           swal({
             title: "Error",
             text: "Couldn't retrieve your photo.",
@@ -116,6 +115,7 @@ function ProfilePage() {
         button: "Ok",
       });
     }
+    setIsLoading(false);
   };
 
   const history = useNavigate();
@@ -132,28 +132,29 @@ function ProfilePage() {
 
   return (
     <div>
-      <h1>Profile</h1>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <div>
-          {userCtx.type === "student" && (
-            <div>
-              <img src={userData.photo} alt="Please take a photo" className="rounded-circle border border-5 border-success " />
-              {/* {!loading && ( */}
-              <div>
-                <button type="button" onClick={useCamera}>
-                  {hasPhoto ? "Update Photo" : "Take Photo"}
-                </button>
-              </div>
-            </div>
-          )}
-          <UserInfo userData={userData} />
-          {/* )} */}
           <div>
-            <Link to="/">
-              <button type="button">Home</button>
-            </Link>
+            {userCtx.type === "student" && (
+              <div>
+                <img src={userData.photo} alt="Please take a photo" />
+                {/* {!loading && ( */}
+                <div>
+                  <button type="button" onClick={useCamera}>
+                    {hasPhoto ? "Update Photo" : "Take Photo"}
+                  </button>
+                </div>
+              </div>
+            )}
+            <UserInfo userData={userData} />
+            {/* )} */}
+            <div>
+              <Link to="/">
+                <button type="button">Home</button>
+              </Link>
+            </div>
           </div>
         </div>
       )}
