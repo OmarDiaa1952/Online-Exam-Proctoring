@@ -37,4 +37,7 @@ urlpatterns = [
     path("courseleave/<int:course_id>", CourseLeaveView.as_view(), name="courseleave"),
     path("examreview/<int:exam_id>", ExamReviewView.as_view(), name="examreview"),
     path("livenessvideoupload/<int:exam_id>", LivenessVideoUploadView.as_view(), name="recognitionvideoupload"),
+
+    ### ML component test ###
+    path("mltest", MLTestView.as_view(), name="mltest"),
 ]
