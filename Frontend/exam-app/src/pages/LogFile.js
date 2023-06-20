@@ -9,7 +9,6 @@ function LogFilePage() {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
-      <h1>Log File</h1>
       {isLoading ? (
         <LoadingSpinner />
       ) : (

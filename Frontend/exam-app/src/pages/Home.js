@@ -101,8 +101,8 @@ function HomePage() {
       ) : (
         <div>
           <NavBar />
+          {!hasVideo && <MissingVideo />}
           <div className="container home">
-            {!hasVideo && <MissingVideo />}
             {type && (
               <HomeNavigation
                 allCourses={foundCourses}
