@@ -42,34 +42,32 @@ class StudentRegisterView(generics.CreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentRegisterSerializer   
 
-class PhotoUploadView(generics.UpdateAPIView):
+class PhotoUploadView(APIView):
     # this view is responsible for uploading student's photo
     permission_classes = (IsStudent,)
 
-    # gotta use get_object() instead of get_queryset() so lookup_field becomes unrequired
-    def get_object(self):
-        student_id = self.request.user.pk
-        if student_id is not None:
-            return StudentProfile.objects.filter(user_id=student_id).first()
-        return None
-    
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance is None:
+    def post(self, request, format=None):
+        Student_id = self.request.user.pk
+        username = self.request.user.username
+        if Student_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        
-        # extract the base64-encoded string from the request data
-        photo_data = request.data.get('photo')
-        
-        # decode the base64-encoded string to binary data
-        if photo_data is not None:
-            format, imgstr = photo_data.split(';base64,') 
-            ext = format.split('/')[-1] 
-            data = ContentFile(base64.b64decode(imgstr), name=f"{instance.user.username}.{ext}")
-            instance.photo = data
-            instance.save()
-            return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        photo = request.data.get('photo')
+        if photo is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        format, imgstr = photo.split(';base64,')
+        ext = format.split('/')[-1]
+        data = base64.b64decode(imgstr)
+
+        # construct the path to the media directory
+        media_root = settings.MEDIA_ROOT
+        media_dir = os.path.join(media_root, "profile_pics", f"user_{Student_id}")
+        os.makedirs(media_dir, exist_ok=True)
+
+        # save the photo to the media directory
+        filename = os.path.join(media_dir, f"{username}.{ext}")
+        with open(filename, 'wb') as f:
+            f.write(data)
+        return Response(status=status.HTTP_201_CREATED)
     
 class RegistrationVideoUploadView(APIView):
     # this view is responsible for uploading student's video
@@ -99,21 +97,27 @@ class RegistrationVideoUploadView(APIView):
                 return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-
 class PhotoRetrieve(APIView):
     # this view is responsible for retrieving student's photo
     permission_classes = (IsStudent,)
 
     def get(self, request, format=None):
         student_id = self.request.user.pk
-        if student_id is not None:
-            photo = StudentProfile.objects.get(user_id=student_id).photo
-            if photo:
-                with open(photo.path, "rb") as f:
-                    photo_data = f.read()
-                    base64_encoded_data = base64.b64encode(photo_data).decode('utf-8')
-                    return Response({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        if student_id is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        username = self.request.user.username
+
+        # construct the path to the media directory
+        media_root = settings.MEDIA_ROOT
+        media_dir = os.path.join(media_root, "profile_pics", f"user_{student_id}")
+        
+        # read the photo file and encode it to base64
+        filename = os.path.join(media_dir, f"{username}.png")
+        with open(filename, "rb") as f:
+            photo_data = f.read()
+            base64_encoded_data = base64.b64encode(photo_data).decode('utf-8')
+            return Response({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
     
 class PhotoExistsView(generics.RetrieveAPIView):
     # this view is responsible for checking if student has a photo
