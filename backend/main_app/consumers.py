@@ -7,6 +7,7 @@ from .models import *
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
+from .ml_models.recognition.Yolo import test1
 import base64, time, os, asyncio
 
 class ExamConsumer(AsyncWebsocketConsumer):
@@ -158,6 +159,10 @@ class ExamConsumer(AsyncWebsocketConsumer):
             filename = os.path.join(media_dir, data.name)
             with open(filename, 'wb') as f:
                 f.write(data.read())
+
+            # if camera == "cam1":
+            #     # send the photo to the recognition ML component
+            #     phase_response(media_dir)
 
     async def send_error(self,error):
         # Send an error message to the client-side
