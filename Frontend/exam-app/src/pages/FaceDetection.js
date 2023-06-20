@@ -8,6 +8,7 @@ import UserContext from "../store/user-context";
 import { post } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 const FaceDetectionPage = () => {
   const [cameraSetFlag, setCameraSetFlag] = useState(false);
@@ -53,6 +54,7 @@ const FaceDetectionPage = () => {
         <LoadingSpinner />
       ) : (
         <div>
+          <NavBar />
           {cameraSetFlag ? (
             <FaceDetectionComponent
               setVideo={sendVideo}

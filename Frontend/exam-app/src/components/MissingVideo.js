@@ -3,11 +3,11 @@ import classes from "./MissingVideo.module.css";
 
 function MissingPhoto() {
   return (
-    <div>
+    <div className="bg-warning fs-4">
       <p>
         Warning! You have to record a video of yourself to be able to join exams.
       </p>
-      <Link to="/stream">Record Video</Link>
+      <Link to="/stream" className="text-secondary">Record Video</Link>
     </div>
   );
 }
