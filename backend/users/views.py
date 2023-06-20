@@ -113,11 +113,11 @@ class PhotoRetrieve(APIView):
         media_dir = os.path.join(media_root, "profile_pics", f"user_{student_id}")
         
         # read the photo file and encode it to base64
-        filename = os.path.join(media_dir, f"{username}.png")
+        filename = os.path.join(media_dir, f"{username}.jpeg")
         with open(filename, "rb") as f:
             photo_data = f.read()
             base64_encoded_data = base64.b64encode(photo_data).decode('utf-8')
-            return Response({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
+            return Response({"photo": f"data:image/jpeg;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
     
 class PhotoExistsView(APIView):
     # this view is responsible for checking if student has a photo
@@ -135,7 +135,7 @@ class PhotoExistsView(APIView):
         # construct the path to the media directory
         media_root = settings.MEDIA_ROOT
         media_dir = os.path.join(media_root, "profile_pics", f"user_{student_id}")
-        filename = os.path.join(media_dir, f"{username}.png")
+        filename = os.path.join(media_dir, f"{username}.jpeg")
 
         # return a response with status code 200 if the photo file exists
         if os.path.exists(filename):
