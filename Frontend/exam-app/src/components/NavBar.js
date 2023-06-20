@@ -39,7 +39,7 @@ function NavBar() {
         </a>
       </div>
       <div className="container-fluid col-1"></div>
-      {userCtx.courseId ? (
+      {(userCtx.courseId && userCtx.courseId !== "null") ? (
         <div className="container-fluid col-1">
           <a className="navbar-brand" href="/course-details">
             <h2 className="text-light">
@@ -51,12 +51,12 @@ function NavBar() {
         <div className="container-fluid col-1"></div>
       )}
       <div className="container-fluid col-1"></div>
-      {userCtx.examId ? (
+      {(userCtx.examId && userCtx.examId !== "null") ? (
         <div className="container-fluid col-1">
           <a
             className="navbar-brand"
             href={
-              userCtx.userType === "student" ? "/exam-details" : "/preview-exam"
+              userCtx.type === "student" ? "/exam-details" : "/preview-exam"
             }
           >
             <h2 className="text-light">
