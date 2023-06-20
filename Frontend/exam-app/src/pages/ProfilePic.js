@@ -4,7 +4,7 @@ import swal from "sweetalert";
 
 import CameraSet from "../components/CameraSet";
 import UserContext from "../store/user-context";
-import { put } from "../utils/Fetch";
+import { post } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import StudentPicture from "../components/StudentPicture";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -21,12 +21,12 @@ function ProfilePic() {
 
   let setPhoto = async (imageDataURL) => {
     setIsLoading(true);
-    let response = await put(
+    let response = await post(
       BASEURL + "/users/photoupload",
       { photo: imageDataURL },
       userCtx.authTokens.access
     );
-    if (response.status === 200) {
+    if (response.status === 201) {
       swal({
         title: "Success!",
         text: "Photo updated successfully!",
@@ -51,11 +51,13 @@ function ProfilePic() {
         <LoadingSpinner />
       ) : (
         <div>
-          {cameraSetFlag ? (
-            <StudentPicture updatePhoto={setPhoto} />
-          ) : (
-            <CameraSet onProceed={updatePicHandler} />
-          )}
+          <div>
+            {cameraSetFlag ? (
+              <StudentPicture updatePhoto={setPhoto} />
+            ) : (
+              <CameraSet onProceed={updatePicHandler} />
+            )}
+          </div>
         </div>
       )}
     </div>
