@@ -30,7 +30,7 @@ function HomePage() {
   }, [type]);
 
   let getCourses = async (text) => {
-    if (loadCount < 2) {
+    if ((loadCount < 2 && type === "student") || (loadCount < 1 && type === "examiner")) {
       setIsLoading(true);
       setLoadCount(loadCount + 1);
     }
@@ -53,7 +53,7 @@ function HomePage() {
   };
 
   let inspectCourses = async (text) => {
-    if (loadCount < 2) {
+    if ((loadCount < 2 && type === "student") || (loadCount < 1 && type === "examiner")) {
       setIsLoading(true);
       setLoadCount(loadCount + 1);
     }
