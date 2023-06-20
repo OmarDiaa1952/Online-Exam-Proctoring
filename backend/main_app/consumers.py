@@ -7,7 +7,7 @@ from .models import *
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
-from .ml_models.recognition.Yolo import test1
+
 import base64, time, os, asyncio
 
 class ExamConsumer(AsyncWebsocketConsumer):
