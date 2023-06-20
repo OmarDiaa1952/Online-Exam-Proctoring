@@ -9,7 +9,7 @@ function SearchCourses(props) {
     <section>
       <div className="input-group mb-3">
         <input
-          className="form-control"
+          className="form-control border border-secondary"
           placeholder="Course name or ID"
           type="text"
           id="search"

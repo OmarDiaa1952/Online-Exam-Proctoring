@@ -3,8 +3,8 @@ import CourseComponent from "./CourseComponent";
 
 function CoursesComponentsList(props) {
   return (
-    <div>
-      <ul>
+    <div className="container testimonial-group">
+      <ul className="row text-center flex-nowrap">
         {props.coursesData.map((courseData) => (
           <CourseComponent
             courseData={courseData}

@@ -38,21 +38,28 @@ function RegistrationPage() {
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <section className="mt-5 background-img">
-          <div className="container-fluid h-custom">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col-6">
-                <h1 className="text-success">PROCTOBOT</h1>
-                <p>WEBSITE DESCRIPTION</p>
-              </div>
-              <div className="col-6">
-                <div className="card bg-light border border-success">
-                  <div className="card-body">
-                    <h3 className="card-title text-success">Sign-Up</h3>
-                    <br />
-                    <Register onRegister={registerHandler} />
-                    <div className="text-center">
-                      <Link to="/welcome" className="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Already have an account?</Link>
+        <section className="mt-5 background-img container-fluid flex-row">
+          <div className="row">
+            <div className="col-2"></div>
+            <div className="container-fluid h-custom col-10">
+              <div className="row d-flex justify-content-start align-items-start h-100 flex-column">
+                <div className="col-5">
+                  <h1 className="text-success">PROCTOBOT</h1>
+                </div>
+                <div className="col-5">
+                  <div className="card bg-light border border-success">
+                    <div className="card-body">
+                      <h3 className="card-title text-success">Sign-Up</h3>
+                      <br />
+                      <Register onRegister={registerHandler} />
+                      <div className="text-center">
+                        <Link
+                          to="/welcome"
+                          className="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        >
+                          Already have an account?
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
