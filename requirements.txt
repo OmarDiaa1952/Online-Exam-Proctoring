@@ -25,6 +25,9 @@ gunicorn==20.1.0
 
 keras==2.12.0
 cafe==2.0.7
+thop
+nvidia-pyindex==1.0.9
+onnx-graphsurgeon==0.3.27
 
 # Base ----------------------------------------
 # matplotlib>=3.2.2
@@ -40,16 +43,16 @@ protobuf<4.21.3
 
 # Logging -------------------------------------
 # tensorboard>=2.4.1
-# wandb
+wandb
 
 # Plotting ------------------------------------
 # pandas>=1.1.4
 # seaborn>=0.11.0
 
 # Export --------------------------------------
-# coremltools>=4.1  # CoreML export
-# onnx>=1.9.0  # ONNX export
-# onnx-simplifier>=0.3.6  # ONNX simplifier
+coremltools>=4.1  # CoreML export
+onnx>=1.9.0  # ONNX export
+onnx-simplifier>=0.3.6  # ONNX simplifier
 # scikit-learn==0.19.2  # CoreML quantization
 tensorflow>=2.4.1  # TFLite export
 # tensorflowjs>=3.9.0  # TF.js export
