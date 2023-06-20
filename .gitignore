@@ -26,3 +26,6 @@ ws_test.js
 backend/main_app/ml_models/__pycache__/*
 backend/main_app/ml_models/liveness/__pycache__/*
 backend/main_app/ml_models/
+backend/detection/*
+backend/input/*
+backend/runs/*
