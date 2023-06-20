@@ -97,18 +97,6 @@ function ReviewExamPage() {
           <div>
             <ExamReviewDetails examData={examDetails} />
             <ExamQuestions questions={examQuestions} editable={false} />
-            <div>
-              <div>
-                <Link to="/exam-details">
-                  <button type="button">Back</button>
-                </Link>
-              </div>
-              <div>
-                <Link to="/">
-                  <button type="button">Home</button>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       )}

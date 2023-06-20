@@ -166,16 +166,6 @@ function CourseStudentsPage() {
               onAddStudent={addStudentByEmail}
               onRemoveStudent={removeStudentHandler}
             />
-            <div>
-              <Link to="/course">
-                <button type="button">Back to Course</button>
-              </Link>
-            </div>
-            <div>
-              <Link to="/">
-                <button type="button">Home</button>
-              </Link>
-            </div>
           </div>
         </div>
       )}

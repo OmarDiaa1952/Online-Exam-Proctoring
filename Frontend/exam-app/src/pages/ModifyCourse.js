@@ -159,11 +159,6 @@ function ModifyCoursePage() {
                 courseDetails={courseDetails}
               />
             )}
-            <div>
-              <Link to={userCtx.courseId ? "/course" : "/"}>
-                <button type="button">Back</button>
-              </Link>
-            </div>
             {userCtx.courseId !== null && (
               <div>
                 <button onClick={deleteCourse} className="btn btn-danger">

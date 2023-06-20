@@ -210,15 +210,6 @@ function CoursePage() {
                 </button>
               </div>
             )}
-            <div className="m-2">
-              <hr />
-                 
-            </div>
-            <div>
-              <Link to="/">
-                <button type="button">Home</button>
-              </Link>
-            </div>
           </div>
         </div>
       )}

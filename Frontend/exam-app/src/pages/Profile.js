@@ -141,7 +141,9 @@ function ProfilePage() {
           <div>
             {userCtx.type === "student" && (
               <div>
-                {hasPhoto && <img src={userData.photo} alt="Please take a photo" />}
+                {hasPhoto && (
+                  <img src={userData.photo} alt="Please take a photo" />
+                )}
                 <div>
                   <button type="button" onClick={useCamera}>
                     {hasPhoto ? "Update Photo" : "Take Photo"}
@@ -150,12 +152,6 @@ function ProfilePage() {
               </div>
             )}
             <UserInfo userData={userData} />
-            {/* )} */}
-            <div>
-              <Link to="/">
-                <button type="button">Home</button>
-              </Link>
-            </div>
           </div>
         </div>
       )}

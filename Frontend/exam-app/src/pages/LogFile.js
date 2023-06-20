@@ -112,18 +112,6 @@ function LogFilePage() {
                 </tbody>
               </table>
             </div>
-            <div>
-              <div>
-                <Link to="/preview-exam">
-                  <button type="button">Back</button>
-                </Link>
-              </div>
-              <div>
-                <Link to={"/"}>
-                  <button type="button">Home</button>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       )}

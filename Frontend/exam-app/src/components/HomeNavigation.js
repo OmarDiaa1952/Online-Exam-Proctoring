@@ -9,13 +9,6 @@ function HomeNavigation(props) {
   const userCtx = useContext(UserContext);
   return (
     <div>
-      <div className="mb-3">
-        <Link to="/profile">
-          <button>
-            Profile
-          </button>
-        </Link>
-      </div>
       <GetCourses
         coursesData={props.myCourses}
         requestType="getMyCourses"
@@ -39,9 +32,6 @@ function HomeNavigation(props) {
           </Link>
         </div>
       )}
-      <div className="mt-5">
-        <button onClick={() => userCtx.logoutUser()}>Logout</button>
-      </div>
     </div>
   );
 }

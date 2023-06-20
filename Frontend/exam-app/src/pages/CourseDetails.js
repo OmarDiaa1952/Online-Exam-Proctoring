@@ -98,11 +98,6 @@ function CourseDetailsPage() {
                 </button>
               </div>
             )}
-            <div>
-              <Link to="/">
-                <button type="button">Back</button>
-              </Link>
-            </div>
           </div>
         </div>
       )}

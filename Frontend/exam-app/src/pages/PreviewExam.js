@@ -120,16 +120,6 @@ function PreviewExamPage() {
                   <button type="button">Edit</button>
                 </Link>
               </div>
-              <div>
-                <Link to="/course">
-                  <button type="button">Back to Course</button>
-                </Link>
-              </div>
-              <div>
-                <Link to="/">
-                  <button type="button">Home</button>
-                </Link>
-              </div>
             </div>
           </div>
         </div>

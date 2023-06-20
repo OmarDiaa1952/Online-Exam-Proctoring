@@ -237,20 +237,6 @@ function ExamDetailsPage() {
                 Review Exam
               </button>
             </div>
-            <div className="m-2">
-              <hr />
-                 
-            </div>
-            <div>
-              <Link to="/course">
-                <button type="button">Back to Course</button>
-              </Link>
-            </div>
-            <div>
-              <Link to="/">
-                <button type="button">Home</button>
-              </Link>
-            </div>
           </div>
         </div>
       )}
