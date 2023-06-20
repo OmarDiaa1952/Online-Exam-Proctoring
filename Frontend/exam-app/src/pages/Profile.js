@@ -30,7 +30,7 @@ function ProfilePage() {
       setImageDataURL(null);
     }
     getUserData();
-  }, []);
+  }, [hasPhoto]);
 
   let checkPhoto = async () => {
     setIsLoading(true);
@@ -88,7 +88,7 @@ function ProfilePage() {
     let data = await response.json();
     if (response.status === 200) {
       setUserData(data);
-      if (userCtx.type === "student") {
+      if (hasPhoto) {
         let response = await get(
           BASEURL + "/users/photoretrieve",
           userCtx.authTokens.access
@@ -141,8 +141,7 @@ function ProfilePage() {
           <div>
             {userCtx.type === "student" && (
               <div>
-                <img src={userData.photo} alt="Please take a photo" />
-                {/* {!loading && ( */}
+                {hasPhoto && <img src={userData.photo} alt="Please take a photo" />}
                 <div>
                   <button type="button" onClick={useCamera}>
                     {hasPhoto ? "Update Photo" : "Take Photo"}
