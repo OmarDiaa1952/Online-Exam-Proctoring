@@ -9,6 +9,7 @@ import UserContext from "../store/user-context";
 import CameraSet from "../components/CameraSet";
 import FaceDetectionComponent from "../components/FaceDetectionComponent";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 const WebcamComponent = () => <Webcam />;
 
@@ -70,6 +71,7 @@ const WebcamStreamCapturePage = () => {
         <LoadingSpinner />
       ) : (
         <div>
+          <NavBar />
           <div>
             {cameraSetFlag ? (
               <FaceDetectionComponent

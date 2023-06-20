@@ -8,6 +8,7 @@ import UserContext from "../store/user-context";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function PreviewExamPage() {
   const userCtx = useContext(UserContext);
@@ -102,30 +103,33 @@ function PreviewExamPage() {
         <LoadingSpinner />
       ) : (
         <div>
-          <div>
-            <ExamInfo examData={examDetails} maxGrade={maxGrade} />
-          </div>
-          <ExamQuestions questions={examQuestions} editable={false} />
+          <NavBar />
           <div>
             <div>
-              <Link to="/log-file">
-                <button type="button">View Log File</button>
-              </Link>
+              <ExamInfo examData={examDetails} maxGrade={maxGrade} />
             </div>
+            <ExamQuestions questions={examQuestions} editable={false} />
             <div>
-              <Link to="/edit-exam">
-                <button type="button">Edit</button>
-              </Link>
-            </div>
-            <div>
-              <Link to="/course">
-                <button type="button">Back to Course</button>
-              </Link>
-            </div>
-            <div>
-              <Link to="/">
-                <button type="button">Home</button>
-              </Link>
+              <div>
+                <Link to="/log-file">
+                  <button type="button">View Log File</button>
+                </Link>
+              </div>
+              <div>
+                <Link to="/edit-exam">
+                  <button type="button">Edit</button>
+                </Link>
+              </div>
+              <div>
+                <Link to="/course">
+                  <button type="button">Back to Course</button>
+                </Link>
+              </div>
+              <div>
+                <Link to="/">
+                  <button type="button">Home</button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

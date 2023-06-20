@@ -8,6 +8,7 @@ import ExamReviewDetails from "../components/ExamReviewDetails";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function ReviewExamPage() {
   const userCtx = useContext(UserContext);
@@ -92,18 +93,21 @@ function ReviewExamPage() {
         <LoadingSpinner />
       ) : (
         <div>
-          <ExamReviewDetails examData={examDetails} />
-          <ExamQuestions questions={examQuestions} editable={false} />
+          <NavBar />
           <div>
+            <ExamReviewDetails examData={examDetails} />
+            <ExamQuestions questions={examQuestions} editable={false} />
             <div>
-              <Link to="/exam-details">
-                <button type="button">Back</button>
-              </Link>
-            </div>
-            <div>
-              <Link to="/">
-                <button type="button">Home</button>
-              </Link>
+              <div>
+                <Link to="/exam-details">
+                  <button type="button">Back</button>
+                </Link>
+              </div>
+              <div>
+                <Link to="/">
+                  <button type="button">Home</button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

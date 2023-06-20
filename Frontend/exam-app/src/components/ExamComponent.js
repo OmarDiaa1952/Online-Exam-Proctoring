@@ -15,7 +15,10 @@ function ExamComponent(props) {
           <div className="mr-3">
             <Link to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}>
               <button
-                onClick={() => userCtx.setExamId(props.id)}>
+                onClick={() => {
+                  userCtx.setExamId(props.id);
+                  userCtx.setExamName(props.name);
+                  }}>
                 View Details
               </button>
             </Link>

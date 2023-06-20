@@ -7,6 +7,7 @@ import UserContext from "../store/user-context";
 import { get, dlt, post, put } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function CourseStudentsPage() {
   let [enrollmentRequests, setEnrollmentRequests] = useState([]);
@@ -156,22 +157,25 @@ function CourseStudentsPage() {
         <LoadingSpinner />
       ) : (
         <div>
-          <StudentAdmission
-            enrollmentRequests={enrollmentRequests}
-            enrolledStudents={enrolledStudents}
-            onJoinRequest={requestHandler}
-            onAddStudent={addStudentByEmail}
-            onRemoveStudent={removeStudentHandler}
-          />
+          <NavBar />
           <div>
-            <Link to="/course">
-              <button type="button">Back to Course</button>
-            </Link>
-          </div>
-          <div>
-            <Link to="/">
-              <button type="button">Home</button>
-            </Link>
+            <StudentAdmission
+              enrollmentRequests={enrollmentRequests}
+              enrolledStudents={enrolledStudents}
+              onJoinRequest={requestHandler}
+              onAddStudent={addStudentByEmail}
+              onRemoveStudent={removeStudentHandler}
+            />
+            <div>
+              <Link to="/course">
+                <button type="button">Back to Course</button>
+              </Link>
+            </div>
+            <div>
+              <Link to="/">
+                <button type="button">Home</button>
+              </Link>
+            </div>
           </div>
         </div>
       )}

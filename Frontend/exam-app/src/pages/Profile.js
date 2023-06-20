@@ -7,6 +7,7 @@ import UserContext from "../store/user-context";
 import { get, put } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function ProfilePage() {
   const userCtx = useContext(UserContext);
@@ -136,6 +137,7 @@ function ProfilePage() {
         <LoadingSpinner />
       ) : (
         <div>
+          <NavBar />
           <div>
             {userCtx.type === "student" && (
               <div>

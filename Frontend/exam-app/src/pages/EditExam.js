@@ -8,6 +8,7 @@ import UserContext from "../store/user-context";
 import { get, post, put, dlt } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function EditExamPage() {
   const userCtx = useContext(UserContext);
@@ -43,13 +44,13 @@ function EditExamPage() {
         setDelayExamDetails(true);
         setIsLoading(false);
       } else {
-      swal({
-        title: "Error",
-        text: "Something went wrong",
-        icon: "error",
-        button: "Ok",
-      });
-    }
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
+      }
     }
   };
 
@@ -79,13 +80,13 @@ function EditExamPage() {
         setDelayExamQuestions(true);
         setIsLoading(false);
       } else {
-      swal({
-        title: "Error",
-        text: "Something went wrong",
-        icon: "error",
-        button: "Ok",
-      });
-    }
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
+      }
     } else {
       setDelayExamQuestions(true);
     }
@@ -254,13 +255,13 @@ function EditExamPage() {
       if (response.status === 204) {
         setExamQuestions(examQuestions.filter((q) => q.id !== id));
       } else {
-      swal({
-        title: "Error",
-        text: "Something went wrong",
-        icon: "error",
-        button: "Ok",
-      });
-    }
+        swal({
+          title: "Error",
+          text: "Something went wrong",
+          icon: "error",
+          button: "Ok",
+        });
+      }
     }
   };
 
@@ -295,32 +296,35 @@ function EditExamPage() {
         <LoadingSpinner />
       ) : (
         <div>
+          <NavBar />
           <div>
-            {(delayExamDetails || !examId) && (
-              <EditExamInfo
-                examData={examDetails}
-                onSave={examDetailsHandler}
-              />
-            )}
-          </div>
-          {examId && (examQuestions.length > 0 || delayExamQuestions) && (
             <div>
-              <ExamQuestionsEdit
-                questions={examQuestions}
-                editable={true}
-                onSave={questionsChangeHandler}
-                onDeleteQuestion={deleteQuestionHandler}
-              />
+              {(delayExamDetails || !examId) && (
+                <EditExamInfo
+                  examData={examDetails}
+                  onSave={examDetailsHandler}
+                />
+              )}
             </div>
-          )}
-          <div>
-            {examId && (
+            {examId && (examQuestions.length > 0 || delayExamQuestions) && (
               <div>
-                <Link to="/preview-exam">
-                  <button type="button">Preview Exam</button>
-                </Link>
+                <ExamQuestionsEdit
+                  questions={examQuestions}
+                  editable={true}
+                  onSave={questionsChangeHandler}
+                  onDeleteQuestion={deleteQuestionHandler}
+                />
               </div>
             )}
+            <div>
+              {examId && (
+                <div>
+                  <Link to="/preview-exam">
+                    <button type="button">Preview Exam</button>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

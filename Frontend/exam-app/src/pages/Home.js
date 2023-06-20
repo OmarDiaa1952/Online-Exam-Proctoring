@@ -7,11 +7,12 @@ import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import MissingVideo from "../components/MissingVideo";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function HomePage() {
   let [courses, setCourses] = useState([]);
   let [foundCourses, setFoundCourses] = useState([]);
-  let { authTokens, logoutUser, type, setUserType, setCourseId, setExamId } =
+  let { authTokens, logoutUser, type, setUserType, setCourseId, setCourseName, setExamId, setExamName } =
     useContext(UserContext);
   let [hasVideo, setHasVideo] = useState(true);
   let [isLoading, setIsLoading] = useState(false);
@@ -22,12 +23,14 @@ function HomePage() {
     if (type === "student") checkVideo();
     getCourses("");
     setCourseId(null);
+    setCourseName(null);
     setExamId(null);
+    setExamName(null);
     if (type === "student") inspectCourses("");
   }, [type]);
 
   let getCourses = async (text) => {
-    if(loadCount < 2) {
+    if (loadCount < 2) {
       setIsLoading(true);
       setLoadCount(loadCount + 1);
     }
@@ -50,7 +53,7 @@ function HomePage() {
   };
 
   let inspectCourses = async (text) => {
-    if(loadCount < 2) {
+    if (loadCount < 2) {
       setIsLoading(true);
       setLoadCount(loadCount + 1);
     }
@@ -96,16 +99,19 @@ function HomePage() {
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <div className="container">
-          {!hasVideo && <MissingVideo />}
-          {type && (
-            <HomeNavigation
-              allCourses={foundCourses}
-              myCourses={courses}
-              onChangeSearchText={getCourses}
-              onSearchNewCourses={inspectCourses}
-            />
-          )}
+        <div>
+          <NavBar />
+          <div className="container home">
+            {!hasVideo && <MissingVideo />}
+            {type && (
+              <HomeNavigation
+                allCourses={foundCourses}
+                myCourses={courses}
+                onChangeSearchText={getCourses}
+                onSearchNewCourses={inspectCourses}
+              />
+            )}
+          </div>
         </div>
       )}
     </div>

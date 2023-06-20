@@ -16,14 +16,16 @@ function CourseComponent(props) {
   // }, []);
 
   return (
-    <li key={props.courseData.id} className="card bg-light mb-3">
+    <li key={props.courseData.id} className="card bg-light mb-3 mx-3 col-sm-4 border border-secondary">
       <div className="card-body">
         <h4>{props.courseData.name}</h4>
         <h6>ID: {props.courseData.id}</h6>
         <Link to="/course-details">
           <button
+          className="btn btn-outline-success"
             onClick={() => {
               userCtx.setCourseId(props.courseData.id);
+              userCtx.setCourseName(props.courseData.name);
             }}
           >
             <div>View Details</div>

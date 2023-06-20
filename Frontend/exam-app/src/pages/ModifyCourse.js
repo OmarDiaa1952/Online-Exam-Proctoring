@@ -7,6 +7,7 @@ import UserContext from "../store/user-context";
 import { get, dlt, post, put } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function ModifyCoursePage() {
   const history = useNavigate();
@@ -150,24 +151,27 @@ function ModifyCoursePage() {
         <LoadingSpinner />
       ) : (
         <div>
-          {(delayCourseDetails || userCtx.courseId === null) && (
-            <ModifyCourseDetails
-              onSave={modifyCourseHandler}
-              courseDetails={courseDetails}
-            />
-          )}
+          <NavBar />
           <div>
-            <Link to={userCtx.courseId ? "/course" : "/"}>
-              <button type="button">Back</button>
-            </Link>
-          </div>
-          {userCtx.courseId !== null && (
+            {(delayCourseDetails || userCtx.courseId === null) && (
+              <ModifyCourseDetails
+                onSave={modifyCourseHandler}
+                courseDetails={courseDetails}
+              />
+            )}
             <div>
-              <button onClick={deleteCourse} className="btn btn-danger">
-                Delete Course
-              </button>
+              <Link to={userCtx.courseId ? "/course" : "/"}>
+                <button type="button">Back</button>
+              </Link>
             </div>
-          )}
+            {userCtx.courseId !== null && (
+              <div>
+                <button onClick={deleteCourse} className="btn btn-danger">
+                  Delete Course
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </section>

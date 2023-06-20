@@ -7,6 +7,7 @@ import UserContext from "../store/user-context";
 import { dlt, get, post } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function CourseDetailsPage() {
   const userCtx = useContext(UserContext);
@@ -85,20 +86,23 @@ function CourseDetailsPage() {
         <LoadingSpinner />
       ) : (
         <div>
-          <CourseInfo courseData={courseDetails} />
-          {courseDetails.status === "open" && (
-            <div>
-              <button type="submit" onClick={requestCourseHandler}>
-                {courseDetails.is_requested === true
-                  ? "Cancel Request"
-                  : "Enroll"}
-              </button>
-            </div>
-          )}
+          <NavBar />
           <div>
-            <Link to="/">
-              <button type="button">Back</button>
-            </Link>
+            <CourseInfo courseData={courseDetails} />
+            {courseDetails.status === "open" && (
+              <div>
+                <button type="submit" onClick={requestCourseHandler}>
+                  {courseDetails.is_requested === true
+                    ? "Cancel Request"
+                    : "Enroll"}
+                </button>
+              </div>
+            )}
+            <div>
+              <Link to="/">
+                <button type="button">Back</button>
+              </Link>
+            </div>
           </div>
         </div>
       )}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function LogFilePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,112 +14,115 @@ function LogFilePage() {
         <LoadingSpinner />
       ) : (
         <div>
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Student Name</th>
-                  <th>Email</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Grade</th>
-                  <th>Cheating Instances</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-                <tr>
-                  <td>John Doe</td>
-                  <td>
-                    <a href="mailto:    "> </a>
-                  </td>
-                  <td>2021-06-01 20:00:00</td>
-                  <td>2021-06-01 21:10:00</td>
-                  <td>100</td>
-                  <td>2021-06-01 20:00:00</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <NavBar />
           <div>
             <div>
-              <Link to="/preview-exam">
-                <button type="button">Back</button>
-              </Link>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Grade</th>
+                    <th>Cheating Instances</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>
+                      <a href="mailto:    "> </a>
+                    </td>
+                    <td>2021-06-01 20:00:00</td>
+                    <td>2021-06-01 21:10:00</td>
+                    <td>100</td>
+                    <td>2021-06-01 20:00:00</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <div>
-              <Link to={"/"}>
-                <button type="button">Home</button>
-              </Link>
+              <div>
+                <Link to="/preview-exam">
+                  <button type="button">Back</button>
+                </Link>
+              </div>
+              <div>
+                <Link to={"/"}>
+                  <button type="button">Home</button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import MissingVideo from "../components/MissingVideo";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function ExamDetailsPage() {
   const userCtx = useContext(UserContext);
@@ -222,31 +223,34 @@ function ExamDetailsPage() {
         <LoadingSpinner />
       ) : (
         <div>
-          {!hasVideo && <MissingVideo />}
-          <ExamInfo examData={examDetails} />
+          <NavBar />
           <div>
-            <button type="button" onClick={startExamHandler}>
-              Start Exam
-            </button>
-          </div>
-          <div>
-            <button type="button" onClick={reviewExamHandler}>
-              Review Exam
-            </button>
-          </div>
-          <div className="m-2">
-            <hr />
-               
-          </div>
-          <div>
-            <Link to="/course">
-              <button type="button">Back to Course</button>
-            </Link>
-          </div>
-          <div>
-            <Link to="/">
-              <button type="button">Home</button>
-            </Link>
+            {!hasVideo && <MissingVideo />}
+            <ExamInfo examData={examDetails} />
+            <div>
+              <button type="button" onClick={startExamHandler}>
+                Start Exam
+              </button>
+            </div>
+            <div>
+              <button type="button" onClick={reviewExamHandler}>
+                Review Exam
+              </button>
+            </div>
+            <div className="m-2">
+              <hr />
+                 
+            </div>
+            <div>
+              <Link to="/course">
+                <button type="button">Back to Course</button>
+              </Link>
+            </div>
+            <div>
+              <Link to="/">
+                <button type="button">Home</button>
+              </Link>
+            </div>
           </div>
         </div>
       )}

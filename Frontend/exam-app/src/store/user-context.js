@@ -26,11 +26,20 @@ export function UserContextProvider({ children }) {
   const [userType, setUserType] = useState(() =>
     localStorage.getItem("userType") ? localStorage.getItem("userType") : null
   );
+  const [username, setUsername] = useState(() =>
+    localStorage.getItem("username") ? localStorage.getItem("username") : null
+  );
   const [courseId, setCourseId] = useState(() =>
     localStorage.getItem("courseId") ? localStorage.getItem("courseId") : null
   );
+  const [courseName, setCourseName] = useState(() =>
+    localStorage.getItem("courseName") ? localStorage.getItem("courseName") : null
+  );
   const [examId, setExamId] = useState(() =>
     localStorage.getItem("examId") ? localStorage.getItem("examId") : null
+  );
+  const [examName, setExamName] = useState(() =>
+    localStorage.getItem("examName") ? localStorage.getItem("examName") : null
   );
 
   const [camera1, setCamera1] = useState(() =>
@@ -46,14 +55,29 @@ export function UserContextProvider({ children }) {
     localStorage.setItem("userType", type);
   }
 
+  function setUsernameHandler(name) {
+    setUsername(name);
+    localStorage.setItem("username", name);
+  }
+
   function setCourseIdHandler(id) {
     setCourseId(id);
     localStorage.setItem("courseId", id);
   }
 
+  function setCourseNameHandler(name) {
+    setCourseName(name);
+    localStorage.setItem("courseName", name);
+  }
+
   function setExamIdHandler(id) {
     setExamId(id);
     localStorage.setItem("examId", id);
+  }
+
+  function setExamNameHandler(name) {
+    setExamName(name);
+    localStorage.setItem("examName", name);
   }
 
   function setCamera1Handler(id) {
@@ -78,12 +102,18 @@ export function UserContextProvider({ children }) {
     if (response.status === 200) {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
+      setUsername(e.target.username.value);
       setCourseId(null);
+      setCourseName(null);
       setExamId(null);
+      setExamName(null);
       localStorage.setItem("authTokens", JSON.stringify(data));
       localStorage.setItem("userType", data.role.toLowerCase());
+      localStorage.setItem("username", e.target.username.value);
       localStorage.setItem("courseId", null);
+      localStorage.setItem("courseName", null);
       localStorage.setItem("examId", null);
+      localStorage.setItem("examName", null);
       // await timeout(1000);
       history("/");
     } else {
@@ -101,8 +131,11 @@ export function UserContextProvider({ children }) {
     setUser(null);
     localStorage.removeItem("authTokens");
     localStorage.removeItem("userType");
+    localStorage.removeItem("username");
     localStorage.removeItem("courseId");
+    localStorage.removeItem("courseName");
     localStorage.removeItem("examId");
+    localStorage.removeItem("examName");
     history("/welcome");
   };
 
@@ -130,16 +163,22 @@ export function UserContextProvider({ children }) {
     user: user,
     authTokens: authTokens,
     type: userType,
+    username: username,
     courseId: courseId,
+    courseName: courseName,
     examId: examId,
+    examName: examName,
     camera1: camera1,
     camera2: camera2,
     loginUser: loginUser,
     logoutUser: logoutUser,
     setUserType: setUserTypeHandler,
+    setUsername: setUsernameHandler,
     setAuthTokens: setAuthTokens,
     setCourseId: setCourseIdHandler,
+    setCourseName: setCourseNameHandler,
     setExamId: setExamIdHandler,
+    setExamName: setExamNameHandler,
     setCamera1: setCamera1Handler,
     setCamera2: setCamera2Handler,
   };

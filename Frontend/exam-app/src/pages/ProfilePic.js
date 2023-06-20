@@ -8,6 +8,7 @@ import { post } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import StudentPicture from "../components/StudentPicture";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function ProfilePic() {
   const [cameraSetFlag, setCameraSetFlag] = useState(false);
@@ -51,6 +52,7 @@ function ProfilePic() {
         <LoadingSpinner />
       ) : (
         <div>
+          <NavBar />
           <div>
             {cameraSetFlag ? (
               <StudentPicture updatePhoto={setPhoto} />

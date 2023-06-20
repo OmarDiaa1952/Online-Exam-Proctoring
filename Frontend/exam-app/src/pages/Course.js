@@ -9,6 +9,7 @@ import { get, dlt } from "../utils/Fetch";
 import MissingVideo from "../components/MissingVideo";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NavBar from "../components/NavBar";
 
 function CoursePage() {
   const userCtx = useContext(UserContext);
@@ -23,6 +24,7 @@ function CoursePage() {
 
   useEffect(() => {
     userCtx.setExamId(null);
+    userCtx.setExamName(null);
     getCourseDetails();
     getExamsList();
   }, [updateExamListFlag]);
@@ -178,42 +180,45 @@ function CoursePage() {
         <LoadingSpinner />
       ) : (
         <div>
-          {!hasVideo && <MissingVideo />}
-          <CourseInfo courseData={courseDetails} />
-          <ExamsComponentsList components={examsList} onDelete={deleteExam} />
-          {userCtx.type === "examiner" ? (
-            <div>
-              <div>
-                <Link to="/edit-exam">
-                  <button type="button">Add Exam</button>
-                </Link>
-              </div>
-              <div>
-                <Link to="/modify-course" state={courseId}>
-                  <button type="button">Edit Course</button>
-                </Link>
-              </div>
-              <div>
-                <Link to="/course-students">
-                  <button type="button">View Students</button>
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <button type="button" onClick={leaveCourse}>
-                Leave Course
-              </button>
-            </div>
-          )}
-          <div className="m-2">
-            <hr />
-               
-          </div>
+          <NavBar />
           <div>
-            <Link to="/">
-              <button type="button">Home</button>
-            </Link>
+            {!hasVideo && <MissingVideo />}
+            <CourseInfo courseData={courseDetails} />
+            <ExamsComponentsList components={examsList} onDelete={deleteExam} />
+            {userCtx.type === "examiner" ? (
+              <div>
+                <div>
+                  <Link to="/edit-exam">
+                    <button type="button">Add Exam</button>
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/modify-course" state={courseId}>
+                    <button type="button">Edit Course</button>
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/course-students">
+                    <button type="button">View Students</button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <button type="button" onClick={leaveCourse}>
+                  Leave Course
+                </button>
+              </div>
+            )}
+            <div className="m-2">
+              <hr />
+                 
+            </div>
+            <div>
+              <Link to="/">
+                <button type="button">Home</button>
+              </Link>
+            </div>
           </div>
         </div>
       )}
