@@ -7,10 +7,10 @@ import UserContext from "../store/user-context";
 function ExamComponent(props) {
   const userCtx = useContext(UserContext);
   return (
-    <div className="card bg-light mb-3">
+    <div className="card bg-light mb-3 mx-3 col-sm-4 border border-secondary">
       <div className="card-body">
-        <h4 className="card-title">{props.name}</h4>
-        <p className="card-text">{props.description}</p>
+        <h4 className="card-title fs-3">{props.name}</h4>
+        <p className="card-text fs-5 text-wrap">{props.description}</p>
         <div className="container">
           <div className="mr-3">
             <Link to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}>

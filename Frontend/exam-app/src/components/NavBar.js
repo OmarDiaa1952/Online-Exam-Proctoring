@@ -27,7 +27,7 @@ function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light nav-fill w-100 container-fluid flex-row">
+    <nav className="navbar navbar-expand-lg navbar-light nav-fill w-100 container-fluid flex-row sticky-top">
       <div className="container-fluid col-2">
         <a className="navbar-brand" href="/">
           <h1

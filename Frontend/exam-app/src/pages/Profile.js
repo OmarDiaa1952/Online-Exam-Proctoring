@@ -138,22 +138,28 @@ function ProfilePage() {
       ) : (
         <div>
           <NavBar />
-          <div>
-            {userCtx.type === "student" && (
-              <div>
-                {hasPhoto && (
-                  <img src={userData.photo} alt="Please take a photo" />
-                )}
-                <div>
-                  <button type="button" onClick={useCamera} className="btn btn-success">
-                    {hasPhoto ? "Update Photo" : "Take Photo"}
-                  </button>
-                </div>
+          <div className="container-fluid flex-row">
+          <div className="container-fluid row">
+            <div className="col-2 row d-flex flex-column justify-content-center align-items-center">
+              <div className="p-2 align-self-center">
+              {hasPhoto && (
+                <img src={userData.photo} alt="Please take a photo" width="180px" height="180px" className="border border-success rounded-circle" />
+              )}</div>
+              <div className="p-2 align-self-center">
+                <button
+                  type="button"
+                  onClick={useCamera}
+                  className="btn btn-success btn-lg"
+                >
+                  {hasPhoto ? "Update Photo" : "Take Photo"}
+                </button>
               </div>
-            )}
-            <UserInfo userData={userData} />
+            </div>
+            <div className="col-1"></div>
+            <div className="col-8"><UserInfo userData={userData} /></div>
+            
           </div>
-        </div>
+        </div></div>
       )}
     </div>
   );

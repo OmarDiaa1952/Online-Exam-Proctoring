@@ -3,9 +3,9 @@ import ExamComponent from "./ExamComponent";
 
 function ExamsComponentsList(props) {
   return (
-    <div>
+    <div className="container testimonial-group">
         <h2>Course Exams:</h2>
-      <ul>
+      <ul className="row text-center flex-nowrap">
         {props.components.map((component) => {
           return (
             <ExamComponent
