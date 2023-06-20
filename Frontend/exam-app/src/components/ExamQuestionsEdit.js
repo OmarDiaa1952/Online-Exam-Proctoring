@@ -237,12 +237,12 @@ function ExamQuestionsEdit(props) {
         >
           <ol>{questions}</ol>
           <div>
-            <button type="button" onClick={addQuestionHandler}>
+            <button type="button" onClick={addQuestionHandler} className="btn btn-secondary">
               Add Question
             </button>
           </div>
           <div>
-            <button type="submit">Save</button>
+            <button type="submit" className="btn btn-success">Save</button>
           </div>
         </form>
       </div>

@@ -224,16 +224,16 @@ function ExamDetailsPage() {
       ) : (
         <div>
           <NavBar />
+          {!hasVideo && <MissingVideo />}
           <div>
-            {!hasVideo && <MissingVideo />}
             <ExamInfo examData={examDetails} />
             <div>
-              <button type="button" onClick={startExamHandler}>
+              <button type="button" onClick={startExamHandler} className="btn btn-outline-warning">
                 Start Exam
               </button>
             </div>
             <div>
-              <button type="button" onClick={reviewExamHandler}>
+              <button type="button" onClick={reviewExamHandler} className="btn btn-secondary">
                 Review Exam
               </button>
             </div>

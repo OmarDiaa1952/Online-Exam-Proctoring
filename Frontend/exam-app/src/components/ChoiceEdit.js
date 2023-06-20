@@ -37,7 +37,7 @@ const ChoiceEdit = forwardRef((props, ref) => {
         />
       </div>
       <div className="col">
-        <button type="button" onClick={deleteHandler}>
+        <button type="button" onClick={deleteHandler} className="btn btn-outline-secondary">
           Delete
         </button>
       </div>

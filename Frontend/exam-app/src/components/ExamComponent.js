@@ -15,6 +15,7 @@ function ExamComponent(props) {
           <div className="mr-3">
             <Link to={userCtx.type === "student" ? "/exam-details" : "/preview-exam"}>
               <button
+               className="btn btn-success"
                 onClick={() => {
                   userCtx.setExamId(props.id);
                   userCtx.setExamName(props.name);
@@ -26,7 +27,7 @@ function ExamComponent(props) {
           {userCtx.type === "examiner" && (
             <div className="ml-auto pl-3">
               <button type="button"
-                className="btn btn-danger"
+                className="btn btn-secondary"
                 onClick={() => props.onDelete(props.id)}>
                 Delete
               </button>

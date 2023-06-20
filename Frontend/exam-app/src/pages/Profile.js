@@ -145,7 +145,7 @@ function ProfilePage() {
                   <img src={userData.photo} alt="Please take a photo" />
                 )}
                 <div>
-                  <button type="button" onClick={useCamera}>
+                  <button type="button" onClick={useCamera} className="btn btn-success">
                     {hasPhoto ? "Update Photo" : "Take Photo"}
                   </button>
                 </div>

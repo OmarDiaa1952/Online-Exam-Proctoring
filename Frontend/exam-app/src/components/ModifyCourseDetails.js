@@ -56,7 +56,7 @@ function ModifyCourseDetails(props) {
         </div>
       </div>
       <div>
-        <button type="submit">Save</button>
+        <button type="submit" className="btn btn-success">Save</button>
       </div>
         </div>
       </div>

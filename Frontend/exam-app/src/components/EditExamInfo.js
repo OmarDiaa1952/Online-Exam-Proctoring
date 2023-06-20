@@ -117,7 +117,7 @@ function EditExamInfo(props) {
             </div>
           </div>
           <div>
-            <button>Save</button>
+            <button className="btn btn-success">Save</button>
           </div>
         </form>
       )}

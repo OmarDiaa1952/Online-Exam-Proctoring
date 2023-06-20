@@ -91,7 +91,7 @@ function CourseDetailsPage() {
             <CourseInfo courseData={courseDetails} />
             {courseDetails.status === "open" && (
               <div>
-                <button type="submit" onClick={requestCourseHandler}>
+                <button type="submit" onClick={requestCourseHandler} className="btn btn-success">
                   {courseDetails.is_requested === true
                     ? "Cancel Request"
                     : "Enroll"}

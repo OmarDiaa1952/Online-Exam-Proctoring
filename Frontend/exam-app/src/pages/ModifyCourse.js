@@ -161,7 +161,7 @@ function ModifyCoursePage() {
             )}
             {userCtx.courseId !== null && (
               <div>
-                <button onClick={deleteCourse} className="btn btn-danger">
+                <button onClick={deleteCourse} className="btn btn-secondary">
                   Delete Course
                 </button>
               </div>

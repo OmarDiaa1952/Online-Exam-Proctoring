@@ -45,7 +45,6 @@ const CameraSet = (props) => {
   return (
     <div className="Camera">
       <div className="card">
-        <h3 className="card-header">WebCam Test!</h3> 
         <div className="card-body">
           <div>
             <h4 className="card-title">
@@ -55,7 +54,7 @@ const CameraSet = (props) => {
             <div>{webcam}</div>
           </div>
           <div>
-            <button onClick={switchCamera} className="btn btn-primary m-2">
+            <button onClick={switchCamera} className="btn btn-secondary m-2">
               Switch
             </button>
             <button onClick={props.onProceed} className="btn btn-success m-2">

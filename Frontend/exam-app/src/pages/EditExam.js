@@ -291,7 +291,6 @@ function EditExamPage() {
 
   return (
     <section>
-      <h1>Edit Exam</h1>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -320,7 +319,7 @@ function EditExamPage() {
               {examId && (
                 <div>
                   <Link to="/preview-exam">
-                    <button type="button">Preview Exam</button>
+                    <button type="button" className="btn btn-secondary">Preview Exam</button>
                   </Link>
                 </div>
               )}

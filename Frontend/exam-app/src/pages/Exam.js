@@ -187,7 +187,7 @@ function ExamPage() {
       />
       </div>
       <div className="col-12">
-        <button onClick={finishHandler}>Finish</button>
+        <button onClick={finishHandler} className="btn btn-success">Finish</button>
       </div>
       </div>
       </div>

@@ -222,12 +222,12 @@ const QuestionEdit = forwardRef((props, ref) => {
         </div>
         <div>{choices}</div>
         <div>
-          <button type="button" onClick={addChoiceHandler}>
+          <button type="button" onClick={addChoiceHandler} className="btn btn-outline-success">
             Add Choice
           </button>
         </div>
         <div>
-          <button type="button" onClick={deleteQuestionHandler}>
+          <button type="button" onClick={deleteQuestionHandler} className="btn btn-secondary">
             Delete Question
           </button>
         </div>

@@ -112,12 +112,12 @@ function PreviewExamPage() {
             <div>
               <div>
                 <Link to="/log-file">
-                  <button type="button">View Log File</button>
+                  <button type="button" className="btn btn-success">View Log File</button>
                 </Link>
               </div>
               <div>
                 <Link to="/edit-exam">
-                  <button type="button">Edit</button>
+                  <button type="button" className="btn btn-secondary">Edit</button>
                 </Link>
               </div>
             </div>

@@ -45,7 +45,7 @@ const StudentPicture = (props) => {
                 e.preventDefault();
                 setPicture("");
               }}
-              className="btn btn-primary"
+              className="btn btn-secondary"
             >
               Retake
             </button>
@@ -54,7 +54,7 @@ const StudentPicture = (props) => {
                 e.preventDefault();
                 props.updatePhoto(picture);
               }}
-              className="btn btn-danger"
+              className="btn btn-success"
             >
               Save Photo
             </button>
@@ -66,7 +66,7 @@ const StudentPicture = (props) => {
                 e.preventDefault();
                 capture();
               }}
-              className="btn btn-danger"
+              className="btn btn-success"
             >
               Capture
             </button>
