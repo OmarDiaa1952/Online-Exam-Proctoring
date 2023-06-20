@@ -24,7 +24,7 @@ const CameraSet = (props) => {
   }, [handleDevices]);
 
   useEffect(() => {
-    if(!devices[0]) return;
+    if (!devices[0]) return;
     let multipleCameras = devices.length > 1;
     setWebcam(
       <div>
@@ -44,17 +44,27 @@ const CameraSet = (props) => {
 
   return (
     <div className="Camera">
-      <div>
-        <p>
-          Your image should appear in this camera, if not Please click on
-          Switch!
-        </p>
-        <div>{webcam}</div>
+      <div className="card">
+        <h3 className="card-header">WebCam Test!</h3> 
+        <div className="card-body">
+          <div>
+            <h4 className="card-title">
+              Your image should appear in this camera, if not Please click on
+              <b> Switch!</b>
+            </h4>  
+            <div>{webcam}</div>
+          </div>
+          <div>
+            <button onClick={switchCamera} className="btn btn-primary m-2">
+              Switch
+            </button>
+            <button onClick={props.onProceed} className="btn btn-success m-2">
+              Proceed
+            </button>
+          </div>
+        </div>
       </div>
-      <div>
-        <button onClick={switchCamera}>Switch</button>
-        <button onClick={props.onProceed}>Proceed</button>
-      </div>
+
     </div>
   );
 };
