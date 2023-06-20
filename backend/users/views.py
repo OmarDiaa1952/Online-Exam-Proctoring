@@ -119,17 +119,33 @@ class PhotoRetrieve(APIView):
             base64_encoded_data = base64.b64encode(photo_data).decode('utf-8')
             return Response({"photo": f"data:image/png;base64,{base64_encoded_data}"}, status=status.HTTP_200_OK)
     
-class PhotoExistsView(generics.RetrieveAPIView):
+class PhotoExistsView(APIView):
     # this view is responsible for checking if student has a photo
     permission_classes = (IsStudent,)
-    serializer_class = PhotoExistsSerializer
-
-    def get_object(self):
-        student_id = self.request.user.pk
-        if student_id is not None:
-            return StudentProfile.objects.filter(user_id=student_id).first()
-        return None
     
+    # check if student has a photo by checking if the photo file exists in the media directory
+    def get(self, request, format=None):
+        student_id = self.request.user.pk
+        if student_id is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        # get the username of the student
+        username = self.request.user.username
+
+        # construct the path to the media directory
+        media_root = settings.MEDIA_ROOT
+        media_dir = os.path.join(media_root, "profile_pics", f"user_{student_id}")
+        filename = os.path.join(media_dir, f"{username}.png")
+
+        # return a response with status code 200 if the photo file exists
+        if os.path.exists(filename):
+            return Response({
+                "photo_exists": True
+            },status=status.HTTP_200_OK)
+        return Response({
+            "photo_exists": False
+        },status=status.HTTP_200_OK)
+
 class VideoExistsView(APIView):
     # this view is responsible for checking if student has a video
     permission_classes = (IsStudent,)

@@ -66,8 +66,3 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         if isinstance(error_response, JsonResponse):
             raise serializers.ValidationError(loads(error_response.content))
         return student
-    
-class PhotoExistsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StudentProfile
-        fields = ("has_photo",)
