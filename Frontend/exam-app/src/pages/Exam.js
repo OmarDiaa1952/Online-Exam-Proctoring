@@ -176,7 +176,6 @@ function ExamPage() {
       )}
       <div className="container">
         <div className="row">
-          <h2 className="col-12">Exam:</h2>
           <div className="col-9">
             <WebSocketDemo
               imgUrl={imgUrl}
@@ -205,7 +204,7 @@ function ExamPage() {
             />
           </div>
           <div className="col-12">
-            <button onClick={finishHandler} className="btn btn-success">
+            <button onClick={finishHandler} className="btn btn-success mb-5">
               Finish
             </button>
           </div>

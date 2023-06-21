@@ -87,10 +87,11 @@ function StudentAdmission(props) {
       <div>
         <div>
           {props.enrollmentRequests.length > 0 && (
-            <div>
-              <h2>Pending Students:</h2>
+            <div className="d-flex flex-row justify-content-center">
+              <h2 className="col-3">Pending Students:</h2>
+              <div className="col-7"></div>
               {props.enrollmentRequests.length > 1 && (
-                <div>
+                <div className="col-2">
                   <button
                     onClick={approveAllHandler}
                     className="btn btn-success"

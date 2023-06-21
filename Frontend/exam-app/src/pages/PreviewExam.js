@@ -109,18 +109,6 @@ function PreviewExamPage() {
               <ExamInfo examData={examDetails} maxGrade={maxGrade} />
             </div>
             <ExamQuestions questions={examQuestions} editable={false} />
-            <div>
-              <div>
-                <Link to="/log-file">
-                  <button type="button" className="btn btn-success">View Log File</button>
-                </Link>
-              </div>
-              <div>
-                <Link to="/edit-exam">
-                  <button type="button" className="btn btn-secondary">Edit</button>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       )}

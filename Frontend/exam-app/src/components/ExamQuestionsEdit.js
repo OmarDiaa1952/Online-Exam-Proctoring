@@ -219,11 +219,18 @@ function ExamQuestionsEdit(props) {
 
   return (
     <section>
-      <div>
+      <div className="border border-secondary m-2 p-3">
         <label htmlFor="max_grade">Max Grade</label>
-        <input type="number" id="max_grade" value={maxGrade} readOnly className="border border-warning" />
+        <input
+          type="number"
+          id="max_grade"
+          value={maxGrade}
+          readOnly
+          className="border border-warning"
+        />
       </div>
       <h2>Questions:</h2>
+
       <div>
         <form
           onSubmit={(e) => {
@@ -235,15 +242,36 @@ function ExamQuestionsEdit(props) {
             props.onSave(questionsData, editedQuestionsIds);
           }}
         >
-          <ol>{questions}</ol>
-          <div>
-            <button type="button" onClick={addQuestionHandler} className="btn btn-secondary">
-              Add Question
+          <ol>
+            {questions}
+            <li
+              key="add-question"
+              className="btn btn-success col-12"
+              onClick={addQuestionHandler}
+            >
+              <div className="card-body row-4"></div>
+              <div className="card-body row-4">
+                <h2>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="130"
+                    height="130"
+                    fill="#ffffff"
+                    class="bi bi-plus"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                  </svg>
+                </h2>
+              </div>
+              <div className="card-body row-4"></div>
+            </li><div className="btn btn-warning col-12 my-3">
+            <button type="submit" className="btn btn-warning">
+              Save
             </button>
           </div>
-          <div>
-            <button type="submit" className="btn btn-success">Save</button>
-          </div>
+          </ol>
+          
         </form>
       </div>
     </section>

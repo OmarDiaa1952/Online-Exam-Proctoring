@@ -315,15 +315,6 @@ function EditExamPage() {
                 />
               </div>
             )}
-            <div>
-              {examId && (
-                <div>
-                  <Link to="/preview-exam">
-                    <button type="button" className="btn btn-secondary">Preview Exam</button>
-                  </Link>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       )}
