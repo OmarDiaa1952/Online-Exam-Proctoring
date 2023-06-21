@@ -4,10 +4,15 @@ import classes from "./MissingVideo.module.css";
 function MissingPhoto() {
   return (
     <div className="bg-warning fs-4">
-      <p>
+      <p className="text-center">
         Warning! You have to record a video of yourself to be able to join exams.
       </p>
-      <Link to="/stream" className="text-secondary">Record Video</Link>
+      <Link to="/stream" className="text-secondary">
+        <p  className="text-center">
+          Record Video
+        </p>
+        
+      </Link>
     </div>
   );
 }
