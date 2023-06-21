@@ -12,9 +12,6 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from .ml_models.liveness import liveness_detection
 
-
-from detection.Yolo import test1
-
 #################################### General Views ####################################
 
 class CourseListView(generics.ListAPIView):
@@ -346,42 +343,3 @@ class EnrollmentDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
         pk = self.kwargs.get(self.lookup_url_kwarg)
         return EnrollmentDetail.objects.filter(id=pk)
-    
-
-
-### ML views ###
-
-class MLTestView(APIView):
-    ## this view just tests the ML model
-    ## after calling the api it runs test1.phase_response("input")
-    ## no return value
-    def get(self, request, *args, **kwargs):
-        
-        start_time = time.time()
-        # Your code segment goes here
-
-        for filename in os.listdir("input"):
-            test1.phase_response("input/"+filename)
-
-        end_time = time.time()
-        total_time1 = end_time - start_time
-
-        # testing by direcory
-
-        start_time = time.time()
-        # Your code segment goes here
-        test1.phase_response_dir("input")
-        end_time = time.time()
-        total_time2 = end_time - start_time
-        
-        
-        print(f"Total time taken: {total_time1} seconds.")
-        print(f"Total time taken: {total_time2} seconds.")
-
-
-
-        
-
-        # test1.phase_response("input/result_31.jpg")
-        # test1.phase_response("input/result_3.jpg")
-        return Response("ML model has been tested",status=status.HTTP_200_OK)
