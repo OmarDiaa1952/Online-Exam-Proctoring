@@ -30,7 +30,9 @@ const CameraSet = (props) => {
       <div>
         <Webcam
           audio={false}
-          videoConstraints={{ deviceId: multipleCameras ? devices[deviceIndex].deviceId : devices[0].deviceId }}
+          height={400}
+          width={400}
+          videoConstraints={{ deviceId: multipleCameras ? devices[deviceIndex].deviceId : devices[0].deviceId}}
         />
       </div>
     );
@@ -44,14 +46,14 @@ const CameraSet = (props) => {
 
   return (
     <div className="Camera">
-      <div className="card">
-        <div className="card-body">
+      <div className="card d-flex flex-column justify-contents-center align-items-center align-self-center">
+        <div className="card-body d-flex flex-column justify-contents-center align-items-center align-self-center">
           <div>
             <h4 className="card-title">
               Your image should appear in this camera, if not Please click on
               <b> Switch!</b>
             </h4>  
-            <div>{webcam}</div>
+            <div className="d-flex flex-column justify-contents-center align-items-center align-self-center">{webcam}</div>
           </div>
           <div>
             <button onClick={switchCamera} className="btn btn-secondary m-2">
