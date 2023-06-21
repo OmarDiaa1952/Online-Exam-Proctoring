@@ -182,7 +182,7 @@ function CoursePage() {
         <div>
           <NavBar />
           {!hasVideo && <MissingVideo />}
-          <div className="pl-10 mt-100">
+          <div className="pl-10 mt-100 general">
             <CourseInfo courseData={courseDetails} />
             <ExamsComponentsList components={examsList} onDelete={deleteExam} />
             {userCtx.type === "examiner" ? (

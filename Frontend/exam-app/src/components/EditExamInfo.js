@@ -21,14 +21,14 @@ function EditExamInfo(props) {
     <div>
       {true && (
         <form onSubmit={props.onSave}>
-          <div className="card bg-light">
+          <div className="card bg-light border border-success">
             <div className="card-body">
               <div className="form-group mb-3">
                 <label htmlFor="name"
                   className="form-label"
                 >Exam Name</label>
                 <input
-                  className="form-control"
+                  className="form-control border border-success"
                   type="text"
                   id="name"
                   defaultValue={examInfo.examData.name ? examInfo.examData.name : ""}
@@ -37,7 +37,7 @@ function EditExamInfo(props) {
               <div className="form-group mb-3">
                 <label htmlFor="description" className="form-label">Description</label>
                 <textarea
-                  className="form-control"
+                  className="form-control border border-success"
                   id="description"
                   rows="5"
                   defaultValue={examInfo.examData.description ? examInfo.examData.description : ""}
@@ -47,7 +47,7 @@ function EditExamInfo(props) {
                 <span className="col">
                   <label htmlFor="exam_start_date" className="col">Start Date</label>
                   <input
-                    className="col"
+                    className="col border border-success"
                     type="date"
                     id="exam_start_date"
                     defaultValue={examInfo.examData.exam_start_date ? examInfo.examData.exam_start_date.substring(
@@ -59,7 +59,7 @@ function EditExamInfo(props) {
                 <span className="col">
                   <label htmlFor="exam_start_time" className="col">Start Time</label>
                   <input
-                    className="col"
+                    className="col border border-success"
                     type="time"
                     id="exam_start_time"
                     defaultValue={examInfo.examData.exam_start_date ? examInfo.examData.exam_start_date.substring(
@@ -73,7 +73,7 @@ function EditExamInfo(props) {
                 <span className="col">
                   <label htmlFor="exam_end_date" className="col">End Date</label>
                   <input
-                    className="col"
+                    className="col border border-success"
                     type="date"
                     id="exam_end_date"
                     defaultValue={examInfo.examData.exam_end_date ? examInfo.examData.exam_end_date.substring(0, 10) : ""}
@@ -82,7 +82,7 @@ function EditExamInfo(props) {
                 <span className="col">
                   <label htmlFor="exam_end_time" className="col">End Time</label>
                   <input
-                    className="col"
+                    className="col border border-success"
                     type="time"
                     id="exam_end_time"
                     defaultValue={examInfo.examData.exam_end_date ? examInfo.examData.exam_end_date.substring(11, 16) : ""}
@@ -94,7 +94,7 @@ function EditExamInfo(props) {
                 <span id="duration" className="col">
                   <label>Hours</label>
                   <input
-
+                    className="border border-success"
                     type="number"
                     id="duration_hours"
                     min={0}
@@ -105,7 +105,7 @@ function EditExamInfo(props) {
                 <span id="duration" className="col">
                   <label>Minutes</label>
                   <input
-
+                    className="border border-success"
                     type="number"
                     id="duration_minutes"
                     min={0}

@@ -88,13 +88,12 @@ function ReviewExamPage() {
 
   return (
     <section>
-      <h1>Review Exam Page</h1>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             <ExamReviewDetails examData={examDetails} />
             <ExamQuestions questions={examQuestions} editable={false} />
           </div>

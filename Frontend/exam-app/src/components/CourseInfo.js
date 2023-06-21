@@ -3,7 +3,7 @@ import classes from "./CourseInfo.module.css";
 function CourseInfo(props) {
   return (
     <div>
-      <div className="card bg-info bg-opacity-10 m-3">
+      <div className="card bg-light mb-5 border border-success m-3">
         <div className="card-body">
           <section>
             <h2 className="card-title">Course Info</h2>

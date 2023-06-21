@@ -34,6 +34,7 @@ const ChoiceEdit = forwardRef((props, ref) => {
           defaultValue={props.choiceText}
           ref={choiceTextRef}
           onChange={choiceTextChangeHandler}
+          className="border border-success"
         />
       </div>
       <div className="col">

@@ -5,19 +5,20 @@ function ModifyCourseDetails(props) {
   console.log(enrollmentStatus);
   return (
     <form onSubmit={props.onSave}>
-      <div className="card bg-info bg-opacity-25 mb-3">
+      <div className="card bg-light mb-5 border border-success">
         <div className="card-body">
         <div className="form-group">
         <label htmlFor="name">Course Name</label>
-        <input type="text" id="name" defaultValue={props.courseDetails.name} className="form-control"/>
+        <input type="text" id="name" defaultValue={props.courseDetails.name} className="form-control border border-success"/>
       </div>
       {props.courseDetails.id && (
         <div className="form-group">
           <label htmlFor="course-id">Course ID</label>
           <input
-            className="form-control"
+            className="form-control border border-success"
             type="text"
             id="course-id"
+            disabled
             defaultValue={props.courseDetails.id}
           />
         </div>
@@ -25,7 +26,7 @@ function ModifyCourseDetails(props) {
       <div className="form-group">
         <label htmlFor="description">Description</label>
         <textarea
-          className="form-control"
+          className="form-control border border-success"
           id="description"
           rows="5"
           defaultValue={props.courseDetails.description}
@@ -34,7 +35,7 @@ function ModifyCourseDetails(props) {
       <div>
         <div className="form-check">
           <input
-            className="form-check-input"
+            className="form-check-input border border-success"
             type="radio"
             id="open"
             name="enrollment"
@@ -45,7 +46,7 @@ function ModifyCourseDetails(props) {
         </div>
         <div className="form-check">
           <input
-            className="form-check-input"
+            className="form-check-input border border-success"
             type="radio"
             id="closed"
             name="enrollment"

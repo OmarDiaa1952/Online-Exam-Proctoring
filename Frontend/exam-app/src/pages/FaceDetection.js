@@ -55,15 +55,17 @@ const FaceDetectionPage = () => {
       ) : (
         <div>
           <NavBar />
-          {cameraSetFlag ? (
-            <FaceDetectionComponent
-              setVideo={sendVideo}
-              startMessage={"Start Exam"}
-              messageDisplayed={"The Exam will start in:"}
-            />
-          ) : (
-            <CameraSet onProceed={faceDetectionHandler} />
-          )}
+          <div className="general">
+            {cameraSetFlag ? (
+              <FaceDetectionComponent
+                setVideo={sendVideo}
+                startMessage={"Start Exam"}
+                messageDisplayed={"The Exam will start in:"}
+              />
+            ) : (
+              <CameraSet onProceed={faceDetectionHandler} />
+            )}
+          </div>
         </div>
       )}
     </div>

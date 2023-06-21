@@ -147,7 +147,7 @@ function ExamPage() {
   };
 
   return (
-    <section>
+    <section className="general">
       {/* <LocalTimer />
       <Timer
         onTimeOut={() => navigate("/exam-details")}

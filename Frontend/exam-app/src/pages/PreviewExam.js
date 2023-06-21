@@ -104,7 +104,7 @@ function PreviewExamPage() {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             <div>
               <ExamInfo examData={examDetails} maxGrade={maxGrade} />
             </div>

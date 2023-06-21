@@ -87,7 +87,7 @@ function CourseDetailsPage() {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             <CourseInfo courseData={courseDetails} />
             {courseDetails.status === "open" && (
               <div>

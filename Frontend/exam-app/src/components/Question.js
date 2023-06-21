@@ -4,7 +4,7 @@ import Choice from "./Choice";
 function Question(props) {
   return (
     <li>
-      <div className="card bg-info bg-opacity-50 m-3 p-2">
+      <div className="card bg-secondary bg-opacity-50 m-3 p-2">
         <div className="d-flex justify-content-between">
           <span>Question{" "}<b>{props.questionNumber}{" "}</b></span>
           <span>
@@ -22,7 +22,7 @@ function Question(props) {
           </span>
         </div>
       </div>
-      <div className="card bg-light m-3 p-1">
+      <div className="card bg-light m-3 p-1 border border-success">
         <div className="card-body">
           <div className="card-title mb-3">
             <p className="h4">{props.questionText}</p>

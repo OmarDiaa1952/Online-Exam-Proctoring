@@ -53,7 +53,7 @@ function ProfilePic() {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             {cameraSetFlag ? (
               <StudentPicture updatePhoto={setPhoto} />
             ) : (

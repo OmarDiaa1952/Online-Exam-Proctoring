@@ -31,8 +31,8 @@ function EditExamPage() {
   }, []);
 
   let getExamDetails = async () => {
-    setIsLoading(true);
     if (examId) {
+      setIsLoading(true);
       let response = await get(
         BASEURL + "/main_app/examdetail/" + examId,
         userCtx.authTokens.access
@@ -55,8 +55,8 @@ function EditExamPage() {
   };
 
   let getExamQuestions = async () => {
-    setIsLoading(true);
     if (examId) {
+      setIsLoading(true);
       let response = await get(
         BASEURL + "/main_app/questionlist/" + examId,
         userCtx.authTokens.access
@@ -296,7 +296,7 @@ function EditExamPage() {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             <div>
               {(delayExamDetails || !examId) && (
                 <EditExamInfo

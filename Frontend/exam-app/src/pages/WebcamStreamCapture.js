@@ -72,7 +72,7 @@ const WebcamStreamCapturePage = () => {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             {cameraSetFlag ? (
               <FaceDetectionComponent
                 setVideo={videoUpload}

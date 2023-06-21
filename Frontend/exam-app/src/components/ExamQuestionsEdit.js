@@ -221,7 +221,7 @@ function ExamQuestionsEdit(props) {
     <section>
       <div>
         <label htmlFor="max_grade">Max Grade</label>
-        <input type="number" id="max_grade" value={maxGrade} readOnly />
+        <input type="number" id="max_grade" value={maxGrade} readOnly className="border border-warning" />
       </div>
       <h2>Questions:</h2>
       <div>

@@ -152,7 +152,7 @@ function ModifyCoursePage() {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             {(delayCourseDetails || userCtx.courseId === null) && (
               <ModifyCourseDetails
                 onSave={modifyCourseHandler}

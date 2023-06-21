@@ -265,7 +265,7 @@ function ExamDetailsPage() {
         <div>
           <NavBar />
           {!hasVideo && <MissingVideo />}
-          <div>
+          <div className="general">
             <ExamInfo examData={examDetails} />
             <div>
               <button

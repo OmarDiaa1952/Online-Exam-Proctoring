@@ -190,7 +190,7 @@ const QuestionEdit = forwardRef((props, ref) => {
   };
 
   return (
-    <div className="card bg-light mb-5">
+    <div className="card bg-light mb-5 border border-success">
       <li key={props.questionText} className="card-body">
         <div className="row">
           <div className="col-6">
@@ -201,6 +201,7 @@ const QuestionEdit = forwardRef((props, ref) => {
               defaultValue={props.questionText}
               ref={questionTextRef}
               onChange={questionTextChangeHandler}
+              className="border border-success"
             />
           </div>
           <label
@@ -217,6 +218,7 @@ const QuestionEdit = forwardRef((props, ref) => {
               defaultValue={props.questionGrade ? props.questionGrade : 1}
               ref={questionGradeRef}
               onChange={questionGradeChangeHandler}
+              className="border border-warning"
             />
           </div>
         </div>

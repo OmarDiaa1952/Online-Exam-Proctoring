@@ -24,7 +24,7 @@ function HomeNavigation(props) {
         />
       )}
       {userCtx.type === "examiner" && (
-        <div>
+        <div className="pt-0 pl-3 pr-3 pb-3">
           <Link to="/modify-course">
             <button className="btn btn-success">
               Add Course

@@ -19,6 +19,12 @@ body {
     background-attachment: fixed; */
 }
 
+.general {
+    /* max-width: 800px; */
+    padding: 20px 20px;
+    margin: 10px;
+}
+
 /* Button styles 
     make the button edges round
     borders get thicker when the mouse hovers over the button

@@ -158,7 +158,7 @@ function CourseStudentsPage() {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             <StudentAdmission
               enrollmentRequests={enrollmentRequests}
               enrolledStudents={enrolledStudents}

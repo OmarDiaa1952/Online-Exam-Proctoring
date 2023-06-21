@@ -14,7 +14,7 @@ function LogFilePage() {
       ) : (
         <div>
           <NavBar />
-          <div>
+          <div className="general">
             <div>
               <table>
                 <thead>
