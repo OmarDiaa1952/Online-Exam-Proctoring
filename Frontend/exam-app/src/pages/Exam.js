@@ -19,12 +19,14 @@ function ExamPage() {
   const [imgUrl, setImgUrl] = useState("");
   const [imgUrl2, setImgUrl2] = useState("");
   const [windowDimensionsFlag, setWindowDimensionsFlag] = useState(0);
+  const [delayWindowDimensions, setDelayWindowDimensions] = useState(false);
   const [isFocused, setIsFocused] = useState(true);
   const [remainingTime, setRemainingTime] = useState({
     hours: null,
     minutes: null,
     seconds: null,
   });
+  const [delayFocus, setDelayFocus] = useState(false);
   const [examQuestions, setExamQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [changeAnswerId, setChangeAnswerId] = useState(null);
@@ -34,6 +36,14 @@ function ExamPage() {
   useEffect(() => {
     getExamQuestions();
   }, []);
+
+  useEffect(() => {
+    if (!delayFocus) delay(5, setDelayFocus);
+  }, [delayFocus]);
+
+  useEffect(() => {
+    if (!delayWindowDimensions) delay(3, setDelayWindowDimensions);
+  }, [delayWindowDimensions]);
 
   function dateConverter(date) {
     let year = date.split("/")[2].split(",")[0];
@@ -146,50 +156,60 @@ function ExamPage() {
     }
   };
 
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
+
+  let delay = async (seconds, func) => {
+    await timeout(1000 * seconds);
+    func(true);
+  };
+
   return (
     <section className="general">
-      {/* <LocalTimer />
-      <Timer
-        onTimeOut={() => navigate("/exam-details")}
-        hours={remainingTime.hours}
-        minutes={remainingTime.minutes}
-        seconds={remainingTime.seconds}
-      /> */}
-      <FocusWindow onChangeFocus={changeFocusHandler} />
-      <FullScreen />
-      <UseWindowDimensions
-        onChangeWindowDimensions={changeWindowDimensionsHandler}
-      />
+      {/* <FullScreen /> */}
+      {delayFocus && <FocusWindow onChangeFocus={changeFocusHandler} />}
+      {delayWindowDimensions && (
+        <UseWindowDimensions
+          onChangeWindowDimensions={changeWindowDimensionsHandler}
+        />
+      )}
       <div className="container">
-      <div className="row">
-      <h2 className="col-12">Exam:</h2>
-      <div className="col-9">
-      <WebSocketDemo
-        imgUrl={imgUrl}
-        imgUrl2={imgUrl2}
-        changeAnswerId={changeAnswerId}
-        windowDimensionsFlag={windowDimensionsFlag}
-        focus={isFocused}
-        updateTimer={getTime}
-      />
-      {isLoading ? <LoadingSpinner /> : <ExamQuestions
-        questions={examQuestions}
-        editable={true}
-        onChangeAnswer={changeAnswerHandler}
-      />}
-      </div>
-      <div className="col-3">
-        <WebcamContainer
-        setImg={imgHandler}
-        setImg2={img2Handler}
-        facingMode1={userCtx.camera1}
-        facingMode2={userCtx.camera2}
-      />
-      </div>
-      <div className="col-12">
-        <button onClick={finishHandler} className="btn btn-success">Finish</button>
-      </div>
-      </div>
+        <div className="row">
+          <h2 className="col-12">Exam:</h2>
+          <div className="col-9">
+            <WebSocketDemo
+              imgUrl={imgUrl}
+              imgUrl2={imgUrl2}
+              changeAnswerId={changeAnswerId}
+              windowDimensionsFlag={windowDimensionsFlag}
+              focus={isFocused}
+              updateTimer={getTime}
+            />
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <ExamQuestions
+                questions={examQuestions}
+                editable={true}
+                onChangeAnswer={changeAnswerHandler}
+              />
+            )}
+          </div>
+          <div className="col-3">
+            <WebcamContainer
+              setImg={imgHandler}
+              setImg2={img2Handler}
+              facingMode1={userCtx.camera1}
+              facingMode2={userCtx.camera2}
+            />
+          </div>
+          <div className="col-12">
+            <button onClick={finishHandler} className="btn btn-success">
+              Finish
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

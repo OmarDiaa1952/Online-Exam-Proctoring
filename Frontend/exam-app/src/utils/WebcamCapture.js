@@ -42,8 +42,8 @@ const WebcamCapture = (props) => {
   }, [props.facingMode]);
 
   let proctoring = async () => {
-    capture();
     await timeout(5000);
+    capture();
     proctoring();
   };
 

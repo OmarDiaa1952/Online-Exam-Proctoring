@@ -22,7 +22,10 @@ function ExamDetailsPage() {
   // -1: not started, 0: started, 1: finished
 
   useEffect(() => {
-    if (userCtx.type === "student") checkVideo();
+    if (userCtx.type === "student") {
+      checkVideo();
+      checkPhoto();
+    }
     getExamDetails();
   }, []);
 
