@@ -15,6 +15,7 @@ function ExamDetailsPage() {
   const navigate = useNavigate();
   const examId = userCtx.examId;
   let [hasVideo, setHasVideo] = useState(true);
+  let [hasPhoto, setHasPhoto] = useState(false);
   let [examDetails, setExamDetails] = useState([]);
   let [examStatus, setExamStatus] = useState(-1);
   let [isLoading, setIsLoading] = useState(false);
@@ -121,7 +122,8 @@ function ExamDetailsPage() {
       examStatus === 0 &&
       !examDetails.exam_taken &&
       window.screen.availWidth === window.outerWidth &&
-      window.screen.availHeight === window.outerHeight
+      window.screen.availHeight === window.outerHeight &&
+      hasVideo && hasPhoto
     ) {
       swal({
         title: "Are you sure you want to start the exam?",
@@ -162,6 +164,20 @@ function ExamDetailsPage() {
         icon: "warning",
         buttons: "ok",
       });
+    } else if (!hasPhoto) {
+      swal({
+        title: "Photo not avaiable!",
+        text: "You can't start the exam unless you have set your profile picture.",
+        icon: "warning",
+        buttons: "ok",
+      });
+    } else if (!hasVideo) {
+      swal({
+        title: "Video not avaiable!",
+        text: "You can't start the exam unless you have a recorded video.",
+        icon: "warning",
+        buttons: "ok",
+      });
     } else if (
       window.screen.availWidth !== window.outerWidth ||
       window.screen.availHeight !== window.outerHeight
@@ -193,6 +209,30 @@ function ExamDetailsPage() {
         buttons: "ok",
       });
     }
+  };
+
+  let checkPhoto = async () => {
+    setIsLoading(true);
+    let response = await get(
+      BASEURL + "/users/photoexists",
+      userCtx.authTokens.access
+    );
+    let data = await response.json();
+    if (response.status === 200) {
+      if (data.has_photo) {
+        setHasPhoto(true);
+      } else {
+        setHasPhoto(false);
+      }
+    } else {
+      swal({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+        button: "Ok",
+      });
+    }
+    setIsLoading(false);
   };
 
   let checkVideo = async () => {
@@ -228,12 +268,20 @@ function ExamDetailsPage() {
           <div>
             <ExamInfo examData={examDetails} />
             <div>
-              <button type="button" onClick={startExamHandler} className="btn btn-outline-warning">
+              <button
+                type="button"
+                onClick={startExamHandler}
+                className="btn btn-outline-warning"
+              >
                 Start Exam
               </button>
             </div>
             <div>
-              <button type="button" onClick={reviewExamHandler} className="btn btn-secondary">
+              <button
+                type="button"
+                onClick={reviewExamHandler}
+                className="btn btn-secondary"
+              >
                 Review Exam
               </button>
             </div>
