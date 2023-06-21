@@ -75,10 +75,6 @@ class ExamConsumer(AsyncWebsocketConsumer):
         elif message_type == 'photo':
             # handle photo message
             print('this is photo message')
-            self.handle_photo(message, "cam")
-
-        elif message_type == 'photo1':
-            # handle photo message from first camera
             self.handle_photo(message, "cam1")
 
         elif message_type == 'photo2':
@@ -144,7 +140,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
             except Exception as e:
                 self.send_error(e)
 
-    def handle_photo(self,message, camera):
+    def handle_photo(self, message, camera):
         # Get the photo data from the message
         photo_data = message.get('photo_data')
         if photo_data is None:
@@ -163,7 +159,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
         with open(filename, 'wb') as f:
             f.write(data.read())
 
-        if camera == "cam":
+        if camera == "cam1":
             self.count += 1
             test_image = face_recognition.load_image_file(filename)
             test_face_locations = face_recognition.face_locations(test_image)
