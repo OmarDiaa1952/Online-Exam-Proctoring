@@ -7,7 +7,7 @@ from .models import *
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
-
+import face_recognition
 import base64, time, os, asyncio
 
 class ExamConsumer(AsyncWebsocketConsumer):
@@ -16,6 +16,9 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
         # Get the user ID from the WebSocket scope
         self.student_id = self.scope['user'].id
+
+        # Get username of the student
+        self.username = self.scope['user'].username
 
         # Get the exam ID and student ID from the WebSocket URL
         self.exam_id = self.scope['url_route']['kwargs']['exam_id']
@@ -39,11 +42,22 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
         # define attempt_id here
         self.attempt_id = None
+        
+        # define counters here
+        self.count = 0
+        self.found_count = 0
+        self.not_found_count = 0
+        self.empty_photo_count = 0
+
+        # profile photo details
+        image = face_recognition.load_image_file(f"{settings.MEDIA_ROOT}/profile_pics/user_{self.student_id}/{self.username}.jpeg")
+        face_locations = face_recognition.face_locations(image)
+        self.face_encodings = face_recognition.face_encodings(image, face_locations)
 
     def get_exam(self):
         # Get the exam object from the database
         return Exam.objects.get(id=self.exam_id)
-    
+
     def create_empty_attempt(self):
         # Create an empty attempt object
         return Attempt.objects.create(exam_id=self.exam_id, student_id=self.student_id, start_time=timezone.now())
@@ -58,8 +72,10 @@ class ExamConsumer(AsyncWebsocketConsumer):
             attempt = await database_sync_to_async(self.create_empty_attempt)()
             self.attempt_id = attempt.id
 
-            # TODO: Start the socket connecting to the ML components here if needed
-            # or create object from the model's class
+        elif message_type == 'photo':
+            # handle photo message
+            print('this is photo message')
+            self.handle_photo(message, "cam")
 
         elif message_type == 'photo1':
             # handle photo message from first camera
@@ -131,38 +147,41 @@ class ExamConsumer(AsyncWebsocketConsumer):
     def handle_photo(self,message, camera):
         # Get the photo data from the message
         photo_data = message.get('photo_data')
-        if photo_data is not None:
-            format, imgstr = photo_data.split(';base64,') 
-            ext = format.split('/')[-1] 
-            data = ContentFile(base64.b64decode(imgstr), name=f"{int(time.time())}.{ext}")
+        if photo_data is None:
+            return
+        format, imgstr = photo_data.split(';base64,') 
+        ext = format.split('/')[-1] 
+        data = ContentFile(base64.b64decode(imgstr), name=f"{int(time.time())}.{ext}")
 
-            """ TODO: Send the photo to the ML component here using an if condition
-            if camera == "cam1":
-                # send the photo to the ML component for camera 1
-            elif camera == "cam2":
-                # send the photo to the ML component for camera 2
-            
-            then, recieve the response from the ML component
-            if response == "cheating":
-                # send a message to the client-side to display a cheating warning
-                # and save the photo to the media directory -- this should be done in the ML component
-            elif response == "not_cheating":
-                # send a message to the client-side to remove the cheating warning --with more details
-            """
+        # construct the path to the media directory
+        media_root = settings.MEDIA_ROOT
+        media_dir = os.path.join(media_root, "exams", f"exam_{self.exam_id}", f"user_{self.student_id}, {camera}")
+        os.makedirs(media_dir, exist_ok=True)
+        
+        # save the image to the media directory
+        filename = os.path.join(media_dir, data.name)
+        with open(filename, 'wb') as f:
+            f.write(data.read())
 
-            # construct the path to the media directory
-            media_root = settings.MEDIA_ROOT
-            media_dir = os.path.join(media_root, "exams", f"exam_{self.exam_id}", f"user_{self.student_id}, {camera}")
-            os.makedirs(media_dir, exist_ok=True)
-            
-            # save the image to the media directory
-            filename = os.path.join(media_dir, data.name)
-            with open(filename, 'wb') as f:
-                f.write(data.read())
+        if camera == "cam":
+            self.count += 1
+            test_image = face_recognition.load_image_file(filename)
+            test_face_locations = face_recognition.face_locations(test_image)
+            test_face_encodings = face_recognition.face_encodings(test_image, test_face_locations)
 
-            # if camera == "cam1":
-            #     # send the photo to the recognition ML component
-            #     phase_response(media_dir)
+            if len(test_face_encodings) == 0:
+                print("No faces found in test image")
+                self.empty_photo_count += 1
+            else:
+                for test_face_encoding in test_face_encodings:
+                    matches = face_recognition.compare_faces(self.face_encodings, test_face_encoding)
+                    print(matches)
+                    if True in matches:
+                        print("found")
+                        self.found_count += 1
+                    else:
+                        print("not found")
+                        self.not_found_count += 1
 
     async def send_error(self,error):
         # Send an error message to the client-side
@@ -177,6 +196,9 @@ class ExamConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, reason):
         # End the exam session
         # cancel the timer task if it is still running
+        # TODELETE:
+        print(f"count: {self.count}, found: {self.found_count}, not found: {self.not_found_count}, empty: {self.empty_photo_count}")
+
         if hasattr(self, 'timer_task') and not self.timer_task.done():
             self.timer_task.cancel()
         try:
@@ -198,13 +220,3 @@ class ExamConsumer(AsyncWebsocketConsumer):
             }))
             await asyncio.sleep(1)
         await self.disconnect('time_up')
-
-    async def my_async_function(self):
-        # This is a dummy function to test async/await
-        await asyncio.sleep(1)
-        
-
-# TODO: Implement the MLConsumer class if needed
-class MLConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        pass
