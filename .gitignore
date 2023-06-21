@@ -29,3 +29,5 @@ backend/main_app/ml_models/
 backend/detection/*
 backend/input/*
 backend/runs/*
+#new_face_recognition
+dlib/*
