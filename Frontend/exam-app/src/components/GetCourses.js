@@ -4,9 +4,9 @@ import SearchCourses from "./SearchCourses";
 
 function GetCourses(props) {
   return (
-    <section className="pl-10 mt-100">
+    <section className="p-10 mt-100 general">
       <div className="card bg-light bg-opacity-25 mb-3 mt-100">
-        <div className="card-body ml-10">
+        <div className="card-body ml-10 border border-success">
           <h2 className="text-success">
             {props.requestType === "getNewCourses"
               ? "Search new Courses:"
