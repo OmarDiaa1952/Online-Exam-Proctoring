@@ -48,16 +48,33 @@ export default function UseWindowDimensions(props) {
     setRemainingSeconds(5);
   }, [windowStatus]);
 
+  // useEffect(() => {
+  //   let interval = null;
+  //   interval = setInterval(() => {
+  //     if (remainingSeconds === 0) navigate("/exam-details");
+  //     else if (windowStatus === "notMaximized")
+  //       setRemainingSeconds((remainingSeconds) => remainingSeconds - 1);
+  //     else setRemainingSeconds(5);
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, [remainingSeconds, windowStatus]);
   useEffect(() => {
-    let interval = null;
-    interval = setInterval(() => {
-      if (remainingSeconds === 0) navigate("/exam-details");
-      else if (windowStatus === "notMaximized")
-        setRemainingSeconds((remainingSeconds) => remainingSeconds - 1);
-      else setRemainingSeconds(5);
-    }, 1000);
-    return () => clearInterval(interval);
+    // if (remainingSeconds === 0) navigate("/exam-details");
+    if (remainingSeconds === 0) console.log("Problem in UseWindowDimensions.js");
+    else if (windowStatus === "notMaximized")
+      delay(1).then(() => {
+      setRemainingSeconds((remainingSeconds) => remainingSeconds - 1);
+    });
+    else setRemainingSeconds(5);
   }, [remainingSeconds, windowStatus]);
+
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
+
+  let delay = async (seconds) => {
+    await timeout(1000 * seconds);
+  };
 
   useEffect(() => {
     function handleResize() {
@@ -102,10 +119,6 @@ export default function UseWindowDimensions(props) {
 
   let wait = async () => {
     await timeout(100);
-  };
-
-  let timeout = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   function getDimensions() {

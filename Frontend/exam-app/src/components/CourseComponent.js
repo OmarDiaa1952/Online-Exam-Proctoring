@@ -22,7 +22,7 @@ function CourseComponent(props) {
         <h6>ID: {props.courseData.id}</h6>
         <Link to="/course-details">
           <button
-          className="btn btn-outline-success"
+          className="btn btn-success"
             onClick={() => {
               userCtx.setCourseId(props.courseData.id);
               userCtx.setCourseName(props.courseData.name);

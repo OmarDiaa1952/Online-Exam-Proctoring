@@ -29,12 +29,6 @@ const FaceDetectionPage = () => {
     );
     let data = await response.json();
     if (data.recognized === "true") {
-      swal({
-        title: "Success!",
-        text: "Exam Started!",
-        icon: "success",
-        button: "Ok!",
-      });
       navigate("/exam");
     } else {
       swal({
