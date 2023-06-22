@@ -5,22 +5,38 @@ import { PopupMenu } from "react-simple-widgets";
 import classes from "./NavBar.module.css";
 import UserContext from "../store/user-context";
 
+import hoversvg from "../assets/hover.svg";
+import nohoversvg from "../assets/nohover.svg";
+
+
 function NavBar() {
   const proctobotSpan1 = (
-    <span>
-      <span className="text-success">P</span>
-      <span className="text-light">ROCTO</span>
-      <span className="text-success">B</span>
-      <span className="text-light">OT</span>
-    </span>
+    // <span>
+    //   <span className="text-success">P</span>
+    //   <span className="text-light">ROCTO</span>
+    //   <span className="text-success">B</span>
+    //   <span className="text-light">OT</span>
+    // </span>
+
+    <img
+      style={{ width: "200px" }}
+      src={nohoversvg}
+      alt="proctobot"
+    />
   );
   const proctobotSpan2 = (
-    <span>
-      <span className="text-success">P</span>
-      <span className="text-warning">ROCTO</span>
-      <span className="text-success">B</span>
-      <span className="text-warning">OT</span>
-    </span>
+    // <span>
+    //   <span className="text-success">P</span>
+    //   <span className="text-warning">ROCTO</span>
+    //   <span className="text-success">B</span>
+    //   <span className="text-warning">OT</span>
+    // </span>
+
+    <img
+      style={{ width: "200px" }}
+      src={hoversvg}
+      alt="proctobot"
+    />
   );
 
   const svgIcon = (
