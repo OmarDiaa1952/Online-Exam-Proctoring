@@ -26,7 +26,7 @@ export default function UseWindowDimensions(props) {
   const [remainingSeconds, setRemainingSeconds] = useState(0);
 
   let fullScreenWarningDiv = (
-    <div>
+    <div className="card fixed-top">
       <p>
         Warning, It is prefered to use full screen mode for the exam. If you
         want to use full screen mode, please click on F11 button.
@@ -35,7 +35,7 @@ export default function UseWindowDimensions(props) {
   );
 
   let maximizedWarningDiv = (
-    <div>
+    <div className="card fixed-top">
       <p>
         Warning, You must keep the window maximized otherwise the exam will be
         ended! Please return to the maximized window in {remainingSeconds}{" "}

@@ -83,7 +83,7 @@ const FaceDetectionComponent = (props) => {
     <>
       <div className="card">
         <h3 className="card-header">Pre-Exam Video Check</h3>
-        <div className="card-body">
+        <div className="card-body d-flex flex-column justify-contents-center align-items-center align-self-center">
           <div>
             <h4 className="card-title">
               <VideoTimer
@@ -96,6 +96,8 @@ const FaceDetectionComponent = (props) => {
               audio={false}
               ref={webcamRef}
               videoConstraints={{ deviceId: userCtx.camera1 }}
+              width={400}
+              height={400}
             />
           </div>
           {!capturing && (

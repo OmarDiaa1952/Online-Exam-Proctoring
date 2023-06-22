@@ -25,6 +25,10 @@ body {
     margin: 10px;
 }
 
+.cursor-hover:hover {
+    cursor: pointer;
+}
+
 /* Button styles 
     make the button edges round
     borders get thicker when the mouse hovers over the button

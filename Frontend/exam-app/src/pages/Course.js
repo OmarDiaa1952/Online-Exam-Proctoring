@@ -183,33 +183,8 @@ function CoursePage() {
           <NavBar />
           {!hasVideo && <MissingVideo />}
           <div className="pl-10 mt-100 general">
-            <CourseInfo courseData={courseDetails} />
+            <CourseInfo courseData={courseDetails} leaveCourse={leaveCourse} />
             <ExamsComponentsList components={examsList} onDelete={deleteExam} />
-            {userCtx.type === "examiner" ? (
-              <div>
-                <div>
-                  <Link to="/edit-exam">
-                    <button type="button" className="btn btn-success">Add Exam</button>
-                  </Link>
-                </div>
-                <div>
-                  <Link to="/modify-course" state={courseId}>
-                    <button type="button" className="btn btn-secondary">Edit Course</button>
-                  </Link>
-                </div>
-                <div>
-                  <Link to="/course-students">
-                    <button type="button" className="btn btn-outline-success">View Students</button>
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <button type="button" onClick={leaveCourse} className="btn btn-secondary">
-                  Leave Course
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}

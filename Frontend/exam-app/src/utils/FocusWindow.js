@@ -40,7 +40,7 @@ const FocusWindow = (props) => {
   return (
     <div>
       {!windowFocused && (
-        <p>
+        <p className="card fixed-top">
           Warning, Please return instantly to the exam otherwise the exam will
           be ended! The exam will be closed in {remainingSeconds} seconds
         </p>

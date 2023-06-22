@@ -16,7 +16,7 @@ function WebcamContainer(props) {
               facingMode={props.facingMode1}
             />
           </div>
-          <button onClick={() => setImg1View(!img1view)}>
+          <button className="btn btn-outline-secondary" onClick={() => setImg1View(!img1view)}>
             {img1view ? "Hide my face" : "Show my face"}
           </button>
         </div>
@@ -27,7 +27,7 @@ function WebcamContainer(props) {
               facingMode={props.facingMode2}
             />
           </div>
-          <button onClick={() => setImg2View(!img2view)}>
+          <button className="btn btn-outline-secondary" onClick={() => setImg2View(!img2view)}>
             {img2view ? "Hide environment" : "Show Environment"}
           </button>
         </div>

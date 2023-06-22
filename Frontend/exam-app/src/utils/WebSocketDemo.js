@@ -91,9 +91,8 @@ export default function WebSocketDemo(props) {
   }, []);
 
   return (
-    <div>
-      {remainingTime && <p>Remaining time: {remainingTime}</p>}
-      {/* your app code here */}
+    <div className="card bg-warning fixed-bottom d-flex flex-row justify-content-center">
+      {remainingTime && <p className="fs-3">Remaining time: {remainingTime}</p>}
          
     </div>
   );

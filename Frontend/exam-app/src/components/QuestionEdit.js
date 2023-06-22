@@ -25,9 +25,7 @@ const QuestionEdit = forwardRef((props, ref) => {
           choiceText={choice.text}
           questionText={props.questionText}
           questionId={props.qNumber}
-          checked={
-            props.correctChoice === choice.id
-          }
+          checked={props.correctChoice === choice.id}
           onChoiceChange={choiceChangeHandler}
           onChange={choicesTextChangeHandler}
           onDeleteChoice={deleteChoiceHandler}
@@ -97,7 +95,7 @@ const QuestionEdit = forwardRef((props, ref) => {
   }, [deletedChoiceId]);
 
   useEffect(() => {
-    if(updatedChoice !== null) {
+    if (updatedChoice !== null) {
       let updatedChoices = choicesList.map((prevChoice) => {
         if (prevChoice.id === updatedChoice.id) {
           return { id: updatedChoice.id, text: updatedChoice.text };
@@ -223,15 +221,25 @@ const QuestionEdit = forwardRef((props, ref) => {
           </div>
         </div>
         <div>{choices}</div>
-        <div>
-          <button type="button" onClick={addChoiceHandler} className="btn btn-outline-success">
-            Add Choice
-          </button>
-        </div>
-        <div>
-          <button type="button" onClick={deleteQuestionHandler} className="btn btn-secondary">
-            Delete Question
-          </button>
+        <div className="d-flex flex-row justify-content-between">
+          <div>
+            <button
+              type="button"
+              onClick={addChoiceHandler}
+              className="btn btn-outline-success"
+            >
+              Add Choice
+            </button>
+          </div>
+          <div>
+            <button
+              type="button"
+              onClick={deleteQuestionHandler}
+              className="btn btn-secondary"
+            >
+              Delete Question
+            </button>
+          </div>
         </div>
       </li>
     </div>

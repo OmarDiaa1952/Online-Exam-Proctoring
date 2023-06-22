@@ -126,7 +126,8 @@ function ExamDetailsPage() {
       !examDetails.exam_taken &&
       window.screen.availWidth === window.outerWidth &&
       window.screen.availHeight === window.outerHeight &&
-      hasVideo && hasPhoto
+      hasVideo &&
+      hasPhoto
     ) {
       swal({
         title: "Are you sure you want to start the exam?",
@@ -270,23 +271,27 @@ function ExamDetailsPage() {
           {!hasVideo && <MissingVideo />}
           <div className="general">
             <ExamInfo examData={examDetails} />
-            <div>
-              <button
-                type="button"
-                onClick={startExamHandler}
-                className="btn btn-outline-warning"
-              >
-                Start Exam
-              </button>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={reviewExamHandler}
-                className="btn btn-secondary"
-              >
-                Review Exam
-              </button>
+            <div className="d-flex flex-row">
+              <div className="col-4"></div>
+              <div className="col-2">
+                <button
+                  type="button"
+                  onClick={startExamHandler}
+                  className="btn btn-outline-warning"
+                >
+                  Start Exam
+                </button>
+              </div>
+              <div className="col-2">
+                <button
+                  type="button"
+                  onClick={reviewExamHandler}
+                  className="btn btn-secondary"
+                >
+                  Review Exam
+                </button>
+              </div>
+              <div className="col-4"></div>
             </div>
           </div>
         </div>
