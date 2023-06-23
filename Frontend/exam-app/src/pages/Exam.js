@@ -51,6 +51,14 @@ function ExamPage() {
     if (!delayWindowDimensions) delay(3, setDelayWindowDimensions);
   }, [delayWindowDimensions]);
 
+  useEffect(() => {
+    if (!delayFaceRecognition) delay(7, setDelayFaceRecognition);
+  }, [delayFaceRecognition]);
+
+  useEffect(() => {
+    if (!delayObjectDetection) delay(8, setDelayObjectDetection);
+  }, [delayObjectDetection]);
+
   function dateConverter(date) {
     let year = date.split("/")[2].split(",")[0];
     let month = date.split("/")[0];
@@ -147,6 +155,14 @@ function ExamPage() {
     setIsFocused(focused);
   };
 
+  let changeFaceRecognitionHandler = (flag) => {
+    setFaceRecognitionFlag(flag);
+  };
+
+  let changeObjectDetectionHandler = (flag) => {
+    setObjectDetectionFlag(flag);
+  };
+
   let getTime = (remainingTime) => {
     if (remainingTime) {
       let hours = remainingTime.split(":")[0];
@@ -196,8 +212,8 @@ function ExamPage() {
               windowDimensionsFlag={windowDimensionsFlag}
               focus={isFocused}
               updateTimer={getTime}
-              setFaceRecognition={setFaceRecognitionFlag}
-              setObjectDetection={setObjectDetectionFlag}
+              setFaceRecognition={changeFaceRecognitionHandler}
+              setObjectDetection={changeObjectDetectionHandler}
             />
             {isLoading ? (
               <LoadingSpinner />
