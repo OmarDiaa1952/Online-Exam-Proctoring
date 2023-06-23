@@ -32,3 +32,4 @@ backend/runs/*
 #new_face_recognition
 dlib/*
 backend/output/*
+backend/yolov7.pt
