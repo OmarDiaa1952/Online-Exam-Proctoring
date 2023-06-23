@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Webcam from "react-webcam";
 
+import { FPS } from "./Consts";
+
 const WebcamComponent = () => <Webcam />;
 
 const WebcamCapture = (props) => {
@@ -42,7 +44,7 @@ const WebcamCapture = (props) => {
   }, [props.facingMode]);
 
   let proctoring = async () => {
-    await timeout(5000);
+    await timeout(1000 * FPS);
     capture();
     proctoring();
   };
