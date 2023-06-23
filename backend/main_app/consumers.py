@@ -9,8 +9,9 @@ from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
 import face_recognition
 import base64, time, os, asyncio
-from .ml_models import objectdet
+# from .ml_models import objectdet
 import time
+import requests
 
 class ExamConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -184,12 +185,10 @@ class ExamConsumer(AsyncWebsocketConsumer):
                         print("not found")
                         self.not_found_count += 1
         elif camera == "cam2":
+            # call 127.0.0.1:8080/model/?file_path=filename
             self.cam2_count += 1
-            print("camera2")
-            start_time = time.time()
-            objectdet.detect_objects(img_path=filename, result_path='output/exam')
-            # objectdet.detect_objects(img_path=filename, result_path='output/exam')
-            print("--- %s seconds ---" % (time.time() - start_time))
+            response = requests.get('http://127.0.0.1:8080/model/', params={'file_path': filename})
+            print(response.json())
         
 
     async def send_error(self,error):
