@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import FullScreen from "../utils/FullScreen";
 import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
+import FaceRecognition from "../utils/FaceRecognition";
+import ObjectDetection from "../utils/ObjectDetection";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
@@ -27,6 +29,10 @@ function ExamPage() {
     seconds: null,
   });
   const [delayFocus, setDelayFocus] = useState(false);
+  const [faceRecognitionFlag, setFaceRecognitionFlag] = useState(false);
+  const [delayFaceRecognition, setDelayFaceRecognition] = useState(false);
+  const [objectDetectionFlag, setObjectDetectionFlag] = useState(false);
+  const [delayObjectDetection, setDelayObjectDetection] = useState(false);
   const [examQuestions, setExamQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [changeAnswerId, setChangeAnswerId] = useState(null);
@@ -174,6 +180,12 @@ function ExamPage() {
           onChangeWindowDimensions={changeWindowDimensionsHandler}
         />
       )}
+      {delayFaceRecognition && (
+        <FaceRecognition faceRecognitionFlag={faceRecognitionFlag} />
+      )}
+      {delayObjectDetection && (
+        <ObjectDetection objectDetectionFlag={objectDetectionFlag} />
+      )}
       <div className="container">
         <div className="row">
           <div className="col-9">
@@ -184,6 +196,8 @@ function ExamPage() {
               windowDimensionsFlag={windowDimensionsFlag}
               focus={isFocused}
               updateTimer={getTime}
+              setFaceRecognition={setFaceRecognitionFlag}
+              setObjectDetection={setObjectDetectionFlag}
             />
             {isLoading ? (
               <LoadingSpinner />

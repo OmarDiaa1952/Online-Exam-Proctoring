@@ -23,7 +23,7 @@ export default function WebSocketDemo(props) {
   };
 
   useEffect(() => {
-    if(!socketRef.current || !props.imgUrl) return;
+    if (!socketRef.current || !props.imgUrl) return;
     else if (!delayImg) {
       delay(4, setDelayImg);
       return;
@@ -33,7 +33,7 @@ export default function WebSocketDemo(props) {
   }, [props.imgUrl]);
 
   useEffect(() => {
-    if(!socketRef.current || !props.imgUrl2) return;
+    if (!socketRef.current || !props.imgUrl2) return;
     else if (!delayImg2) {
       delay(6, setDelayImg2);
       return;
@@ -43,8 +43,11 @@ export default function WebSocketDemo(props) {
   }, [props.imgUrl2]);
 
   useEffect(() => {
-    if(!socketRef.current || props.focus === null) return;
-    const warningMsg = { type: "focus_status", is_focused: props.focus && props.windowDimensionsFlag === 1 };
+    if (!socketRef.current || props.focus === null) return;
+    const warningMsg = {
+      type: "focus_status",
+      is_focused: props.focus && props.windowDimensionsFlag === 1,
+    };
     console.log("warningMsg: ", warningMsg);
     socketRef.current.send(JSON.stringify(warningMsg));
   }, [props.focus, props.windowDimensionsFlag]);
@@ -66,7 +69,12 @@ export default function WebSocketDemo(props) {
 
   useEffect(() => {
     // Connect to the WebSocket server
-    socketRef.current = new WebSocket("ws://localhost:8000/ws/exam/" + userCtx.examId + "/?token=" + userCtx.authTokens.access);
+    socketRef.current = new WebSocket(
+      "ws://localhost:8000/ws/exam/" +
+        userCtx.examId +
+        "/?token=" +
+        userCtx.authTokens.access
+    );
 
     // Define event handlers
     socketRef.current.onopen = () => {
@@ -78,17 +86,22 @@ export default function WebSocketDemo(props) {
     socketRef.current.onmessage = (event) => {
       const message = JSON.parse(event.data);
       const messageType = message.type;
-
       if (messageType === "timer") {
         // Update the remaining time
         setRemainingTime(message.remaining_time);
         setMinutes(message.remaining_time.split(":")[1]);
         setSeconds(message.remaining_time.split(":")[2]);
         console.log(`Received message: ${event.data}`);
+      } else if (messageType === "face_recognition") {
+        props.setFaceRecognition(message.face_recognized); //message : {type: "face_recognition", face_recognized: true/false}
+        console.log(`Received message: ${event.data}`);
+      } else if (messageType === "object_detection") {
+        props.setObjectDetection(message.object_detected); //message : {type: "object_detection", object_detected: mobile/laptop/none}
+        console.log(`Received message: ${event.data}`);
       } else if (messageType === "exam_ended") {
         // End the exam session
         socketRef.current.close();
-        navigate("/course")
+        navigate("/course");
       } else {
         console.log(`Received message: ${event.data}`);
       }
