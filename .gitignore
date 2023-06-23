@@ -31,3 +31,4 @@ backend/input/*
 backend/runs/*
 #new_face_recognition
 dlib/*
+backend/output/*
