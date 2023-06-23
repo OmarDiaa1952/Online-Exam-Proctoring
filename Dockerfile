@@ -1,5 +1,6 @@
 # Use an official Python runtime as a parent image
 FROM python
+# FROM debian
 
 # Set the working directory to /app
 WORKDIR /app
@@ -11,9 +12,18 @@ COPY ./backend /app
 COPY ./requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-# RUN apt-get update
+
+# Install git and Python
+# RUN apt-get install -y git python3
+
+# RUN git clone https://github.com/Universe-ML21/script_install_dlib.git \
+#     && chmod +x script_install_dlib/auto_dlib.sh
+
+# RUN bash script_install_dlib/auto_dlib.sh
+
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
-RUN pip install -r requirements.txt
+RUN pip install dlib -vvv
+RUN pip install -r requirements.txt --upgrade
 
 # Expose port 8000 for the Django application
 # EXPOSE 8000
