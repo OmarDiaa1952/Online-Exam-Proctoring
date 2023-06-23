@@ -8,6 +8,8 @@ import UserContext from "../store/user-context";
 import hoversvg from "../assets/hover.svg";
 import nohoversvg from "../assets/nohover.svg";
 
+import hoverpng from "../assets/hoverimg.png";
+import nohoverpng from "../assets/nohoverimg.png";
 
 function NavBar() {
   const proctobotSpan1 = (
@@ -20,7 +22,7 @@ function NavBar() {
 
     <img
       style={{ width: "200px" }}
-      src={nohoversvg}
+      src={nohoverpng}
       alt="proctobot"
     />
   );
@@ -34,7 +36,7 @@ function NavBar() {
 
     <img
       style={{ width: "200px" }}
-      src={hoversvg}
+      src={hoverpng}
       alt="proctobot"
     />
   );
