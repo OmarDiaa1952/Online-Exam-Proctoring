@@ -81,11 +81,11 @@ class ExamConsumer(AsyncWebsocketConsumer):
         elif message_type == 'photo':
             # handle photo message
             print('this is photo message')
-            self.handle_photo(message, "cam1")
+            await self.handle_photo(message, "cam1")
 
         elif message_type == 'photo2':
             # handle photo message from second camera
-            self.handle_photo(message, "cam2")
+            await self.handle_photo(message, "cam2")
 
         elif message_type == 'focus_status':
             # handle focus status message
@@ -146,7 +146,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
             except Exception as e:
                 self.send_error(e)
 
-    def handle_photo(self, message, camera):
+    async def handle_photo(self, message, camera):
         # Get the photo data from the message
         photo_data = message.get('photo_data')
         if photo_data is None:
@@ -189,7 +189,34 @@ class ExamConsumer(AsyncWebsocketConsumer):
             self.cam2_count += 1
             response = requests.get('http://127.0.0.1:8080/model/', params={'file_path': filename})
             print(response.json())
-        
+            # send a message
+            # {"type": "object_detection", "object_detected": "cell phone"/"book"/"none"}
+            
+
+            if 'cell phone' in response.json()['classes']:
+                print('cell phone detected')
+                await self.send_object_detection('cell phone')
+
+
+            print(response.json()['classes'])
+            
+            if 'book' in response.json()['classes']:
+                print('book detected')
+                await self.send_object_detection('book')                
+                
+
+
+
+
+    async def send_object_detection(self, object_detected):
+        # Send an object detection message to the client-side
+        try:
+            await self.send(dumps({
+                'type': 'object_detection',
+                'object_detected': object_detected
+            }))
+        except Exception as e:
+            print(e)
 
     async def send_error(self,error):
         # Send an error message to the client-side
