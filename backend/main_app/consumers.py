@@ -9,6 +9,8 @@ from channels.db import database_sync_to_async
 from django.core.files.base import ContentFile
 import face_recognition
 import base64, time, os, asyncio
+from .ml_models import objectdet
+import time
 
 class ExamConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -45,9 +47,12 @@ class ExamConsumer(AsyncWebsocketConsumer):
         
         # define counters here
         self.count = 0
+        
         self.found_count = 0
         self.not_found_count = 0
         self.empty_photo_count = 0
+        self.cam2_count = 0
+        self.exam_start_time = time.time()
 
         # profile photo details
         image = face_recognition.load_image_file(f"{settings.MEDIA_ROOT}/profile_pics/user_{self.student_id}/{self.username}.jpeg")
@@ -178,6 +183,14 @@ class ExamConsumer(AsyncWebsocketConsumer):
                     else:
                         print("not found")
                         self.not_found_count += 1
+        elif camera == "cam2":
+            self.cam2_count += 1
+            print("camera2")
+            start_time = time.time()
+            objectdet.detect_objects(img_path=filename, result_path='output/exam')
+            # objectdet.detect_objects(img_path=filename, result_path='output/exam')
+            print("--- %s seconds ---" % (time.time() - start_time))
+        
 
     async def send_error(self,error):
         # Send an error message to the client-side
@@ -193,7 +206,19 @@ class ExamConsumer(AsyncWebsocketConsumer):
         # End the exam session
         # cancel the timer task if it is still running
         # TODELETE:
+
+
+    
+
+        exam_end_time = time.time()
         print(f"count: {self.count}, found: {self.found_count}, not found: {self.not_found_count}, empty: {self.empty_photo_count}")
+        print(f"cam2 count: {self.cam2_count}")
+        exam_duration = exam_end_time - self.exam_start_time
+        print(f"exam duration in seconds: {exam_duration}")
+        
+        if self.count != 0 and self.cam2_count != 0:
+            print(f"frame rate CAM1: 1 frame : {exam_duration/self.count} second")
+            print(f"frame rate CAM2: 1 frame : {exam_duration/self.cam2_count} second")
 
         if hasattr(self, 'timer_task') and not self.timer_task.done():
             self.timer_task.cancel()
