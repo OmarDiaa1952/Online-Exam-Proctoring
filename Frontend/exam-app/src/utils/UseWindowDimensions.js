@@ -23,7 +23,7 @@ export default function UseWindowDimensions(props) {
 
   const [windowStatus, setWindowStatus] = useState("fullScreen");
   const [initialized, setInitialized] = useState(false);
-  const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [remainingSeconds, setRemainingSeconds] = useState(5);
 
   let fullScreenWarningDiv = (
     <div className="card fixed-top">
@@ -44,9 +44,9 @@ export default function UseWindowDimensions(props) {
     </div>
   );
 
-  useEffect(() => {
-    setRemainingSeconds(5);
-  }, [windowStatus]);
+  // useEffect(() => {
+  //   setRemainingSeconds(5);
+  // }, [windowStatus]);
 
   // useEffect(() => {
   //   let interval = null;
@@ -59,8 +59,7 @@ export default function UseWindowDimensions(props) {
   //   return () => clearInterval(interval);
   // }, [remainingSeconds, windowStatus]);
   useEffect(() => {
-    // if (remainingSeconds === 0) navigate("/exam-details");
-    if (remainingSeconds === 0) console.log("Problem in UseWindowDimensions.js");
+    if (remainingSeconds === 0) navigate("/exam-details");
     else if (windowStatus === "notMaximized")
       delay(1).then(() => {
       setRemainingSeconds((remainingSeconds) => remainingSeconds - 1);
