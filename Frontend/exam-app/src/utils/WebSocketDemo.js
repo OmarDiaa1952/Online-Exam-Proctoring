@@ -9,9 +9,24 @@ export default function WebSocketDemo(props) {
   const [remainingTime, setRemainingTime] = useState(null);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [delayImg, setDelayImg] = useState(false);
   const socketRef = useRef(null);
+
+  function timeout(delay) {
+    return new Promise((res) => setTimeout(res, delay));
+  }
+
+  let delay = async (seconds, func) => {
+    await timeout(1000 * seconds);
+    func(true);
+  };
+
   useEffect(() => {
     if(!socketRef.current || !props.imgUrl) return;
+    else if (!delayImg) {
+      delay(5, setDelayImg);
+      return;
+    }
     const imgUrl = { type: "photo", photo_data: props.imgUrl };
     socketRef.current.send(JSON.stringify(imgUrl));
   }, [props.imgUrl]);
