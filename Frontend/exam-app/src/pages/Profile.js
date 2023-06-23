@@ -74,7 +74,7 @@ function ProfilePage() {
     );
     let data = await response.json();
     if (response.status === 200) {
-      if (data.has_photo) {
+      if (data.photo_exists) {
         setHasPhoto(true);
       } else {
         setHasPhoto(false);
