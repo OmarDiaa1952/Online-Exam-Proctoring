@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 import UserInfo from "../components/UserInfo";
@@ -45,9 +45,6 @@ const svgImg = (
 
 function ProfilePage() {
   const userCtx = useContext(UserContext);
-  const location = useLocation();
-  let image = location.state ? location.state : null;
-  const [imageDataURL, setImageDataURL] = useState(image);
   const [hasPhoto, setHasPhoto] = useState(false);
   const [userData, setUserData] = useState({
     username: "",
@@ -59,10 +56,6 @@ function ProfilePage() {
 
   useEffect(() => {
     if (userCtx.type === "student") checkPhoto();
-    if (imageDataURL) {
-      setPhoto();
-      setImageDataURL(null);
-    }
     getUserData();
   }, [hasPhoto]);
 
@@ -88,29 +81,6 @@ function ProfilePage() {
       });
     }
     setIsLoading(false);
-  };
-
-  let setPhoto = async () => {
-    setIsLoading(true);
-    let response = await put(
-      BASEURL + "/users/photoupload",
-      { photo: imageDataURL },
-      userCtx.authTokens.access
-    );
-    if (response.status === 200) {
-      setUserData((prev) => ({
-        ...prev,
-        photo: imageDataURL.photo,
-      }));
-      setIsLoading(false);
-    } else {
-      swal({
-        title: "Error",
-        text: "Couldn't upload your photo.",
-        icon: "error",
-        button: "OK",
-      });
-    }
   };
 
   let getUserData = async () => {
