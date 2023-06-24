@@ -22,7 +22,7 @@ COPY ./requirements.txt .
 # RUN bash script_install_dlib/auto_dlib.sh
 
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
-RUN pip install dlib -vvv
+# RUN pip install dlib -vvv
 RUN pip install -r requirements.txt --upgrade
 
 # Expose port 8000 for the Django application

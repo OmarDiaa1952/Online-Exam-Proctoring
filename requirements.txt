@@ -20,8 +20,9 @@ python-dotenv==0.19.1
 gunicorn==20.1.0
 
 # dlib==19.24.2 #it may fail to install
-face_recognition==1.3.0
+# face_recognition==1.3.0
 yolov7detect==1.0.1
+scikit-learn
 
 ##############################################
 

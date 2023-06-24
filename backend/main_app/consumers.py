@@ -187,7 +187,7 @@ class ExamConsumer(AsyncWebsocketConsumer):
         elif camera == "cam2":
             # call 127.0.0.1:8080/model/?file_path=filename
             self.cam2_count += 1
-            response = requests.get('http://127.0.0.1:8080/model/', params={'file_path': filename})
+            response = requests.get('http://159.89.101.145:8080/model/', params={'file_path': filename})
             print(response.json())
             # send a message
             # {"type": "object_detection", "object_detected": "cell phone"/"book"/"none"}
