@@ -33,3 +33,4 @@ backend/runs/*
 dlib/*
 backend/output/*
 backend/yolov7.pt
+backend/best.pt
