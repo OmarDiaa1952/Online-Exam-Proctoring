@@ -416,7 +416,7 @@ function ExamPage() {
           <div className="container">
             <div className="row">
               <div className="col-9">
-                {/* <WebSocketDemo
+                <WebSocketDemo
                   imgUrl={imgUrl}
                   imgUrl2={imgUrl2}
                   changeAnswerId={changeAnswerId}
@@ -427,7 +427,7 @@ function ExamPage() {
                   setRefreshFaceRecognition={updateFaceRecognitionHandler}
                   setObjectDetection={changeObjectDetectionHandler}
                   setRefreshObjectDetection={updateObjectDetectionHandler}
-                /> */}
+                />
                 {isLoading ? (
                   <LoadingSpinner />
                 ) : (
@@ -458,8 +458,6 @@ function ExamPage() {
           </div>
         </div>
       ) : (
-        //allign in the center of the page
-        // <div className="d-flex">
         <div className="h-100 d-flex align-items-center justify-content-center flex-column">
           <p className="fs-3">Please enable the mic to load the exam</p>
           <button
@@ -472,7 +470,6 @@ function ExamPage() {
             Allow Microphone
           </button>
         </div>
-        // </div>
       )}
     </section>
   );

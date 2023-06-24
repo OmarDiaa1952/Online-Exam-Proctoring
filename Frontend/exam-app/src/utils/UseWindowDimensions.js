@@ -23,49 +23,6 @@ export default function UseWindowDimensions(props) {
 
   const [windowStatus, setWindowStatus] = useState("fullScreen");
   const [initialized, setInitialized] = useState(false);
-  const [remainingSeconds, setRemainingSeconds] = useState(5);
-
-  let fullScreenWarningDiv = (
-    <div className="card fixed-top">
-      <p>
-        Warning, It is prefered to use full screen mode for the exam. If you
-        want to use full screen mode, please click on F11 button.
-      </p>
-    </div>
-  );
-
-  let maximizedWarningDiv = (
-    <div className="card fixed-top">
-      <p>
-        Warning, You must keep the window maximized otherwise the exam will be
-        ended! Please return to the maximized window in {remainingSeconds}{" "}
-        seconds.
-      </p>
-    </div>
-  );
-
-  // useEffect(() => {
-  //   setRemainingSeconds(5);
-  // }, [windowStatus]);
-
-  // useEffect(() => {
-  //   let interval = null;
-  //   interval = setInterval(() => {
-  //     if (remainingSeconds === 0) navigate("/exam-details");
-  //     else if (windowStatus === "notMaximized")
-  //       setRemainingSeconds((remainingSeconds) => remainingSeconds - 1);
-  //     else setRemainingSeconds(5);
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [remainingSeconds, windowStatus]);
-  useEffect(() => {
-    if (remainingSeconds === 0) navigate("/exam-details");
-    else if (windowStatus === "notMaximized")
-      delay(1).then(() => {
-      setRemainingSeconds((remainingSeconds) => remainingSeconds - 1);
-    });
-    else setRemainingSeconds(5);
-  }, [remainingSeconds, windowStatus]);
 
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
@@ -135,11 +92,6 @@ export default function UseWindowDimensions(props) {
 
   return (
     <div>
-      {windowStatus === "maximized"
-        ? fullScreenWarningDiv
-        : windowStatus === "notMaximized"
-        ? maximizedWarningDiv
-        : null}
     </div>
   );
 }

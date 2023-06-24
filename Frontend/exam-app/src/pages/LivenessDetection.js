@@ -31,14 +31,14 @@ const LivenessDetectionPage = () => {
     if (data.recognized === "true") {
       navigate("/exam");
     } else {
-      navigate("/exam");
-      // swal({
-      //   title: "Failed!",
-      //   text: "Failed to identify your face!",
-      //   icon: "warning",
-      //   button: "Ok!",
-      // });
-      // navigate("/exam-details");
+      // navigate("/exam");
+      swal({
+        title: "Failed!",
+        text: "Failed to identify your face!",
+        icon: "warning",
+        button: "Ok!",
+      });
+      navigate("/exam-details");
     }
     setIsLoading(false);
   };
