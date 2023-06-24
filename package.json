@@ -14,6 +14,7 @@
     "react-use-websocket": "^3.0.0",
     "react-webcam": "^7.0.1",
     "sass": "^1.63.4",
+    "socket.io-client": "^4.7.0",
     "sweetalert": "^2.1.2",
     "use-window-focus": "^1.4.2"
   },

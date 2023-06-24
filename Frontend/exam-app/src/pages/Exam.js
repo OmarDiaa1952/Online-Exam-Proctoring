@@ -9,8 +9,6 @@ import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
 import FaceRecognition from "../utils/FaceRecognition";
 import ObjectDetection from "../utils/ObjectDetection";
-// import Mic from "../components/Mic";
-// import getKeywords from "../utils/keywords";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get } from "../utils/Fetch";
 import {
@@ -24,11 +22,14 @@ import {
 } from "../utils/Consts";
 import WebcamContainer from "../components/WebcamContainer";
 import LoadingSpinner from "../components/LoadingSpinner";
+import useMic from "../hooks/useMic";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
   const examId = userCtx.examId;
   const navigate = useNavigate();
+  const { init, stop } = useMic(onCheating);
+
   const [imgUrl, setImgUrl] = useState("");
   const [imgUrl2, setImgUrl2] = useState("");
   const [windowDimensionsFlag, setWindowDimensionsFlag] = useState(0);
@@ -47,7 +48,7 @@ function ExamPage() {
   const [objectDetectionRefresh, setObjectDetectionRefresh] = useState(false);
   const [delayObjectDetection, setDelayObjectDetection] = useState(false);
   const [wordsRecognized, setWordsRecognized] = useState([]);
-  const [allowMic, setAllowMic] = useState(true);
+  const [allowMic, setAllowMic] = useState(false);
   const [warningStates, setWarningStates] = useState({
     focus: { flag: false, timer: 5 },
     windowDimensionsFlag: { flag: false, timer: 5 },
@@ -56,6 +57,7 @@ function ExamPage() {
     speechRecognitionFlag: { flag: false, timer: 5 },
   }); // flag: true = warning, false = no warning
   const [warningMsgs, setWarningMsgs] = useState([]);
+  const [initialized, setInitialized] = useState(false);
   const [timerFlag, setTimerFlag] = useState(false);
   const [examQuestions, setExamQuestions] = useState([]);
   const [examText, setExamText] = useState("");
@@ -84,88 +86,105 @@ function ExamPage() {
     if (!delayObjectDetection) delay(8, setDelayObjectDetection);
   }, [delayObjectDetection]);
 
+  useEffect(() => {
+    console.log(wordsRecognized);
+  }, [wordsRecognized]);
+
   useEffect(() => {}, [allowMic]);
 
   useEffect(() => {
-    let newWarningStates = { ...warningStates };
-    let newWarningMsgs = [];
-    if (isFocused) {
-      newWarningStates.focus.flag = false;
-      newWarningStates.focus.timer = 5;
-    } else if (!isFocused && warningStates.focus.timer === 0) {
-      navigate("/exam-details");
+    console.log(examText);
+  }, [examText]);
+
+  useEffect(() => {
+    if (initialized) {
+      let newWarningStates = { ...warningStates };
+      let newWarningMsgs = [];
+      if (isFocused) {
+        newWarningStates.focus.flag = false;
+        newWarningStates.focus.timer = 5;
+      } else if (!isFocused && warningStates.focus.timer === 0) {
+        // navigate("/exam-details");
+        console.log("not focused");
+      } else {
+        newWarningMsgs.push(
+          NOT_FOCUSED_WARNING + warningStates.focus.timer + " seconds"
+        );
+        newWarningStates.focus.flag = true;
+        newWarningStates.focus.timer = warningStates.focus.timer - 1;
+      }
+      if (windowDimensionsFlag === 1) {
+        newWarningStates.windowDimensionsFlag.flag = false;
+        newWarningStates.windowDimensionsFlag.timer = 5;
+      } else if (
+        windowDimensionsFlag === 0 &&
+        warningStates.windowDimensionsFlag.timer === 0
+      ) {
+        // navigate("/exam-details");
+        console.log("not maximized");
+      } else {
+        newWarningMsgs.push(
+          NOT_MAXIMIZED_WARNING +
+            warningStates.windowDimensionsFlag.timer +
+            " seconds"
+        );
+        newWarningStates.windowDimensionsFlag.flag = true;
+        newWarningStates.windowDimensionsFlag.timer =
+          warningStates.windowDimensionsFlag.timer - 1;
+      }
+      if (
+        faceRecognitionFlag === 1 &&
+        warningStates.faceRecognitionFlag.timer > 0
+      ) {
+        newWarningStates.faceRecognitionFlag.flag = true;
+        newWarningStates.faceRecognitionFlag.timer =
+          warningMsgs.faceRecognitionFlag.timer - 1;
+      } else if (
+        faceRecognitionFlag === 1 &&
+        warningStates.faceRecognitionFlag.timer === 0
+      ) {
+        newWarningStates.faceRecognitionFlag.flag = false;
+      } else if (faceRecognitionFlag === 0) {
+        newWarningStates.faceRecognitionFlag.flag = true;
+        newWarningStates.faceRecognitionFlag.timer = 5;
+        newWarningMsgs.push(FACE_NOT_FOUND_WARNING);
+      } else if (faceRecognitionFlag === 2) {
+        newWarningStates.faceRecognitionFlag.flag = true;
+        newWarningStates.faceRecognitionFlag.timer = 5;
+        newWarningMsgs.push(MORE_THAN_ONE_FACE_WARNING);
+      }
+      if (
+        objectDetectionFlag === "cell phone" ||
+        objectDetectionFlag === "book"
+      ) {
+        newWarningStates.objectDetectionFlag.flag = true;
+        newWarningStates.objectDetectionFlag.timer = 5;
+        newWarningMsgs.push(OBJECT_DETECTION_WARNING + objectDetectionFlag);
+      } else if (warningStates.faceRecognitionFlag.timer === 0) {
+        newWarningStates.objectDetectionFlag.flag = false;
+      } else {
+        newWarningStates.objectDetectionFlag.flag = true;
+        newWarningStates.objectDetectionFlag.timer =
+          warningStates.objectDetectionFlag.timer - 1;
+      }
+      if (wordsRecognized.length > 0) {
+        newWarningStates.speechRecognitionFlag.flag = true;
+        newWarningStates.speechRecognitionFlag.timer = 5;
+        newWarningMsgs.push(SPEECH_RECOGNITION_WARNING + wordsRecognized);
+      } else if (warningStates.speechRecognitionFlag.timer === 0) {
+        newWarningStates.speechRecognitionFlag.flag = false;
+      } else {
+        newWarningStates.speechRecognitionFlag.flag = true;
+        newWarningStates.speechRecognitionFlag.timer =
+          warningStates.speechRecognitionFlag.timer - 1;
+      }
+      setWarningStates(newWarningStates);
+      setWarningMsgs(newWarningMsgs);
+      delayTimer(1);
     } else {
-      newWarningMsgs.push(
-        NOT_FOCUSED_WARNING + warningStates.focus.timer + " seconds"
-      );
-      newWarningStates.focus.flag = true;
-      newWarningStates.focus.timer = warningStates.focus.timer - 1;
+      setInitialized(true);
+      delayTimer(9);
     }
-    if (windowDimensionsFlag === 1) {
-      newWarningStates.windowDimensionsFlag.flag = false;
-      newWarningStates.windowDimensionsFlag.timer = 5;
-    } else if (
-      windowDimensionsFlag === 0 &&
-      warningStates.windowDimensionsFlag.timer === 0
-    ) {
-      navigate("/exam-details");
-    } else {
-      newWarningMsgs.push(
-        NOT_MAXIMIZED_WARNING +
-          warningStates.windowDimensionsFlag.timer +
-          " seconds"
-      );
-      newWarningStates.windowDimensionsFlag.flag = true;
-      newWarningStates.windowDimensionsFlag.timer =
-        warningStates.windowDimensionsFlag.timer - 1;
-    }
-    if (
-      faceRecognitionFlag === 1 &&
-      warningStates.faceRecognitionFlag.timer > 0
-    ) {
-      newWarningStates.faceRecognitionFlag.flag = true;
-      newWarningStates.faceRecognitionFlag.timer =
-        warningMsgs.faceRecognitionFlag.timer - 1;
-    } else if (
-      faceRecognitionFlag === 1 &&
-      warningStates.faceRecognitionFlag.timer === 0
-    ) {
-      newWarningStates.faceRecognitionFlag.flag = false;
-    } else if (faceRecognitionFlag === 0) {
-      newWarningStates.faceRecognitionFlag.flag = true;
-      newWarningStates.faceRecognitionFlag.timer = 5;
-      newWarningMsgs.push(FACE_NOT_FOUND_WARNING);
-    } else if (faceRecognitionFlag === 2) {
-      newWarningStates.faceRecognitionFlag.flag = true;
-      newWarningStates.faceRecognitionFlag.timer = 5;
-      newWarningMsgs.push(MORE_THAN_ONE_FACE_WARNING);
-    }
-    if (
-      objectDetectionFlag === "cell phone" ||
-      objectDetectionFlag === "book"
-    ) {
-      newWarningStates.objectDetectionFlag.flag = true;
-      newWarningStates.objectDetectionFlag.timer = 5;
-      newWarningMsgs.push(OBJECT_DETECTION_WARNING + objectDetectionFlag);
-    } else if (warningStates.faceRecognitionFlag.timer === 0) {
-      newWarningStates.objectDetectionFlag.flag = false;
-    } else {
-      newWarningStates.objectDetectionFlag.flag = true;
-      newWarningStates.objectDetectionFlag.timer =
-        warningStates.objectDetectionFlag.timer - 1;
-    }
-    if (wordsRecognized.length > 0) {
-      newWarningStates.speechRecognitionFlag.flag = true;
-      newWarningStates.speechRecognitionFlag.timer = 5;
-      newWarningMsgs.push(SPEECH_RECOGNITION_WARNING + wordsRecognized);
-    } else if (warningStates.speechRecognitionFlag.timer === 0) {
-      newWarningStates.speechRecognitionFlag.flag = false;
-    } else {
-      newWarningStates.speechRecognitionFlag.flag = true;
-      newWarningStates.speechRecognitionFlag.timer =
-        warningStates.speechRecognitionFlag.timer - 1;
-    }
-    delayTimer(1);
   }, [timerFlag]);
 
   function dateConverter(date) {
@@ -212,9 +231,13 @@ function ExamPage() {
         data.reduce(
           (acc, question) =>
             acc +
+            " " +
             question.question_text +
             " " +
-            question.choices.reduce((acc, choice) => acc + choice, "") +
+            question.choices.reduce(
+              (acc, choice) => acc + " " + choice + " ",
+              ""
+            ) +
             " ",
           ""
         )
@@ -231,6 +254,7 @@ function ExamPage() {
   };
 
   let finishHandler = () => {
+    stop();
     history("/course");
   };
 
@@ -291,6 +315,30 @@ function ExamPage() {
     setAllowMic(true);
   };
 
+  function onCheating(text) {
+    console.log(text);
+    let counter = 0;
+    let arrChar = text.split("");
+    let cheatingWords = "";
+    while (counter < arrChar.length) {
+      while (counter < arrChar.length && arrChar[counter] !== "[") counter++;
+      counter++;
+      while (counter < arrChar.length && arrChar[counter] !== "]") {
+        cheatingWords += arrChar[counter];
+        counter++;
+      }
+      cheatingWords += " ";
+      counter++;
+    }
+    console.log(cheatingWords);
+    if (cheatingWords.length) {
+      setWordsRecognized(cheatingWords);
+      delay(2).then(() => {
+        setWordsRecognized("");
+      });
+    }
+  }
+
   let updateFaceRecognitionHandler = (flag) => {
     setFaceRecognitionRefresh(flag);
   };
@@ -320,7 +368,7 @@ function ExamPage() {
 
   let delay = async (seconds, func) => {
     await timeout(1000 * seconds);
-    func(true);
+    if (func) func(true);
   };
 
   let delayTimer = async (seconds) => {
@@ -330,14 +378,15 @@ function ExamPage() {
 
   return (
     <section className="general">
-      {!allowMic ? (
-        <div>
-          <p>Please enable the mic to load the exam</p>
-          <button onClick={changeMicHandler}>Allow</button>
+      {warningMsgs.length > 0 && (
+        <div className="card fixed-top">
+          {warningMsgs.map((msg) => (
+            <p>{msg}</p>
+          ))}
         </div>
-      ) : (
+      )}
+      {allowMic ? (
         <div>
-          {/* <Mic examText={examText} setWords={changeWordsHandler} /> */}
           {/* <FullScreen /> */}
           {delayFocus && <FocusWindow onChangeFocus={changeFocusHandler} />}
           {delayWindowDimensions && (
@@ -367,7 +416,7 @@ function ExamPage() {
           <div className="container">
             <div className="row">
               <div className="col-9">
-                <WebSocketDemo
+                {/* <WebSocketDemo
                   imgUrl={imgUrl}
                   imgUrl2={imgUrl2}
                   changeAnswerId={changeAnswerId}
@@ -378,7 +427,7 @@ function ExamPage() {
                   setRefreshFaceRecognition={updateFaceRecognitionHandler}
                   setObjectDetection={changeObjectDetectionHandler}
                   setRefreshObjectDetection={updateObjectDetectionHandler}
-                />
+                /> */}
                 {isLoading ? (
                   <LoadingSpinner />
                 ) : (
@@ -408,6 +457,22 @@ function ExamPage() {
             </div>
           </div>
         </div>
+      ) : (
+        //allign in the center of the page
+        // <div className="d-flex">
+        <div className="h-100 d-flex align-items-center justify-content-center flex-column">
+          <p className="fs-3">Please enable the mic to load the exam</p>
+          <button
+            onClick={() => {
+              init(examText);
+              setAllowMic(true);
+            }}
+            className="btn btn-secondary"
+          >
+            Allow Microphone
+          </button>
+        </div>
+        // </div>
       )}
     </section>
   );

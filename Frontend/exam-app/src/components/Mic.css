@@ -1,0 +1,139 @@
+/* .btn-holder {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+    margin: auto;
+    border: #000000;
+} */
+
+/*--------------------------------*/
+/* CSS */
+/* button {
+    align-items: center;
+    appearance: none;
+    background-image: radial-gradient(
+        100% 100% at 100% 0,
+        #5adaff 0,
+        #5468ff 100%
+    );
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+        rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono", monospace;
+    height: 48px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow 0.15s, transform 0.15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 18px;
+}
+
+button:disabled {
+    background-image: radial-gradient(
+        100% 100% at 100% 0,
+        #ff5a5a 0,
+        #ff5454 100%
+    );
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(66, 35, 35, 0.4) 0 2px 4px,
+        rgba(66, 35, 35, 0.3) 0 7px 13px -3px,
+        rgba(111, 58, 58, 0.5) 0 -3px 0 inset;
+}
+
+button:focus:not(:disabled) {
+    box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+button:hover:not(:disabled) {
+    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+    box-shadow: #3c4fe0 0 3px 7px inset;
+    transform: translateY(2px);
+}
+textarea {
+    margin-top: 2rem;
+    width: 50%;
+    height: 100px;
+    resize: none;
+    font-size: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+} */
+/*--------------------------------*/
+/* .container {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+.results-holder {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+.responsive-table {
+    padding: 0 20px;
+}
+.responsive-table li {
+    border-radius: 3px;
+    padding: 15px 15px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.responsive-table .table-header {
+    background-color: #95a5a6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 20px 15px;
+    margin-bottom: 20px;
+}
+.responsive-table .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+}
+.responsive-table .col-1 {
+    flex-basis: 10%;
+    text-align: start;
+}
+.responsive-table .col-2 {
+    flex-basis: 25%;
+}
+.responsive-table .col-3 {
+    flex-basis: 25%;
+}
+.responsive-table .col-4 {
+    flex-basis: 25%;
+}
+
+.responsive-table .col-5 {
+    flex-basis: 25%;
+} */
