@@ -92,10 +92,14 @@ export default function WebSocketDemo(props) {
         setMinutes(message.remaining_time.split(":")[1]);
         setSeconds(message.remaining_time.split(":")[2]);
         console.log(`Received message: ${event.data}`);
+        props.setRefreshFaceRecognition(false);
+        props.setRefreshObjectDetection(false);
       } else if (messageType === "face_recognition") {
+        props.setRefreshFaceRecognition(true);
         props.setFaceRecognition(message.face_recognized); //message : {type: "face_recognition", face_recognized: true/false}
         console.log(`Received message: ${event.data}`);
       } else if (messageType === "object_detection") {
+        props.setRefreshObjectDetection(true);
         props.setObjectDetection(message.object_detected); //message : {type: "object_detection", object_detected: mobile/laptop/none}
         console.log(`Received message: ${event.data}`);
       } else if (messageType === "exam_ended") {
