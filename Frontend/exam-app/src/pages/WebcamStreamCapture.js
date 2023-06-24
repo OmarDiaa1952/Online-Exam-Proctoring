@@ -7,7 +7,7 @@ import { post, get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import UserContext from "../store/user-context";
 import CameraSet from "../components/CameraSet";
-import FaceDetectionComponent from "../components/FaceDetectionComponent";
+import LivenessDetectionComponent from "../components/LivenessDetectionComponent";
 import LoadingSpinner from "../components/LoadingSpinner";
 import NavBar from "../components/NavBar";
 
@@ -74,8 +74,9 @@ const WebcamStreamCapturePage = () => {
           <NavBar />
           <div className="general">
             {cameraSetFlag ? (
-              <FaceDetectionComponent
+              <LivenessDetectionComponent
                 setVideo={videoUpload}
+                title={"Face Registration Video"}
                 startMessage={"Start Recording"}
                 messageDisplayed={"Remaining Time: "}
               />

@@ -2,14 +2,14 @@ import { useContext, useEffect, useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 
-import classes from "./FaceDetectionComponent.module.css";
+import classes from "./LivenessDetectionComponent.module.css";
 import { post, get } from "../utils/Fetch";
 import UserContext from "../store/user-context";
 import VideoTimer from "../utils/VideoTimer";
 
 const WebcamComponent = () => <Webcam />;
 
-const FaceDetectionComponent = (props) => {
+const LivenessDetectionComponent = (props) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const webcamRef = useRef(null);
@@ -82,7 +82,7 @@ const FaceDetectionComponent = (props) => {
   return (
     <>
       <div className="card">
-        <h3 className="card-header">Pre-Exam Video Check</h3>
+        <h3 className="card-header">{props.title}</h3>
         <div className="card-body d-flex flex-column justify-contents-center align-items-center align-self-center">
           <div>
             <h4 className="card-title">
@@ -109,4 +109,4 @@ const FaceDetectionComponent = (props) => {
   );
 };
 
-export default FaceDetectionComponent;
+export default LivenessDetectionComponent;

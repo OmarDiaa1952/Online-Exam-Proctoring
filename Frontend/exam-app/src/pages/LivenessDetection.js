@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 import CameraSet from "../components/CameraSet";
-import FaceDetectionComponent from "../components/FaceDetectionComponent";
+import LivenessDetectionComponent from "../components/LivenessDetectionComponent";
 import UserContext from "../store/user-context";
 import { post } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
 import LoadingSpinner from "../components/LoadingSpinner";
 import NavBar from "../components/NavBar";
 
-const FaceDetectionPage = () => {
+const LivenessDetectionPage = () => {
   const [cameraSetFlag, setCameraSetFlag] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
-  let faceDetectionHandler = () => {
+  let livenessDetectionHandler = () => {
     setCameraSetFlag(true);
   };
 
@@ -31,13 +31,14 @@ const FaceDetectionPage = () => {
     if (data.recognized === "true") {
       navigate("/exam");
     } else {
-      swal({
-        title: "Failed!",
-        text: "Failed to identify your face!",
-        icon: "warning",
-        button: "Ok!",
-      });
-      navigate("/exam-details");
+      navigate("/exam");
+      // swal({
+      //   title: "Failed!",
+      //   text: "Failed to identify your face!",
+      //   icon: "warning",
+      //   button: "Ok!",
+      // });
+      // navigate("/exam-details");
     }
     setIsLoading(false);
   };
@@ -51,13 +52,14 @@ const FaceDetectionPage = () => {
           <NavBar />
           <div className="general">
             {cameraSetFlag ? (
-              <FaceDetectionComponent
+              <LivenessDetectionComponent
                 setVideo={sendVideo}
+                title={"Pre-Exam Video Check"}
                 startMessage={"Start Exam"}
                 messageDisplayed={"The Exam will start in:"}
               />
             ) : (
-              <CameraSet onProceed={faceDetectionHandler} />
+              <CameraSet onProceed={livenessDetectionHandler} />
             )}
           </div>
         </div>
@@ -66,4 +68,4 @@ const FaceDetectionPage = () => {
   );
 };
 
-export default FaceDetectionPage;
+export default LivenessDetectionPage;

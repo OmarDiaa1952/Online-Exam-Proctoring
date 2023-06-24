@@ -17,7 +17,7 @@ import WebcamStreamCapturePage from "./pages/WebcamStreamCapture";
 import ProfilePage from "./pages/Profile";
 import ProfilePic from "./pages/ProfilePic";
 import CourseStudentsPage from "./pages/CourseStudents";
-import FaceDetectionPage from "./pages/FaceDetection";
+import LivenessDetectionPage from "./pages/LivenessDetection";
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
       <Route path="/Preview-exam" exact element={<PreviewExamPage />} />
       <Route path="/log-file" exact element={<LogFilePage />} />
       <Route path="/stream" exact element={<WebcamStreamCapturePage />} />
-      <Route path="/face-detection" exact element={<FaceDetectionPage />} />
+      <Route path="/liveness-detection" exact element={<LivenessDetectionPage />} />
     </Routes>
   );
 }

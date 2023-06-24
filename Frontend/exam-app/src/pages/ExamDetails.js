@@ -144,7 +144,7 @@ function ExamDetailsPage() {
             },
             (err) => console.log(err)
           );
-          navigate("/face-detection");
+          navigate("/liveness-detection");
           swal("One moment before you start the exam...", {
             icon: "success",
           });
