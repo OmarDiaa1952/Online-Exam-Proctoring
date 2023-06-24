@@ -9,6 +9,8 @@ import UseWindowDimensions from "../utils/UseWindowDimensions";
 import FocusWindow from "../utils/FocusWindow";
 import FaceRecognition from "../utils/FaceRecognition";
 import ObjectDetection from "../utils/ObjectDetection";
+import Mic from "../components/Mic";
+import getKeywords from "../utils/keywords";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get } from "../utils/Fetch";
 import { BASEURL } from "../utils/Consts";
@@ -30,10 +32,14 @@ function ExamPage() {
   });
   const [delayFocus, setDelayFocus] = useState(false);
   const [faceRecognitionFlag, setFaceRecognitionFlag] = useState(false);
+  const [faceRecognitionRefresh, setFaceRecognitionRefresh] = useState(false);
   const [delayFaceRecognition, setDelayFaceRecognition] = useState(false);
   const [objectDetectionFlag, setObjectDetectionFlag] = useState(false);
+  const [objectDetectionRefresh, setObjectDetectionRefresh] = useState(false);
   const [delayObjectDetection, setDelayObjectDetection] = useState(false);
+  const [allowMic, setAllowMic] = useState(true);
   const [examQuestions, setExamQuestions] = useState([]);
+  const [examText, setExamText] = useState("");
   const [userAnswers, setUserAnswers] = useState([]);
   const [changeAnswerId, setChangeAnswerId] = useState(null);
   const [startTime, setStartTime] = useState("");
@@ -58,6 +64,8 @@ function ExamPage() {
   useEffect(() => {
     if (!delayObjectDetection) delay(8, setDelayObjectDetection);
   }, [delayObjectDetection]);
+
+  useEffect(() => {}, [allowMic]);
 
   function dateConverter(date) {
     let year = date.split("/")[2].split(",")[0];
@@ -99,6 +107,17 @@ function ExamPage() {
         }))
       );
       setStartTime(current_date);
+      setExamText(
+        data.reduce(
+          (acc, question) =>
+            acc +
+            question.question_text +
+            " " +
+            question.choices.reduce((acc, choice) => acc + choice, "") +
+            " ",
+          ""
+        )
+      );
       setIsLoading(false);
     } else {
       swal({
@@ -163,6 +182,18 @@ function ExamPage() {
     setObjectDetectionFlag(flag);
   };
 
+  let changeMicHandler = () => {
+    setAllowMic(true);
+  };
+
+  let updateFaceRecognitionHandler = (flag) => {
+    setFaceRecognitionRefresh(flag);
+  };
+
+  let updateObjectDetectionHandler = (flag) => {
+    setObjectDetectionRefresh(flag);
+  };
+
   let getTime = (remainingTime) => {
     if (remainingTime) {
       let hours = remainingTime.split(":")[0];
@@ -189,57 +220,72 @@ function ExamPage() {
 
   return (
     <section className="general">
-      {/* <FullScreen /> */}
-      {delayFocus && <FocusWindow onChangeFocus={changeFocusHandler} />}
-      {delayWindowDimensions && (
-        <UseWindowDimensions
-          onChangeWindowDimensions={changeWindowDimensionsHandler}
-        />
-      )}
-      {delayFaceRecognition && (
-        <FaceRecognition faceRecognitionFlag={faceRecognitionFlag} />
-      )}
-      {delayObjectDetection && (
-        <ObjectDetection objectDetectionFlag={objectDetectionFlag} />
-      )}
-      <div className="container">
-        <div className="row">
-          <div className="col-9">
-            <WebSocketDemo
-              imgUrl={imgUrl}
-              imgUrl2={imgUrl2}
-              changeAnswerId={changeAnswerId}
-              windowDimensionsFlag={windowDimensionsFlag}
-              focus={isFocused}
-              updateTimer={getTime}
-              setFaceRecognition={changeFaceRecognitionHandler}
-              setObjectDetection={changeObjectDetectionHandler}
+      {!allowMic ? (
+        <div>
+          <p>Please enable the mic to load the exam</p>
+          <button onClick={changeMicHandler}>Allow</button>
+        </div>
+      ) : (
+        <div>
+          {/* <Mic examText={examText} /> */}
+          {/* <FullScreen /> */}
+          {delayFocus && <FocusWindow onChangeFocus={changeFocusHandler} />}
+          {delayWindowDimensions && (
+            <UseWindowDimensions
+              onChangeWindowDimensions={changeWindowDimensionsHandler}
             />
-            {isLoading ? (
-              <LoadingSpinner />
-            ) : (
-              <ExamQuestions
-                questions={examQuestions}
-                editable={true}
-                onChangeAnswer={changeAnswerHandler}
-              />
-            )}
-          </div>
-          <div className="col-3">
-            <WebcamContainer
-              setImg={imgHandler}
-              setImg2={img2Handler}
-              facingMode1={userCtx.camera1}
-              facingMode2={userCtx.camera2}
-            />
-          </div>
-          <div className="col-12">
-            <button onClick={finishHandler} className="btn btn-success mb-5">
-              Finish
-            </button>
+          )}
+          {delayFaceRecognition && (
+            <FaceRecognition faceRecognitionFlag={faceRecognitionFlag} refresh={faceRecognitionRefresh} />
+          )}
+          {delayObjectDetection && (
+            <ObjectDetection objectDetectionFlag={objectDetectionFlag} refresh={objectDetectionRefresh} />
+          )}
+          <div className="container">
+            <div className="row">
+              <div className="col-9">
+                <WebSocketDemo
+                  imgUrl={imgUrl}
+                  imgUrl2={imgUrl2}
+                  changeAnswerId={changeAnswerId}
+                  windowDimensionsFlag={windowDimensionsFlag}
+                  focus={isFocused}
+                  updateTimer={getTime}
+                  setFaceRecognition={changeFaceRecognitionHandler}
+                  setRefreshFaceRecognition={updateFaceRecognitionHandler}
+                  setObjectDetection={changeObjectDetectionHandler}
+                  setRefreshObjectDetection={updateObjectDetectionHandler}
+                />
+                {isLoading ? (
+                  <LoadingSpinner />
+                ) : (
+                  <ExamQuestions
+                    questions={examQuestions}
+                    editable={true}
+                    onChangeAnswer={changeAnswerHandler}
+                  />
+                )}
+              </div>
+              <div className="col-3">
+                <WebcamContainer
+                  setImg={imgHandler}
+                  setImg2={img2Handler}
+                  facingMode1={userCtx.camera1}
+                  facingMode2={userCtx.camera2}
+                />
+              </div>
+              <div className="col-12">
+                <button
+                  onClick={finishHandler}
+                  className="btn btn-success mb-5"
+                >
+                  Finish
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
