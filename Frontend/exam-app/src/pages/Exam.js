@@ -13,13 +13,22 @@ import ObjectDetection from "../utils/ObjectDetection";
 // import getKeywords from "../utils/keywords";
 import WebSocketDemo from "../utils/WebSocketDemo";
 import { get } from "../utils/Fetch";
-import { BASEURL } from "../utils/Consts";
+import {
+  BASEURL,
+  NOT_FOCUSED_WARNING,
+  NOT_MAXIMIZED_WARNING,
+  FACE_NOT_FOUND_WARNING,
+  MORE_THAN_ONE_FACE_WARNING,
+  OBJECT_DETECTION_WARNING,
+  SPEECH_RECOGNITION_WARNING,
+} from "../utils/Consts";
 import WebcamContainer from "../components/WebcamContainer";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
   const examId = userCtx.examId;
+  const navigate = useNavigate();
   const [imgUrl, setImgUrl] = useState("");
   const [imgUrl2, setImgUrl2] = useState("");
   const [windowDimensionsFlag, setWindowDimensionsFlag] = useState(0);
@@ -37,7 +46,17 @@ function ExamPage() {
   const [objectDetectionFlag, setObjectDetectionFlag] = useState(false);
   const [objectDetectionRefresh, setObjectDetectionRefresh] = useState(false);
   const [delayObjectDetection, setDelayObjectDetection] = useState(false);
+  const [wordsRecognized, setWordsRecognized] = useState([]);
   const [allowMic, setAllowMic] = useState(true);
+  const [warningStates, setWarningStates] = useState({
+    focus: { flag: false, timer: 5 },
+    windowDimensionsFlag: { flag: false, timer: 5 },
+    faceRecognitionFlag: { flag: false, timer: 5 },
+    objectDetectionFlag: { flag: false, timer: 5 },
+    speechRecognitionFlag: { flag: false, timer: 5 },
+  }); // flag: true = warning, false = no warning
+  const [warningMsgs, setWarningMsgs] = useState([]);
+  const [timerFlag, setTimerFlag] = useState(false);
   const [examQuestions, setExamQuestions] = useState([]);
   const [examText, setExamText] = useState("");
   const [userAnswers, setUserAnswers] = useState([]);
@@ -66,6 +85,88 @@ function ExamPage() {
   }, [delayObjectDetection]);
 
   useEffect(() => {}, [allowMic]);
+
+  useEffect(() => {
+    let newWarningStates = { ...warningStates };
+    let newWarningMsgs = [];
+    if (isFocused) {
+      newWarningStates.focus.flag = false;
+      newWarningStates.focus.timer = 5;
+    } else if (!isFocused && warningStates.focus.timer === 0) {
+      navigate("/exam-details");
+    } else {
+      newWarningMsgs.push(
+        NOT_FOCUSED_WARNING + warningStates.focus.timer + " seconds"
+      );
+      newWarningStates.focus.flag = true;
+      newWarningStates.focus.timer = warningStates.focus.timer - 1;
+    }
+    if (windowDimensionsFlag === 1) {
+      newWarningStates.windowDimensionsFlag.flag = false;
+      newWarningStates.windowDimensionsFlag.timer = 5;
+    } else if (
+      windowDimensionsFlag === 0 &&
+      warningStates.windowDimensionsFlag.timer === 0
+    ) {
+      navigate("/exam-details");
+    } else {
+      newWarningMsgs.push(
+        NOT_MAXIMIZED_WARNING +
+          warningStates.windowDimensionsFlag.timer +
+          " seconds"
+      );
+      newWarningStates.windowDimensionsFlag.flag = true;
+      newWarningStates.windowDimensionsFlag.timer =
+        warningStates.windowDimensionsFlag.timer - 1;
+    }
+    if (
+      faceRecognitionFlag === 1 &&
+      warningStates.faceRecognitionFlag.timer > 0
+    ) {
+      newWarningStates.faceRecognitionFlag.flag = true;
+      newWarningStates.faceRecognitionFlag.timer =
+        warningMsgs.faceRecognitionFlag.timer - 1;
+    } else if (
+      faceRecognitionFlag === 1 &&
+      warningStates.faceRecognitionFlag.timer === 0
+    ) {
+      newWarningStates.faceRecognitionFlag.flag = false;
+    } else if (faceRecognitionFlag === 0) {
+      newWarningStates.faceRecognitionFlag.flag = true;
+      newWarningStates.faceRecognitionFlag.timer = 5;
+      newWarningMsgs.push(FACE_NOT_FOUND_WARNING);
+    } else if (faceRecognitionFlag === 2) {
+      newWarningStates.faceRecognitionFlag.flag = true;
+      newWarningStates.faceRecognitionFlag.timer = 5;
+      newWarningMsgs.push(MORE_THAN_ONE_FACE_WARNING);
+    }
+    if (
+      objectDetectionFlag === "cell phone" ||
+      objectDetectionFlag === "book"
+    ) {
+      newWarningStates.objectDetectionFlag.flag = true;
+      newWarningStates.objectDetectionFlag.timer = 5;
+      newWarningMsgs.push(OBJECT_DETECTION_WARNING + objectDetectionFlag);
+    } else if (warningStates.faceRecognitionFlag.timer === 0) {
+      newWarningStates.objectDetectionFlag.flag = false;
+    } else {
+      newWarningStates.objectDetectionFlag.flag = true;
+      newWarningStates.objectDetectionFlag.timer =
+        warningStates.objectDetectionFlag.timer - 1;
+    }
+    if (wordsRecognized.length > 0) {
+      newWarningStates.speechRecognitionFlag.flag = true;
+      newWarningStates.speechRecognitionFlag.timer = 5;
+      newWarningMsgs.push(SPEECH_RECOGNITION_WARNING + wordsRecognized);
+    } else if (warningStates.speechRecognitionFlag.timer === 0) {
+      newWarningStates.speechRecognitionFlag.flag = false;
+    } else {
+      newWarningStates.speechRecognitionFlag.flag = true;
+      newWarningStates.speechRecognitionFlag.timer =
+        warningStates.speechRecognitionFlag.timer - 1;
+    }
+    delayTimer(1);
+  }, [timerFlag]);
 
   function dateConverter(date) {
     let year = date.split("/")[2].split(",")[0];
@@ -182,6 +283,10 @@ function ExamPage() {
     setObjectDetectionFlag(flag);
   };
 
+  let changeWordsHandler = (words) => {
+    setWordsRecognized(words);
+  };
+
   let changeMicHandler = () => {
     setAllowMic(true);
   };
@@ -218,6 +323,11 @@ function ExamPage() {
     func(true);
   };
 
+  let delayTimer = async (seconds) => {
+    await timeout(1000 * seconds);
+    setTimerFlag(!timerFlag);
+  };
+
   return (
     <section className="general">
       {!allowMic ? (
@@ -227,7 +337,7 @@ function ExamPage() {
         </div>
       ) : (
         <div>
-          {/* <Mic examText={examText} /> */}
+          {/* <Mic examText={examText} setWords={changeWordsHandler} /> */}
           {/* <FullScreen /> */}
           {delayFocus && <FocusWindow onChangeFocus={changeFocusHandler} />}
           {delayWindowDimensions && (
@@ -236,10 +346,23 @@ function ExamPage() {
             />
           )}
           {delayFaceRecognition && (
-            <FaceRecognition faceRecognitionFlag={faceRecognitionFlag} refresh={faceRecognitionRefresh} />
+            <FaceRecognition
+              faceRecognitionFlag={faceRecognitionFlag}
+              refresh={faceRecognitionRefresh}
+            />
           )}
           {delayObjectDetection && (
-            <ObjectDetection objectDetectionFlag={objectDetectionFlag} refresh={objectDetectionRefresh} />
+            <ObjectDetection
+              objectDetectionFlag={objectDetectionFlag}
+              refresh={objectDetectionRefresh}
+            />
+          )}
+          {warningMsgs > 0 && (
+            <div className="card fixed-top">
+              {warningMsgs.map((msg) => (
+                <p>{msg}</p>
+              ))}
+            </div>
           )}
           <div className="container">
             <div className="row">
