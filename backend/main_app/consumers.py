@@ -13,6 +13,8 @@ import base64, time, os, asyncio
 import time
 import requests
 
+api_url = "http://127.0.0.1"
+
 class ExamConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print("WebSocket connection established for exam")
@@ -167,27 +169,38 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
         if camera == "cam1":
             self.count += 1
-            test_image = face_recognition.load_image_file(filename)
-            test_face_locations = face_recognition.face_locations(test_image)
-            test_face_encodings = face_recognition.face_encodings(test_image, test_face_locations)
+            # test_image = face_recognition.load_image_file(filename)
+            # test_face_locations = face_recognition.face_locations(test_image)
+            # test_face_encodings = face_recognition.face_encodings(test_image, test_face_locations)
 
-            if len(test_face_encodings) == 0:
-                print("No faces found in test image")
-                self.empty_photo_count += 1
-            else:
-                for test_face_encoding in test_face_encodings:
-                    matches = face_recognition.compare_faces(self.face_encodings, test_face_encoding)
-                    print(matches)
-                    if True in matches:
-                        print("found")
-                        self.found_count += 1
-                    else:
-                        print("not found")
-                        self.not_found_count += 1
+            # if len(test_face_encodings) == 0:
+            #     print("No faces found in test image")
+            #     self.empty_photo_count += 1
+            # else:
+            #     for test_face_encoding in test_face_encodings:
+            #         matches = face_recognition.compare_faces(self.face_encodings, test_face_encoding)
+            #         print(matches)
+            #         if True in matches:
+            #             print("found")
+            #             self.found_count += 1
+            #         else:
+            #             print("not found")
+            #             self.not_found_count += 1
+
+
+            # A trial to detect faces using 8080/face
+            response = requests.get(api_url + ':8080/face', params={'file_path': filename})
+            print(response.json())
+            # send a message
+            # {type: "face_recognition", face_recognized: true/false}
+            if response.json()['status'] == 'cheating':
+                print('cheating detected')
+                await self.send_face_recognition('false', response.json()['reason'])
+
         elif camera == "cam2":
             # call 127.0.0.1:8080/model/?file_path=filename
             self.cam2_count += 1
-            response = requests.get('http://159.89.101.145:8080/model/', params={'file_path': filename})
+            response = requests.get(api_url + ':8080/model', params={'file_path': filename})
             print(response.json())
             # send a message
             # {"type": "object_detection", "object_detected": "cell phone"/"book"/"none"}
@@ -215,6 +228,16 @@ class ExamConsumer(AsyncWebsocketConsumer):
             await self.send(dumps({
                 'type': 'object_detection',
                 'object_detected': object_detected
+            }))
+        except Exception as e:
+            print(e)
+
+    async def send_face_recognition(self, face_recognized, reason):
+        try:
+            await self.send(dumps({
+                'type': 'face_recognition',
+                'face_recognized': face_recognized,
+                'reason': reason
             }))
         except Exception as e:
             print(e)
