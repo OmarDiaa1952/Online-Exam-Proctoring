@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const ObjectDetection = (props) => {
-  const [objectDetectionFlag, setObjectDetectionFlag] = useState(false);
+  const [objectDetectionFlag, setObjectDetectionFlag] = useState("none");
   const [remainingSeconds, setRemainingSeconds] = useState(0);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const ObjectDetection = (props) => {
 
   useEffect(() => {
     if(objectDetectionFlag === "cell phone" || objectDetectionFlag === "book") setRemainingSeconds(5);
-  }, [objectDetectionFlag]);
+  }, [objectDetectionFlag, props.refresh]);
 
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
