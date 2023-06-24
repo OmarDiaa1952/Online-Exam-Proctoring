@@ -204,7 +204,8 @@ class ExamConsumer(AsyncWebsocketConsumer):
                 print('book detected')
                 await self.send_object_detection('book')                
                 
-
+        # delete the image
+        os.remove(filename)
 
 
 
