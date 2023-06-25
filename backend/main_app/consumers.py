@@ -111,7 +111,8 @@ class ExamConsumer(AsyncWebsocketConsumer):
             # if cheating_trials>=3, disconnect
             if self.cheating_trials >= 3:
                 self.cheating_trials = 0
-                await self.disconnect('more than three cheating trials')
+                print('diconnect')
+                # await self.disconnect('more than three cheating trials')
             # if the student is not focused, increment the cheating trials
             self.cheating_trials += 1
             self.focus_status = 'not_focused'
@@ -128,7 +129,8 @@ class ExamConsumer(AsyncWebsocketConsumer):
 
             # if the student is not focused for 5 consecutive seconds, disconnect the WebSocket
             if self.focus_status == 'not_focused':
-                await self.disconnect('not focused more than 5 seconds')
+                print('diconnect from not focused 5 seconds')
+                # await self.disconnect('not focused more than 5 seconds')
 
     async def change_answer(self,message):
         # Get the question ID and choice from the message
