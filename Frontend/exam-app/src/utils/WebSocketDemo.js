@@ -46,11 +46,11 @@ export default function WebSocketDemo(props) {
     if (!socketRef.current || props.focus === null) return;
     const warningMsg = {
       type: "focus_status",
-      is_focused: props.focus && props.windowDimensionsFlag === 1,
+      is_focused: props.focus,
     };
     console.log("warningMsg: ", warningMsg);
     socketRef.current.send(JSON.stringify(warningMsg));
-  }, [props.focus, props.windowDimensionsFlag]);
+  }, [props.focus]);
 
   useEffect(() => {
     if (props.changeAnswerId === null) return;
