@@ -1,5 +1,5 @@
 export const BASEURL = "http://localhost:8000/api";
-export const FPS = 0.5;
+export const FPS = 4;
 
 export const NOT_FOCUSED_WARNING = "Warning, Please return instantly to the exam otherwise the exam will be ended! The exam will be closed in "
 export const NOT_MAXIMIZED_WARNING = "Warning, You must keep the window maximized otherwise the exam will be ended! Please return to the maximized window in "

@@ -98,10 +98,25 @@ export default function WebSocketDemo(props) {
         props.setRefreshFaceRecognition(true);
         props.setFaceRecognition(message.face_recognized); //message : {type: "face_recognition", face_recognized: true/false}
         console.log(`Received message: ${event.data}`);
+//         // {
+//           'type': 'face_recognition',
+//           'face_recognized': face_recognized,
+//           'reason': reason
+// }
+
+        // if face_recognized is false, show alert: "face not recognized for reason"
+
+        if (message.reason === "multiple people") {
+          alert("Face not recognized for " + message.reason);
+        }
       } else if (messageType === "object_detection") {
         props.setRefreshObjectDetection(true);
         props.setObjectDetection(message.object_detected); //message : {type: "object_detection", object_detected: mobile/laptop/none}
         console.log(`Received message: ${event.data}`);
+        // at every message show alert saying: you are not allowed to use {object_detected}
+        if (message.object_detected !== "none") {
+          alert("You are not allowed to use " + message.object_detected);
+        }
       } else if (messageType === "exam_ended") {
         // End the exam session
         socketRef.current.close();

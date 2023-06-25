@@ -22,13 +22,13 @@ import {
 } from "../utils/Consts";
 import WebcamContainer from "../components/WebcamContainer";
 import LoadingSpinner from "../components/LoadingSpinner";
-import useMic from "../hooks/useMic";
+// import useMic from "../hooks/useMic";
 
 function ExamPage() {
   const userCtx = useContext(UserContext);
   const examId = userCtx.examId;
   const navigate = useNavigate();
-  const { init, stop } = useMic(onCheating);
+  // const { init, stop } = useMic(onCheating);
 
   const [imgUrl, setImgUrl] = useState("");
   const [imgUrl2, setImgUrl2] = useState("");
@@ -113,25 +113,25 @@ function ExamPage() {
         newWarningStates.focus.flag = true;
         newWarningStates.focus.timer = warningStates.focus.timer - 1;
       }
-      if (windowDimensionsFlag === 1) {
-        newWarningStates.windowDimensionsFlag.flag = false;
-        newWarningStates.windowDimensionsFlag.timer = 5;
-      } else if (
-        windowDimensionsFlag === 0 &&
-        warningStates.windowDimensionsFlag.timer === 0
-      ) {
-        // navigate("/exam-details");
-        console.log("not maximized");
-      } else {
-        newWarningMsgs.push(
-          NOT_MAXIMIZED_WARNING +
-            warningStates.windowDimensionsFlag.timer +
-            " seconds"
-        );
-        newWarningStates.windowDimensionsFlag.flag = true;
-        newWarningStates.windowDimensionsFlag.timer =
-          warningStates.windowDimensionsFlag.timer - 1;
-      }
+      // if (windowDimensionsFlag === 1) {
+      //   newWarningStates.windowDimensionsFlag.flag = false;
+      //   newWarningStates.windowDimensionsFlag.timer = 5;
+      // } else if (
+      //   windowDimensionsFlag === 0 &&
+      //   warningStates.windowDimensionsFlag.timer === 0
+      // ) {
+      //   // navigate("/exam-details");
+      //   console.log("not maximized");
+      // } else {
+      //   newWarningMsgs.push(
+      //     NOT_MAXIMIZED_WARNING +
+      //       warningStates.windowDimensionsFlag.timer +
+      //       " seconds"
+      //   );
+      //   newWarningStates.windowDimensionsFlag.flag = true;
+      //   newWarningStates.windowDimensionsFlag.timer =
+      //   warningStates.windowDimensionsFlag.timer - 1;
+      // }
       if (
         faceRecognitionFlag === 1 &&
         warningStates.faceRecognitionFlag.timer > 0
@@ -254,7 +254,7 @@ function ExamPage() {
   };
 
   let finishHandler = () => {
-    stop();
+    // stop();
     history("/course");
   };
 
@@ -333,9 +333,9 @@ function ExamPage() {
     console.log(cheatingWords);
     if (cheatingWords.length) {
       setWordsRecognized(cheatingWords);
-      delay(2).then(() => {
-        setWordsRecognized("");
-      });
+      // delay(2).then(() => {
+      //   setWordsRecognized("");
+      // });
     }
   }
 
@@ -388,12 +388,12 @@ function ExamPage() {
       {allowMic ? (
         <div>
           {/* <FullScreen /> */}
-          {delayFocus && <FocusWindow onChangeFocus={changeFocusHandler} />}
+          {/* {delayFocus && <FocusWindow onChangeFocus={changeFocusHandler} />}
           {delayWindowDimensions && (
             <UseWindowDimensions
               onChangeWindowDimensions={changeWindowDimensionsHandler}
             />
-          )}
+          )} */}
           {delayFaceRecognition && (
             <FaceRecognition
               faceRecognitionFlag={faceRecognitionFlag}
@@ -462,7 +462,7 @@ function ExamPage() {
           <p className="fs-3">Please enable the mic to load the exam</p>
           <button
             onClick={() => {
-              init(examText);
+              // init(examText);
               setAllowMic(true);
             }}
             className="btn btn-secondary"
